@@ -1,0 +1,61 @@
+
+
+generators:
+
+  # coal
+  - id: coal-supercritical
+
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      IDN: 1000
+      PHL: 500
+    extendable:
+      IDN: true
+      PHL: true
+    capital_cost: # currency/MW
+      IDN: 0
+      PHL: 0
+    marginal_cost: # currency/MWh
+      IDN: 0
+      PHL: 0
+
+    # ---
+    # universal technology parameters
+    lifetime: 50 # years
+    efficiency: 1
+    committable: false
+    start_up_cost: 0 # currency/MW
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+    ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+    carrier: electricity
+  
+  # gas
+  - id: gas-ccgt
+
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      IDN: 2500
+      VNM: 5000
+    extendable:
+      IDN: true
+      VNM: true
+    capital_cost: # currency/MW
+      IDN: 0
+      VNM: 0
+    marginal_cost: # currency/MWh
+      IDN: 0
+      VNM: 0
+
+    # ---
+    # universal technology parameters
+    lifetime: 50 # years
+    efficiency: 1
+    committable: false
+    start_up_cost: 0 # currency/MW
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+    ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+    carrier: electricity

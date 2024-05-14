@@ -1,3 +1,9 @@
 # data
 data/raw/*.csv
 data/raw/*.gpkg
+
+# models
+models/two-region-model/*
+
+# scrap
+scrap/*
