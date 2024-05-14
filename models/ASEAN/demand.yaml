@@ -24,7 +24,7 @@ demand:
       VNM: 1
       BRN: 1
       KHM: 1
-      LAO: 1
+      LAO: 0.01
       MMR: 1
       
     # demand change over time
