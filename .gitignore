@@ -1,9 +1,17 @@
+*.DS_Store
+
 # data
 data/raw/*.csv
 data/raw/*.gpkg
+data/clean/ember-electricity-data.csv
 
 # models
 models/two-region-model/*
 
+# notebooks
+notebooks/scrap*
+
 # scrap
 scrap/*
+
+# scripts
