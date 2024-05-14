@@ -1,0 +1,18 @@
+# -------------------------------------------------------------------------
+#
+#   TIME DEFINITIONS
+#   
+#     Define the temporal resolution of the model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+time_definition:
+  id: asean_default_temporal_resolution
+  year: 2024
+  multi_year_investment: false

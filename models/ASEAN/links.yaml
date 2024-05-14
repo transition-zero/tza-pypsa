@@ -1,0 +1,113 @@
+# -------------------------------------------------------------------------
+#
+#   LINKS
+#   
+#     Define links between nodes and their attributes.
+#
+#     The main components of links are:
+#       - ID
+#       - From node (i.e., start of the line)
+#       - To node (i.e., end of the line)
+#       - Initial line capacity (MW)
+#       - Expandable (i.e., can we build more capacity on this line?)
+#
+#     Link to docs: 
+#       - https://pypsa.readthedocs.io/en/latest/components.html
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+links:
+
+  - id: BRN-MYS
+    from_node: BRN
+    to_node: MYS
+    initial_capacity: 0
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: IDN-MYS
+    from_node: IDN
+    to_node: MYS
+    initial_capacity: 230
+    expandable: true
+    carrier: 'electricity'
+
+  - id: IDN-SGP
+    from_node: IDN
+    to_node: SGP
+    initial_capacity: 0
+    expandable: true
+    carrier: 'electricity'
+
+  - id: KHM-LAO
+    from_node: KHM
+    to_node: LAO
+    initial_capacity: 2600
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: KHM-THA
+    from_node: KHM
+    to_node: THA
+    initial_capacity: 230
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: KHM-VNM
+    from_node: KHM
+    to_node: VNM
+    initial_capacity: 200
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: LAO-MMR
+    from_node: LAO
+    to_node: MMR
+    initial_capacity: 0
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: LAO-THA
+    from_node: LAO
+    to_node: THA
+    initial_capacity: 5427
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: LAO-VNM
+    from_node: LAO
+    to_node: VNM
+    initial_capacity: 538
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: MMR-THA
+    from_node: MMR
+    to_node: THA
+    initial_capacity: 0
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: MYS-PHL
+    from_node: MYS
+    to_node: PHL
+    initial_capacity: 0
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: MYS-SGP
+    from_node: MYS
+    to_node: SGP
+    initial_capacity: 1000
+    expandable: true
+    carrier: 'electricity'
+  
+  - id: MYS-THA
+    from_node: MYS
+    to_node: THA
+    initial_capacity: 380
+    expandable: true
+    carrier: 'electricity'

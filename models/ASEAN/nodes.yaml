@@ -1,0 +1,170 @@
+# -------------------------------------------------------------------------
+#
+#   NODES
+#   
+#     Define model nodes (buses) and their attributes.
+#
+#     The main components of nodes are:
+#       - ID
+#       - Long name
+#       - Population
+#       - Area
+#       - Capital
+#       - Currency
+#       - GDP
+#       - GDP per capita
+#       - Language
+#       - Region
+#       - Subregion
+#       - Timezone
+#       - Coordinates (latitude, longitude)
+#
+#     Link to docs: 
+#       - https://pypsa.readthedocs.io/en/latest/components.html
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+nodes:
+  
+  - id: IDN
+    long_name: Indonesia
+    population: 267663435
+    area: 1904569
+    capital: Jakarta
+    currency: Indonesian Rupiah
+    gdp: 1047.601
+    gdp_per_capita: 3893
+    language: Indonesian
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+07:00
+    coords: [-0.7893, 113.9213]
+  
+  - id: MYS
+    long_name: Malaysia
+    population: 31528585
+    area: 330803
+    capital: Kuala Lumpur
+    currency: Malaysian Ringgit
+    gdp: 354.348
+    gdp_per_capita: 11252
+    language: Malay
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+08:00
+    coords: [4.2105, 101.9758]
+
+  - id: PHL
+    long_name: Philippines
+    population: 106651922
+    area: 342353
+    capital: Manila
+    currency: Philippine Peso
+    gdp: 330.910
+    gdp_per_capita: 3102
+    language: Filipino
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+08:00
+    coords: [14.5995, 120.9842]
+  
+  - id: SGP
+    long_name: Singapore
+    population: 5638676
+    area: 710
+    capital: Singapore
+    currency: Singapore Dollar
+    gdp: 364.001
+    gdp_per_capita: 64856
+    language: English
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+08:00
+    coords: [1.3521, 103.8198]
+  
+  - id: THA
+    long_name: Thailand
+    population: 69428524
+    area: 513120
+    capital: Bangkok
+    currency: Thai Baht
+    gdp: 505.990
+    gdp_per_capita: 7281
+    language: Thai
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+07:00
+    coords: [15.8700, 100.9925]
+  
+  - id: VNM
+    long_name: Vietnam
+    population: 95540800
+    area: 331212
+    capital: Hanoi
+    currency: Vietnamese Dong
+    gdp: 223.779
+    gdp_per_capita: 2342
+    language: Vietnamese
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+07:00
+    coords: [14.0583, 108.2772]
+  
+  - id: BRN
+    long_name: Brunei
+    population: 428697
+    area: 5765
+    capital: Bandar Seri Begawan
+    currency: Brunei Dollar
+    gdp: 13.579
+    gdp_per_capita: 31687
+    language: Malay
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+08:00
+    coords: [4.5353, 114.7277]
+  
+  - id: KHM
+    long_name: Cambodia
+    population: 16249798
+    area: 181035
+    capital: Phnom Penh
+    currency: Cambodian Riel
+    gdp: 24.293
+    gdp_per_capita: 1496
+    language: Khmer
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+07:00
+    coords: [12.5657, 104.9910]
+  
+  - id: LAO
+    long_name: Laos
+    population: 7061507
+    area: 236800
+    capital: Vientiane
+    currency: Lao Kip
+    gdp: 17.952
+    gdp_per_capita: 2546
+    language: Lao
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+07:00
+    coords: [19.8563, 102.4955]
+  
+  - id: MMR
+    long_name: Myanmar
+    population: 53708395
+    area: 676578
+    capital: Naypyidaw
+    currency: Burmese Kyat
+    gdp: 69.322
+    gdp_per_capita: 1289
+    language: Burmese
+    region: Southeast Asia
+    subregion: Southeast Asia
+    timezone: UTC+06:30
+    coords: [21.9162, 95.9560]
