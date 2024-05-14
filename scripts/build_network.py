@@ -44,7 +44,7 @@ def build_network():
     snapshot = (
         pd.date_range(
             start=f'{year}-01-01 00:00:00', 
-            end= f'{year}-12-31 00:00:00', 
+            end= f'{year}-01-10 23:00:00', 
             freq='h'
         )
     )
@@ -81,21 +81,17 @@ def build_network():
 
     for technology in generators:
         for bus in technology['initial_capacity'].keys():
-
-            # add generators one-by-one
             network.add(
                 'Generator', # PyPSA component
                 bus + '-' + technology['id'], # generator name
                 type = technology['id'], # technology type (e.g., solar, gas-ccgt etc.)
                 bus = bus, # region/bus/balancing zone
-
                 # ---
                 # unique technology parameters by bus
                 p_nom = technology['initial_capacity'][bus], # starting capacity (MW)
                 p_nom_extendable = technology['extendable'][bus], # can the model build more?
                 capital_cost = technology['capital_cost'][bus], # currency/MW
                 marginal_cost = technology['marginal_cost'][bus], # currency/MWh
-
                 # ---
                 # universal technology parameters
                 carrier = technology['carrier'], # commodity/carrier
@@ -105,15 +101,22 @@ def build_network():
                 shut_down_cost = technology['shut_down_cost'], # currency/MW
                 ramp_limit_up = technology['ramp_limit_up'], # per unit
                 ramp_limit_down = technology['ramp_limit_up'], # per unit
-                committable = technology['committable'], # for unit commitment
+                #committable = technology['committable'], # for unit commitment
             )
 
     # ---
     # add load
-
-    # ---
-    # plot
-
-    network.plot(
-        bus_sizes=0.4,
+    demand_profiles = (
+        pd
+        .read_csv('../data/clean/demand_profiles.csv')
+        .drop('hour',axis=1)
+        .iloc[0:len(network.snapshots)]
     )
+
+    for bus in demand_profiles.columns:
+        network.add(
+            "Load", # PyPSA component
+            bus, # load name
+            bus=bus, # region/bus/balancing zone
+            p_set=demand_profiles[bus].values # demand profile
+        )

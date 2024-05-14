@@ -1,0 +1,39 @@
+# -------------------------------------------------------------------------
+#
+#   DEMAND
+#   
+#     Define load/demand profiles for each bus/region/balancing zone.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+demand:
+
+  - id: electricity
+    multiplier:
+      IDN: 1
+      MYS: 1
+      PHL: 1
+      SGP: 1
+      THA: 1
+      VNM: 1
+      BRN: 1
+      KHM: 1
+      LAO: 1
+      MMR: 1
+      
+    # demand change over time
+    # annual_demand: 
+    #   IDN:
+    #     2030 : 100
+    #     2040 : 150
+    #     2050 : 200
+    #   VNM:
+    #     2030 : 100
+    #     2040 : 150
+    #     2050 : 200

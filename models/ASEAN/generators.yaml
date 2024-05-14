@@ -1,61 +1,426 @@
+# -------------------------------------------------------------------------
+#
+#   GENERATORS
+#   
+#     Define generators (technologies) and their attributes
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
 
+# coal
+- id: coal
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 44000.0
+    MYS: 13280.0
+    PHL: 12080.0
+    SGP: 0
+    THA: 6140.0
+    VNM: 24640.0
+    BRN: 220.0
+    KHM: 1410.0
+    LAO: 1880.0
+    MMR: 190.0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-generators:
+# gas
+- id: gas
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 20740
+    MYS: 17720
+    PHL: 3320
+    SGP: 10850.0
+    THA: 36490.0
+    VNM: 8150.0
+    BRN: 990.0
+    KHM: 0
+    LAO: 0
+    MMR: 3040.0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-  # coal
-  - id: coal-supercritical
+# nuclear
+- id: nuclear
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 0
+    MYS: 0
+    PHL: 0
+    SGP: 0
+    THA: 0
+    VNM: 0
+    BRN: 0
+    KHM: 0
+    LAO: 0
+    MMR: 0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-    # ---
-    # unique technology parameters by bus
-    initial_capacity:
-      IDN: 1000
-      PHL: 500
-    extendable:
-      IDN: true
-      PHL: true
-    capital_cost: # currency/MW
-      IDN: 0
-      PHL: 0
-    marginal_cost: # currency/MWh
-      IDN: 0
-      PHL: 0
+# hydro
+- id: hydro
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 6690
+    MYS: 6210
+    PHL: 3040.0
+    SGP: 0
+    THA: 3110.0
+    VNM: 22530.0
+    BRN: 0
+    KHM: 1680.0
+    LAO: 9650.0
+    MMR: 3270.0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-    # ---
-    # universal technology parameters
-    lifetime: 50 # years
-    efficiency: 1
-    committable: false
-    start_up_cost: 0 # currency/MW
-    shut_down_cost: 0 # currency/MW
-    ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-    ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-    carrier: electricity
-  
-  # gas
-  - id: gas-ccgt
+# bioenergy
+- id: bioenergy
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 3070
+    MYS: 900
+    PHL: 630.0
+    SGP: 40.0
+    THA: 4420.0
+    VNM: 380.0
+    BRN: 0
+    KHM: 50.0
+    LAO: 110.0
+    MMR: 60.0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-    # ---
-    # unique technology parameters by bus
-    initial_capacity:
-      IDN: 2500
-      VNM: 5000
-    extendable:
-      IDN: true
-      VNM: true
-    capital_cost: # currency/MW
-      IDN: 0
-      VNM: 0
-    marginal_cost: # currency/MWh
-      IDN: 0
-      VNM: 0
+# solar
+- id: solar
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 310
+    MYS: 1930
+    PHL: 1630.0
+    SGP: 630.0
+    THA: 3190.0
+    VNM: 16700.0
+    BRN: 0
+    KHM: 480.0
+    LAO: 60.0
+    MMR: 180.0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
 
-    # ---
-    # universal technology parameters
-    lifetime: 50 # years
-    efficiency: 1
-    committable: false
-    start_up_cost: 0 # currency/MW
-    shut_down_cost: 0 # currency/MW
-    ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-    ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-    carrier: electricity
+# wind
+- id: wind
+  # ---
+  # unique technology parameters by bus
+  initial_capacity:
+    IDN: 150
+    MYS: 0
+    PHL: 440
+    SGP: 0
+    THA: 1550.0
+    VNM: 5070.0
+    BRN: 0
+    KHM: 0
+    LAO: 0
+    MMR: 0
+  extendable:
+    IDN: true
+    MYS: true
+    PHL: true
+    SGP: true
+    THA: true
+    VNM: true
+    BRN: true
+    KHM: true
+    LAO: true
+    MMR: true
+  capital_cost: # currency/MW
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  marginal_cost: # currency/MWh
+    IDN: 1
+    MYS: 1
+    PHL: 1
+    SGP: 1
+    THA: 1
+    VNM: 1
+    BRN: 1
+    KHM: 1
+    LAO: 1
+    MMR: 1
+  # ---
+  # universal technology parameters
+  lifetime: 50 # years
+  efficiency: 1
+  committable: false
+  start_up_cost: 0 # currency/MW
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  carrier: electricity
