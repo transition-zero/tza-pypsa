@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/transition-zero/.github/raw/main/profile/img/logo-dark.png">
-  <img alt="TransitionZero Logo" width="500px" src="https://github.com/transition-zero/.github/raw/main/profile/img/logo-light.png">
+  <img alt="TransitionZero Logo" width="300px" src="https://github.com/transition-zero/.github/raw/main/profile/img/logo-light.png">
   <a href="https://www.transitionzero.org/">
 </picture>
 
@@ -10,7 +10,7 @@ This repo contains [`PyPSA`](https://pypsa.org/) models developed and used by th
 Specifically, this repo has the models shown in the table below.
 
 Model  | Status | Method | Overview
---- | --- | --- 
+--- | --- | ---  | ---
 ASEAN | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
 Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan
 
