@@ -14,7 +14,7 @@ The model can be run for the entire ASEAN region or a single country.
 ## Overview
 The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below: 
 
-<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="800" align="center">
+<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="400" align="center">
 
 ## Model configuration
 TODO
