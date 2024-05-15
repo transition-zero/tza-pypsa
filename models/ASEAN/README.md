@@ -1,7 +1,19 @@
 # TZ-Analysis-PyPSA: ASEAN
 This folder contains the constructor files used to create a PyPSA model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
 
-The ASEAN region covers Brunei 🇧🇳, Cambodia 🇰🇭, Indonesia 🇮🇩, Laos 🇱🇦, Malaysia 🇲🇾, Myanmar 🇲🇲, Philippines 🇵🇭, Singapore 🇸🇬, Thailand 🇹🇭, Timor-Leste 🇹🇱, and Vietnam 🇻🇳.
+The ASEAN region covers:
+
+- Brunei 🇧🇳 (BRN)
+- Cambodia 🇰🇭 (KHM)
+- Indonesia 🇮🇩 (IDN)
+- Laos 🇱🇦 (LAO)
+- Malaysia 🇲🇾 (MYS)
+- Myanmar 🇲🇲 (MMR)
+- Philippines 🇵🇭 (PHL)
+- Singapore 🇸🇬 (SGP)
+- Thailand 🇹🇭 (THA)
+- Timor-Leste 🇹🇱 (TLS)
+- Vietnam 🇻🇳 (VNM)
 
 PyPSA-ASEAN is an hourly-resolution power sector model. It can be used for:
 
@@ -40,3 +52,19 @@ from tz.osemosys import Model
 model = Model.from_yaml("tz-osemosys/examples/two-region-model/")
 model.solve()
 ``` -->
+
+## TODO
+
+- [ ] Add renewable capacity factors
+- [ ] Add actual demand data
+    - [ ] Collate normalised demand profile
+    - [ ] Calculate peak demand multiplier
+    - [ ] Functionise annual demand growth
+- [ ] Increase nodal resolution of the model 
+    - [ ] Update `nodes.yaml`
+    - [ ] Update `links.yaml`
+    - [ ] Update `generators.yaml`
+    - [ ] Update network plot in README
+- [ ] Update cost data with real costs (i.e., not dummy numbers)
+    - [ ] Review `costs.yaml` with Analysis team
+- [ ] Implement emission constraints (`targets.yaml`)
