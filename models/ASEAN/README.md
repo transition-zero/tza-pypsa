@@ -1,6 +1,24 @@
 # TZ-Analysis-PyPSA: ASEAN
 This folder contains the constructor files used to create a PyPSA model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
 
+PyPSA-ASEAN is an hourly-resolution power sector model. It can be used for:
+
+- Dynamic dispatch modelling of power systems.
+- Market pricing and intervention analysis.
+- Power system capacity expansion planning.
+
+The model can be run for the entire ASEAN region or a single country.
+
+## Overview
+The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below
+
+## Model configuration
+TODO
+
+<!-- This folder contains the PyPSA-ASEAN model constructor files, the majority of which are in `yaml` format.  -->
+
+### Geographical scope
+
 The ASEAN region covers:
 
 - Brunei 🇧🇳 (BRN)
@@ -15,23 +33,7 @@ The ASEAN region covers:
 - Timor-Leste 🇹🇱 (TLS)
 - Vietnam 🇻🇳 (VNM)
 
-PyPSA-ASEAN is an hourly-resolution power sector model. It can be used for:
-
-- Dynamic dispatch modelling of power systems.
-- Market pricing and intervention analysis.
-- Power system capacity expansion planning.
-
-The model can be run for the entire ASEAN region or a single country.
-
-## Overview
-The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below: 
-
 <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="400" align="center">
-
-## Model configuration
-TODO
-
-<!-- This folder contains the PyPSA-ASEAN model constructor files, the majority of which are in `yaml` format.  -->
 
 ### Temporal resolution
 TODO
