@@ -33,7 +33,7 @@ The ASEAN region covers:
 - Timor-Leste 🇹🇱 (TLS)
 - Vietnam 🇻🇳 (VNM)
 
-<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="400" align="center">
+<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="550" align="center">
 
 ### Temporal resolution
 TODO
