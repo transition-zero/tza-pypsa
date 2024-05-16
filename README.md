@@ -32,7 +32,7 @@ Next, create a project environment using the yaml file in the repository as belo
 conda:
 
 ```
-conda env create --prefix ./env --file tz-analysis-env.yml
+conda env create --prefix ./env --file environment.yml
 conda activate ./env
 ```
 
