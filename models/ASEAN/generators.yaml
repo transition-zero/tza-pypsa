@@ -45,7 +45,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: bioenergy
+  type: biomass
 
 
 - id: gas-ccgt
@@ -75,7 +76,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: gas-ccgt
+  type: gas
 
 
 - id: coal
@@ -115,7 +117,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: coal
+  type: coal
 
 
 - id: diesel
@@ -141,7 +144,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: diesel
+  type: oil
 
 
 - id: geothermal
@@ -167,7 +171,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: geothermal
+  type: geothermal
 
 
 - id: hydro
@@ -206,7 +211,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: hydro
+  type: hydro
 
 
 - id: gas-ocgt
@@ -243,7 +249,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: gas-ocgt
+  type: gas
 
 
 - id: oil
@@ -272,10 +279,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: oil
+  type: oil
 
 
-- id: solar
+- id: solar-pv
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -313,7 +321,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: solar-pv
+  type: solar
 
 
 - id: waste
@@ -342,7 +351,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: waste
+  type: bioenergy
 
 
 - id: wind-offshore
@@ -362,7 +372,8 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: wind-offshore
+  type: wind
 
 
 - id: wind-onshore
@@ -390,4 +401,5 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: electricity
+  carrier: wind-onshore
+  type: wind
