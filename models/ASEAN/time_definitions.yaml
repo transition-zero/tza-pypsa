@@ -15,4 +15,5 @@
 time_definition:
   id: asean_default_temporal_resolution
   year: 2022
+  resolution: 'h'
   multi_year_investment: false

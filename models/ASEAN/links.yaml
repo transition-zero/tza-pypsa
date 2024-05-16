@@ -16,98 +16,297 @@
 #
 #     Authors:
 #       - @amanmajid
+#       - @Handriyanti
+#       - @djwels
 #
 # -------------------------------------------------------------------------
 
 links:
 
-  - id: BRN-MYS
-    from_node: BRN
-    to_node: MYS
+  - id: BRNXX-MYSSK
+    from_node: BRNXX
+    to_node: MYSSK
     initial_capacity: 0
-    extendable: true
-    carrier: electricity
-  
-  - id: IDN-MYS
-    from_node: IDN
-    to_node: MYS
-    initial_capacity: 230
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
 
-  - id: IDN-SGP
-    from_node: IDN
-    to_node: SGP
+  - id: IDNJW-IDNKA
+    from_node: IDNJW
+    to_node: IDNKA
     initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
 
-  - id: KHM-LAO
-    from_node: KHM
-    to_node: LAO
-    initial_capacity: 2600
+  - id: IDNJW-IDNNU
+    from_node: IDNJW
+    to_node: IDNNU
+    initial_capacity: 1600
+    planned_expansion: 400
+    expansion_year: 
     extendable: true
     carrier: electricity
-  
-  - id: KHM-THA
-    from_node: KHM
-    to_node: THA
-    initial_capacity: 230
+
+  - id: IDNJW-IDNSM
+    from_node: IDNJW
+    to_node: IDNSM
+    initial_capacity: 3000
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
-  
-  - id: KHM-VNM
-    from_node: KHM
-    to_node: VNM
-    initial_capacity: 200
-    extendable: true
-    carrier: electricity
-  
-  - id: LAO-MMR
-    from_node: LAO
-    to_node: MMR
+
+  - id: IDNKA-IDNSL
+    from_node: IDNKA
+    to_node: IDNSL
     initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
-  
-  - id: LAO-THA
-    from_node: LAO
-    to_node: THA
-    initial_capacity: 5427
-    extendable: true
-    carrier: electricity
-  
-  - id: LAO-VNM
-    from_node: LAO
-    to_node: VNM
-    initial_capacity: 538
-    extendable: true
-    carrier: electricity
-  
-  - id: MMR-THA
-    from_node: MMR
-    to_node: THA
+    
+  - id: IDNKA-MYSSH
+    from_node: IDNKA
+    to_node: MYSSH
     initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
-  
-  - id: MYS-PHL
-    from_node: MYS
-    to_node: PHL
+
+  - id: IDNKA-MYSSK
+    from_node: IDNKA
+    to_node: MYSSK
     initial_capacity: 0
+    planned_expansion: 230
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: IDNML-IDNPP
+    from_node: IDNML
+    to_node: IDNPP
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: IDNML-IDNSL
+    from_node: IDNML
+    to_node: IDNSL
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: IDNNU-IDNSL
+    from_node: IDNNU
+    to_node: IDNSL
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: IDNSM-MYSPE
+    from_node: IDNSM
+    to_node: MYSPE
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: IDNSM-SGPXX
+    from_node: IDNSM
+    to_node: SGPXX
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity
   
-  - id: MYS-SGP
-    from_node: MYS
-    to_node: SGP
+  - id: LAOXX-MMRXX
+    from_node: LAOXX
+    to_node: MMRXX
+    initial_capacity: 0
+    planned_expansion: 600
+    expansion_year: 2026
+    extendable: true
+    carrier: electricity
+  
+  - id: LAOXX-VNMNO
+    from_node: LAOXX
+    to_node: VNMNO
+    initial_capacity: 0
+    planned_expansion: 1032
+    expansion_year: 2026
+    extendable: true
+    carrier: electricity
+  
+  - id: LAOXX-VNMCE
+    from_node: LAOXX
+    to_node: VNMCE
+    initial_capacity: 0
+    planned_expansion: 2036
+    expansion_year: 2025
+    extendable: true
+    carrier: electricity
+
+  - id: MYSPE-MYSSK
+    from_node: MYSPE
+    to_node: MYSSK
+    initial_capacity: 0
+    planned_expansion: 
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: MYSSH-MYSSK
+    from_node: MYSSH
+    to_node: MYSSK
+    initial_capacity: 0
+    planned_expansion: 50
+    expansion_year: 2024
+    extendable: true
+    carrier: electricity
+
+  - id: MYSSH-PHLLU
+    from_node: MYSSH
+    to_node: PHLLU
+    initial_capacity: 0
+    planned_expansion: 
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  # - id: MYSPE-MYSSK
+  #   from_node: MYSPE
+  #   to_node: MYSSK
+  #   initial_capacity: 0
+  #   planned_expansion: 
+  #   expansion_year: 
+  #   extendable: true
+  #   carrier: electricity
+
+  - id: MYSPE-SGPXX 
+    from_node: MYSPE
+    to_node: SGPXX
     initial_capacity: 1000
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: KHMXX-LAOXX
+    from_node: KHMXX
+    to_node: LAOXX
+    initial_capacity: 2600
+    planned_expansion: 0
+    expansion_year:
     extendable: true
     carrier: electricity
   
-  - id: MYS-THA
-    from_node: MYS
-    to_node: THA
-    initial_capacity: 380
+  - id: KHMXX-VNMCE
+    from_node: KHMXX
+    to_node: VNMCE
+    initial_capacity: 200
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: KHMXX-VNMSO
+    from_node: KHMXX
+    to_node: VNMSO
+    initial_capacity: 200
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: PHLLU-PHLVI
+    from_node: PHLLU
+    to_node: PHLVI
+    initial_capacity: 440
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: PHLMI-PHLVI
+    from_node: PHLMI
+    to_node: PHLVI
+    initial_capacity: 0
+    planned_expansion: 450
+    expansion_year: 2024
+    extendable: true
+    carrier: electricity
+  
+  - id: VNMCE-VNMNO
+    from_node: VNMCE
+    to_node: VNMNO
+    initial_capacity: 2200
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: VNMCE-VNMSO
+    from_node: VNMCE
+    to_node: VNMSO
+    initial_capacity: 12000
+    planned_expansion: 3500
+    expansion_year: 2025
+    extendable: true
+    carrier: electricity
+
+  - id: THANO-THACE
+    from_node: THANO
+    to_node: THACE
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: THACE-THASO
+    from_node: THACE
+    to_node: THASO
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THASO-MYSPE
+    from_node: THASO
+    to_node: MYSPE
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THANO-LAOXX
+    from_node: THANO
+    to_node: LAOXX
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THACE-LAOXX
+    from_node: THACE
+    to_node: LAOXX
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
     extendable: true
     carrier: electricity

@@ -16,16 +16,29 @@ demand:
 
   - id: electricity
     multiplier:
-      IDN: 1
-      MYS: 1
-      PHL: 1
-      SGP: 1
-      THA: 1
-      VNM: 1
-      BRN: 1
-      KHM: 1
-      LAO: 0.01
-      MMR: 1
+      IDNJW: 1
+      IDNKA: 1
+      IDNML: 1
+      IDNPP: 1
+      IDNSL: 1
+      IDNSM: 1
+      IDNNU: 1
+      KHMXX: 1
+      MYSPE: 1
+      MYSSK: 1
+      MYSSH: 0.05
+      PHLLU: 1
+      PHLMI: 1
+      PHLVI: 1
+      SGPXX: 1
+      THACE: 1
+      THANO: 1
+      THASO: 1
+      VNMCE: 1
+      VNMSO: 1
+      VNMNO: 1
+      BRNXX: 1
+      LAOXX: 1
       
     # demand change over time
     # annual_demand: 
