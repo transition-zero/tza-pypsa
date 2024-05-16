@@ -155,11 +155,10 @@ links:
     initial_capacity: 0
     planned_expansion: 2036
     expansion_year: 2025
-  
     extendable: true
     carrier: electricity
 
-    - id: MYSPE-MYSSK
+  - id: MYSPE-MYSSK
     from_node: MYSPE
     to_node: MYSSK
     initial_capacity: 0
@@ -168,25 +167,7 @@ links:
     extendable: true
     carrier: electricity
 
-- id: MYSPE-SGPXX
-    from_node: MYSPE
-    to_node: SGPXX
-    initial_capacity: 0
-    planned_expansion: 
-    expansion_year: 
-    extendable: true
-    carrier: electricity
-
-- id: MYSPE-SGPXX
-    from_node: MYSPE
-    to_node: SGPXX
-    initial_capacity: 0
-    planned_expansion: 
-    expansion_year: 
-    extendable: true
-    carrier: electricity
-
-- id: MYSSH-MYSSK
+  - id: MYSSH-MYSSK
     from_node: MYSSH
     to_node: MYSSK
     initial_capacity: 0
@@ -195,8 +176,7 @@ links:
     extendable: true
     carrier: electricity
 
-
-- id: MYSSH-PHLLU
+  - id: MYSSH-PHLLU
     from_node: MYSSH
     to_node: PHLLU
     initial_capacity: 0
@@ -205,42 +185,31 @@ links:
     extendable: true
     carrier: electricity
 
-- id: MYSPE-MYSSK
-    from_node: MYSSH
-    to_node: PHLLU
-    initial_capacity: 0
-    planned_expansion: 
-    expansion_year: 
-    extendable: true
-    carrier: electricity
+  # - id: MYSPE-MYSSK
+  #   from_node: MYSPE
+  #   to_node: MYSSK
+  #   initial_capacity: 0
+  #   planned_expansion: 
+  #   expansion_year: 
+  #   extendable: true
+  #   carrier: electricity
 
-- id: MYSPE-SGPXX
+  - id: MYSPE-SGPXX 
     from_node: MYSPE
     to_node: SGPXX
     initial_capacity: 1000
-    planned_expansion: 
+    planned_expansion: 0
     expansion_year: 
     extendable: true
     carrier: electricity
-
-
-- id: MYSSH-MYSSK
-    from_node: MYSPE
-    to_node: SGPXX
-    initial_capacity: 
-    planned_expansion: 
-    expansion_year: 
-    extendable: true
-    carrier: electricity
-    
 
   - id: KHMXX-LAOXX
     from_node: KHMXX
     to_node: LAOXX
     initial_capacity: 2600
     planned_expansion: 0
-    planne
-    extendable: false
+    expansion_year:
+    extendable: true
     carrier: electricity
   
   - id: KHMXX-VNMCE
@@ -249,16 +218,16 @@ links:
     initial_capacity: 200
     planned_expansion: 0
     expansion_year: 
-    extendable: false
+    extendable: true
     carrier: electricity
   
   - id: KHMXX-VNMSO
     from_node: KHMXX
-    to_node: VNMCE
+    to_node: VNMSO
     initial_capacity: 200
     planned_expansion: 0
     expansion_year: 
-    extendable: false
+    extendable: true
     carrier: electricity
 
   - id: PHLLU-PHLVI
@@ -267,7 +236,7 @@ links:
     initial_capacity: 440
     planned_expansion: 0
     expansion_year: 
-    extendable: false
+    extendable: true
     carrier: electricity
   
   - id: PHLMI-PHLVI
@@ -276,16 +245,7 @@ links:
     initial_capacity: 0
     planned_expansion: 450
     expansion_year: 2024
-    extendable: false
-    carrier: electricity
-
-  - id: VNMCE-VNMNO
-    from_node: VNMCE
-    to_node: VNMNO
-    initial_capacity: 2200
-    planned_expansion: 0
-    expansion_year: 
-    extendable: false
+    extendable: true
     carrier: electricity
   
   - id: VNMCE-VNMNO
@@ -294,7 +254,7 @@ links:
     initial_capacity: 2200
     planned_expansion: 0
     expansion_year: 
-    extendable: false
+    extendable: true
     carrier: electricity
 
   - id: VNMCE-VNMSO
@@ -303,5 +263,50 @@ links:
     initial_capacity: 12000
     planned_expansion: 3500
     expansion_year: 2025
-    extendable: false
+    extendable: true
+    carrier: electricity
+
+  - id: THANO-THACE
+    from_node: THANO
+    to_node: THACE
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+
+  - id: THACE-THASO
+    from_node: THACE
+    to_node: THASO
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THASO-MYSPE
+    from_node: THASO
+    to_node: MYSPE
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THANO-LAOXX
+    from_node: THANO
+    to_node: LAOXX
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
+    carrier: electricity
+  
+  - id: THACE-LAOXX
+    from_node: THACE
+    to_node: LAOXX
+    initial_capacity: 0
+    planned_expansion: 0
+    expansion_year: 
+    extendable: true
     carrier: electricity
