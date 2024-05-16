@@ -30,7 +30,6 @@ The ASEAN region covers:
 - Philippines 🇵🇭 (PHL)
 - Singapore 🇸🇬 (SGP)
 - Thailand 🇹🇭 (THA)
-- Timor-Leste 🇹🇱 (TLS)
 - Vietnam 🇻🇳 (VNM)
 
 <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="550" align="center">
