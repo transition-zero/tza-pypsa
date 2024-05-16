@@ -28,143 +28,100 @@
 # -------------------------------------------------------------------------
 
 nodes:
-  
-  - id: IDN
-    long_name: Indonesia
-    population: 267663435
-    area: 1904569
-    capital: Jakarta
-    currency: Indonesian Rupiah
-    gdp: 1047.601
-    gdp_per_capita: 3893
-    language: Indonesian
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+07:00
-    coords: [-0.7893, 113.9213]
-  
-  - id: MYS
-    long_name: Malaysia
-    population: 31528585
-    area: 330803
-    capital: Kuala Lumpur
-    currency: Malaysian Ringgit
-    gdp: 354.348
-    gdp_per_capita: 11252
-    language: Malay
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+08:00
-    coords: [4.2105, 101.9758]
 
-  - id: PHL
-    long_name: Philippines
-    population: 106651922
-    area: 342353
-    capital: Manila
-    currency: Philippine Peso
-    gdp: 330.910
-    gdp_per_capita: 3102
-    language: Filipino
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+08:00
-    coords: [14.5995, 120.9842]
+  - id: IDNSM
+    long_name: Indonesia Sumatra
+    coords: [-0.456, 101.521]
+
+  - id: IDNJW
+    long_name: Indonesia Java
+    coords: [-7.299, 109.941]
+
+  - id: IDNNU
+    long_name: Indonesia Nusa Tenggara
+    coords: [-8.631, 117.858]
+
+  - id: IDNKA
+    long_name: Indonesia Kalimantan
+    coords: [-0.211, 113.995]
   
-  - id: SGP
-    long_name: Singapore
-    population: 5638676
-    area: 710
-    capital: Singapore
-    currency: Singapore Dollar
-    gdp: 364.001
-    gdp_per_capita: 64856
-    language: English
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+08:00
+  - id: IDNSL
+    long_name: Indonesia Sulawesi
+    coords: [-2.014, 121.112]
+
+  - id: IDNML
+    long_name: Indonesia Maluku
+    coords: [0.869, 128.016]
+
+  - id: IDNPP
+    long_name: Indonesia Papua
+    coords: [-4.017, 137.464]
+  
+  - id: MYSPE
+    long_name: Malaysia Peninsular
+    coords: [4.035, 102.179]
+
+  - id: MYSSK
+    long_name: Malaysia Serawak
+    coords: [2.599, 113.336]
+
+  - id: MYSSH
+    long_name: Malaysia Sabah
+    coords: [5.336, 117.116]
+
+  - id: PHLLU
+    long_name: Philippines Luzon
+    coords: [15.949, 121.421]
+  
+  - id: PHLVI
+    long_name: Philippines Visayas
+    coords: [10.028, 123.004]
+
+  - id: PHLMI
+    long_name: Philippines Mindanau
+    coords: [7.658, 124.829]
+    
+  - id: SGPXX
+    long_name: Singapore 
     coords: [1.3521, 103.8198]
   
-  - id: THA
-    long_name: Thailand
-    population: 69428524
-    area: 513120
-    capital: Bangkok
-    currency: Thai Baht
-    gdp: 505.990
-    gdp_per_capita: 7281
-    language: Thai
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+07:00
-    coords: [15.8700, 100.9925]
+  - id: BRNXX
+    long_name: Brunei 
+    coords: [1.3521, 103.8198]
   
-  - id: VNM
+  - id: MMRXX
+    long_name: Myanmar 
+    coords: [1.3521, 103.8198]
+  
+  - id: THANO
+    long_name: Thailand North
+    coords: [16.921, 101.420]
+  
+  - id: THASO
+    long_name: Thailand South
+    coords: [8.101, 99.775]
+    
+  - id: THACE
+    long_name: Thailand Center
+    coords: [13.842, 100.5136]
+
+  - id: VNMNO
+    long_name: Vietnam North
+    coords: [21.717, 105.066]
+    
+  - id: VNMCE
+    long_name: Vietnam Central
+    coords: [15.160, 107.395]  
+
+  - id: VNMSO
     long_name: Vietnam
-    population: 95540800
-    area: 331212
-    capital: Hanoi
-    currency: Vietnamese Dong
-    gdp: 223.779
-    gdp_per_capita: 2342
-    language: Vietnamese
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+07:00
-    coords: [14.0583, 108.2772]
-  
-  - id: BRN
-    long_name: Brunei
-    population: 428697
-    area: 5765
-    capital: Bandar Seri Begawan
-    currency: Brunei Dollar
-    gdp: 13.579
-    gdp_per_capita: 31687
-    language: Malay
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+08:00
-    coords: [4.5353, 114.7277]
-  
-  - id: KHM
+    coords: [10.467, 106.088]   
+
+  - id: KHMXX
     long_name: Cambodia
-    population: 16249798
-    area: 181035
-    capital: Phnom Penh
-    currency: Cambodian Riel
-    gdp: 24.293
-    gdp_per_capita: 1496
-    language: Khmer
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+07:00
     coords: [12.5657, 104.9910]
   
-  - id: LAO
+  - id: LAOXX
     long_name: Laos
-    population: 7061507
-    area: 236800
-    capital: Vientiane
-    currency: Lao Kip
-    gdp: 17.952
-    gdp_per_capita: 2546
-    language: Lao
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+07:00
     coords: [19.8563, 102.4955]
   
-  - id: MMR
-    long_name: Myanmar
-    population: 53708395
-    area: 676578
-    capital: Naypyidaw
-    currency: Burmese Kyat
-    gdp: 69.322
-    gdp_per_capita: 1289
-    language: Burmese
-    region: Southeast Asia
-    subregion: Southeast Asia
-    timezone: UTC+06:30
-    coords: [21.9162, 95.9560]
