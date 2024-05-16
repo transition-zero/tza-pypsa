@@ -39,6 +39,8 @@ demand:
       VNMNO: 1
       BRNXX: 1
       LAOXX: 1
+      LAOXX: 1
+      MMRXX: 1
       
     # demand change over time
     # annual_demand: 
