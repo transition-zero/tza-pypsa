@@ -63,10 +63,13 @@ model.solve()
     - [ ] Calculate peak demand multiplier
     - [ ] Functionise annual demand growth
 - [ ] Increase nodal resolution of the model 
-    - [ ] Update `nodes.yaml`
-    - [ ] Update `links.yaml`
-    - [ ] Update `generators.yaml`
+    - [x] Update `nodes.yaml`
+    - [x] Update `links.yaml`
+    - [x] Update `generators.yaml`
     - [ ] Update network plot in README
 - [ ] Update cost data with real costs (i.e., not dummy numbers)
     - [ ] Review `costs.yaml` with Analysis team
 - [ ] Implement emission constraints (`targets.yaml`)
+- [ ] Validation:
+    - [ ] Check for duplicates
+    - [ ] Check for nodes/links not present anywhere else (e.g., catch spelling mistakes)
