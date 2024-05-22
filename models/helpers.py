@@ -25,7 +25,7 @@ def compute_load(
     )
 
     for n in annual_demand.columns:
-        demand_profile[n] = demand_profile[n].mul(annual_demand[n].values[0])
+        demand_profile[n] = demand_profile[n].mul(annual_demand[n].values[0]) * 277778 # convert PJ to MWh
     
     return demand_profile
 
