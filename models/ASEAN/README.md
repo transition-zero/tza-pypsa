@@ -62,7 +62,7 @@ The table below shows the time it took to solve an annual dispatch (i.e., 8760 t
 
 Model       | Nodes/Links/Generators  | HiGHS           | Gurobi
 ---         | ---                     | ---             | ---
-ASEAN       | 24/31/153               | 02h:30m:00s     | 00h:00m:49s
+ASEAN       | 24/31/153               | 03h:00m:00s     | 00h:00m:49s
 Indonesia   | 07/07/057               | 00h:20m:11s     | 00h:00m:14s
 Philippines | 03/02/021               | 00h:03m:41s     | 00h:00m:05s
 Thailand    | 03/02/020               | 00h:02m:31s     | 00h:00m:05s

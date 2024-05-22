@@ -114,6 +114,23 @@ def build_pypsa_model(
     network.set_snapshots(snapshot)
 
     # ---
+    # add carriers
+
+    network.madd(
+        "Carrier",
+        ['bioenergy', 'gas-ccgt', 'coal', 'diesel', 
+        'geothermal', 'hydro','gas-ocgt', 'oil', 
+        'solar-pv', 'waste', 'wind-offshore', 'wind-onshore'],
+        #co2_emissions=emissions,
+        nice_name=['bioenergy', 'gas-ccgt', 'coal', 'diesel', 
+                    'geothermal', 'hydro','gas-ocgt', 'oil', 
+                    'solar-pv', 'waste', 'wind-offshore', 'wind-onshore'],
+        color=["teal", "grey", "black", "darkgray", 
+        "brown", "deepskyblue", "gainsboro", "olivedrab",
+        "gold", "peru", "aquamarine", "mediumseagreen"],
+    )
+
+    # ---
     # add buses (nodes)
     for node in nodes:
         network.add(
