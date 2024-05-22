@@ -7,6 +7,7 @@ class ASEAN:
 
     def __init__(
             self,
+            countries = None,
             **kwargs,
     ):
         # set working directory
@@ -30,6 +31,9 @@ class ASEAN:
             year=self.year,
         )
 
+        # get subset of countries
+        self.subset = countries
+
     def create_model(
             self
     ):
@@ -40,6 +44,7 @@ class ASEAN:
             generators = self.generators,
             loads = self.loads,
             year = self.year,
+            countries = self.subset,
         )
 
 

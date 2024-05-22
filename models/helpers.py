@@ -41,6 +41,49 @@ def get_yaml(
     return data
 
 
+def get_model_subset_by_countries(
+        network : pypsa.Network,
+        countries : list,
+):
+    '''Get subset of network by countries
+    '''
+    # adjust generators
+    network.generators = (
+        network.generators[
+            network.generators.bus.str[0:3].isin(countries)
+        ]
+    )
+
+    # adjust buses
+    network.buses = (
+        network.buses[ 
+            network.buses.index.str[0:3].isin(countries) 
+        ]
+    )
+
+    # adjust loads
+    network.loads = (
+        network.loads[ 
+            network.loads.bus.str[0:3].isin(countries) 
+        ]
+    )
+
+    # adjust loads (time series)
+    network.loads_t.p_set = (
+        network.loads_t.p_set[ network.loads.bus.to_list() ]
+    )
+
+    # adjust links
+    network.links = (
+        network.links[
+            (network.links.bus0.isin( network.buses.index.to_list() )) &
+            (network.links.bus1.isin( network.buses.index.to_list() ))
+        ]
+    )
+    # return adjusted network
+    return network
+
+
 def build_pypsa_model(
         configs,
         nodes,
@@ -132,6 +175,16 @@ def build_pypsa_model(
             bus, # load name
             bus=bus, # region/bus/balancing zone
             p_set=loads[bus].values # demand profile
+        )
+    
+    # ---
+    # get subset
+    if not kwargs.get('countries', None):
+        pass
+    else:
+        network = get_model_subset_by_countries(
+            network = network,
+            countries = kwargs.get('countries', None)
         )
 
     return network
