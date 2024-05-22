@@ -60,32 +60,23 @@ network.optimize(solver_name='highs')
 ## Model performance
 The table below shows the time it took to solve an annual dispatch (i.e., 8760 timesteps) for the ASEAN model, as well as country subsets of the ASEAN model. The optimisation is setup as a classical linear programming (LP) problem and solved using the [HiGHS](https://highs.dev/) solver. These benchmarks were computed using an Apple MacBook Pro (2023) with an M2 Pro processor and 16 GB of RAM.
 
-Model       | Nodes/Links/Generators | HiGHS           | Gurobi
----         | ---                    | ---             | ---
-ASEAN       | 24                     | 00h:00m:12s     | -
-Indonesia   | 07/07/57               | 00h:20m:11s     | -
-Philippines | 03/02/21               | 00h:03m:41s     | -
-Thailand    | 03/02/20               | 00h:02m:31s     | -
-Myanmar     | 01/00/05               | 00h:00m:12s     | -
-Singapore   | 01/00/05               | 00h:00m:11s     | -
+Model       | Nodes/Links/Generators  | HiGHS           | Gurobi
+---         | ---                     | ---             | ---
+ASEAN       | 24/31/153               | 02h:10m:00s     | 00h:00m:49s
+Indonesia   | 07/07/057               | 00h:20m:11s     | 00h:00m:14s
+Philippines | 03/02/021               | 00h:03m:41s     | 00h:00m:05s
+Thailand    | 03/02/020               | 00h:02m:31s     | 00h:00m:05s
+Myanmar     | 01/00/005               | 00h:00m:12s     | 00h:00m:02s
+Singapore   | 01/00/005               | 00h:00m:11s     | 00h:00m:01s
 
 Note that unit commitment (UC) was not applied in the model benchmarks reported above. UC would likely increase the computation times significantly given that it transforms the optimisation into a mixed-integer linear programme (MILP).
 
 ## TODO
 
+- [ ] Update technology names to match platform
 - [ ] Add renewable capacity factors
-- [x] Add actual demand data
-- [ ] Convert demand from PJ to MWh
-- [ ] Increase nodal resolution of the model 
-    - [x] Update `nodes.yaml`
-    - [x] Update `links.yaml`
-    - [x] Update `generators.yaml`
-    - [ ] Update network plot in README
+- [ ] Update network plot in README
 - [ ] Update cost data with real costs (i.e., not dummy numbers)
     - [ ] Review `costs.yaml` with Analysis team
 - [ ] Implement emission constraints (`targets.yaml`)
-- [x] Add subset feature (i.e., select specific countries)
 - [ ] Compute model benchmarks using HiGHS and Gurobi
-- [ ] Validation:
-    - [ ] Check for duplicates
-    - [ ] Check for nodes/links not present anywhere else (e.g., catch spelling mistakes)
