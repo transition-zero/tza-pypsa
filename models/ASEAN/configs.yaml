@@ -1,23 +1,34 @@
 # -------------------------------------------------------------------------
 #
-#   TARGETS
+#   CONFIGS
 #   
-#     Defining the emissions intensities and targets for the model.
-#
-#     We look at three main pollutants:
-#       - CO2
-#       - NOx
-#       - SOx
+#     Define the model configurations
 #
 #     Link to docs: 
-#       https://docs.feo.transitionzero.org/docs/tz-osemosys/impact/
+#       N/A
 #
 #     Authors:
 #       - @amanmajid
-#       - @abhishek0208
-#       - @Handriyanti
 #
 # -------------------------------------------------------------------------
+
+# -------
+# File paths
+# -------
+
+file_paths:
+  annual_demand: '../data/raw/ASEAN/specified_annual_demand.csv'
+  demand_profile: '../data/raw/ASEAN/specified_demand_profile.csv'
+
+# -------
+# Time definitions
+# -------
+
+time_definition:
+  id: asean_default_temporal_resolution
+  year: 2022
+  resolution: 'h'
+  multi_year_investment: false
 
 # -------
 # Emissions targets
@@ -45,9 +56,3 @@ impacts:
     exogenous_total: null
     constraint_annual: null
     constraint_total: null
-
-# -------
-# Other parameters
-# -------
-
-reserve_margin: 1.2
