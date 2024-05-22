@@ -1,9 +1,8 @@
 *.DS_Store
+*.pyc
 
 # data
-data/raw/*.csv
-data/raw/*.gpkg
-data/clean/ember-electricity-data.csv
+data/*
 
 # models
 models/two-region-model/*

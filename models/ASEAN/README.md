@@ -13,9 +13,6 @@ The model can be run for the entire ASEAN region or a single country.
 The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below
 
 ## Model configuration
-TODO
-
-<!-- This folder contains the PyPSA-ASEAN model constructor files, the majority of which are in `yaml` format.  -->
 
 ### Geographical scope
 
@@ -43,32 +40,42 @@ TODO
 <!-- TRM does not have any emissions targets by default. However, it is setup such that emissions targets (e.g., CO2, NOx etc) can be easily implemented. Emissions targets are defined in [`targets.yaml`](https://github.com/transition-zero/tz-osemosys/blob/add-tutorials/examples/two-region-model/targets.yaml). -->
 
 ## Running the model
-TODO
-
-<!-- 
-Provided you have successfully setup `tz-osemosys` on your local machine as instructed, you can run the TRM model as shown below:
+`PyPSA-ASEAN` can be run using the command below:
 
 ```python
-from tz.osemosys import Model
-model = Model.from_yaml("tz-osemosys/examples/two-region-model/")
-model.solve()
-``` -->
+from models.loader import ASEAN
+network = ASEAN().create_model() # <-- Returns a PyPSA network
+network.optimize(solver_name='highs')
+```
+
+It is also possible to run the model for a subset of ASEAN countries. For example, you can run the model solely for Indonesia (IDN) and the Philippines (PHL) as below:
+
+```python
+from models.loader import ASEAN
+network = ASEAN(countries=['IDN', 'PHL']).create_model() # <-- Returns a PyPSA network
+network.optimize(solver_name='highs')
+```
+
+## Model performance
+The table below shows the time it took to solve an annual dispatch (i.e., 8760 timesteps) for the ASEAN model, as well as country subsets of the ASEAN model. The optimisation is setup as a classical linear programming (LP) problem and solved using the [HiGHS](https://highs.dev/) solver. These benchmarks were computed using an Apple MacBook Pro (2023) with an M2 Pro processor and 16 GB of RAM.
+
+Model       | Nodes/Links/Generators  | HiGHS           | Gurobi
+---         | ---                     | ---             | ---
+ASEAN       | 24/31/153               | 03h:00m:00s     | 00h:00m:49s
+Indonesia   | 07/07/057               | 00h:20m:11s     | 00h:00m:14s
+Philippines | 03/02/021               | 00h:03m:41s     | 00h:00m:05s
+Thailand    | 03/02/020               | 00h:02m:31s     | 00h:00m:05s
+Myanmar     | 01/00/005               | 00h:00m:12s     | 00h:00m:02s
+Singapore   | 01/00/005               | 00h:00m:11s     | 00h:00m:01s
+
+Note that unit commitment (UC) was not applied in the model benchmarks reported above. UC would likely increase the computation times significantly given that it transforms the optimisation into a mixed-integer linear programme (MILP).
 
 ## TODO
 
+- [ ] Update technology names to match platform
 - [ ] Add renewable capacity factors
-- [ ] Add actual demand data
-    - [ ] Collate normalised demand profile
-    - [ ] Calculate peak demand multiplier
-    - [ ] Functionise annual demand growth
-- [ ] Increase nodal resolution of the model 
-    - [x] Update `nodes.yaml`
-    - [x] Update `links.yaml`
-    - [x] Update `generators.yaml`
-    - [ ] Update network plot in README
+- [ ] Update network plot in README
 - [ ] Update cost data with real costs (i.e., not dummy numbers)
     - [ ] Review `costs.yaml` with Analysis team
 - [ ] Implement emission constraints (`targets.yaml`)
-- [ ] Validation:
-    - [ ] Check for duplicates
-    - [ ] Check for nodes/links not present anywhere else (e.g., catch spelling mistakes)
+- [ ] Compute model benchmarks using HiGHS and Gurobi

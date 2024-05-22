@@ -87,11 +87,11 @@ nodes:
   
   - id: BRNXX
     long_name: Brunei 
-    coords: [1.3521, 103.8198]
+    coords: [4.5353, 114.7277]
   
   - id: MMRXX
     long_name: Myanmar 
-    coords: [1.3521, 103.8198]
+    coords: [21.9162, 95.9560]
   
   - id: THANO
     long_name: Thailand North
