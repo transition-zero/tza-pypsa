@@ -46,7 +46,18 @@ conda activate ./env
 Additionally, install a solver for optimisation. We recommend using [HiGHS](https://highs.dev/), which is free and open source.
 
 ## Usage (running a model)
-TODO!
+It is possible to build and run a `TZ-Analysis-PyPSA` model with only a few lines of code. For example, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) model as shown below:
+
+```python
+from models.loader import ASEAN
+
+network = ASEAN().create_model() # <-- Returns a PyPSA network
+
+network.optimize(
+  solver_name='highs',
+  solver_options={"solver": "pdlp"},
+)
+```
 
 # Contributing and Support
 
