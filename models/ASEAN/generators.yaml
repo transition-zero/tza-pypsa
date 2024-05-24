@@ -13,7 +13,7 @@
 #
 # -------------------------------------------------------------------------
 
-- id: bioenergy
+- id: bioenergy-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -46,11 +46,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: bioenergy
+  carrier: bioenergy-unspecified
   type: biomass
 
 
-- id: gas-ccgt
+- id: combined-cycle
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -77,11 +77,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: gas-ccgt
+  carrier: combined-cycle
   type: gas
 
 
-- id: coal
+- id: coal-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -118,11 +118,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: coal
+  carrier: coal-unspecified
   type: coal
 
 
-- id: diesel
+- id: petroleum-products-internal-combustion-engine
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -145,11 +145,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: diesel
+  carrier: petroleum-products-internal-combustion-engine # THIS IS DIESEL
   type: oil
 
 
-- id: geothermal
+- id: geothermal-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -172,11 +172,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: geothermal
+  carrier: geothermal-unspecified
   type: geothermal
 
 
-- id: hydro
+- id: hydro-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -212,11 +212,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: hydro
+  carrier: hydro-unspecified
   type: hydro
 
 
-- id: gas-ocgt
+- id: open-cycle-gas-turbine
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -250,11 +250,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: gas-ocgt
+  carrier: open-cycle-gas-turbine
   type: gas
 
 
-- id: oil
+- id: oil-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -280,11 +280,11 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: oil
+  carrier: oil-unspecified
   type: oil
 
 
-- id: solar-pv
+- id: photovoltaic-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -322,7 +322,7 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: solar-pv
+  carrier: photovoltaic-unspecified
   type: solar
 
 
@@ -356,7 +356,7 @@
   type: bioenergy
 
 
-- id: wind-offshore
+- id: wind-offshore-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -373,7 +373,7 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: wind-offshore
+  carrier: wind-offshore-unspecified
   type: wind
 
 

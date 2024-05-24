@@ -72,7 +72,6 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 
 ## TODO
 
-- [ ] Update technology names to match platform
 - [ ] Add renewable capacity factors
 - [ ] Update network plot in README
 - [ ] Update cost data with real costs (i.e., not dummy numbers)
