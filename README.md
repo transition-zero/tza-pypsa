@@ -15,11 +15,16 @@ Model  | Status | Method | Overview
 Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan
 
 # Contributors
-The data and code provided here was developed by the following modellers/analysts at TransitionZero:
 
+**Model construction and validation:**
 - [Aman Majid](https://www.transitionzero.org/team/aman-majid)
-- [Handriyanti Diah Puspitarini](https://www.transitionzero.org/team/handriyanti-diah-puspitarini)
 - [Abhishek Shivakumar](https://www.transitionzero.org/team/abhishek-shivakumar)
+- [Handriyanti Diah Puspitarini](https://www.transitionzero.org/team/handriyanti-diah-puspitarini)
+
+**Data:**
+- [Calvin Nesbitt](https://www.transitionzero.org/team/calvin-nesbitt)
+- [Isabella Söldner-Rembold](https://www.transitionzero.org/team/isabella-soldner-rembold)
+- [Sabina Parvu](https://www.transitionzero.org/team/sabina-parvu)
 
 # Getting started
 

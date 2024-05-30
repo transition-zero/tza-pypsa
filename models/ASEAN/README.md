@@ -72,10 +72,11 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 
 ## TODO
 
-- [ ] Add renewable capacity factors
 - [ ] Update network plot in README
 - [ ] Update cost data with real costs (i.e., not dummy numbers)
     - [ ] Review `costs.yaml` with Analysis team
 - [ ] Add emissions intensities to `Carrier`
 - [ ] Implement emission constraints (`targets.yaml`)
-- [ ] Compute model benchmarks using HiGHS and Gurobi
+- [ ] Add maximum RES build potential based on Calvin's data
+- [ ] Assign sensible ramp rates
+- [ ] Assign sensible import limits
