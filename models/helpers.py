@@ -3,32 +3,6 @@ import pypsa
 
 import pandas as pd
 
-def compute_load(
-        path_to_annual_demand : str,
-        path_to_demand_profile : str,
-        year : int,
-):
-    '''Compute demand for a given year
-    '''
-    annual_demand = pd.read_csv(path_to_annual_demand)
-    demand_profile = pd.read_csv(path_to_demand_profile)
-
-    annual_demand = ( 
-        pd
-        .read_csv('../data/raw/ASEAN/specified_annual_demand.csv')
-        .query(f"YEAR == {year}")
-        .pivot_table(
-            index='YEAR',
-            columns='CUSTOM_NODE',
-            values='VALUE',
-            aggfunc='sum')
-    )
-
-    for n in annual_demand.columns:
-        demand_profile[n] = demand_profile[n].mul(annual_demand[n].values[0]) * 277778 # convert PJ to MWh
-    
-    return demand_profile
-
 
 def get_yaml(
         path : str,
@@ -61,7 +35,7 @@ def get_model_subset_by_countries(
         ]
     )
 
-    # adjust loads
+    # adjust timeseries data
     network.loads = (
         network.loads[ 
             network.loads.bus.str[0:3].isin(countries) 
@@ -89,7 +63,7 @@ def build_pypsa_model(
         nodes,
         links,
         generators,
-        loads,
+        timeseries,
         year,
         *args,
         **kwargs,
@@ -115,6 +89,7 @@ def build_pypsa_model(
 
     # ---
     # add carriers
+    # TODO: think of a better way to do this
 
     network.madd(
         "Carrier",
@@ -160,15 +135,27 @@ def build_pypsa_model(
 
     for technology in generators:
         for bus in technology['initial_capacity'].keys():
-
+            
+            # get capacity factors
+            if technology['id'] == 'wind-onshore':
+                cf = timeseries.sel(node=bus).cf_wind_onshore.to_numpy()
+            elif technology['id'] == 'wind-offshore-unspecified':
+                cf = timeseries.sel(node=bus).cf_wind_offshore.to_numpy()
+            elif technology['id'] == 'photovoltaic-unspecified':
+                cf = timeseries.sel(node=bus).cf_solar_pv.to_numpy()
+            else:
+                cf = 1
+            
             network.add(
                 'Generator', # PyPSA component
                 bus + '-' + technology['id'], # generator name
-                type = technology['id'], # technology type (e.g., solar, gas-ccgt etc.)
+                type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
                 bus = bus, # region/bus/balancing zone
                 # ---
                 # unique technology parameters by bus
                 p_nom = technology['initial_capacity'][bus], # starting capacity (MW)
+                p_max_pu = cf, # capacity factor
+                p_min_pu = technology['p_min_pu'], # minimum capacity factor
                 # ---
                 # universal technology parameters
                 p_nom_extendable = technology['extendable'], # can the model build more?
@@ -185,13 +172,17 @@ def build_pypsa_model(
             )
 
     # ---
+    # add storages
+    # TODO
+
+    # ---
     # add load
     for bus in network.buses.index:
         network.add(
             "Load", # PyPSA component
             bus, # load name
             bus=bus, # region/bus/balancing zone
-            p_set=loads[bus].values # demand profile
+            p_set=timeseries.sel(node=bus).demand.to_numpy() # demand profile
         )
     
     # ---
@@ -202,6 +193,40 @@ def build_pypsa_model(
         network = get_model_subset_by_countries(
             network = network,
             countries = kwargs.get('countries', None)
+        )
+    
+    # ---
+    # set minimum level of self-sufficiency at each bus
+    
+    # get total renewable generation
+    lp_model = network.optimize.create_model()
+
+    for bus in network.buses.index:
+
+        # get all generators at bus
+        network.generators.query( f' bus == "{bus}" ').index
+
+        # get total generation by bus
+        total_gen_by_bus = ( 
+            lp_model
+            .variables['Generator-p']
+            .sel(
+                Generator=network.generators.query( f' bus == "{bus}" ').index
+            )
+            .sum()
+            .sum()
+        )
+
+        # get demand at bus
+        total_demand_by_bus = network.loads_t.p_set[bus].sum(axis=0)
+
+        # set constraint
+        lp_model.add_constraints(
+            lhs=total_gen_by_bus,
+            sign=">=",
+            rhs=total_demand_by_bus * 0.5,
+            name=f'min_gen_by_{bus}',
+            #hourly_new_renewable_generation >= cfe.loads_t.p_set['SGP_industrial_load'],
         )
 
     return network

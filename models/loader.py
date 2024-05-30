@@ -1,6 +1,8 @@
 import os
 import pypsa
 
+import xarray as xr
+
 from . import helpers
 
 class ASEAN:
@@ -24,12 +26,8 @@ class ASEAN:
         # get year
         self.year = kwargs.get('year', self.configs['time_definition']['year'])
 
-        # get loads
-        self.loads = helpers.compute_load(
-            path_to_annual_demand=self.configs['file_paths']['annual_demand'],
-            path_to_demand_profile=self.configs['file_paths']['demand_profile'],
-            year=self.year,
-        )
+        # get input data (time series)
+        self.timeseries = xr.open_dataset(self.configs['file_paths']['timeseries'])
 
         # get subset of countries
         self.subset = countries
@@ -42,7 +40,7 @@ class ASEAN:
             nodes = self.nodes,
             links = self.links,
             generators = self.generators,
-            loads = self.loads,
+            timeseries = self.timeseries,
             year = self.year,
             countries = self.subset,
         )
