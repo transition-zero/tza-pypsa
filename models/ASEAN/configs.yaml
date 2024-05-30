@@ -17,8 +17,7 @@
 # -------
 
 file_paths:
-  annual_demand: '../data/raw/ASEAN/specified_annual_demand.csv'
-  demand_profile: '../data/raw/ASEAN/specified_demand_profile.csv'
+  timeseries: '../data/clean/ASEAN/timeseries_2023.nc'
 
 # -------
 # Time definitions
