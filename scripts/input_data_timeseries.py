@@ -41,8 +41,9 @@ def get_demand_ts(
             aggfunc='sum')
     )
 
+    # compute load
     for n in annual_demand.columns:
-        demand_profile[n] = demand_profile[n].mul(annual_demand[n].values[0])
+        demand_profile[n] = demand_profile[n].mul(annual_demand[n].values[0]) * 277778 # convert PJ to MWh
 
     demand = demand_profile.drop(['Month', 'Day', 'Hour'], axis=1)
 
