@@ -42,10 +42,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: bioenergy-unspecified
   type: biomass
 
@@ -73,10 +74,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: combined-cycle
   type: gas
 
@@ -114,10 +116,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.05
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: coal-unspecified
   type: coal
 
@@ -141,10 +144,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: petroleum-products-internal-combustion-engine # THIS IS DIESEL
   type: oil
 
@@ -168,6 +172,7 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
@@ -208,10 +213,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: hydro-unspecified
   type: hydro
 
@@ -246,10 +252,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: open-cycle-gas-turbine
   type: gas
 
@@ -276,10 +283,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: oil-unspecified
   type: oil
 
@@ -314,10 +322,11 @@
   # universal technology parameters
   extendable: true
   capital_cost: 1 # currency/MW
-  marginal_cost: 1 # currency/MWh
+  marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
@@ -348,10 +357,11 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
+  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   carrier: waste
   type: bioenergy
 
@@ -365,10 +375,11 @@
   # universal technology parameters
   extendable: true
   capital_cost: 1 # currency/MW
-  marginal_cost: 1 # currency/MWh
+  marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
@@ -394,10 +405,11 @@
   # universal technology parameters
   extendable: true
   capital_cost: 1 # currency/MW
-  marginal_cost: 1 # currency/MWh
+  marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
   committable: false
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
