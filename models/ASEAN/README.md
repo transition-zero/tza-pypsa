@@ -10,7 +10,9 @@ PyPSA-ASEAN is an hourly-resolution power sector model. It can be used for:
 The model can be run for the entire ASEAN region or a single country.
 
 ## Overview
-The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below
+The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below.
+
+<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="350" align="center">
 
 ## Model configuration
 
@@ -29,7 +31,8 @@ The ASEAN region covers:
 - Thailand 🇹🇭 (THA)
 - Vietnam 🇻🇳 (VNM)
 
-<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="550" align="center">
+<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa.png" alt="" height="350" align="center">
+
 
 ### Temporal resolution
 TODO
@@ -81,4 +84,3 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 - [ ] Assign sensible "must-run" conditions
 - [ ] Assign sensible ramp rates
 - [ ] Assign sensible import limits (i.e., bus self-sufficiency)
-- [ ] Add hydro profiles
