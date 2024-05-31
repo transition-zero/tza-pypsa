@@ -18,6 +18,7 @@
 
 import argparse
 
+import numpy as np
 import pandas as pd
 import xarray as xr
 
@@ -63,6 +64,36 @@ def get_demand_ts(
     return xr.DataArray(demand, dims=['snapshot', 'node'])
 
 
+def get_hydro_cf(year):
+
+    df_monthly = ( pd
+        .read_csv('../data/raw/ASEAN/RE_profiles_HYD.csv')
+        .pivot_table(columns='NAME')
+        #.set_index('NAME')
+    )
+
+    df_monthly.index = [int(i.replace('M','')) for i in df_monthly.index]
+
+    # normalise cf
+    # Step 2: Select only the numeric columns for normalization
+    numeric_cols = df_monthly.select_dtypes(include=[np.number]).columns
+
+    # Step 3: Apply min-max normalization only to the numeric columns
+    df_monthly[numeric_cols] = (df_monthly[numeric_cols] - df_monthly[numeric_cols].min()) / (df_monthly[numeric_cols].max() - df_monthly[numeric_cols].min())
+
+    hourly_range = pd.date_range(
+        start=f'{year}-01-01 00:00:00',
+        end= f'{year}-12-31 23:00:00',
+        freq='h' 
+    )
+
+    df_hourly = pd.DataFrame(index=hourly_range).rename_axis('snapshot')
+
+    for col in df_monthly.columns:
+        df_hourly[col] = df_hourly.index.month.map( df_monthly[col].to_dict() )
+
+    return xr.DataArray( df_hourly, dims=['snapshot', 'node'] )
+
 def read_ts(file_name, year):
     return ( 
         xr
@@ -99,6 +130,7 @@ if __name__ == '__main__':
     offshore_cf = read_ts('../data/raw/ASEAN/RE_profiles_WOF.csv', year = year)
     onshore_cf = read_ts('../data/raw/ASEAN/RE_profiles_WON.csv', year = year)
     solar_cf = read_ts('../data/raw/ASEAN/RE_profiles_SPV.csv', year = year)
+    hydro_cf = get_hydro_cf(year)
 
     demand = get_demand_ts(
         path_annual_demand='../data/raw/ASEAN/specified_annual_demand.csv',
@@ -108,7 +140,9 @@ if __name__ == '__main__':
 
 
     xdf = xr.Dataset(
-        { 'cf_wind_offshore' : offshore_cf, 
+        { 
+        'cf_hydro' : hydro_cf,
+        'cf_wind_offshore' : offshore_cf, 
         'cf_wind_onshore' : onshore_cf, 
         'cf_solar_pv' : solar_cf,
         'demand' : demand,
