@@ -78,5 +78,7 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 - [ ] Add emissions intensities to `Carrier`
 - [ ] Implement emission constraints (`targets.yaml`)
 - [ ] Add maximum RES build potential based on Calvin's data
+- [ ] Assign sensible "must-run" conditions
 - [ ] Assign sensible ramp rates
-- [ ] Assign sensible import limits
+- [ ] Assign sensible import limits (i.e., bus self-sufficiency)
+- [ ] Add hydro profiles
