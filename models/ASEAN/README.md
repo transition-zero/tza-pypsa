@@ -13,8 +13,8 @@ The model can be run for the entire ASEAN region or a single country.
 The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below.
 
 <p align="center">
-  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="350">
-  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa.png" alt="" height="350">
+  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="350" style="border: 2px solid black;">
+  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa.png" alt="" height="350" style="border: 2px solid black;">
 </p>
 
 ## Model configuration
@@ -33,9 +33,6 @@ The ASEAN region covers:
 - Singapore 🇸🇬 (SGP)
 - Thailand 🇹🇭 (THA)
 - Vietnam 🇻🇳 (VNM)
-
-<img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa.png" alt="" height="350" align="center">
-
 
 ### Temporal resolution
 TODO
