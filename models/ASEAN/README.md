@@ -14,7 +14,7 @@ The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node repre
 
 <p align="center">
   <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map.png" alt="" height="350">
-  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa2.png" alt="" height="350">
+  <img src="https://github.com/transition-zero/tz-analysis-pypsa-minimal/blob/main/assets/static-asean-map-pypsa.png" alt="" height="350">
 </p>
 
 ## Model configuration
