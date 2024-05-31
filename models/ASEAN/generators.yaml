@@ -34,6 +34,14 @@
     THASO: 8.8
     VNMCE: 12
     VNMSO: 10
+  p_nom_max:
+    IDNJW: 1.13
+    IDNKA: 10.59
+    IDNML: 0.07
+    IDNNU: 0.23
+    IDNPP: 0.51
+    IDNSL: 0.36
+    IDNSM: 17.98
   # ---
   # universal technology parameters
   extendable: false
@@ -116,7 +124,7 @@
   lifetime: 50 # years
   efficiency: 1
   committable: false
-  p_min_pu: 0.2
+  p_min_pu: 0.
   start_up_cost: 0 # currency/MW
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
@@ -164,6 +172,14 @@
     PHLLU: 489.2
     PHLMI: 528
     PHLVI: 1561.8
+  p_nom_max:
+    IDNJW: 10.27
+    IDNKA: 0.05
+    IDNML: 0.46
+    IDNNU: 1.21
+    IDNPP: 0.06
+    IDNSL: 1.90
+    IDNSM: 12.54
   # ---
   # universal technology parameters
   extendable: false

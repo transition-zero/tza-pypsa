@@ -154,6 +154,8 @@ def build_pypsa_model(
                 cf = timeseries.sel(node=bus).cf_wind_offshore.to_numpy()
             elif technology['id'] == 'photovoltaic-unspecified':
                 cf = timeseries.sel(node=bus).cf_solar_pv.to_numpy()
+            elif technology['id'] == 'hydro-unspecified':
+                cf = timeseries.sel(node=bus).cf_hydro.to_numpy()
             else:
                 cf = 1
             
@@ -188,12 +190,13 @@ def build_pypsa_model(
 
     # ---
     # add load
+    load_multiplier = kwargs.get('load_multiplier', 1)
     for bus in network.buses.index:
         network.add(
             "Load", # PyPSA component
             bus, # load name
             bus=bus, # region/bus/balancing zone
-            p_set=timeseries.sel(node=bus).demand.to_pandas().mul(0.9).to_numpy() # demand profile
+            p_set=timeseries.sel(node=bus).demand.to_pandas().mul(load_multiplier).to_numpy() # demand profile
         )
     
     # ---
@@ -223,6 +226,7 @@ def build_pypsa_model(
     # ---
     # set custom constraints
     # TODO
+    print('')
     print('CustomConstraints:')
     print(' - None')
 

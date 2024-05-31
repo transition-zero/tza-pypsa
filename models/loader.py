@@ -36,7 +36,8 @@ class ASEAN:
 
 
     def create_model(
-            self
+            self,
+            **kwargs,
     ):
         return helpers.build_pypsa_model(
             configs = self.configs,
@@ -48,6 +49,7 @@ class ASEAN:
             countries = self.subset,
             global_constraints=self.global_constraints,
             custom_constraints=self.custom_constraints,
+            **kwargs,
         )
 
 
