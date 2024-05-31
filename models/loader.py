@@ -22,6 +22,8 @@ class ASEAN:
         self.generators = helpers.get_yaml("ASEAN/generators.yaml")
         self.nodes = helpers.get_yaml("ASEAN/nodes.yaml")['nodes']
         self.links = helpers.get_yaml("ASEAN/links.yaml")['links']
+        self.global_constraints = helpers.get_yaml("ASEAN/constraints.yaml")['global_constraints']
+        self.custom_constraints = helpers.get_yaml("ASEAN/constraints.yaml")['custom_constraints']
 
         # get year
         self.year = kwargs.get('year', self.configs['time_definition']['year'])
@@ -31,6 +33,7 @@ class ASEAN:
 
         # get subset of countries
         self.subset = countries
+
 
     def create_model(
             self
@@ -43,6 +46,8 @@ class ASEAN:
             timeseries = self.timeseries,
             year = self.year,
             countries = self.subset,
+            global_constraints=self.global_constraints,
+            custom_constraints=self.custom_constraints,
         )
 
 

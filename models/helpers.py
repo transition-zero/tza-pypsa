@@ -3,6 +3,8 @@ import pypsa
 
 import pandas as pd
 
+from . import constraints
+
 
 def get_yaml(
         path : str,
@@ -54,6 +56,13 @@ def get_model_subset_by_countries(
             (network.links.bus1.isin( network.buses.index.to_list() ))
         ]
     )
+
+    # adjust capacity factors
+    network.generators_t.p_max_pu = \
+        network.generators_t.p_max_pu[
+            [i for i in network.generators.index if i in network.generators_t.p_max_pu]
+        ]
+
     # return adjusted network
     return network
 
@@ -65,6 +74,8 @@ def build_pypsa_model(
         generators,
         timeseries,
         year,
+        global_constraints,
+        custom_constraints,
         *args,
         **kwargs,
 ):
@@ -168,7 +179,7 @@ def build_pypsa_model(
                 shut_down_cost = technology['shut_down_cost'], # currency/MW
                 ramp_limit_up = technology['ramp_limit_up'], # per unit
                 ramp_limit_down = technology['ramp_limit_up'], # per unit
-                #committable = technology['committable'], # for unit commitment
+                committable = technology['committable'], # for unit commitment
             )
 
     # ---
@@ -182,7 +193,7 @@ def build_pypsa_model(
             "Load", # PyPSA component
             bus, # load name
             bus=bus, # region/bus/balancing zone
-            p_set=timeseries.sel(node=bus).demand.to_numpy() # demand profile
+            p_set=timeseries.sel(node=bus).demand.to_pandas().mul(0.9).to_numpy() # demand profile
         )
     
     # ---
@@ -196,37 +207,23 @@ def build_pypsa_model(
         )
     
     # ---
-    # set minimum level of self-sufficiency at each bus
+    # set global constraints
+    print('GlobalConstraints:')
+    for cstr in global_constraints:
+
+        # emissions
+        # TODO
+
+        # bus self sufficiency
+        if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+            min_self_sufficiency = cstr['min_self_sufficiency']
+            print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
+            constraints.constr_bus_self_sufficiency(network, min_self_sufficiency)
     
-    # get total renewable generation
-    lp_model = network.optimize.create_model()
-
-    for bus in network.buses.index:
-
-        # get all generators at bus
-        network.generators.query( f' bus == "{bus}" ').index
-
-        # get total generation by bus
-        total_gen_by_bus = ( 
-            lp_model
-            .variables['Generator-p']
-            .sel(
-                Generator=network.generators.query( f' bus == "{bus}" ').index
-            )
-            .sum()
-            .sum()
-        )
-
-        # get demand at bus
-        total_demand_by_bus = network.loads_t.p_set[bus].sum(axis=0)
-
-        # set constraint
-        lp_model.add_constraints(
-            lhs=total_gen_by_bus,
-            sign=">=",
-            rhs=total_demand_by_bus * 0.5,
-            name=f'min_gen_by_{bus}',
-            #hourly_new_renewable_generation >= cfe.loads_t.p_set['SGP_industrial_load'],
-        )
+    # ---
+    # set custom constraints
+    # TODO
+    print('CustomConstraints:')
+    print(' - None')
 
     return network

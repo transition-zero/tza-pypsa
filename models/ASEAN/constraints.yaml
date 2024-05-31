@@ -1,0 +1,28 @@
+# -------------------------------------------------------------------------
+#
+#   CONSTRAINTS
+#   
+#     Define all constraints to implement in the ASEAN model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+global_constraints:
+  - id: annual_emissions
+    description: Total annual emissions of GHGs
+    enabled: false
+
+  - id: bus_self_sufficiency
+    description: The minimum level of demand that must be met by local generation by a bus.
+    enabled: true
+    min_self_sufficiency: 0.4
+
+custom_constraints:
+  - id: cfe
+    description: Matching demands at specific nodes (buses) with a specified amount of renewable generation at each timestep
+    enabled: false
