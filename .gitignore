@@ -15,3 +15,6 @@ notebooks/scrap*
 scrap/*
 
 # scripts
+models/cost_model.py
+scripts/plotting.py
+scripts/reshape_cost_data.py
