@@ -4,6 +4,7 @@ import pypsa
 import xarray as xr
 
 from . import helpers
+from . import cost_model
 
 class ASEAN:
 
@@ -33,6 +34,14 @@ class ASEAN:
 
         # get subset of countries
         self.subset = countries
+
+        # get costs
+        self.costs = cost_model.compute_costs()
+
+        # filter costs for nearest year
+        closest_year_in_data = min( self.costs.Year.unique(), key=lambda x:abs(x-self.year))
+        self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True)
+        
 
 
     def create_model(

@@ -1,4 +1,4 @@
-Country,Technology,Year,CapitalCost,FixedCost,VariableCost
+Country,Technology,Year,OvernightCapitalCost,FixedCost,VariableCost
 IDN,lithium-ion,2023,471266.80700000003,15000.0,2.0
 IDN,lithium-ion,2030,327923.183,10500.0,1.8
 IDN,lithium-ion,2050,229081.019,7350.0,1.6
