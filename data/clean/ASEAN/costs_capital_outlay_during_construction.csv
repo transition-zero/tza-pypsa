@@ -1,0 +1,25 @@
+,,,,Capital outlay,,,,,,
+Technology,Type,Useful life,Construction time,Year 1,Year 2,Year 3,Year 4,Year 5,Year 6,Year 7
+lithium-ion,Battery,15,1,1,0,0,0,0,0,0
+biogas,Bioenergy,30,4,0.15,0.35,0.3,0.2,0,0,0
+biomass,Bioenergy,30,4,0.15,0.35,0.3,0.2,0,0,0
+integrated-gasification-combined-cycle,Coal,40,3,0.3,0.6,0.1,0,0,0,0
+coal-ccs,Coal,40,5,0.1,0.3,0.3,0.2,0.1,0,0
+subcritical,Coal,40,5,0.1,0.3,0.3,0.2,0.1,0,0
+supercritical,Coal,40,5,0.1,0.3,0.3,0.2,0.1,0,0
+ultrasupercritical,Coal,40,5,0.1,0.3,0.3,0.2,0.1,0,0
+combined-cycle,Gas,30,3,0.3,0.6,0.1,0,0,0,0
+gas-ccs,Gas,30,2,0.75,0.25,0,0,0,0,0
+open-cycle-gas-turbine,Gas,30,2,0.75,0.25,0,0,0,0,0
+geothermal-binary-cycle,Geothermal,40,4,0.15,0.35,0.3,0.2,0,0,0
+geothermal-flash-steam-unspecified,Geothermal,40,4,0.15,0.35,0.3,0.2,0,0,0
+hydro-unspecified,Hydro,80,6,0.1,0.25,0.2,0.2,0.15,0.1,0
+hydro-pumped-storage,Hydro,80,6,0.1,0.25,0.2,0.2,0.15,0.1,0
+waste,Bioenergy,30,4,0.15,0.35,0.3,0.2,0,0,0
+pressurized-water-reactor,Nuclear,45,7,0.1,0.2,0.2,0.2,0.15,0.1,0.05
+small-modular-reactor,Nuclear,45,7,0.1,0.2,0.2,0.2,0.15,0.1,0.05
+petroleum-products-internal-combustion-engine,Oil,30,2,0.75,0.25,0,0,0,0,0
+photovoltaic-unspecified,Solar,25,1,1,0,0,0,0,0,0
+wind-offshore-unspecified,Wind,25,2,0.75,0.25,0,0,0,0,0
+wind-offshore-floating,Wind,25,2,0.75,0.25,0,0,0,0,0
+wind-onshore,Wind,25,2,0.75,0.25,0,0,0,0,0
