@@ -74,6 +74,7 @@ def build_pypsa_model(
         generators,
         timeseries,
         year,
+        costs,
         global_constraints,
         custom_constraints,
         *args,
@@ -137,7 +138,7 @@ def build_pypsa_model(
             p_nom=link['initial_capacity'],
             p_nom_extendable=link['extendable'],
             carrier=link['carrier'],
-            efficiency=1,
+            efficiency=0.97,
             lifetime=99,
         )
 
@@ -158,7 +159,7 @@ def build_pypsa_model(
                 cf = timeseries.sel(node=bus).cf_hydro.to_numpy()
             else:
                 cf = 1
-            
+
             network.add(
                 'Generator', # PyPSA component
                 bus + '-' + technology['id'], # generator name
@@ -172,8 +173,8 @@ def build_pypsa_model(
                 # ---
                 # universal technology parameters
                 p_nom_extendable = technology['extendable'], # can the model build more?
-                capital_cost = technology['capital_cost'], # currency/MW
-                marginal_cost = technology['marginal_cost'], # currency/MWh
+                capital_cost = costs.loc[ bus[0:3] ].loc[ technology['carrier'] ].AnnualCapitalCost, # currency/MW
+                marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['carrier'] ].MarginalCost, # currency/MWh
                 carrier = technology['carrier'], # commodity/carrier
                 lifetime = technology['lifetime'], # years
                 efficiency = technology['efficiency'], # efficiency
@@ -209,19 +210,19 @@ def build_pypsa_model(
             countries = kwargs.get('countries', None)
         )
     
-    # ---
-    # set global constraints
-    print('GlobalConstraints:')
-    for cstr in global_constraints:
+    # # ---
+    # # set global constraints
+    # print('GlobalConstraints:')
+    # for cstr in global_constraints:
 
-        # emissions
-        # TODO
+    #     # emissions
+    #     # TODO
 
-        # bus self sufficiency
-        if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
-            min_self_sufficiency = cstr['min_self_sufficiency']
-            print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
-            constraints.constr_bus_self_sufficiency(network, min_self_sufficiency)
+    #     # bus self sufficiency
+    #     if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+    #         min_self_sufficiency = cstr['min_self_sufficiency']
+    #         print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
+    #         constraints.constr_bus_self_sufficiency(network, min_self_sufficiency)
     
     # ---
     # set custom constraints

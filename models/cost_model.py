@@ -47,11 +47,11 @@ def compute_costs():
     capital_outlay = ( 
         pd
         .read_csv('../data/clean/ASEAN/costs_capital_outlay_during_construction.csv',skiprows=1)
-        .set_index('Technology')
+        .set_index('carrier')
     )
 
     # compute the construction finance factor
-    y = list( range(1,len(capital_outlay.filter(regex='Year').columns)+1) )
+    y = list( range(1,len(capital_outlay.filter(regex='year').columns)+1) )
 
     # calculate construction finance factor (k) for each technology
     capital_outlay['k'] = ( 
@@ -61,21 +61,47 @@ def compute_costs():
                 calculate_construction_finance_factor( 
                     r = 0.1, 
                     y = y, 
-                    c = row.filter(regex='Year').to_list(),
+                    c = row.filter(regex='year').to_list(),
                 ), axis=1
         ).sum(axis=1)
     )
 
     # load cost data
-    costs = pd.read_csv('../data/clean/ASEAN/costs_technology.csv')
+    costs = (
+        pd
+        .read_csv('../data/clean/ASEAN/costs_technology.csv')
+        .groupby(by=['Country','Technology','Year'])
+        .mean()
+        .reset_index()
+        .set_index(['Country','Technology', 'Year'])
+    )
+
+    #overwrite blank fixed costs with VNM/IDN averages
+    for i,x in costs.iterrows():
+        if pd.isna(x.FixedCost):
+            costs.at[i, 'FixedCost'] = (costs.loc[ ('IDN',i[1],i[2]) ].FixedCost + costs.loc[ ('VNM',i[1],i[2]) ].FixedCost) / 2
+    
+    costs = costs.reset_index(drop=False)
 
     # calculate real capex
     costs['CapitalCost'] = costs['Technology'].map( capital_outlay['k'].to_dict() ) * costs['OvernightCapitalCost']
 
     # calculate annualised capex
-    costs['AnnualCapitalCost'] = costs['CapitalCost'] * costs['Technology'].map( calculate_annuity(capital_outlay['Useful life'], r = 0.1).to_dict() )
+    costs['AnnualCapitalCost'] = (
+        (
+            costs['Technology'].map( calculate_annuity(capital_outlay['useful_life'], r = 0.1).to_dict() )
+            + costs['FixedCost'] / 100.0
+        )
+        * costs['CapitalCost'] 
+    )
 
     # calculate marginal costs
-    costs['MarginalCost'] = (costs['FixedCost'] + ( costs['VariableCost'] ) ).fillna(0) # need to divide VOM by efficiency
+    costs['MarginalCost'] = (
+        (
+            costs['VariableCost'] / costs['Efficiency'] 
+            #+ costs['FuelCost'] TODO: do we need fuel costs here?
+        )
+        .fillna(0)   
+    )
 
     return costs[ ~costs.Technology.isna() ].reset_index(drop=True)

@@ -40,7 +40,7 @@ class ASEAN:
 
         # filter costs for nearest year
         closest_year_in_data = min( self.costs.Year.unique(), key=lambda x:abs(x-self.year))
-        self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True)
+        self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True).set_index(['Country','Technology'])
         
 
 
@@ -55,6 +55,7 @@ class ASEAN:
             generators = self.generators,
             timeseries = self.timeseries,
             year = self.year,
+            costs = self.costs,
             countries = self.subset,
             global_constraints=self.global_constraints,
             custom_constraints=self.custom_constraints,

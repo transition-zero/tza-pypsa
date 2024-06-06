@@ -68,7 +68,7 @@ technology_mapping = {
     'MSW' : 'waste', 
     'Nuclear Pressurised Water Reactor' : 'pressurized-water-reactor',
     'Nuclear Small Modular Reactor' : 'small-modular-reactor', 
-    'Oil Diesel' : 'petroleum-products-internal-combustion-engine',
+    'Oil Diesel' : 'oil-unspecified',
     'Solar Rooftop, grid-connected' : 'photovoltaic-unspecified', 
     'Solar Utility, grid-connected' : 'photovoltaic-unspecified',
     # 'UPSIMPFLTLNG', 
@@ -76,7 +76,7 @@ technology_mapping = {
     'Wind Offshore' : 'wind-offshore-unspecified',
     'Wind Offshore Floating' : 'wind-offshore-floating', 
     'Wind Onshore' : 'wind-onshore', 
-    'Oil Fuel Oil' : 'petroleum-products-internal-combustion-engine',
+    'Oil Fuel Oil' : 'oil-unspecified',
 }
 
 costs.Technology = costs.Technology.map(technology_mapping)

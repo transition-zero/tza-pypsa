@@ -133,7 +133,7 @@
   type: coal
 
 
-- id: petroleum-products-internal-combustion-engine
+- id: oil-unspecified
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -157,7 +157,7 @@
   shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: petroleum-products-internal-combustion-engine # THIS IS DIESEL
+  carrier: oil-unspecified # THIS IS DIESEL
   type: oil
 
 
