@@ -75,8 +75,6 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 
 ## TODO
 
-- [ ] Update cost data with real costs (i.e., not dummy numbers)
-    - [ ] Review `costs.yaml` with Analysis team
 - [ ] Clean up `.add('Carrier')` script
 - [ ] Add emissions intensities to `Carrier`
 - [ ] Implement emission constraints (`targets.yaml`)
