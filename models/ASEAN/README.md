@@ -39,6 +39,21 @@ The spatial coverage of the model is illustrated below:
 ### Temporal resolution
 PyPSA-ASEAN runs at an hourly resolution (i.e., 8760 timesteps). 
 
+### Spatial resolution
+
+Model       | Nodes
+---         | ---                    
+BRN         | 1
+IDN         | 7
+KHM         | 1
+LAO         | 1
+MMR         | 1
+MYS         | 3
+PHL         | 3
+SGP         | 1
+THA         | 3
+VNM         | 3      
+
 ### Emissions targets
 <!-- TRM does not have any emissions targets by default. However, it is setup such that emissions targets (e.g., CO2, NOx etc) can be easily implemented. Emissions targets are defined in [`targets.yaml`](https://github.com/transition-zero/tz-osemosys/blob/add-tutorials/examples/two-region-model/targets.yaml). -->
 
