@@ -49,6 +49,7 @@ def process_results(
                 'solution' : c_solution + 1,
                 'objective_1' : solution.objectives[0],
                 'objective_2' : solution.objectives[1],
+                'cfe_score' : solution.constraints[0],
                 'type' : solution_class,
             }
             
