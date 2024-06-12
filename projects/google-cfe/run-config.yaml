@@ -1,0 +1,15 @@
+MOEA:
+  number_of_objectives: 2
+  number_of_constraints: 1
+  number_of_cores: 4
+  number_of_generations: 100
+  number_of_seeds: 2
+  infeasible_objective_penalty: 1e999
+  infeasible_cfe_penalty: -99
+
+ASEAN:
+  countries: ['SGP']
+  local_bus: 'SGP'
+  cfe_score: 0.5
+  fossil_generators: ['coal', 'gas']
+  p_nom_max: 1e6
