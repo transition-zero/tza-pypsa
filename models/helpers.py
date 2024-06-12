@@ -62,6 +62,13 @@ def get_model_subset_by_countries(
         network.generators_t.p_max_pu[
             [i for i in network.generators.index if i in network.generators_t.p_max_pu]
         ]
+    
+    # adjust storage units
+    network.storage_units = (
+        network.storage_units[
+            network.storage_units.bus.str[0:3].isin(countries)
+        ]
+    )
 
     # return adjusted network
     return network
