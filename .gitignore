@@ -14,5 +14,7 @@ notebooks/scrap*
 # scrap
 scrap/*
 
+projects/google-cfe/results/*
+
 # scripts
 scripts/plotting.py
