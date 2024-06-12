@@ -147,7 +147,12 @@ def evaluate_pypsa_model(variables):
             network.links.iloc[0, network.links.columns.get_loc('p_nom')] = variables[i]
     
     # solve
-    network.optimize(solver_name='gurobi')
+    network.optimize(
+        solver_name='highs',
+        solver_options={
+            "solver": "pdlp",
+        }
+    )
 
     # ---------------------------------
     # OBJECTIVES
