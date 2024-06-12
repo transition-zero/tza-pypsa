@@ -6,6 +6,7 @@ sys.path.append('.')
 import os
 import yaml
 import platypus
+import helpers
 import pandas as pd
 
 from models.loader import ASEAN
@@ -215,7 +216,8 @@ def get_pypsa_problem():
 
     decision_vars_generators = network.generators.index.to_list() 
     decision_vars_links = network.links.index.to_list()
-    total_decision_variables = len(decision_vars_generators + decision_vars_links)
+    decision_vars_storage = network.storage_units.index.to_list()
+    total_decision_variables = len(decision_vars_generators + decision_vars_links + decision_vars_storage)
 
     # Define the problem
     problem = (
@@ -241,6 +243,13 @@ def get_pypsa_problem():
                 network.links.at[i, 'p_nom'], 
                 p_nom_max
             ) for i in decision_vars_links
+        ]
+            + \
+        [
+            platypus.Real( 
+                network.storage_units.at[i, 'p_nom'], 
+                p_nom_max
+            ) for i in decision_vars_storage
         ]
     )
 

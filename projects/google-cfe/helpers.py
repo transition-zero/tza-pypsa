@@ -16,15 +16,21 @@ config_path = os.path.join( os.path.dirname(os.path.realpath(__file__)), 'run-co
 with open(config_path, "r") as file:
     config = yaml.safe_load(file)
 
+
+def get_decision_variables(network):
+    decision_vars_generators = network.generators.index.to_list() 
+    decision_vars_links = network.links.index.to_list()
+    decision_vars_storage = network.storage_units.index.to_list()
+    return decision_vars_generators + decision_vars_links + decision_vars_storage
+
+
 def process_results(
         results,
         path,
 ):
 
     network = ASEAN(countries=config['ASEAN']['countries']).create_model()
-    decision_vars_generators = network.generators.index.to_list() 
-    decision_vars_links = network.links.index.to_list()
-    d_vars = decision_vars_generators + decision_vars_links
+    d_vars = get_decision_variables(network)
 
     df_rows = []
     for c_seed, seed in enumerate(results['NSGAII']['Problem']):
