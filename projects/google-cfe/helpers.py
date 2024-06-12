@@ -1,20 +1,27 @@
 import sys
 sys.path.append('../..')
-from models.loader import ASEAN
 
+import os
+import yaml
 import pandas as pd
 
 from platypus import (
     nondominated
 )
 
+from models.loader import ASEAN
+
+# load config
+config_path = os.path.join( os.path.dirname(os.path.realpath(__file__)), 'run-config.yaml' )
+with open(config_path, "r") as file:
+    config = yaml.safe_load(file)
 
 def process_results(
         results,
         path,
 ):
 
-    network = ASEAN(countries=['SGP']).create_model()
+    network = ASEAN(countries=config['ASEAN']['countries']).create_model()
     decision_vars_generators = network.generators.index.to_list() 
     decision_vars_links = network.links.index.to_list()
     d_vars = decision_vars_generators + decision_vars_links
@@ -38,12 +45,11 @@ def process_results(
                 'objective_2' : solution.objectives[1],
                 'type' : solution_class,
             }
-
-            # d_var = {}
-            # for c, v in enumerate(d_vars):
-            #     d_var[v] = solution.variables[c] 
-
-            # sln.update(d_var)
+            
+            d_var = {}
+            for c, v in enumerate(d_vars):
+                d_var[v] = solution.variables[c] 
+            sln.update(d_var)
         
             df = pd.DataFrame(sln)
 
