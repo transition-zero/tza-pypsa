@@ -12,7 +12,7 @@ Specifically, this repo has the models shown in the table below.
 Model  | Status | Method | Overview
 --- | --- | ---  | ---
 [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
-Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan
+<!-- Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan -->
 
 # Contributors
 
