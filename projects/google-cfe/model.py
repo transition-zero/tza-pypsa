@@ -34,11 +34,11 @@ def evaluate_beam(vars):
     deflection = (64.0*1.0 * l**3)/(3.0*207.0*3.14159*d**4)
     stress = (32.0 * 1.0 * l)/(3.14159*d**3)
  
-    return [weight, deflection] #, [stress - 300, deflection - 5]
+    return [weight, deflection] , [stress - 300, deflection - 5]
 
 
 def get_beam_problem():
-    problem = platypus.Problem(2, 2)
+    problem = platypus.Problem(2, 2, 2)
     problem.types[:] = [platypus.Real(200, 1000), platypus.Real(10, 50)]
     problem.function = evaluate_beam
     return problem
