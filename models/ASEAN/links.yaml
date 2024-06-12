@@ -29,7 +29,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNJW-IDNKA
@@ -38,7 +38,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNJW-IDNNU
@@ -47,7 +47,7 @@ links:
     initial_capacity: 1600
     planned_expansion: 400
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNJW-IDNSM
@@ -56,7 +56,7 @@ links:
     initial_capacity: 3000
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNKA-IDNSL
@@ -65,7 +65,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
     
   - id: IDNKA-MYSSH
@@ -74,7 +74,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNKA-MYSSK
@@ -83,7 +83,7 @@ links:
     initial_capacity: 0
     planned_expansion: 230
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNML-IDNPP
@@ -92,7 +92,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNML-IDNSL
@@ -101,7 +101,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNNU-IDNSL
@@ -110,7 +110,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNSM-MYSPE
@@ -119,7 +119,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: IDNSM-SGPXX
@@ -128,7 +128,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: LAOXX-MMRXX
@@ -137,7 +137,7 @@ links:
     initial_capacity: 0
     planned_expansion: 600
     expansion_year: 2026
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: LAOXX-VNMNO
@@ -146,7 +146,7 @@ links:
     initial_capacity: 0
     planned_expansion: 1032
     expansion_year: 2026
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: LAOXX-VNMCE
@@ -155,7 +155,7 @@ links:
     initial_capacity: 0
     planned_expansion: 2036
     expansion_year: 2025
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: MYSPE-MYSSK
@@ -164,7 +164,7 @@ links:
     initial_capacity: 0
     planned_expansion: 
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: MYSSH-MYSSK
@@ -173,7 +173,7 @@ links:
     initial_capacity: 0
     planned_expansion: 50
     expansion_year: 2024
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: MYSSH-PHLLU
@@ -182,7 +182,7 @@ links:
     initial_capacity: 0
     planned_expansion: 
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   # - id: MYSPE-MYSSK
@@ -191,7 +191,7 @@ links:
   #   initial_capacity: 0
   #   planned_expansion: 
   #   expansion_year: 
-  #   extendable: true
+  #   extendable: false
   #   carrier: electricity
 
   - id: MYSPE-SGPXX 
@@ -200,7 +200,7 @@ links:
     initial_capacity: 1000
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: KHMXX-LAOXX
@@ -209,7 +209,7 @@ links:
     initial_capacity: 2600
     planned_expansion: 0
     expansion_year:
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: KHMXX-VNMCE
@@ -218,7 +218,7 @@ links:
     initial_capacity: 200
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: KHMXX-VNMSO
@@ -227,7 +227,7 @@ links:
     initial_capacity: 200
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: PHLLU-PHLVI
@@ -236,7 +236,7 @@ links:
     initial_capacity: 440
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: PHLMI-PHLVI
@@ -245,7 +245,7 @@ links:
     initial_capacity: 0
     planned_expansion: 450
     expansion_year: 2024
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: VNMCE-VNMNO
@@ -254,7 +254,7 @@ links:
     initial_capacity: 2200
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: VNMCE-VNMSO
@@ -263,7 +263,7 @@ links:
     initial_capacity: 12000
     planned_expansion: 3500
     expansion_year: 2025
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: THANO-THACE
@@ -272,7 +272,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
 
   - id: THACE-THASO
@@ -281,7 +281,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: THASO-MYSPE
@@ -290,7 +290,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: THANO-LAOXX
@@ -299,7 +299,7 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
   
   - id: THACE-LAOXX
@@ -308,5 +308,5 @@ links:
     initial_capacity: 0
     planned_expansion: 0
     expansion_year: 
-    extendable: true
+    extendable: false
     carrier: electricity
