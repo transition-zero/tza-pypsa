@@ -198,7 +198,7 @@ def evaluate_pypsa_model(variables):
             )
         )
 
-        cfe_score = cfe_score / 8760
+        cfe_score = cfe_score / 8760 * 100
     
     # If the model was infeasible, set the objectives to a high value to push the solution into the dominated region
     except:
@@ -260,7 +260,7 @@ def get_pypsa_problem():
 
     # specify the type of constraint
     cfe_score = config['ASEAN']['cfe_score']
-    problem.constraints[:] = f'>={cfe_score}'
+    problem.constraints[:] = '>=50'
 
     problem.directions[0] = platypus.Problem.MINIMIZE # minimize the first objective [TOTAL SYSTEM COST]
     problem.directions[1] = platypus.Problem.MINIMIZE # minimize the second objective [TOTAL SYSTEM EMISSIONS]
