@@ -26,9 +26,6 @@ if __name__ == "__main__":
     import model
     problem = model.get_pypsa_problem()
     problems = [ problem ] 
-    
-    # run the optimization for 1000 generations
-    #algorithm.run(2000)
  
     with ProcessPoolEvaluator( config['MOEA']['number_of_cores'] ) as evaluator:
 
@@ -46,9 +43,10 @@ if __name__ == "__main__":
     # Save the results
     ngen = config['MOEA']['number_of_generations']
     cfe_score = config['ASEAN']['cfe_score']
+    nseed = config['MOEA']['number_of_seeds']
 
     fname = (
-        f'solution_gen{ngen}_cfe{cfe_score}.csv'
+        f'solution_seed{nseed}_gen{ngen}_cfe{cfe_score}.csv'
     )
 
     (helpers
