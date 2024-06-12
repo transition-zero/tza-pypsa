@@ -10,24 +10,26 @@ PyPSA-ASEAN is an hourly-resolution power sector model. It can be used for:
 The model can be run for the entire ASEAN region or a single country.
 
 ## Overview
-The PyPSA-ASEAN model is comprised of X nodes and Y links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below.
+The PyPSA-ASEAN model is comprised of 24 nodes and 31 links. Here, each node represents a balancing zone, while each link represents the aggregated interconnector capacity between balancing zones. The model is spatially illustrated below.
 
 ## Model configuration
 
 ### Geographical scope
 
-The ASEAN region covers:
+The model covers the ASEAN region in 24 nodes and 31 links. The geographic and network coverage is shown in the table below.
 
-- Brunei 🇧🇳 (BRN)
-- Cambodia 🇰🇭 (KHM)
-- Indonesia 🇮🇩 (IDN)
-- Laos 🇱🇦 (LAO)
-- Malaysia 🇲🇾 (MYS)
-- Myanmar 🇲🇲 (MMR)
-- Philippines 🇵🇭 (PHL)
-- Singapore 🇸🇬 (SGP)
-- Thailand 🇹🇭 (THA)
-- Vietnam 🇻🇳 (VNM)
+Country         | ISO     | Nodes
+---             | ---     | ---                    
+🇧🇳 Brunei       | BRN     | 1
+🇮🇩 Indonesia    | IDN     | 7
+🇰🇭 Cambodia     | KHM     | 1
+🇱🇦 Laos         | LAO     | 1
+🇲🇾 Malaysia     | MMR     | 1
+🇲🇲 Myanmar      | MYS     | 3
+🇵🇭 Philippines  | PHL     | 3
+🇸🇬 Singapore    | SGP     | 1
+🇹🇭 Thailand     | THA     | 3
+🇻🇳 Vietnam      | VNM     | 3      
 
 The spatial coverage of the model is illustrated below:
 
@@ -38,21 +40,6 @@ The spatial coverage of the model is illustrated below:
 
 ### Temporal resolution
 PyPSA-ASEAN runs at an hourly resolution (i.e., 8760 timesteps). 
-
-### Spatial resolution
-
-Model       | Nodes
----         | ---                    
-BRN         | 1
-IDN         | 7
-KHM         | 1
-LAO         | 1
-MMR         | 1
-MYS         | 3
-PHL         | 3
-SGP         | 1
-THA         | 3
-VNM         | 3      
 
 ### Emissions targets
 <!-- TRM does not have any emissions targets by default. However, it is setup such that emissions targets (e.g., CO2, NOx etc) can be easily implemented. Emissions targets are defined in [`targets.yaml`](https://github.com/transition-zero/tz-osemosys/blob/add-tutorials/examples/two-region-model/targets.yaml). -->
