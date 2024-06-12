@@ -232,17 +232,17 @@ def build_pypsa_model(
     for bus in network.buses.index:
         network.add(
             'StorageUnit',
-            f'{bus}_battery',
+            f'{bus}-battery',
             bus=bus, 
             carrier='battery',
             p_nom=0, 
             p_nom_extendable=False,
             # p_nom_min=self.storage_units.loc[storage_unit].p_nom_min,
             # p_nom_max=self.storage_units.loc[storage_unit].p_nom_max,
-            #capital_cost=self.storage_units.loc[storage_unit].capital_cost,
-            #marginal_cost=self.storage_units.loc[storage_unit].marginal_cost,
+            capital_cost=costs.loc[ bus[0:3] ].loc[ 'lithium-ion'].AnnualCapitalCost,
+            marginal_cost=costs.loc[ bus[0:3] ].loc[ 'lithium-ion'].MarginalCost,
             #build_year=self.storage_units.loc[storage_unit].build_year,
-            #lifetime=self.storage_units.loc[storage_unit].lifetime,
+            lifetime=15,
             #operational features
             state_of_charge_initial=0,
             max_hours=6,
