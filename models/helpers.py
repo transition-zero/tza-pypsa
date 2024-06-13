@@ -178,6 +178,7 @@ def build_pypsa_model(
 
     # ---
     # add lines
+    # TODO: add line parameters from yaml
     for link in links:
         network.add(
             "Link", 
@@ -236,6 +237,7 @@ def build_pypsa_model(
 
     # ---
     # add storages
+    # TODO: put storage into yaml file
     for bus in network.buses.index:
         network.add(
             'StorageUnit',
