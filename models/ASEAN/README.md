@@ -64,14 +64,15 @@ network.optimize(solver_name='highs')
 ## Model performance
 The table below shows the time it took to solve an annual dispatch (i.e., 8760 timesteps) for the ASEAN model, as well as country subsets of the ASEAN model. The optimisation is setup as a classical linear programming (LP) problem and solved using the [HiGHS](https://highs.dev/) solver. These benchmarks were computed using an Apple MacBook Pro (2023) with an M2 Pro processor and 16 GB of RAM.
 
-Model       | Nodes/Links/Generators  | HiGHS (pdlp)    | Gurobi
----         | ---                     | ---             | ---
-ASEAN       | 24/31/153               | 00h:08m:07s     | 00h:00m:49s
-Indonesia   | 07/07/057               | 00h:00m:24s     | 00h:00m:14s
-Philippines | 03/02/021               | 00h:03m:41s     | 00h:00m:05s
-Thailand    | 03/02/020               | 00h:02m:31s     | 00h:00m:05s
-Myanmar     | 01/00/005               | 00h:00m:12s     | 00h:00m:02s
-Singapore   | 01/00/005               | 00h:00m:11s     | 00h:00m:01s
+            |                         | Without UC      |               | With UC         | 
+Model       | Nodes/Links/Generators  | HiGHS (pdlp)    | Gurobi        | HiGHS (pdlp)    | Gurobi
+---         | ---                     | ---             | ---           | ---             | ---
+ASEAN       | 24/31/153               | 00h:08m:07s     | 00h:00m:49s   | 00h:00m:00s     | 00h:00m:00s
+Indonesia   | 07/07/057               | 00h:00m:24s     | 00h:00m:14s   | 00h:00m:00s     | 00h:18m:40s
+Philippines | 03/02/021               | 00h:03m:41s     | 00h:00m:05s   | 00h:00m:00s     | 00h:00m:00s
+Thailand    | 03/02/020               | 00h:02m:31s     | 00h:00m:05s   | 00h:00m:00s     | 00h:00m:00s
+Myanmar     | 01/00/005               | 00h:00m:12s     | 00h:00m:02s   | 00h:00m:00s     | 00h:00m:00s
+Singapore   | 01/00/005               | 00h:00m:11s     | 00h:00m:01s   | 00h:00m:00s     | 00h:00m:00s
 
 Note that unit commitment (UC) was not applied in the model benchmarks reported above. UC would likely increase the computation times significantly given that it transforms the optimisation into a mixed-integer linear programme (MILP).
 

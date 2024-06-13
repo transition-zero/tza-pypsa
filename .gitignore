@@ -18,3 +18,4 @@ projects/google-cfe/results/*
 
 # scripts
 scripts/plotting.py
+projects/google-cfe/test.ipynb
