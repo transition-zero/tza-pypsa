@@ -79,7 +79,7 @@ def get_hydro_cf(year):
     numeric_cols = df_monthly.select_dtypes(include=[np.number]).columns
 
     # Step 3: Apply min-max normalization only to the numeric columns
-    df_monthly[numeric_cols] = (df_monthly[numeric_cols] - df_monthly[numeric_cols].min()) / (df_monthly[numeric_cols].max() - df_monthly[numeric_cols].min())
+    df_monthly[numeric_cols] = df_monthly / 100 #(df_monthly[numeric_cols] - df_monthly[numeric_cols].min()) / (df_monthly[numeric_cols].max() - df_monthly[numeric_cols].min())
 
     hourly_range = pd.date_range(
         start=f'{year}-01-01 00:00:00',
