@@ -232,7 +232,11 @@ def build_pypsa_model(
                 shut_down_cost = technology['shut_down_cost'], # currency/MW
                 ramp_limit_up = technology['ramp_limit_up'], # per unit
                 ramp_limit_down = technology['ramp_limit_up'], # per unit
-                committable = technology['committable'], # for unit commitment
+                committable = technology['committable'], # UNIT COMMITMENT
+                ramp_limit_start_up = technology['ramp_limit_start_up'], # 
+                ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
+                min_up_time = technology['min_up_time'], # 
+                min_down_time = technology['min_down_time'], # 
             )
 
     # ---
