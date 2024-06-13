@@ -71,7 +71,7 @@ def compute_costs():
         pd
         .read_csv('../data/clean/ASEAN/costs_technology.csv')
         .groupby(by=['Country','Technology','Year'])
-        .mean()
+        .mean(numeric_only=True)
         .reset_index()
         .set_index(['Country','Technology', 'Year'])
     )
@@ -80,28 +80,30 @@ def compute_costs():
     for i,x in costs.iterrows():
         if pd.isna(x.FixedCost):
             costs.at[i, 'FixedCost'] = (costs.loc[ ('IDN',i[1],i[2]) ].FixedCost + costs.loc[ ('VNM',i[1],i[2]) ].FixedCost) / 2
-    
+
     costs = costs.reset_index(drop=False)
 
-    # calculate real capex
+    # $/MW
     costs['CapitalCost'] = costs['Technology'].map( capital_outlay['k'].to_dict() ) * costs['OvernightCapitalCost']
 
-    # calculate annualised capex
+    # $/MW/yr
+    # calculate annualised capex 
     costs['AnnualCapitalCost'] = (
+        # annuity factor
         (
             costs['Technology'].map( calculate_annuity(capital_outlay['useful_life'], r = 0.1).to_dict() )
-            + costs['FixedCost'] / 100.0
         )
-        * costs['CapitalCost'] 
+        * costs['CapitalCost'] # multiply capital cost gives us annualised capex
+        + costs['FixedCost'] # finally add annual fixed costs 
     )
 
     # calculate marginal costs
     costs['MarginalCost'] = (
         (
-            costs['VariableCost'] / costs['Efficiency'] 
-            #+ costs['FuelCost'] TODO: do we need fuel costs here?
+            costs['VariableCost'] 
+            + (costs['FuelCost'] / costs['Efficiency']) 
         )
         .fillna(0)   
     )
 
-    return costs[ ~costs.Technology.isna() ].reset_index(drop=True)
+    return costs#[ ~costs.Technology.isna() ].reset_index(drop=True)
