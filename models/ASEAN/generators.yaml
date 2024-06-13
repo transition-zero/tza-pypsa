@@ -14,6 +14,8 @@
 # -------------------------------------------------------------------------
 
 - id: bioenergy-unspecified
+  carrier: bioenergy-unspecified
+  type: biomass
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -49,17 +51,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.3
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: bioenergy-unspecified
-  type: biomass
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: combined-cycle
+  carrier: combined-cycle
+  type: gas
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -81,17 +89,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.6
-  committable: true
-  p_min_pu: 0.
-  start_up_cost: 20 # currency/MW
-  shut_down_cost: 20 # currency/MW
   ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: combined-cycle
-  type: gas
+  # ---
+  # unit commitment
+  committable: true
+  start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: coal-unspecified
+  carrier: coal-unspecified
+  type: coal
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -123,17 +137,22 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.4
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: coal-unspecified
-  type: coal
-
+  # ---
+  # unit commitment
+  committable: true
+  start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 - id: oil-unspecified
+  carrier: oil-unspecified # THIS IS DIESEL
+  type: oil
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -151,17 +170,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.35
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: oil-unspecified # THIS IS DIESEL
-  type: oil
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: geothermal-unspecified
+  carrier: geothermal-unspecified
+  type: geothermal
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -187,17 +212,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: geothermal-unspecified
-  type: geothermal
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: hydro-unspecified
+  carrier: hydro-unspecified
+  type: hydro
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -228,17 +259,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1.0 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1.0 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: hydro-unspecified
-  type: hydro
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: open-cycle-gas-turbine
+  carrier: open-cycle-gas-turbine
+  type: gas
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -267,17 +304,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.4
-  committable: true
-  p_min_pu: 0.
-  start_up_cost: 20 # currency/MW
-  shut_down_cost: 20 # currency/MW
   ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: open-cycle-gas-turbine
-  type: gas
-
+  # ---
+  # unit commitment
+  committable: true
+  start_up_cost: 9.6 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
+  
 
 - id: oil-unspecified
+  carrier: oil-unspecified
+  type: oil
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -298,17 +341,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.35
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: oil-unspecified
-  type: oil
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: photovoltaic-unspecified
+  carrier: photovoltaic-unspecified
+  type: solar
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -341,17 +390,23 @@
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: photovoltaic-unspecified
-  type: solar
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: waste
+  carrier: waste
+  type: bioenergy
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -372,17 +427,23 @@
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
   efficiency: 0.3
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: waste
-  type: bioenergy
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: wind-offshore-unspecified
+  carrier: wind-offshore-unspecified
+  type: wind
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -394,17 +455,23 @@
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: wind-offshore-unspecified
-  type: wind
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: wind-onshore
+  carrier: wind-onshore
+  type: wind
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -424,11 +491,15 @@
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
   efficiency: 1
-  committable: false
-  p_min_pu: 0.
-  start_up_cost: 0 # currency/MW
-  shut_down_cost: 0 # currency/MW
   ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  carrier: wind-onshore
-  type: wind
+  # ---
+  # unit commitment
+  committable: false
+  start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  shut_down_cost: 0 # currency/MW
+  ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
