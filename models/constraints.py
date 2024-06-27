@@ -18,6 +18,11 @@ def constr_bus_self_sufficiency(
         This constraint ensures that each bus in the network is self-sufficient to a certain degree. That is,
         it generates at least a certain percentage of its own electricity demand. In other words, it constraints
         the maximum amount of electricity that can be imported to a bus. 
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure each region is at least 50% self-sufficient across the year. This prevents any region
+        from being too dependent on imports and ensures that each region has a certain level of energy security."
 
     Inputs:
     -----------------------------------
@@ -88,6 +93,10 @@ def constr_annual_matching(
         This constraint ensures that the total annual generation of a set of generators is greater than or equal to a certain value.
         It is particularly useful for setting renewable generation targets. For example, one can use this constraint to ensure that 
         a certain proportion of demand is met by renewable generation.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure that my demand is met by renewable generation across the year."
 
     Inputs:
     -----------------------------------
@@ -149,6 +158,10 @@ def constr_hourly_matching(
         This constraint ensures that the total hourly generation of a set of generators is greater than or equal to a certain value.
         It is particularly useful for setting renewable generation targets under a 24/7 CFE procurement strategy. For example, one can
         use this constraint to ensure that a certain load is met by renewable generation in each hour of the year.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure that my demand is met by renewable generation in each hour of the year."
 
     Inputs:
     -----------------------------------
@@ -188,5 +201,64 @@ def constr_hourly_matching(
         lhs = lhs_total_generation,
         sign = sign,
         rhs = rhs_min_generation,
+        name = name,
+    )
+
+
+def constr_min_annual_generation(
+        network : pypsa.Network,
+        lhs_generator : str,
+        rhs_min_generation : float,
+        sign : str = '>=',
+        name : str = None,
+):
+    '''
+    ###################################
+    MINIMUM ANNUAL GENERATION 
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual generation by a specific unit is greater than or equal to a certain value.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure my gas power plant produces at least 70% of its theoretical annual generation."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+
+        lhs_generator : str
+            The generator to apply the constraint to.
+        
+        rhs_min_generation : float
+            The minimum total generation as a proportion of the theoretical annual maximum (e.g., 0.7 = 70%).
+        
+        sign : str
+            The sign of the constraint. Default is '>='.
+        
+        name : str
+            The name of the constraint. Default is None.
+            
+    Returns:
+    -----------------------------------
+    
+        None
+    
+    '''
+    lp_model = network.optimize.create_model()
+
+    lhs_total_generation = lp_model['Generator-p'].sel(Generator=lhs_generator).sum()
+
+    rhs_total_theoretical_generation = (
+        lp_model['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
+    )
+
+    network.model.add_constraints(
+        lhs = lhs_total_generation,
+        sign = sign,
+        rhs = rhs_total_theoretical_generation,
         name = name,
     )
