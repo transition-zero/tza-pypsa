@@ -27,10 +27,26 @@ class ASEAN:
         self.custom_constraints = helpers.get_yaml("ASEAN/constraints.yaml")['custom_constraints']
 
         # get year
-        self.year = kwargs.get('year', self.configs['time_definition']['year'])
+        self.years = kwargs.get('years', self.configs['time_definition']['years'])
+
+        if isinstance(self.years, int):
+            self.multi_year_investment = False
+            self.configs['time_definition']['multi_year_investment'] = False
+        elif isinstance(self.years, list) and len(self.years) == 1:
+            self.multi_year_investment = False
+            self.configs['time_definition']['multi_year_investment'] = False
+            self.years = self.years[0]
+        elif isinstance(self.years, list) and len(self.years) > 1:
+            self.multi_year_investment = True
+            self.configs['time_definition']['multi_year_investment'] = True
 
         # get input data (time series)
-        self.timeseries = xr.open_dataset(self.configs['file_paths']['timeseries'])
+        self.timeseries = (
+            xr
+            .open_dataset(self.configs['file_paths']['timeseries'])
+            .resample(snapshot=self.configs['time_definition']['frequency'])
+            .mean()
+        )
 
         # get subset of countries
         self.subset = countries
@@ -39,7 +55,11 @@ class ASEAN:
         self.costs = cost_model.compute_costs()
 
         # filter costs for nearest year
-        closest_year_in_data = min( self.costs.Year.unique(), key=lambda x:abs(x-self.year))
+        if isinstance(self.years, int):
+            closest_year_in_data = min( self.costs.Year.unique(), key=lambda x:abs(x-self.years))
+        else:
+            closest_year_in_data = min( self.costs.Year.unique(), key=lambda x:abs(x-self.years[0]))
+
         self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True).set_index(['Country','Technology'])
         
 
@@ -54,7 +74,7 @@ class ASEAN:
             links = self.links,
             generators = self.generators,
             timeseries = self.timeseries,
-            year = self.year,
+            years = self.years,
             costs = self.costs,
             countries = self.subset,
             global_constraints=self.global_constraints,
