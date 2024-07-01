@@ -120,7 +120,7 @@ def evaluate_pypsa_model(variables):
     """
     A function to solve the PyPSA-ASEAN model with an MOEA algorithm
  
-    :param vars: a vector with decision variables element [0] is length, [1] is diameter
+    :param vars: a vector with decision variables element 
 
     :returns:
         - a vector of objectives, [total_system_cost, total_system_emissions]
