@@ -44,15 +44,160 @@
     IDNPP: 0.51
     IDNSL: 0.36
     IDNSM: 17.98
+  capital_cost:
+    IDNSM: 1.0
+    IDNJW: 1.0
+    IDNNU: 1.0
+    IDNKA: 1.0
+    IDNSL: 1.0
+    IDNML: 1.0
+    IDNPP: 1.0
+    MYSPE: 1.0
+    MYSSK: 1.0
+    MYSSH: 1.0
+    PHLLU: 1.0
+    PHLVI: 1.0
+    PHLMI: 1.0
+    SGPXX: 1.0
+    BRNXX: 1.0
+    MMRXX: 1.0
+    THANO: 1.0
+    THASO: 1.0
+    THACE: 1.0
+    VNMNO: 1.0
+    VNMCE: 1.0
+    VNMSO: 1.0
+    KHMXX: 1.0
+    LAOXX: 1.0
+  marginal_cost:
+    IDNSM: 1.0
+    IDNJW: 1.0
+    IDNNU: 1.0
+    IDNKA: 1.0
+    IDNSL: 1.0
+    IDNML: 1.0
+    IDNPP: 1.0
+    MYSPE: 1.0
+    MYSSK: 1.0
+    MYSSH: 1.0
+    PHLLU: 1.0
+    PHLVI: 1.0
+    PHLMI: 1.0
+    SGPXX: 1.0
+    BRNXX: 1.0
+    MMRXX: 1.0
+    THANO: 1.0
+    THASO: 1.0
+    THACE: 1.0
+    VNMNO: 1.0
+    VNMCE: 1.0
+    VNMSO: 1.0
+    KHMXX: 1.0
+    LAOXX: 1.0
+  efficiency:
+    IDNSM: 0.3
+    IDNJW: 0.3
+    IDNNU: 0.3
+    IDNKA: 0.3
+    IDNSL: 0.3
+    IDNML: 0.3
+    IDNPP: 0.3
+    MYSPE: 0.3
+    MYSSK: 0.3
+    MYSSH: 0.3
+    PHLLU: 0.3
+    PHLVI: 0.3
+    PHLMI: 0.3
+    SGPXX: 0.3
+    BRNXX: 0.3
+    MMRXX: 0.3
+    THANO: 0.3
+    THASO: 0.3
+    THACE: 0.3
+    VNMNO: 0.3
+    VNMCE: 0.3
+    VNMSO: 0.3
+    KHMXX: 0.3
+    LAOXX: 0.3
+  ramp_limit_up:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  ramp_limit_down:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
-  capital_cost: 1 # currency/MW
-  marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.3
-  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -62,7 +207,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: combined-cycle
@@ -82,15 +226,112 @@
     THACE: 4180
     THANO: 150
     VNMSO: 1500
+  efficiency:
+    IDNSM: 0.6
+    IDNJW: 0.6
+    IDNNU: 0.6
+    IDNKA: 0.6
+    IDNSL: 0.6
+    IDNML: 0.6
+    IDNPP: 0.6
+    MYSPE: 0.6
+    MYSSK: 0.6
+    MYSSH: 0.6
+    PHLLU: 0.6
+    PHLVI: 0.6
+    PHLMI: 0.6
+    SGPXX: 0.6
+    BRNXX: 0.6
+    MMRXX: 0.6
+    THANO: 0.6
+    THASO: 0.6
+    THACE: 0.6
+    VNMNO: 0.6
+    VNMCE: 0.6
+    VNMSO: 0.6
+    KHMXX: 0.6
+    LAOXX: 0.6
+  ramp_limit_up:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  ramp_limit_down:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.6
-  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -100,7 +341,6 @@
   ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: coal-unspecified
@@ -130,15 +370,112 @@
     VNMCE: 11594
     VNMNO: 11850
     VNMSO: 7723
+  efficiency:
+    IDNSM: 0.4
+    IDNJW: 0.4
+    IDNNU: 0.4
+    IDNKA: 0.4
+    IDNSL: 0.4
+    IDNML: 0.4
+    IDNPP: 0.4
+    MYSPE: 0.4
+    MYSSK: 0.4
+    MYSSH: 0.4
+    PHLLU: 0.4
+    PHLVI: 0.4
+    PHLMI: 0.4
+    SGPXX: 0.4
+    BRNXX: 0.4
+    MMRXX: 0.4
+    THANO: 0.4
+    THASO: 0.4
+    THACE: 0.4
+    VNMNO: 0.4
+    VNMCE: 0.4
+    VNMSO: 0.4
+    KHMXX: 0.4
+    LAOXX: 0.4
+  ramp_limit_up:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  ramp_limit_down:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.4
-  ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -148,7 +485,6 @@
   ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 - id: oil-unspecified
   carrier: oil-unspecified # THIS IS DIESEL
@@ -163,15 +499,112 @@
     IDNPP: 531.02
     IDNSL: 1972.5
     IDNSM: 3303.3
+  efficiency:
+    IDNSM: 0.35
+    IDNJW: 0.35
+    IDNNU: 0.35
+    IDNKA: 0.35
+    IDNSL: 0.35
+    IDNML: 0.35
+    IDNPP: 0.35
+    MYSPE: 0.35
+    MYSSK: 0.35
+    MYSSH: 0.35
+    PHLLU: 0.35
+    PHLVI: 0.35
+    PHLMI: 0.35
+    SGPXX: 0.35
+    BRNXX: 0.35
+    MMRXX: 0.35
+    THANO: 0.35
+    THASO: 0.35
+    THACE: 0.35
+    VNMNO: 0.35
+    VNMCE: 0.35
+    VNMSO: 0.35
+    KHMXX: 0.35
+    LAOXX: 0.35
+  ramp_limit_up:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  ramp_limit_down:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.35
-  ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -181,7 +614,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: geothermal-unspecified
@@ -205,15 +637,112 @@
     IDNPP: 0.06
     IDNSL: 1.90
     IDNSM: 12.54
+  efficiency:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_up:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_down:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 1
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -223,7 +752,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: hydro-unspecified
@@ -252,15 +780,112 @@
     VNMCE: 9347
     VNMNO: 7899.69
     VNMSO: 1167.4
+  efficiency:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_up:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_down:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 1
-  ramp_limit_up: 1.0 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1.0 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -270,7 +895,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: open-cycle-gas-turbine
@@ -297,15 +921,112 @@
     THANO: 3529
     THASO: 5525
     VNMSO: 8146
+  efficiency:
+    IDNSM: 0.4
+    IDNJW: 0.4
+    IDNNU: 0.4
+    IDNKA: 0.4
+    IDNSL: 0.4
+    IDNML: 0.4
+    IDNPP: 0.4
+    MYSPE: 0.4
+    MYSSK: 0.4
+    MYSSH: 0.4
+    PHLLU: 0.4
+    PHLVI: 0.4
+    PHLMI: 0.4
+    SGPXX: 0.4
+    BRNXX: 0.4
+    MMRXX: 0.4
+    THANO: 0.4
+    THASO: 0.4
+    THACE: 0.4
+    VNMNO: 0.4
+    VNMCE: 0.4
+    VNMSO: 0.4
+    KHMXX: 0.4
+    LAOXX: 0.4
+  ramp_limit_up:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  ramp_limit_down:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.4
-  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -315,7 +1036,6 @@
   ramp_limit_shut_down: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
   
 
 - id: oil-unspecified
@@ -334,15 +1054,112 @@
     THACE: 1232.03
     VNMNO: 39
     VNMSO: 501
+  efficiency:
+    IDNSM: 0.35
+    IDNJW: 0.35
+    IDNNU: 0.35
+    IDNKA: 0.35
+    IDNSL: 0.35
+    IDNML: 0.35
+    IDNPP: 0.35
+    MYSPE: 0.35
+    MYSSK: 0.35
+    MYSSH: 0.35
+    PHLLU: 0.35
+    PHLVI: 0.35
+    PHLMI: 0.35
+    SGPXX: 0.35
+    BRNXX: 0.35
+    MMRXX: 0.35
+    THANO: 0.35
+    THASO: 0.35
+    THACE: 0.35
+    VNMNO: 0.35
+    VNMCE: 0.35
+    VNMSO: 0.35
+    KHMXX: 0.35
+    LAOXX: 0.35
+  ramp_limit_up:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  ramp_limit_down:
+    IDNSM: 0.1
+    IDNJW: 0.1
+    IDNNU: 0.1
+    IDNKA: 0.1
+    IDNSL: 0.1
+    IDNML: 0.1
+    IDNPP: 0.1
+    MYSPE: 0.1
+    MYSSK: 0.1
+    MYSSH: 0.1
+    PHLLU: 0.1
+    PHLVI: 0.1
+    PHLMI: 0.1
+    SGPXX: 0.1
+    BRNXX: 0.1
+    MMRXX: 0.1
+    THANO: 0.1
+    THASO: 0.1
+    THACE: 0.1
+    VNMNO: 0.1
+    VNMCE: 0.1
+    VNMSO: 0.1
+    KHMXX: 0.1
+    LAOXX: 0.1
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.35
-  ramp_limit_up: 0.1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -352,7 +1169,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: photovoltaic-unspecified
@@ -383,15 +1199,112 @@
     VNMCE: 8757.1
     VNMNO: 848
     VNMSO: 4867
+  efficiency:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_up:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_down:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
-  efficiency: 1
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -401,7 +1314,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: waste
@@ -420,15 +1332,112 @@
     KHMXX: 25.2
     SGPXX: 226.98
     VNMNO: 60
+  efficiency:
+    IDNSM: 0.3
+    IDNJW: 0.3
+    IDNNU: 0.3
+    IDNKA: 0.3
+    IDNSL: 0.3
+    IDNML: 0.3
+    IDNPP: 0.3
+    MYSPE: 0.3
+    MYSSK: 0.3
+    MYSSH: 0.3
+    PHLLU: 0.3
+    PHLVI: 0.3
+    PHLMI: 0.3
+    SGPXX: 0.3
+    BRNXX: 0.3
+    MMRXX: 0.3
+    THANO: 0.3
+    THASO: 0.3
+    THACE: 0.3
+    VNMNO: 0.3
+    VNMCE: 0.3
+    VNMSO: 0.3
+    KHMXX: 0.3
+    LAOXX: 0.3
+  ramp_limit_up:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  ramp_limit_down:
+    IDNSM: 0.2
+    IDNJW: 0.2
+    IDNNU: 0.2
+    IDNKA: 0.2
+    IDNSL: 0.2
+    IDNML: 0.2
+    IDNPP: 0.2
+    MYSPE: 0.2
+    MYSSK: 0.2
+    MYSSH: 0.2
+    PHLLU: 0.2
+    PHLVI: 0.2
+    PHLMI: 0.2
+    SGPXX: 0.2
+    BRNXX: 0.2
+    MMRXX: 0.2
+    THANO: 0.2
+    THASO: 0.2
+    THACE: 0.2
+    VNMNO: 0.2
+    VNMCE: 0.2
+    VNMSO: 0.2
+    KHMXX: 0.2
+    LAOXX: 0.2
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
   lifetime: 50 # years
-  efficiency: 0.3
-  ramp_limit_up: 0.2 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 0.2 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -438,7 +1447,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: wind-offshore-unspecified
@@ -448,15 +1456,112 @@
   # unique technology parameters by bus
   initial_capacity:
     VNMSO: 2136
+  efficiency:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_up:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_down:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
-  efficiency: 1
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -466,7 +1571,6 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC
 
 
 - id: wind-onshore
@@ -484,15 +1588,112 @@
     VNMCE: 4033
     VNMNO: 114
     VNMSO: 501
+  efficiency:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_up:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  ramp_limit_down:
+    IDNSM: 1.
+    IDNJW: 1.
+    IDNNU: 1.
+    IDNKA: 1.
+    IDNSL: 1.
+    IDNML: 1.
+    IDNPP: 1.
+    MYSPE: 1.
+    MYSSK: 1.
+    MYSSH: 1.
+    PHLLU: 1.
+    PHLVI: 1.
+    PHLMI: 1.
+    SGPXX: 1.
+    BRNXX: 1.
+    MMRXX: 1.
+    THANO: 1.
+    THASO: 1.
+    THACE: 1.
+    VNMNO: 1.
+    VNMCE: 1.
+    VNMSO: 1.
+    KHMXX: 1.
+    LAOXX: 1.
+  p_min_pu:
+    IDNSM: 0.
+    IDNJW: 0.
+    IDNNU: 0.
+    IDNKA: 0.
+    IDNSL: 0.
+    IDNML: 0.
+    IDNPP: 0.
+    MYSPE: 0.
+    MYSSK: 0.
+    MYSSH: 0.
+    PHLLU: 0.
+    PHLVI: 0.
+    PHLMI: 0.
+    SGPXX: 0.
+    BRNXX: 0.
+    MMRXX: 0.
+    THANO: 0.
+    THASO: 0.
+    THACE: 0.
+    VNMNO: 0.
+    VNMCE: 0.
+    VNMSO: 0.
+    KHMXX: 0.
+    LAOXX: 0.
   # ---
   # universal technology parameters
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
   lifetime: 50 # years
-  efficiency: 1
-  ramp_limit_up: 1 # per unit (Maximum active power increase from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
-  ramp_limit_down: 1 # per unit (Maximum active power decrease from one snapshot to the next, per unit of the nominal power. Ignored if NaN.)
   # ---
   # unit commitment
   committable: false
@@ -502,4 +1703,3 @@
   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-  p_min_pu: 0. # FYI: PyPSA-EUR uses p_min_pu in UC

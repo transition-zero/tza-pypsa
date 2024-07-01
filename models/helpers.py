@@ -105,6 +105,7 @@ def build_pypsa_model(
     )
 
     network.set_snapshots(snapshot)
+    #network.set_snapshots(snapshot.tz_localize('UTC').tz_convert('Asia/Manila'))
 
     # ---
     # add carriers
@@ -197,6 +198,11 @@ def build_pypsa_model(
 
     for technology in generators:
         for bus in technology['initial_capacity'].keys():
+
+            # print('*******************************')
+            # print(technology)
+            # print(bus)
+            # print('*******************************')
             
             # get capacity factors
             if technology['id'] == 'wind-onshore':
@@ -219,7 +225,10 @@ def build_pypsa_model(
                 # unique technology parameters by bus
                 p_nom = technology['initial_capacity'][bus], # starting capacity (MW)
                 p_max_pu = cf, # capacity factor
-                p_min_pu = technology['p_min_pu'], # minimum capacity factor
+                p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
+                efficiency = technology['efficiency'][bus], # efficiency
+                ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
+                ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
                 # ---
                 # universal technology parameters
                 p_nom_extendable = technology['extendable'], # can the model build more?
@@ -227,11 +236,8 @@ def build_pypsa_model(
                 marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['carrier'] ].MarginalCost, # currency/MWh
                 carrier = technology['carrier'], # commodity/carrier
                 lifetime = technology['lifetime'], # years
-                efficiency = technology['efficiency'], # efficiency
                 start_up_cost = technology['start_up_cost'], # currency/MW
                 shut_down_cost = technology['shut_down_cost'], # currency/MW
-                ramp_limit_up = technology['ramp_limit_up'], # per unit
-                ramp_limit_down = technology['ramp_limit_up'], # per unit
                 committable = technology['committable'], # UNIT COMMITMENT
                 ramp_limit_start_up = technology['ramp_limit_start_up'], # 
                 ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
