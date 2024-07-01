@@ -306,11 +306,11 @@ def build_pypsa_model(
     #         print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
     #         constraints.constr_bus_self_sufficiency(network, min_self_sufficiency)
     
-    # ---
-    # set custom constraints
-    # TODO
-    print('')
-    print('CustomConstraints:')
-    print(' - None')
+    # # ---
+    # # set custom constraints
+    # # TODO
+    # print('')
+    # print('CustomConstraints:')
+    # print(' - None')
 
     return network
