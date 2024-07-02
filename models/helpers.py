@@ -358,8 +358,20 @@ def build_pypsa_model(
             countries = kwargs.get('countries', None)
         )
     
-    # # ---
-    # # set global constraints
+    # ---
+    # set global constraints
+
+    for year in configs['time_definition']['years']:
+
+        network.add(
+            "GlobalConstraint",
+            name=f"emission-limit-{year}",
+            investment_period=year,
+            carrier_attribute="co2_emissions",
+            sense="<=",
+            constant=configs['emissions_targets']['CO2'][year],
+        )
+
     # print('GlobalConstraints:')
     # for cstr in global_constraints:
 
