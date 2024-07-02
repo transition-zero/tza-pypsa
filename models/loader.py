@@ -44,8 +44,8 @@ class ASEAN:
         self.timeseries = (
             xr
             .open_dataset(self.configs['file_paths']['timeseries'])
-            .resample(snapshot=self.configs['time_definition']['frequency'])
-            .mean()
+            #.resample(snapshot=self.configs['time_definition']['frequency'])
+            #.mean()
         )
 
         # get subset of countries

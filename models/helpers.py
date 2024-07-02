@@ -243,13 +243,41 @@ def build_pypsa_model(
                 
                 # get capacity factors
                 if technology['id'] == 'wind-onshore':
-                    cf = timeseries.sel(node=bus).cf_wind_onshore.to_numpy()
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_wind_onshore
+                        .resample(snapshot=configs['time_definition']['frequency'])
+                        .mean()
+                        .to_numpy()
+                    )
                 elif technology['id'] == 'wind-offshore-unspecified':
-                    cf = timeseries.sel(node=bus).cf_wind_offshore.to_numpy()
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_wind_offshore
+                        .resample(snapshot=configs['time_definition']['frequency'])
+                        .mean()
+                        .to_numpy()
+                    )
                 elif technology['id'] == 'photovoltaic-unspecified':
-                    cf = timeseries.sel(node=bus).cf_solar_pv.to_numpy()
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_solar_pv
+                        .resample(snapshot=configs['time_definition']['frequency'])
+                        .mean()
+                        .to_numpy()
+                    )
                 elif technology['id'] == 'hydro-unspecified':
-                    cf = timeseries.sel(node=bus).cf_hydro.to_numpy()
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_hydro
+                        .resample(snapshot=configs['time_definition']['frequency'])
+                        .mean()
+                        .to_numpy()
+                    )
                 else:
                     cf = 1
                 
@@ -326,7 +354,17 @@ def build_pypsa_model(
     # add load
 
     load_multiplier = kwargs.get('load_multiplier', 1)
-    demand = timeseries.sel(node=bus).demand.to_pandas().mul(load_multiplier).to_numpy()
+
+    demand = (
+        timeseries
+        .sel(node=bus)
+        .demand
+        .resample(snapshot=configs['time_definition']['frequency'])
+        .sum()
+        .to_pandas()
+        .mul(load_multiplier)
+        .to_numpy()
+    )
 
     if isinstance(demand, np.ndarray):
         demand = (
