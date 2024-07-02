@@ -14,8 +14,8 @@
 # -------------------------------------------------------------------------
 
 - id: bioenergy-unspecified
-  carrier: bioenergy-unspecified
-  type: biomass
+  type: bioenergy-unspecified
+  carrier: biomass
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -210,8 +210,8 @@
 
 
 - id: combined-cycle
-  carrier: combined-cycle
-  type: gas
+  type: combined-cycle
+  carrier: gas
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -344,8 +344,8 @@
 
 
 - id: coal-unspecified
-  carrier: coal-unspecified
-  type: coal
+  type: coal-unspecified
+  carrier: coal
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -487,8 +487,8 @@
   min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
 - id: oil-unspecified
-  carrier: oil-unspecified # THIS IS DIESEL
-  type: oil
+  type: oil-unspecified # THIS IS DIESEL
+  carrier: oil
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -617,8 +617,8 @@
 
 
 - id: geothermal-unspecified
-  carrier: geothermal-unspecified
-  type: geothermal
+  type: geothermal-unspecified
+  carrier: geothermal
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -755,8 +755,8 @@
 
 
 - id: hydro-unspecified
-  carrier: hydro-unspecified
-  type: hydro
+  type: hydro-unspecified
+  carrier: hydro
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -898,8 +898,8 @@
 
 
 - id: open-cycle-gas-turbine
-  carrier: open-cycle-gas-turbine
-  type: gas
+  type: open-cycle-gas-turbine
+  carrier: gas
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -1039,8 +1039,8 @@
   
 
 - id: oil-unspecified
-  carrier: oil-unspecified
-  type: oil
+  type: oil-unspecified
+  carrier: oil
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -1172,8 +1172,8 @@
 
 
 - id: photovoltaic-unspecified
-  carrier: photovoltaic-unspecified
-  type: solar
+  type: photovoltaic-unspecified
+  carrier: solar
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -1317,8 +1317,8 @@
 
 
 - id: waste
-  carrier: waste
-  type: bioenergy
+  type: waste
+  carrier: bioenergy
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -1450,8 +1450,8 @@
 
 
 - id: wind-offshore-unspecified
-  carrier: wind-offshore-unspecified
-  type: wind
+  type: wind-offshore-unspecified
+  carrier: wind
   # ---
   # unique technology parameters by bus
   initial_capacity:
@@ -1574,8 +1574,8 @@
 
 
 - id: wind-onshore
-  carrier: wind-onshore
-  type: wind
+  type: wind-onshore
+  carrier: wind
   # ---
   # unique technology parameters by bus
   initial_capacity:

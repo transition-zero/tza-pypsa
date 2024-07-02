@@ -29,9 +29,16 @@ time_definition:
   frequency: '24h'
   multi_year_discount_rate: 0.02
 
-# # -------
-# # Emissions targets
-# # -------
+# -------
+# Emissions targets
+# -------
+
+emissions_targets:
+  CO2:
+    2022: 9999999999
+    2030: 2500000
+    2040: 25000
+    2050: 0
 
 # impacts:
 #   - id: CO2

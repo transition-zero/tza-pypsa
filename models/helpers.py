@@ -280,8 +280,8 @@ def build_pypsa_model(
                     # ---
                     # universal technology parameters
                     p_nom_extendable = p_nom_extendable, # can the model build more?
-                    capital_cost = costs.loc[ bus[0:3] ].loc[ technology['carrier'] ].AnnualCapitalCost, # currency/MW
-                    marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['carrier'] ].MarginalCost, # currency/MWh
+                    capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
+                    marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
                     carrier = technology['carrier'], # commodity/carrier
                     build_year = year, # year available from
                     lifetime = technology['lifetime'], # years
