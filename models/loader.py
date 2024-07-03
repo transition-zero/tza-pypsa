@@ -6,6 +6,7 @@ import xarray as xr
 from . import helpers
 from . import cost_model
 
+
 class ASEAN:
 
     def __init__(
@@ -44,8 +45,6 @@ class ASEAN:
         self.timeseries = (
             xr
             .open_dataset(self.configs['file_paths']['timeseries'])
-            #.resample(snapshot=self.configs['time_definition']['frequency'])
-            #.mean()
         )
 
         # get subset of countries
@@ -62,6 +61,11 @@ class ASEAN:
 
         self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True).set_index(['Country','Technology'])
         
+        # get subset of model by countries
+        self.links      = [link for link in self.links if link['id'][0:3] in countries and link['id'][6:9] in countries]
+        self.nodes      = [node for node in self.nodes if node['id'][0:3] in countries]
+        self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in countries])
+        self.costs      = self.costs.loc[countries]
 
 
     def create_model(

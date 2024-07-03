@@ -26,7 +26,7 @@ file_paths:
 time_definition:
   id: asean_default_temporal_resolution
   years: [2022, 2030, 2040, 2050]
-  frequency: '24h'
+  frequency: '1h'
   multi_year_discount_rate: 0.02
 
 # -------
@@ -39,26 +39,3 @@ emissions_targets:
     2030: 9999999999
     2040: 9999999999
     2050: 9999999999
-
-# impacts:
-#   - id: CO2
-#     long_name: equivalent carbon dioxide emissions
-#     description: equivalent carbon dioxide emissions
-#     exogenous_annual: 0.
-#     exogenous_total: null
-#     constraint_annual: null
-#     constraint_total: null
-#   - id: NOx
-#     long_name: equivalent carbon dioxide emissions
-#     description: equivalent carbon dioxide emissions
-#     exogenous_annual: 0.
-#     exogenous_total: null
-#     constraint_annual: null
-#     constraint_total: null
-#   - id: SOx
-#     long_name: equivalent carbon dioxide emissions
-#     description: equivalent carbon dioxide emissions
-#     exogenous_annual: 0.
-#     exogenous_total: null
-#     constraint_annual: null
-#     constraint_total: null
