@@ -57,7 +57,7 @@ It is also possible to run the model for a subset of ASEAN countries. For exampl
 
 ```python
 from models.loader import ASEAN
-network = ASEAN(countries=['IDN', 'PHL']).create_model() # <-- Returns a PyPSA network
+network = ASEAN(node_subset=['IDN', 'PHL']).create_model() # <-- Returns a PyPSA network
 network.optimize(solver_name='highs')
 ```
 
@@ -78,13 +78,13 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 
 ## TODO
 
+- [ ] Turn off ramp limit up/down for all power plants
+- [ ] Change country subset protocol: we should make sure imports are captured (i.e., make sure external buses are brought in)
+- [ ] Calibrate demand for each country
 - [ ] Clean up `.add('Carrier')` script
 - [ ] Add maximum RES build potential based on Calvin's data
 - [ ] Assign sensible "must-run" conditions
-- [ ] Assign sensible import limits (i.e., bus self-sufficiency)
-- [ ] Implement CFE constraint
 
 ### Analysis team
 
-- [ ] Collate generation by technology for all of ASEAN
-- [ ] Collate demand by country for all of ASEAN
+- [ ] Assign sensible import limits (i.e., bus self-sufficiency)
