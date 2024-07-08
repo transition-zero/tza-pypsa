@@ -132,7 +132,7 @@ def constr_annual_matching(
         .sum()
     )
 
-    network.model.add_constraints(
+    lp_model.add_constraints(
         lhs = lhs_total_generation,
         sign = sign,
         rhs = rhs_min_generation,
@@ -197,7 +197,7 @@ def constr_hourly_matching(
         #.sum() TODO
     )
 
-    network.model.add_constraints(
+    lp_model.add_constraints(
         lhs = lhs_total_generation,
         sign = sign,
         rhs = rhs_min_generation,
@@ -256,7 +256,7 @@ def constr_min_annual_generation(
         lp_model['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
     )
 
-    network.model.add_constraints(
+    lp_model.add_constraints(
         lhs = lhs_total_generation,
         sign = sign,
         rhs = rhs_total_theoretical_generation,
