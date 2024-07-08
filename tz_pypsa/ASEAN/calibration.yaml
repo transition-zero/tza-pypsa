@@ -1,0 +1,16 @@
+# -------
+# Time definitions
+# -------
+
+load_multiplier:
+  SGP: 0.95
+
+coal:
+  PHL: 66.75
+
+gas:
+  SGP: 52.5
+  PHL: 19.5
+
+hydro:
+  PHL: 9.1
