@@ -26,8 +26,7 @@ def build_pypsa_model(
         timeseries,
         years,
         costs,
-        global_constraints,
-        custom_constraints,
+        backstop = False,
         *args,
         **kwargs,
 ):
@@ -375,7 +374,7 @@ def build_pypsa_model(
     # ---
     # add backstop
 
-    if kwargs.get('backstop', False):
+    if backstop:
 
         for bus in network.buses.index:
 

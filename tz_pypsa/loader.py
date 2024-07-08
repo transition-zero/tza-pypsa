@@ -12,7 +12,6 @@ class ASEAN:
     def __init__(
             self,
             node_subset = None,
-            backstop = False,
             **kwargs,
     ):
         # set working directory
@@ -71,13 +70,11 @@ class ASEAN:
             self.nodes      = [node for node in self.nodes if node['id'][0:3] in node_subset]
             self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in node_subset])
             self.costs      = self.costs.loc[node_subset]
-        
-        # check for backstop
-        self.backstop = backstop
 
 
     def create_model(
             self,
+            backstop = False,
             **kwargs,
     ):
         return helpers.build_pypsa_model(
@@ -88,8 +85,7 @@ class ASEAN:
             timeseries = self.timeseries,
             years = self.years,
             costs = self.costs,
-            global_constraints=self.global_constraints,
-            custom_constraints=self.custom_constraints,
+            backstop = backstop,
             **kwargs,
         )
 
