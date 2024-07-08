@@ -13,3 +13,6 @@ dependencies = []
 
 [tool.setuptools]
 py-modules = []
+
+[tool.setuptools.packages]
+find = {}

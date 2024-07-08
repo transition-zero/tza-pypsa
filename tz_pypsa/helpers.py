@@ -171,8 +171,8 @@ def build_pypsa_model(
                     p_nom_extendable = True
                     p_nom = 0
                 else:
-                    p_nom_extendable = technology['extendable']
-                    p_nom = technology['initial_capacity'][bus]
+                    p_nom_extendable = link['extendable']
+                    p_nom = link['initial_capacity']
             else:
                 p_nom_extendable = link['extendable']
                 p_nom = link['initial_capacity']
