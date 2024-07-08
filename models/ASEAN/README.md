@@ -79,10 +79,12 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 ## TODO
 
 - [ ] Clean up `.add('Carrier')` script
-- [ ] Add emissions intensities to `Carrier`
-- [ ] Implement emission constraints (`targets.yaml`)
 - [ ] Add maximum RES build potential based on Calvin's data
 - [ ] Assign sensible "must-run" conditions
-- [ ] Assign sensible ramp rates
 - [ ] Assign sensible import limits (i.e., bus self-sufficiency)
 - [ ] Implement CFE constraint
+
+### Analysis team
+
+- [ ] Collate generation by technology for all of ASEAN
+- [ ] Collate demand by country for all of ASEAN
