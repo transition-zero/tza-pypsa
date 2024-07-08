@@ -259,7 +259,6 @@ dependencies:
       - linopy==0.3.8
       - numexpr==2.10.0
       - orjson==3.10.1
-      - osemoviz==0.0.1
       - partd==1.4.1
       - platypus==1.0
       - platypus-opt==1.2.0
@@ -270,8 +269,6 @@ dependencies:
       - python-dotenv==1.0.1
       - tqdm==4.66.2
       - tz-osemosys==0.0.10
-      - tza-pypsa==0.0.1
       - xarray==2024.3.0
-      - your-project-name==0.1.0
       - zipp==3.18.1
 prefix: /Users/aman/miniconda3/envs/V20
