@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tza-pypsa"
+version = "0.0.1"
+description = "PyPSA models created by the Analysis team at TransitionZero"
+authors = [
+    { name = "Aman Majid", email = "aman.m@transitionzero.org" }
+]
+dependencies = []
+
+[tool.setuptools]
+py-modules = []
