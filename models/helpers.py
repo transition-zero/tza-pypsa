@@ -367,6 +367,24 @@ def build_pypsa_model(
             bus=bus, # region/bus/balancing zone
             p_set=demand # demand profile
         )
+
+    # ---
+    # add backstop
+
+    if kwargs.get('backstop', False):
+
+        for bus in network.buses.index:
+
+            network.add(
+                'Generator',
+                f'Backstop-{bus}',
+                bus=bus,
+                carrier='backstop',
+                p_nom=1e9,
+                capital_cost=1e9,
+                marginal_cost=1e9,
+            )
+        
     
     # # ---
     # # set global constraints
