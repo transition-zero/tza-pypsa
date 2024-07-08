@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def dispatch(
         network : pypsa.Network,
-        time : pd.Timestamp = '2022-01-01',
+        time : pd.Timestamp = None,
         multiplier : float = 1,
 ):
     '''Plots dispatch curve for defined timestep
@@ -20,6 +20,9 @@ def dispatch(
     fig, ax = plt.subplots(figsize=(6, 3))
 
     color = p_by_carrier.columns.map(network.carriers.color)
+
+    if not time:
+        time = network.snapshots[0:24]
 
     p_by_carrier.where(p_by_carrier > 0).loc[time].plot.area(
         ax=ax,
