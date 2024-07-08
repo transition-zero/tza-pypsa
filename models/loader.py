@@ -62,10 +62,16 @@ class ASEAN:
         self.costs = self.costs.loc[ self.costs.Year == closest_year_in_data].reset_index(drop=True).set_index(['Country','Technology'])
         
         # get subset of model by countries
-        self.links      = [link for link in self.links if link['id'][0:3] in countries and link['id'][6:9] in countries]
-        self.nodes      = [node for node in self.nodes if node['id'][0:3] in countries]
-        self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in countries])
-        self.costs      = self.costs.loc[countries]
+        if not self.subset:
+            pass
+        else:
+            self.links      = [link for link in self.links if link['id'][0:3] in countries and link['id'][6:9] in countries]
+            self.nodes      = [node for node in self.nodes if node['id'][0:3] in countries]
+            self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in countries])
+            self.costs      = self.costs.loc[countries]
+        
+        # check for backstop
+        self.backstop = kwargs.get('backstop', False)
 
 
     def create_model(
