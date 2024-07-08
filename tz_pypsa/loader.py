@@ -11,7 +11,7 @@ class ASEAN:
 
     def __init__(
             self,
-            countries = None,
+            node_subset = None,
             **kwargs,
     ):
         # set working directory
@@ -47,8 +47,8 @@ class ASEAN:
             .open_dataset(self.configs['file_paths']['timeseries'])
         )
 
-        # get subset of countries
-        self.subset = countries
+        # get subset of buses
+        self.subset = node_subset
 
         # get costs
         self.costs = cost_model.compute_costs()
@@ -65,10 +65,10 @@ class ASEAN:
         if not self.subset:
             pass
         else:
-            self.links      = [link for link in self.links if link['id'][0:3] in countries and link['id'][6:9] in countries]
-            self.nodes      = [node for node in self.nodes if node['id'][0:3] in countries]
-            self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in countries])
-            self.costs      = self.costs.loc[countries]
+            self.links      = [link for link in self.links if link['id'][0:3] in node_subset and link['id'][6:9] in node_subset]
+            self.nodes      = [node for node in self.nodes if node['id'][0:3] in node_subset]
+            self.timeseries = self.timeseries.sel(node=[n for n in self.timeseries.node.values if n[0:3] in node_subset])
+            self.costs      = self.costs.loc[node_subset]
         
         # check for backstop
         self.backstop = kwargs.get('backstop', False)
@@ -86,7 +86,6 @@ class ASEAN:
             timeseries = self.timeseries,
             years = self.years,
             costs = self.costs,
-            countries = self.subset,
             global_constraints=self.global_constraints,
             custom_constraints=self.custom_constraints,
             **kwargs,
