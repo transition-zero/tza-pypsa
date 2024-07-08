@@ -12,6 +12,7 @@ class ASEAN:
     def __init__(
             self,
             node_subset = None,
+            backstop = False,
             **kwargs,
     ):
         # set working directory
@@ -30,6 +31,7 @@ class ASEAN:
         # get year
         self.years = kwargs.get('years', self.configs['time_definition']['years'])
 
+        # check if multi-year investment
         if isinstance(self.years, int):
             self.multi_year_investment = False
             self.configs['time_definition']['multi_year_investment'] = False
@@ -71,7 +73,7 @@ class ASEAN:
             self.costs      = self.costs.loc[node_subset]
         
         # check for backstop
-        self.backstop = kwargs.get('backstop', False)
+        self.backstop = backstop
 
 
     def create_model(
