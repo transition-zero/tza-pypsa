@@ -70,6 +70,11 @@ We strongly welcome anyone interested in contributing to this project. If you ha
 
 To discuss ideas for the project, please contact [@amanmajid](mailto:aman.m@transitionzero.org)
 
+## Contributing rules:
+- Do not contribute to master directly without a pull request, wherever possible.
+- Create issues and allocate an individual.
+- One pull request per issue.
+
 # Licence
 
 Copyright 2020-2023 [TransitionZero](https://www.transitionzero.org/)
