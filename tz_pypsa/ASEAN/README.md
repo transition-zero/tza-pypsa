@@ -84,6 +84,8 @@ Note that unit commitment (UC) was not applied in the model benchmarks reported 
 - [ ] Clean up `.add('Carrier')` script
 - [ ] Add maximum RES build potential based on Calvin's data
 - [ ] Assign sensible "must-run" conditions
+- [ ] Allow generators/links to be expanded in time (e.g., 2025: 100; 2030: 500)
+- [ ] Parameterise discount rate in (`compute_costs`)
 
 ### Analysis team
 
