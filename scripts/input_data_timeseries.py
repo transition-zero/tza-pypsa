@@ -33,7 +33,7 @@ def get_demand_ts(
 
     annual_demand = ( 
         pd
-        .read_csv('../data/raw/ASEAN/specified_annual_demand.csv')
+        .read_csv('../tz_pypsa/data/raw/ASEAN/specified_annual_demand.csv')
         .query(f"YEAR == {year}")
         .pivot_table(
             index='YEAR',
@@ -67,7 +67,7 @@ def get_demand_ts(
 def get_hydro_cf(year):
 
     df_monthly = ( pd
-        .read_csv('../data/raw/ASEAN/RE_profiles_HYD.csv')
+        .read_csv('../tz_pypsa/data/raw/ASEAN/RE_profiles_HYD.csv')
         .pivot_table(columns='NAME')
         #.set_index('NAME')
     )
@@ -127,14 +127,14 @@ if __name__ == '__main__':
     # Get year from args
     year = args.year if args.year else '2023'
 
-    offshore_cf = read_ts('../data/raw/ASEAN/RE_profiles_WOF.csv', year = year)
-    onshore_cf = read_ts('../data/raw/ASEAN/RE_profiles_WON.csv', year = year)
-    solar_cf = read_ts('../data/raw/ASEAN/RE_profiles_SPV.csv', year = year)
+    offshore_cf = read_ts('../tz_pypsa/data/raw/ASEAN/RE_profiles_WOF.csv', year = year)
+    onshore_cf = read_ts('../tz_pypsa/data/raw/ASEAN/RE_profiles_WON.csv', year = year)
+    solar_cf = read_ts('../tz_pypsa/data/raw/ASEAN/RE_profiles_SPV.csv', year = year)
     hydro_cf = get_hydro_cf(year)
 
     demand = get_demand_ts(
-        path_annual_demand='../data/raw/ASEAN/specified_annual_demand.csv',
-        path_demand_profile='../data/raw/ASEAN/specified_demand_profile.csv',
+        path_annual_demand='../tz_pypsa/data/raw/ASEAN/specified_annual_demand.csv',
+        path_demand_profile='../tz_pypsa/data/raw/ASEAN/specified_demand_profile.csv',
         year=year
     )
 
@@ -154,6 +154,6 @@ if __name__ == '__main__':
     )
 
     # save dataset
-    xdf.to_netcdf(f'../data/clean/ASEAN/timeseries_{year}.nc')
+    xdf.to_netcdf(f'../tz_pypsa/data/clean/ASEAN/timeseries_{year}.nc')
 
-    print(f"Data for {year} saved to ../data/clean/ASEAN/timeseries_{year}.nc")
+    print(f"Data for {year} saved to ../tz_pypsa/data/clean/ASEAN/timeseries_{year}.nc")
