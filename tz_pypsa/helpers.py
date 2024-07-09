@@ -100,6 +100,7 @@ def build_pypsa_model(
             'waste', 
             'wind',
             'battery',
+            'backstop'
         ],
         co2_emissions={
             'biomass' : 0.,
@@ -114,6 +115,7 @@ def build_pypsa_model(
             'waste' : 0., 
             'wind' : 0., 
             'battery' : 0., 
+            'backstop' : 0.,
         },
         nice_name=[
             'biomass',
@@ -128,6 +130,7 @@ def build_pypsa_model(
             'waste', 
             'wind', 
             'battery',
+            'backstop'
         ],
         color=[
             "teal", 
@@ -142,6 +145,7 @@ def build_pypsa_model(
             "peru", 
             "aquamarine", 
             "red",
+            "pink"
         ],
     )
 
