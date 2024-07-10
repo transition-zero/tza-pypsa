@@ -21,9 +21,10 @@ def get_yaml(
 def build_pypsa_model(
         configs,
         nodes,
-        links,
-        carriers,
         generators,
+        links,
+        storages,
+        carriers,
         timeseries,
         years,
         costs,
@@ -246,43 +247,42 @@ def build_pypsa_model(
     # ---
     # add storages
     # TODO: put storage into yaml file
-    
+
     for year in yyears:
-        for bus in network.buses.index:
+        for storage in storages:
+            for bus in storage['initial_capacity'].keys():
+                
+                if bus in network.buses.index:
+                    # we can extend assets unless base year
+                    if isinstance(years, list):
+                        if year > years[0]:
+                            p_nom_extendable = True
+                            p_nom = 0
+                        else:
+                            p_nom_extendable = storage['extendable']
+                            p_nom = storage['initial_capacity'][bus]
+                    else:
+                        p_nom_extendable = storage['extendable']
+                        p_nom = storage['initial_capacity'][bus]
 
-            # # we can extend assets unless base year
-            # if isinstance(years, list):
-            #     if year > years[0]:
-            #         p_nom_extendable = True
-            #         p_nom = 0
-            #     else:
-            #         p_nom_extendable = technology['extendable']
-            #         p_nom = technology['initial_capacity'][bus]
-            # else:
-            #     p_nom_extendable = link['extendable']
-            #     p_nom = link['initial_capacity']
-
-            network.add(
-                'StorageUnit',
-                f'{bus}-battery' + '-ext-' + str(year),
-                bus=bus, 
-                carrier='battery',
-                p_nom=0, 
-                p_nom_extendable=False,
-                # p_nom_min=self.storage_units.loc[storage_unit].p_nom_min,
-                # p_nom_max=self.storage_units.loc[storage_unit].p_nom_max,
-                capital_cost=costs.loc[ bus[0:3] ].loc[ 'lithium-ion'].AnnualCapitalCost,
-                marginal_cost=costs.loc[ bus[0:3] ].loc[ 'lithium-ion'].MarginalCost,
-                #build_year=self.storage_units.loc[storage_unit].build_year,
-                lifetime=15,
-                #operational features
-                state_of_charge_initial=0,
-                max_hours=6,
-                efficiency_store=0.95,
-                efficiency_dispatch=0.95,
-                standing_loss=0.01,
-                cyclic_state_of_charge=True,
-            )
+                    network.add(
+                        'StorageUnit',
+                        bus + '-' + storage['id'] + '-ext-' + str(year),
+                        bus=bus, 
+                        carrier=storage['carrier'],
+                        p_nom=p_nom, 
+                        p_nom_extendable=p_nom_extendable,
+                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
+                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
+                        build_year=year,
+                        lifetime=storage['lifetime'],
+                        state_of_charge_initial=storage['state_of_charge_initial'],
+                        max_hours=storage['max_hours'],
+                        efficiency_store=storage['efficiency_store'],
+                        efficiency_dispatch=storage['efficiency_dispatch'],
+                        standing_loss=storage['standing_loss'],
+                        cyclic_state_of_charge=storage['cyclic_state_of_charge'],
+                    )
 
     # ---
     # add load
