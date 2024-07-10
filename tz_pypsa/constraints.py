@@ -5,7 +5,7 @@ import pandas as pd
 def constr_bus_self_sufficiency(
         network : pypsa.Network,
         min_self_sufficiency : float = 0.5,
-        bus : list = None,
+        buses : list = None,
 ):
     '''
     

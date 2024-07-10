@@ -486,6 +486,7 @@
   min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
   min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
+
 - id: oil-unspecified
   type: oil-unspecified # THIS IS DIESEL
   carrier: oil
