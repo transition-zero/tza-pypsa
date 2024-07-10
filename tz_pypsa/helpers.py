@@ -377,31 +377,43 @@ def build_pypsa_model(
 
             emissions = pd.DataFrame(emissions).set_index('year')
 
-            for year in yyears:
+            if network.investment_periods.empty:
 
                 network.add(
                     "GlobalConstraint",
-                    name=f"co2-budget-{year}",
-                    investment_period=year,
+                    name=f"co2-budget-{yyears}",
                     carrier_attribute="co2_emissions",
                     sense="<=",
-                    constant=emissions.sum(axis=1).loc[year],
+                    constant=emissions.sum(axis=1).loc[yyears].values[0],
                 )
+            
+            else:
+
+                for year in yyears:
+
+                    network.add(
+                        "GlobalConstraint",
+                        name=f"co2-budget-{year}",
+                        investment_period=year,
+                        carrier_attribute="co2_emissions",
+                        sense="<=",
+                        constant=emissions.sum(axis=1).loc[year],
+                    )
         
         
         # bus self sufficiency
-        if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+        # if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
 
-            print( 'GlobalConstraints: ' + cstr['id'])
+        #     print( 'GlobalConstraints: ' + cstr['id'])
             
-            min_self_sufficiency = cstr['min_self_sufficiency']
+        #     min_self_sufficiency = cstr['min_self_sufficiency']
 
-            print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
+        #     print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
 
-            constraints.constr_bus_self_sufficiency(
-                network, 
-                min_self_sufficiency, 
-                buses=network.buses.index.tolist()
-            )
+        #     constraints.constr_bus_self_sufficiency(
+        #         network, 
+        #         min_self_sufficiency, 
+        #         buses=network.buses.index.tolist()
+        #     )
     
     return network
