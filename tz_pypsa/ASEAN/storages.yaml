@@ -14,44 +14,6 @@
 
 storages:
 
-  - id: hydrogen-storage
-    type: battery
-    carrier: battery
-    extendable: false
-    lifetime: 50
-    state_of_charge_initial: 0
-    max_hours: 168
-    efficiency_store: 0.68
-    efficiency_dispatch: 0.38
-    standing_loss: 0.01
-    cyclic_state_of_charge: true
-    initial_capacity:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 0.
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
-
-
   - id: lithium-ion
     type: battery
     carrier: battery
