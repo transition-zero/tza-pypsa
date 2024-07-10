@@ -4,7 +4,7 @@
   <a href="https://www.transitionzero.org/">
 </picture>
 
-# TZ-Analysis: PyPSA Minimal
+# TZ-Analysis-PyPSA
 This repo contains [`PyPSA`](https://pypsa.org/) models developed and used by the Analysis team at TransitionZero. 
 
 Specifically, this repo has the models shown in the table below.
