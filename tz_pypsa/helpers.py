@@ -319,6 +319,27 @@ def build_pypsa_model(
             bus=bus, # region/bus/balancing zone
             p_set=demand # demand profile
         )
+    
+    # ---
+    # Adjust load for growth rates if multi-year investment
+
+    if isinstance(yyears,list):
+
+        for year in yyears:
+
+            # get rate of change by bus
+            load_rate_of_change = {}
+            for n in nodes:
+                load_rate_of_change[n['id']] = n['load_rate_of_change']
+
+            base_year = yyears[0]
+
+            for year in yyears[1:]:
+                for bus in network.loads_t.p_set.columns:
+
+                    network.loads_t.p_set.loc[year, bus] = (
+                        network.loads_t.p_set.loc[year, bus].to_numpy() * (1 + load_rate_of_change[bus])**(year - base_year)
+                    )
 
     # ---
     # add backstop
