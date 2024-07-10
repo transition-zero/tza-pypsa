@@ -22,6 +22,7 @@ def build_pypsa_model(
         configs,
         nodes,
         links,
+        carriers,
         generators,
         timeseries,
         years,
@@ -83,71 +84,15 @@ def build_pypsa_model(
 
     # ---
     # add carriers
-    # TODO: think of a better way to do this
-
-    network.madd(
-        "Carrier",
-        [
-            'biomass',
-            'bioenergy', 
-            'gas', 
-            'coal', 
-            'diesel', 
-            'geothermal', 
-            'hydro',
-            'oil', 
-            'solar', 
-            'waste', 
-            'wind',
-            'battery',
-            'backstop'
-        ],
-        co2_emissions={
-            'biomass' : 0.,
-            'bioenergy' : 0., 
-            'gas' : 0.20, 
-            'coal' : 0.34, 
-            'diesel' : 0.26, 
-            'geothermal' : 0., 
-            'hydro' : 0.,
-            'oil' : 0.26, 
-            'solar' : 0., 
-            'waste' : 0., 
-            'wind' : 0., 
-            'battery' : 0., 
-            'backstop' : 0.,
-        },
-        nice_name=[
-            'biomass',
-            'bioenergy', 
-            'gas', 
-            'coal', 
-            'diesel', 
-            'geothermal', 
-            'hydro',
-            'oil', 
-            'solar', 
-            'waste', 
-            'wind', 
-            'battery',
-            'backstop'
-        ],
-        color=[
-            "teal", 
-            "teal", 
-            "grey", 
-            "black", 
-            "darkgray", 
-            "brown", 
-            "deepskyblue", 
-            "gainsboro", 
-            "gold", 
-            "peru", 
-            "aquamarine", 
-            "red",
-            "pink"
-        ],
-    )
+    
+    for carrier in carriers:
+        network.add(
+            'Carrier',
+            carrier['id'],
+            co2_emissions=carrier['co2_emissions'],
+            nice_name=carrier['nice_name'],
+            color=carrier['color'],
+        )
 
     # ---
     # add buses (nodes)
