@@ -24,6 +24,7 @@ class ASEAN:
         self.generators = helpers.get_yaml("ASEAN/generators.yaml")
         self.nodes = helpers.get_yaml("ASEAN/nodes.yaml")['nodes']
         self.links = helpers.get_yaml("ASEAN/links.yaml")['links']
+        self.carriers = helpers.get_yaml("ASEAN/carriers.yaml")['carriers']
         self.global_constraints = helpers.get_yaml("ASEAN/constraints.yaml")['global_constraints']
         self.custom_constraints = helpers.get_yaml("ASEAN/constraints.yaml")['custom_constraints']
 
@@ -81,6 +82,7 @@ class ASEAN:
             configs = self.configs,
             nodes = self.nodes,
             links = self.links,
+            carriers = self.carriers,
             generators = self.generators,
             timeseries = self.timeseries,
             years = self.years,
