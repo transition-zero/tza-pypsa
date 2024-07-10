@@ -28,6 +28,7 @@ def build_pypsa_model(
         timeseries,
         years,
         costs,
+        global_constraints,
         backstop = False,
         *args,
         **kwargs,
@@ -359,30 +360,48 @@ def build_pypsa_model(
             )
         
     
-    # # ---
-    # # set global constraints
+    # ---
+    # set global constraints
 
-    # for year in configs['time_definition']['years']:
+    for cstr in global_constraints:
 
-    #     network.add(
-    #         "GlobalConstraint",
-    #         name=f"emission-limit-{year}",
-    #         investment_period=year,
-    #         carrier_attribute="co2_emissions",
-    #         sense="<=",
-    #         constant=configs['emissions_targets']['CO2'][year],
-    #     )
+        # emissions budget
+        if cstr['id'] == 'annual_co2_budget' and cstr['enabled'] == True:
 
-    # print('GlobalConstraints:')
-    # for cstr in global_constraints:
+            print( 'GlobalConstraints: ' + cstr['id'])
 
-    #     # emissions
-    #     # TODO
+            emissions = {}
+            for n in nodes:
+                emissions['year'] = list( n['co2_budget'].keys() )
+                emissions[n['id']] = list( n['co2_budget'].values() )
 
-    #     # bus self sufficiency
-    #     if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
-    #         min_self_sufficiency = cstr['min_self_sufficiency']
-    #         print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
-    #         constraints.constr_bus_self_sufficiency(network, min_self_sufficiency)
+            emissions = pd.DataFrame(emissions).set_index('year')
+
+            for year in yyears:
+
+                network.add(
+                    "GlobalConstraint",
+                    name=f"co2-budget-{year}",
+                    investment_period=year,
+                    carrier_attribute="co2_emissions",
+                    sense="<=",
+                    constant=emissions.sum(axis=1).loc[year],
+                )
+        
+        
+        # bus self sufficiency
+        if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+
+            print( 'GlobalConstraints: ' + cstr['id'])
+            
+            min_self_sufficiency = cstr['min_self_sufficiency']
+
+            print(f' - bus_self_sufficiency >= {min_self_sufficiency}')
+
+            constraints.constr_bus_self_sufficiency(
+                network, 
+                min_self_sufficiency, 
+                buses=network.buses.index.tolist()
+            )
     
     return network

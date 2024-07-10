@@ -13,14 +13,15 @@
 # -------------------------------------------------------------------------
 
 global_constraints:
-  - id: annual_emissions
-    description: Total annual emissions of GHGs
-    enabled: false
+
+  - id: annual_co2_budget
+    description: Applies a constraint on the whole system as defined in nodes.yaml
+    enabled: true
 
   - id: bus_self_sufficiency
     description: The minimum level of demand that must be met by local generation by a bus.
+    min_self_sufficiency: 0.05
     enabled: true
-    min_self_sufficiency: 0.4
 
 custom_constraints:
   - id: cfe

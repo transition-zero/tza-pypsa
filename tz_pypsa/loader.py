@@ -89,6 +89,7 @@ class ASEAN:
             timeseries = self.timeseries,
             years = self.years,
             costs = self.costs,
+            global_constraints = self.global_constraints,
             backstop = backstop,
             **kwargs,
         )
