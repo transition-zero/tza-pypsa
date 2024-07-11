@@ -211,23 +211,23 @@
   # ---
   # unique technology parameters by bus
   initial_capacity:
-    BRNXX: 0.218
-    IDNJW: 12.611
-    IDNKA: 0.177
-    IDNNU: 0.136
-    IDNSL: 0.435
-    IDNSM: 2.601
-    MMRXX: 1.135
-    MYSPE: 12.819
-    MYSSH: 0.977
-    MYSSK: 1.159
-    PHLLU: 2.734
-    SGPXX: 9.979
-    THACE: 30.026
-    THANO: 0.966
-    THASO: 2.690
-    VNMNO: 5.576
-    VNMSO: 1.500
+    BRNXX: 218
+    IDNJW: 12611
+    IDNKA: 177
+    IDNNU: 136
+    IDNSL: 435
+    IDNSM: 2601
+    MMRXX: 1135
+    MYSPE: 12819
+    MYSSH: 977
+    MYSSK: 1159
+    PHLLU: 2734
+    SGPXX: 9979
+    THACE: 30026
+    THANO: 966
+    THASO: 2690
+    VNMNO: 5576
+    VNMSO: 1500
   efficiency:
     IDNSM: 0.6
     IDNJW: 0.6
