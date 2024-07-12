@@ -269,7 +269,7 @@ links:
   - id: THANO-THACE
     from_node: THANO
     to_node: THACE
-    initial_capacity: 0
+    initial_capacity: 4800
     planned_expansion: 0
     expansion_year: 
     extendable: false
@@ -278,7 +278,7 @@ links:
   - id: THACE-THASO
     from_node: THACE
     to_node: THASO
-    initial_capacity: 0
+    initial_capacity: 4800
     planned_expansion: 0
     expansion_year: 
     extendable: false
