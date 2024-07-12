@@ -193,7 +193,7 @@
   # ---
   # universal technology parameters
   extendable: false
-  lifetime: 15 # years
+  lifetime: 25 # years
   # ---
   # unit commitment
   committable: false
@@ -333,7 +333,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 40 # years
   # ---
   # unit commitment
   committable: false
@@ -475,7 +475,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 30 # years
   # ---
   # unit commitment
   committable: false
@@ -604,7 +604,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 30 # years
   # ---
   # unit commitment
   committable: false
@@ -728,7 +728,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 30 # years
   # ---
   # unit commitment
   committable: false
@@ -861,7 +861,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 40 # years
   # ---
   # unit commitment
   committable: false
@@ -999,7 +999,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 30 # years
   # ---
   # unit commitment
   committable: false
@@ -1142,7 +1142,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 50 # years
   # ---
   # unit commitment
   committable: false
@@ -1281,7 +1281,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 40 # years
   # ---
   # unit commitment
   committable: false
@@ -1556,7 +1556,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 25 # years
   # ---
   # unit commitment
   committable: false
@@ -1689,7 +1689,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 1 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 25 # years
   # ---
   # unit commitment
   committable: false
@@ -1814,7 +1814,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 27 # years
   # ---
   # unit commitment
   committable: false
@@ -1945,7 +1945,7 @@
   extendable: false
   capital_cost: 1 # currency/MW
   marginal_cost: 0 # currency/MWh
-  lifetime: 15 # years
+  lifetime: 27 # years
   # ---
   # unit commitment
   committable: false
