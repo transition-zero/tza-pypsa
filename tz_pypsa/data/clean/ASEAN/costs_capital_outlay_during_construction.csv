@@ -4,9 +4,9 @@ battery,lithium-ion,15,1,1,0,0,0,0,0,0
 bioenergy,biomass,40,4,0.15,0.35,0.3,0.2,0,0,0
 bioenergy,biogas,40,4,0.15,0.35,0.3,0.2,0,0,0
 bioenergy,bioenergy-unspecified,40,4,0.15,0.35,0.3,0.2,0,0,0
-coal,subcritical,40,3,0.3,0.6,0.1,0,0,0,0
-coal,supercritical,40,3,0.3,0.6,0.1,0,0,0,0
-coal,ultrasupercritical,40,3,0.3,0.6,0.1,0,0,0,0
+coal,coal-subcritical,40,3,0.3,0.6,0.1,0,0,0,0
+coal,coal-supercritical,40,3,0.3,0.6,0.1,0,0,0,0
+coal,coal-ultrasupercritical,40,3,0.3,0.6,0.1,0,0,0,0
 coal,circulating-fluidized-bed,40,3,0.3,0.6,0.1,0,0,0,0
 coal,integrated-gasification-combined-cycle,40,3,0.3,0.6,0.1,0,0,0,0
 coal,coal-unspecified,40,3,0.3,0.6,0.1,0,0,0,0
