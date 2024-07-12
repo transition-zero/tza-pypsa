@@ -4,7 +4,7 @@
 *.egg-info
 
 # data
-tz_pypsa/data/*
+#tz_pypsa/data/*
 
 # models
 models/two-region-model/*
