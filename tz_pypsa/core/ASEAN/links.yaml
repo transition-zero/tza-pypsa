@@ -330,8 +330,9 @@ links:
     carrier: electricity
     lifetime: 99
     efficiency: 0.97
-    initial_capacity: 0
-    reverse_capacity: 0
+    bidirectional: true
+    initial_capacity: 4400
+    reverse_capacity: 4400
 
   - id: THACE-THASO
     from_node: THACE
@@ -341,8 +342,8 @@ links:
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
-    initial_capacity: 0
-    reverse_capacity: 0
+    initial_capacity: 4400
+    reverse_capacity: 4400
   
   - id: THASO-MYSPE
     from_node: THASO
