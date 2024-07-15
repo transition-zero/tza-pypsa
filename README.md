@@ -5,14 +5,16 @@
 </picture>
 
 # TZ-Analysis-PyPSA
-This repo contains [`PyPSA`](https://pypsa.org/) models developed and used by the Analysis team at TransitionZero. 
+This repo contains code developed by the Analysis team at TransitionZero (TZA) to build and solve with [`PyPSA`](https://pypsa.org/) models. TZA-PyPSA allows us to modularly construct and work with PyPSA network models. 
 
-Specifically, this repo has the models shown in the table below.
+TZA-PyPSA can be used to build a PyPSA model from scratch, but there are a set of pre-built models that a user can call as a starting point for their analysis. A list of pre-built models is given in the table below. 
 
 Model  | Status | Method | Overview
 --- | --- | ---  | ---
 [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
 <!-- Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan -->
+
+See instructions below on how to use a pre-built model or how you can build your own. 
 
 # Contributors
 
@@ -30,48 +32,69 @@ Model  | Status | Method | Overview
 
 ## Setup
 
-Firstly, clone or download this repository (or an older version). 
-
-Next, create a project environment using the yaml file in the repository as below.
-
-conda:
+Firstly, clone or download this repository (or an older version) and then navigate into the directory.
 
 ```
-conda env create --prefix ./env --file tz-analysis-env.yml
-conda activate ./env
+cd tz-analysis-pypsa
 ```
 
-mamba:
+Next, install tza-pypsa into your local environment by running:
 
 ```
-mamba env update -n tz-analysis --file tz-analysis-env.yml
-conda activate ./env
+pip install -e .
 ```
 
-Additionally, install a solver for optimisation. We recommend using [HiGHS](https://highs.dev/), which is free and open source.
+That's it! You are now ready to use tza-pypsa as shown below. However, you will need to install additional packages before doing so, which are:
+
+- [PyPSA](https://github.com/PyPSA/PyPSA)
+- [pandas](https://github.com/pandas-dev/pandas)
+- [numpy](https://github.com/numpy/numpy)
+- [HiGHS](https://highs.dev/)
 
 ## Usage (running a model)
-It is possible to build and run a `TZ-Analysis-PyPSA` model with only a few lines of code. For example, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) model as shown below:
+You can either build your own model or use a pre-built model. With a pre-built model, you can construct and run a PyPSA model with only a few lines of code. For instance, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa/tree/main/tz_pypsa/core/ASEAN) at an hourly resolution between 2023 and 2050 at 10-year timesteps as shown below:
+
+```python
+
+from tz_pypsa.model import Model
+
+# load a pre-defined model (returns PyPSA network)
+network = Model.load_model('ASEAN', years=[2023,2030, 2040, 2050], frequency='1h')
+
+network.optimize(
+  solver_name='highs',
+  solver_options={"solver": "pdlp"},
+)
+```
+
+If you'd like to build and run your own model, you can do so by running:
 
 ```python
 
 from tz_pypsa.model import Model
 
 # load from a directory (returns PyPSA network)
-n1 = Model.load_from_dir('some/path/to/dir')
+network = Model.load_from_dir('path_to_your_model/')
 
-# load a pre-defined model (returns PyPSA network)
-n2 = Model.load_model(
-    'ASEAN', 
-    select_nodes=['SGP'], 
-    years=[2023,2030],
-)
-
-n2.optimize(
+network.optimize(
   solver_name='highs',
   solver_options={"solver": "pdlp"},
 )
 ```
+
+For the above code snippet to work, you will need to define your model using the file structure below:
+
+```
+path_to_your_model/
+├── data/
+│   ├── costs_technology.csv
+│   ├── timeseries.nc
+│   ├── costs_capital_outlay_during_construction.csv
+├── model.yaml
+└── *.yaml
+```
+
+Please see one of the pre-built models to understand how the files should be written and structured. 
 
 # Contributing and Support
 
