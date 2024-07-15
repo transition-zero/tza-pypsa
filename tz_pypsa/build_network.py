@@ -168,7 +168,7 @@ def build_pypsa_network(
                 p_nom = link['initial_capacity']
             
             # get planned expansions
-            if 'planned_expansion' in link.keys() and any( year > int(y) for y in list( link['planned_expansion'].keys() ) ):
+            if 'planned_expansion' in link.keys() and any( year >= int(y) for y in list( link['planned_expansion'].keys() ) ):
                 pe = link['planned_expansion']
                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
                 p_nom_min = pe[closest_year]
@@ -215,6 +215,18 @@ def build_pypsa_network(
                 else:
                     p_nom_extendable = technology['extendable']
                     p_nom = technology['initial_capacity'][bus]
+                
+                # get planned expansions
+                if 'planned_expansion' in technology.keys():
+                    if bus in technology['planned_expansion'].keys():
+                        print(bus)
+                        pe = technology['planned_expansion'][bus]
+                        print(pe)
+                        if any( year >= int(y) for y in list( pe.keys() ) ):
+                            closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                            p_nom_min = pe[closest_year]
+                else:
+                    p_nom_min = 0
                 
                 # get capacity factors
                 if technology['id'] == 'wind-onshore':
@@ -275,6 +287,7 @@ def build_pypsa_network(
                     # ---
                     # unique technology parameters by bus
                     p_nom = p_nom, # starting capacity (MW)
+                    p_nom_min = p_nom_min, # minimum capacity (MW)
                     p_max_pu = cf, # capacity factor
                     p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
                     efficiency = technology['efficiency'][bus], # efficiency

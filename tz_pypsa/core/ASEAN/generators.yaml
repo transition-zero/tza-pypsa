@@ -488,6 +488,7 @@ generators:
     min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
+
   - id: coal-supercritical
     type: coal-supercritical
     carrier: coal
@@ -616,6 +617,7 @@ generators:
     ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
 
   - id: coal-ultrasupercritical
     type: coal-ultrasupercritical
@@ -1453,6 +1455,11 @@ generators:
       VNMCE: 3742
       VNMNO: 290
       VNMSO: 5002
+    planned_expansion:
+      BRNXX: 
+        2030: 1
+      SGPXX: 
+        2030: 1
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
