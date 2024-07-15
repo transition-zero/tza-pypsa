@@ -36,9 +36,6 @@ class Model:
 
     load_from_dir(path_to_dir)
         Loads a model from a directory containing yaml and .nc files.
-
-    test_network()
-        Returns an empty PyPSA network.
     
     '''
 
@@ -255,5 +252,7 @@ class Model:
         
         
     @staticmethod
-    def test_network():
-        return pypsa.Network()
+    def get_available_models():
+        '''Returns a list of core models available in tz_pypsa.
+        '''
+        return get_core_models()
