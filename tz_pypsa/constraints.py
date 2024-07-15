@@ -1,5 +1,6 @@
 import pypsa
 
+import numpy as np
 import pandas as pd
 
 def constr_bus_self_sufficiency(
@@ -262,3 +263,78 @@ def constr_min_annual_generation(
         rhs = rhs_total_theoretical_generation,
         name = name,
     )
+
+
+def constr_cumulative_p_nom(
+        network : pypsa.Network,
+):
+    '''
+    ###################################
+    CUMULATIVE CAPACITY CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that p_nom_max can be applied cumulatively across a multi-year investment problem.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure total solar capacity is less than or equal to a theoretical maximum at each bus."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+            
+    Returns:
+    -----------------------------------
+    
+        None
+    
+    '''
+
+    lp_model = network.optimize.create_model()
+
+    x = np.inf
+    y = network.investment_periods[1:].to_list()
+
+    for i in network.generators.groupby(['bus','type']).first().query(' p_nom_max != @x ').index:
+        
+        # get common generators across years
+        generators = (
+            network
+            .generators
+            .query(" bus == @i[0] ")
+            .query(" type == @i[1] ")
+            .query(" build_year.isin(@y) ")
+            .index
+            .tolist()
+        )
+
+        # get linopy var
+        total_generation_capacity =( 
+            lp_model
+            .variables['Generator-p_nom']
+            .sel({'Generator-ext' : generators})
+            .sum()
+        )
+
+        # get p_nom_max of all common generators
+        max_capacity = (
+            network
+            .generators
+            .query(" bus == @i[0] ")
+            .query(" type == @i[1] ")
+            .query(" build_year.isin(@y) ")
+            .p_nom_max
+            .max()
+            #.tolist()
+        )
+
+        # set expression
+        constraint_expression = total_generation_capacity <= max_capacity 
+        # set constraint
+        lp_model.add_constraints(
+            constraint_expression,
+            name=f'cumu_p_nom_{generators[0]}',
+        )

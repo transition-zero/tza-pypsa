@@ -35,13 +35,13 @@ generators:
       VNMNO: 85
       VNMSO: 61
     maximum_capacity:
-      IDNJW: 1.13
-      IDNKA: 10.59
-      IDNML: 0.07
-      IDNNU: 0.23
-      IDNPP: 0.51
-      IDNSL: 0.36
-      IDNSM: 17.98
+      IDNJW: 1130
+      IDNKA: 10590
+      IDNML: 70
+      IDNNU: 230
+      IDNPP: 510
+      IDNSL: 360
+      IDNSM: 17980
     capital_cost:
       IDNSM: 1.0
       IDNJW: 1.0
@@ -760,6 +760,8 @@ generators:
       PHLMI: 499
       PHLVI: 514
       VNMCE: 660
+    maximum_capacity:
+      IDNJW: 1000
     efficiency:
       IDNSM: 0.46
       IDNJW: 0.46
@@ -891,13 +893,13 @@ generators:
       PHLMI: 113
       PHLVI: 778
     maximum_capacity:
-      IDNJW: 10.27
-      IDNKA: 0.05
-      IDNML: 0.46
-      IDNNU: 1.21
-      IDNPP: 0.06
-      IDNSL: 1.90
-      IDNSM: 12.54
+      IDNJW: 10270
+      IDNKA: 50
+      IDNML: 460
+      IDNNU: 1210
+      IDNPP: 60
+      IDNSL: 1900
+      IDNSM: 12540
     efficiency:
       IDNSM: 0.1
       IDNJW: 0.1
