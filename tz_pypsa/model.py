@@ -256,3 +256,16 @@ class Model:
         '''Returns a list of core models available in tz_pypsa.
         '''
         return get_core_models()
+    
+
+    @staticmethod
+    def get_raw_core_model(model_name):
+        '''Returns a core model as a dictionary.
+        '''
+        return load_yaml_from_dir(
+            os.path.join( 
+                os.path.dirname(os.path.abspath(__file__)), 
+                'core', 
+                model_name,
+            ) 
+        )
