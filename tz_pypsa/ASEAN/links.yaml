@@ -80,8 +80,8 @@ links:
   - id: IDNKA-MYSSK
     from_node: IDNKA
     to_node: MYSSK
-    initial_capacity: 0
-    planned_expansion: 230
+    initial_capacity: 230
+    planned_expansion: 0
     expansion_year: 
     extendable: false
     carrier: electricity
@@ -145,14 +145,14 @@ links:
     to_node: VNMNO
     initial_capacity: 0
     planned_expansion: 1032
-    expansion_year: 2026
+    expansion_year: 2025
     extendable: false
     carrier: electricity
   
   - id: LAOXX-VNMCE
     from_node: LAOXX
     to_node: VNMCE
-    initial_capacity: 0
+    initial_capacity: 538
     planned_expansion: 2036
     expansion_year: 2025
     extendable: false
@@ -162,7 +162,7 @@ links:
     from_node: MYSPE
     to_node: MYSSK
     initial_capacity: 0
-    planned_expansion: 
+    planned_expansion: 0
     expansion_year: 
     extendable: false
     carrier: electricity
@@ -180,19 +180,10 @@ links:
     from_node: MYSSH
     to_node: PHLLU
     initial_capacity: 0
-    planned_expansion: 
+    planned_expansion: 0
     expansion_year: 
     extendable: false
     carrier: electricity
-
-  # - id: MYSPE-MYSSK
-  #   from_node: MYSPE
-  #   to_node: MYSSK
-  #   initial_capacity: 0
-  #   planned_expansion: 
-  #   expansion_year: 
-  #   extendable: false
-  #   carrier: electricity
 
   - id: MYSPE-SGPXX 
     from_node: MYSPE
@@ -206,16 +197,16 @@ links:
   - id: KHMXX-LAOXX
     from_node: KHMXX
     to_node: LAOXX
-    initial_capacity: 2600
+    initial_capacity: 300
     planned_expansion: 0
     expansion_year:
     extendable: false
     carrier: electricity
   
-  - id: KHMXX-VNMCE
+  - id: KHMXX-THACE
     from_node: KHMXX
-    to_node: VNMCE
-    initial_capacity: 200
+    to_node: THACE
+    initial_capacity: 120
     planned_expansion: 0
     expansion_year: 
     extendable: false
@@ -287,16 +278,16 @@ links:
   - id: THASO-MYSPE
     from_node: THASO
     to_node: MYSPE
-    initial_capacity: 0
+    initial_capacity: 380
     planned_expansion: 0
     expansion_year: 
     extendable: false
     carrier: electricity
   
   - id: THANO-LAOXX
-    from_node: THANO
-    to_node: LAOXX
-    initial_capacity: 0
+    from_node: LAOXX
+    to_node: THANO
+    initial_capacity: 5427
     planned_expansion: 0
     expansion_year: 
     extendable: false
