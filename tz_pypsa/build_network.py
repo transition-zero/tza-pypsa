@@ -166,6 +166,14 @@ def build_pypsa_network(
             else:
                 p_nom_extendable = link['extendable']
                 p_nom = link['initial_capacity']
+            
+            # get planned expansions
+            if 'planned_expansion' in link.keys() and any( year > int(y) for y in list( link['planned_expansion'].keys() ) ):
+                pe = link['planned_expansion']
+                closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                p_nom_min = pe[closest_year]
+            else:
+                p_nom_min = 0
 
             network.add(
                 "Link", 
@@ -173,10 +181,26 @@ def build_pypsa_network(
                 bus0=link['from_node'],
                 bus1=link['to_node'],
                 p_nom=p_nom,
+                p_nom_min=p_nom_min,
                 p_nom_extendable=p_nom_extendable,
                 carrier=link['carrier'],
-                efficiency=0.97,
-                lifetime=99,
+                efficiency=link['efficiency'],
+                lifetime=link['lifetime'],
+            )
+
+            if link['bidirectional']:
+                # add reverse link
+                network.add(
+                "Link", 
+                name=link['id'].split('-')[1] + '-' + link['id'].split('-')[0] + '-ext-' + str(year),
+                bus0=link['to_node'],
+                bus1=link['from_node'],
+                p_nom=p_nom,
+                p_nom_min=p_nom_min,
+                p_nom_extendable=p_nom_extendable,
+                carrier=link['carrier'],
+                efficiency=link['efficiency'],
+                lifetime=link['lifetime'],
             )
     
     # --- add generators to network --- #
