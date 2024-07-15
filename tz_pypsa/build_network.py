@@ -219,9 +219,7 @@ def build_pypsa_network(
                 # get planned expansions
                 if 'planned_expansion' in technology.keys():
                     if bus in technology['planned_expansion'].keys():
-                        print(bus)
                         pe = technology['planned_expansion'][bus]
-                        print(pe)
                         if any( year >= int(y) for y in list( pe.keys() ) ):
                             closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
                             p_nom_min = pe[closest_year]
@@ -325,13 +323,24 @@ def build_pypsa_network(
                     else:
                         p_nom_extendable = storage['extendable']
                         p_nom = storage['initial_capacity'][bus]
+                    
+                    # get planned expansions
+                    if 'planned_expansion' in storage.keys():
+                        if bus in storage['planned_expansion'].keys():
+                            pe = storage['planned_expansion'][bus]
+                            if any( year >= int(y) for y in list( pe.keys() ) ):
+                                closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                                p_nom_min = pe[closest_year]
+                    else:
+                        p_nom_min = 0
 
                     network.add(
                         'StorageUnit',
                         bus + '-' + storage['id'] + '-ext-' + str(year),
                         bus=bus, 
                         carrier=storage['carrier'],
-                        p_nom=p_nom, 
+                        p_nom=p_nom, # starting capacity (MW)
+                        p_nom_min=p_nom_min, # minimum capacity (MW)
                         p_nom_extendable=p_nom_extendable,
                         capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
                         marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
