@@ -1,0 +1,259 @@
+import os
+import yaml
+import pypsa
+
+import xarray as xr
+
+# ---
+# Local imports
+
+from . import cost_model
+
+from .helpers import (
+    load_yaml_from_dir,
+    get_core_models,
+)
+
+from .build_network import (
+    build_pypsa_network,
+
+)
+
+# ---
+
+class Model:
+
+    '''
+
+    Methods
+    ----------
+
+    get_available_models()
+        Returns a list of core models available in tz_pypsa.
+
+    load_model(model_name)
+        Load a model from pre-defined core models.
+
+    load_from_dir(path_to_dir)
+        Loads a model from a directory containing yaml and .nc files.
+
+    test_network()
+        Returns an empty PyPSA network.
+    
+    '''
+
+
+    @staticmethod
+    def load_model(
+        model_name,
+        years : list = None,
+        select_nodes : list = None,
+        frequency : str = None,
+        backstop : bool = False,
+        set_global_constraints : bool = False,
+        **kwargs,
+    ) -> pypsa.Network:
+
+        '''
+        Load a model from pre-defined core models.
+
+        Parameters
+        ----------
+
+            model_name : str
+                The name of the model to load.
+            years : list (optional) 
+                The list of years for multi-year investment (default is None).
+            select_nodes : list (optional)
+                The list of nodes to select for the network (default is None).
+            frequency : str (optional)
+                The frequency of the time series data (default is 24h).
+            backstop : bool (optional)
+                If True, the model will include backstop technologies (default is False).
+            set_global_constraints : bool (optional)
+                If True, the model will include global constraints (default is False).
+
+        Returns
+        ----------
+
+            network : pypsa.Network.
+                A PyPSA network object representing the loaded model.
+
+        Raises
+        ----------
+
+            ValueError: If the specified model is not found in the core models.
+
+        Example
+        ----------
+        
+            To load a model named "example_model", you can call the function as follows:
+
+            >>> model = load_model("example_model")
+
+        This function loads a model from the core models available in tz_pypsa. It first checks if the specified model exists in the core models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
+
+        Notes
+        ----------
+
+            To see a list of core models available in tz_pypsa, you can run the following command:
+
+            >>> Model.get_available_models()
+
+        '''
+
+        # get core model
+        if model_name in get_core_models():
+            model = load_yaml_from_dir(
+                os.path.join( 
+                    os.path.dirname(os.path.abspath(__file__)), 
+                    'core', 
+                    model_name,
+                ) 
+            )
+        else:
+            raise ValueError(f"Model {model_name} not found in core models.")
+
+        # get timeseries
+        ts_file = [ i for i in os.listdir( os.path.join(os.path.dirname(os.path.abspath(__file__)), f'core/{model_name}/data') ) if '.nc' in i ][-1]
+        timeseries = (
+            xr
+            .open_dataset(
+                os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)), 
+                    f'core/{model_name}/data/', 
+                    ts_file,
+                )
+            )
+        )
+
+        # get costs
+        costs = (
+            cost_model
+            .compute_costs(
+                path_to_dir = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)), 
+                    f'core/{model_name}/data/',
+                )
+            )
+        )
+
+        # build network
+        return build_pypsa_network(
+            model = model,
+            timeseries = timeseries,
+            costs = costs,
+            years = years,
+            select_nodes = select_nodes,
+            frequency = frequency,
+            backstop = backstop,
+            set_global_constraints = set_global_constraints,
+            **kwargs,
+        )
+    
+
+    @staticmethod
+    def load_from_dir(
+        path_to_dir,
+        years : list = None,
+        select_nodes : list = None,
+        frequency : str = None,
+        backstop : bool = False,
+        set_global_constraints : bool = False,
+        **kwargs,
+    ) -> pypsa.Network:
+        
+        '''
+        Load a model from a defined directory.
+
+        Parameters
+        ----------
+
+            path_to_dir : str
+                Directory from which we load the model. This directory should contain at least one yaml file and a data/ directory containing the timeseries and cost data. File names are strictly enforced.
+            years : list (optional) 
+                The list of years for multi-year investment (default is None).
+            select_nodes : list (optional)
+                The list of nodes to select for the network (default is None).
+            frequency : str (optional)
+                The frequency of the time series data (default is 24h).
+            backstop : bool (optional)
+                If True, the model will include backstop technologies (default is False).
+            set_global_constraints : bool (optional)
+                If True, the model will include global constraints (default is False).
+
+        Returns
+        ----------
+
+            network : pypsa.Network.
+                A PyPSA network object representing the loaded model.
+
+        Raises
+        ----------
+
+            ValueError: If the specified model is not found in the core models.
+
+        Example
+        ----------
+        
+            To load a model named "example_model", you can call the function as follows:
+
+            >>> model = load_from_dir("some/path/to/dir")
+
+        This function loads a model from the core models available in tz_pypsa. It first checks if the specified model exists in the core models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
+
+        '''
+        
+        try:
+            #print( 'Loading model from: ' + path_to_dir)
+            model = load_yaml_from_dir(path_to_dir)
+        except:
+            raise ValueError(f"Error loading model from directory {path_to_dir}")
+
+        try:
+            #print( 'Loading timeseries from: ' + os.path.join( path_to_dir, f'data/', 'timeseries.nc' ) )
+                  
+            timeseries = (
+                xr
+                .open_dataset(
+                    os.path.join(
+                        path_to_dir, 
+                        f'data/', 
+                        'timeseries.nc',
+                    )
+                )
+            )
+        except:
+            raise ValueError(f"Error loading timeseries data from directory {path_to_dir}. Check if there is a timeseries.nc file in the data/ directory.")
+
+        try:
+            # get costs
+            costs = (
+                cost_model
+                .compute_costs(
+                    path_to_dir = os.path.join(
+                        path_to_dir, 
+                        f'data/',
+                    )
+                )
+            )
+        except:
+            raise ValueError(f"Error computing costs from directory {path_to_dir}")
+    
+        # build network
+        return build_pypsa_network(
+            model = model,
+            timeseries = timeseries,
+            costs = costs,
+            years = years,
+            select_nodes = select_nodes,
+            frequency = frequency,
+            backstop = backstop,
+            set_global_constraints = set_global_constraints,
+            **kwargs,
+        )
+        
+        
+    @staticmethod
+    def test_network():
+        return pypsa.Network()

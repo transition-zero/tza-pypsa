@@ -1,0 +1,420 @@
+import pypsa
+
+import numpy as np
+import pandas as pd
+import xarray as xr
+
+def build_pypsa_network(
+        model : dict,
+        timeseries : xr.Dataset,
+        costs : pd.DataFrame,
+        years : list = None,
+        select_nodes : list = None,
+        frequency : str = None,
+        backstop : bool = False,
+        set_global_constraints : bool = False,
+        **kwargs,
+):
+    
+    '''
+    Build a PyPSA network from input data.
+    
+    Parameters
+    ----------
+
+    model : dict
+        The model dictionary containing the network configuration.
+    timeseries : xr.Dataset
+        The time series data for the network.
+    costs : pd.DataFrame
+        The cost data for the network.
+    years : list, optional
+        The list of years for multi-year investment (default is None).
+    select_nodes : list, optional
+        The list of nodes to select for the network (default is None).
+    frequency : str, optional
+        The frequency of the time series data (default is None).
+    backstop : bool, optional
+        Add backstop generator to the network (default is False).
+    set_global_constraints : bool, optional
+        Set global constraints on the network (default is False).
+    **kwargs : dict, optional
+        Additional keyword arguments.
+    
+    Returns
+    -------
+    PyPSA object
+        A PyPSA network object.
+    '''
+
+    # --- get model years and frequency --- #
+    if not years:
+        years = model['time_definition']['years']
+    
+    if not frequency:
+        frequency = model['time_definition']['frequency']
+    
+
+    # --- check if single-year or multi-year investment problem --- #
+    if isinstance(years, int):
+        multi_year_investment = False
+        years = [years]
+
+    elif isinstance(years, list) and len(years) == 1:
+        multi_year_investment = False
+
+    elif isinstance(years, list) and len(years) > 1:
+        multi_year_investment = True
+
+    # --- filter costs for nearest years --- #
+    closest_year_in_data = min( costs.Year.unique(), key=lambda x:abs(x-years[0]))
+
+    costs = (
+        costs
+        .loc[
+            costs.Year == closest_year_in_data
+        ]
+        .reset_index(drop=True)
+        .set_index(
+            ['Country','Technology']
+        )
+    )
+    
+    # --- get subset of model by countries --- #
+    if not select_nodes:
+        links       = model['links']
+        nodes       = model['nodes']
+    else:
+        links       = [link for link in model['links'] if link['id'][0:3] in select_nodes and link['id'][6:9] in select_nodes]
+        nodes       = [node for node in model['nodes'] if node['id'][0:3] in select_nodes]
+        timeseries  = timeseries.sel(node=[n for n in timeseries.node.values if n[0:3] in select_nodes])
+        costs       = costs.loc[select_nodes]
+
+    # --- initialise PyPSA network --- #
+    network = pypsa.Network()
+
+    # --- set snapshots --- #
+    if not multi_year_investment and isinstance(years, int):
+        '''Single-year investment problem'''
+        snapshot = (
+            pd.date_range(
+                start=f'{years}-01-01 00:00:00', 
+                end= f'{years}-12-31 23:00:00',
+                freq=frequency,
+            )
+        )
+        
+        network.set_snapshots(snapshot)
+
+    else:
+        '''Multi-year investment problem'''
+        snapshots = pd.DatetimeIndex([])
+        for year in years:
+            period = pd.date_range(
+                start=f"{year}-01-01 00:00",
+                freq=frequency,
+                periods= int(8760 / float( frequency.strip('h') )),
+            )
+            snapshots = snapshots.append(period)
+
+        # convert to multiindex and assign to network
+        network.snapshots = pd.MultiIndex.from_arrays([snapshots.year, snapshots])
+        network.investment_periods = years
+
+        network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
+
+        # Set the years and objective weighting per investment period. 
+        # - The objective weighting is the sum of the discounted values of the years in the investment period.
+        # - For each period we sum up all discounts rates of the corresponding years which gives us the effective objective weighting.
+        r = kwargs.get('multi_year_discount_rate', model['time_definition']['multi_year_discount_rate'])
+        T = 0
+        for period, nyears in network.investment_period_weightings.years.items():
+            discounts = [(1 / (1 + r) ** t) for t in range(T, T + nyears)]
+            network.investment_period_weightings.at[period, "objective"] = sum(discounts)
+            T += nyears
+
+    #network.set_snapshots(snapshot.tz_localize('UTC').tz_convert('Asia/Manila'))
+
+    # --- add carriers to network --- #
+    for carrier in model['carriers']:
+        network.add(
+            'Carrier',
+            carrier['id'],
+            co2_emissions=carrier['co2_emissions'],
+            nice_name=carrier['nice_name'],
+            color=carrier['color'],
+        )
+
+    # --- add buses to network --- #
+    for node in nodes:
+        network.add(
+            "Bus",  # PyPSA component
+            node['id'], # bus name
+            x = node['coords'][1], # longitude
+            y = node['coords'][0] # latitude
+        )
+    
+    # --- add links to network --- #
+    # make single year a list to enable iteration
+    for year in years:
+        for link in links:
+
+            # we can extend assets unless base year
+            if year > years[0]:
+                p_nom_extendable = True
+                p_nom = 0
+            else:
+                p_nom_extendable = link['extendable']
+                p_nom = link['initial_capacity']
+
+            network.add(
+                "Link", 
+                name=link['id'] + '-ext-' + str(year),
+                bus0=link['from_node'],
+                bus1=link['to_node'],
+                p_nom=p_nom,
+                p_nom_extendable=p_nom_extendable,
+                carrier=link['carrier'],
+                efficiency=0.97,
+                lifetime=99,
+            )
+    
+    # --- add generators to network --- #
+    for technology in model['generators']:
+        for bus in technology['initial_capacity'].keys():
+
+            if bus in network.buses.index:
+                # we can extend assets unless base year
+                if year > years[0]:
+                    p_nom_extendable = True
+                    p_nom = 0
+                else:
+                    p_nom_extendable = technology['extendable']
+                    p_nom = technology['initial_capacity'][bus]
+                
+                # get capacity factors
+                if technology['id'] == 'wind-onshore':
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_wind_onshore
+                        .resample(snapshot=frequency)
+                        .mean()
+                        .to_numpy()
+                    )
+                elif technology['id'] == 'wind-offshore-unspecified':
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_wind_offshore
+                        .resample(snapshot=frequency)
+                        .mean()
+                        .to_numpy()
+                    )
+                elif technology['id'] == 'photovoltaic-unspecified':
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_solar_pv
+                        .resample(snapshot=frequency)
+                        .mean()
+                        .to_numpy()
+                    )
+                elif technology['id'] == 'hydro-unspecified':
+                    cf = (
+                        timeseries
+                        .sel(node=bus)
+                        .cf_hydro
+                        .resample(snapshot=frequency)
+                        .mean()
+                        .to_numpy()
+                    )
+                else:
+                    cf = 1
+                
+                if isinstance(cf, np.ndarray):
+                    cf = (
+                        np
+                        .tile(
+                            cf, 
+                            len( years )
+                        )
+                        .reshape(1, -1)
+                        [0]
+                    )
+
+                network.add(
+                    'Generator', # PyPSA component
+                    bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                    type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
+                    bus = bus, # region/bus/balancing zone
+                    # ---
+                    # unique technology parameters by bus
+                    p_nom = p_nom, # starting capacity (MW)
+                    p_max_pu = cf, # capacity factor
+                    p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
+                    efficiency = technology['efficiency'][bus], # efficiency
+                    ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
+                    ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
+                    # ---
+                    # universal technology parameters
+                    p_nom_extendable = p_nom_extendable, # can the model build more?
+                    capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
+                    marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
+                    carrier = technology['carrier'], # commodity/carrier
+                    build_year = year, # year available from
+                    lifetime = technology['lifetime'], # years
+                    start_up_cost = technology['start_up_cost'], # currency/MW
+                    shut_down_cost = technology['shut_down_cost'], # currency/MW
+                    committable = technology['committable'], # UNIT COMMITMENT
+                    ramp_limit_start_up = technology['ramp_limit_start_up'], # 
+                    ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
+                    min_up_time = technology['min_up_time'], # 
+                    min_down_time = technology['min_down_time'], # 
+                )
+            else:
+                continue
+    
+    # --- add storage units to network --- #
+    for year in years:
+        for storage in model['storages']:
+            for bus in storage['initial_capacity'].keys():
+                
+                if bus in network.buses.index:
+                    # we can extend assets unless base year
+                    if year > years[0]:
+                        p_nom_extendable = True
+                        p_nom = 0
+                    else:
+                        p_nom_extendable = storage['extendable']
+                        p_nom = storage['initial_capacity'][bus]
+
+                    network.add(
+                        'StorageUnit',
+                        bus + '-' + storage['id'] + '-ext-' + str(year),
+                        bus=bus, 
+                        carrier=storage['carrier'],
+                        p_nom=p_nom, 
+                        p_nom_extendable=p_nom_extendable,
+                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
+                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
+                        build_year=year,
+                        lifetime=storage['lifetime'],
+                        state_of_charge_initial=storage['state_of_charge_initial'],
+                        max_hours=storage['max_hours'],
+                        efficiency_store=storage['efficiency_store'],
+                        efficiency_dispatch=storage['efficiency_dispatch'],
+                        standing_loss=storage['standing_loss'],
+                        cyclic_state_of_charge=storage['cyclic_state_of_charge'],
+                    )
+    
+    # --- add loads to network --- #
+    load_multiplier = kwargs.get('load_multiplier', 1)
+
+    for bus in network.buses.index:
+
+        demand = (
+            timeseries
+            .sel(node=bus)
+            .demand
+            .resample(snapshot=frequency)
+            .mean()
+            .to_pandas()
+            .mul(load_multiplier)
+            .to_numpy()
+        )
+
+        if isinstance(demand, np.ndarray):
+            demand = (
+                np
+                .tile(
+                    demand, 
+                    len( years )
+                )
+                .reshape(1, -1)
+                [0]
+            )
+
+        network.add(
+            "Load", # PyPSA component
+            bus, # load name
+            bus=bus, # region/bus/balancing zone
+            p_set=demand # demand profile
+        )
+    
+    # --- apply rate of change to load if multi-year investment problem --- #
+    if multi_year_investment:
+
+        for year in years:
+
+            # get rate of change by bus
+            gradient = {}
+            for n in nodes:
+                gradient[n['id']] = kwargs.get('load_rate_of_change', n['load_rate_of_change'])
+
+            base_year = years[0]
+
+            for year in years[1:]:
+                for bus in network.loads_t.p_set.columns:
+
+                    network.loads_t.p_set.loc[year, bus] = (
+                        network.loads_t.p_set.loc[year, bus].to_numpy() * (1 + gradient[bus])**(year - base_year)
+                    )
+    
+    # --- add backstop --- #
+    if backstop:
+
+        for bus in network.buses.index:
+
+            network.add(
+                'Generator',
+                f'Backstop-{bus}',
+                bus=bus,
+                carrier='backstop',
+                p_nom=1e9,
+                capital_cost=1e9,
+                marginal_cost=1e9,
+            )
+
+    # --- set global constraints --- #
+    if set_global_constraints:
+
+        for cstr in model['global_constraints']:
+
+            # emissions budget
+            if cstr['id'] == 'annual_co2_budget' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                emissions = {}
+                for n in nodes:
+                    emissions['year'] = list( n['co2_budget'].keys() )
+                    emissions[n['id']] = list( n['co2_budget'].values() )
+
+                emissions = pd.DataFrame(emissions).set_index('year')
+
+                if network.investment_periods.empty:
+
+                    network.add(
+                        "GlobalConstraint",
+                        name=f"co2-budget-{years}",
+                        carrier_attribute="co2_emissions",
+                        sense="<=",
+                        constant=emissions.sum(axis=1).loc[years].values[0],
+                    )
+                
+                else:
+
+                    for year in years:
+
+                        network.add(
+                            "GlobalConstraint",
+                            name=f"co2-budget-{year}",
+                            investment_period=year,
+                            carrier_attribute="co2_emissions",
+                            sense="<=",
+                            constant=emissions.sum(axis=1).loc[year],
+                        )
+
+
+    return network

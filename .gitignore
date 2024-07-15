@@ -23,3 +23,4 @@ projects/google-cfe/test.ipynb
 models/ASEAN/calibration.yaml
 PHL_CALIBRATION.csv
 ASEAN_CALIBRATION.csv
+tz_pypsa/data/raw/global/gridfinder.gpkg

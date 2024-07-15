@@ -54,11 +54,20 @@ Additionally, install a solver for optimisation. We recommend using [HiGHS](http
 It is possible to build and run a `TZ-Analysis-PyPSA` model with only a few lines of code. For example, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) model as shown below:
 
 ```python
-from models.loader import ASEAN
 
-network = ASEAN().create_model() # <-- Returns a PyPSA network
+from tz_pypsa.model import Model
 
-network.optimize(
+# load from a directory (returns PyPSA network)
+n1 = Model.load_from_dir('some/path/to/dir')
+
+# load a pre-defined model (returns PyPSA network)
+n2 = Model.load_model(
+    'ASEAN', 
+    select_nodes=['SGP'], 
+    years=[2023,2030],
+)
+
+n2.optimize(
   solver_name='highs',
   solver_options={"solver": "pdlp"},
 )
