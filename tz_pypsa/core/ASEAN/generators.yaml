@@ -34,7 +34,7 @@ generators:
       VNMCE: 200
       VNMNO: 85
       VNMSO: 61
-    p_nom_max:
+    maximum_capacity:
       IDNJW: 1.13
       IDNKA: 10.59
       IDNML: 0.07
@@ -890,7 +890,7 @@ generators:
       PHLLU: 720
       PHLMI: 113
       PHLVI: 778
-    p_nom_max:
+    maximum_capacity:
       IDNJW: 10.27
       IDNKA: 0.05
       IDNML: 0.46

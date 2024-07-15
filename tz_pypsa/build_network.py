@@ -174,14 +174,21 @@ def build_pypsa_network(
                 p_nom_min = pe[closest_year]
             else:
                 p_nom_min = 0
+            
+            # get maximum capacity
+            if 'maximum_capacity' in link.keys():
+                p_nom_max = link['maximum_capacity']
+            else:
+                p_nom_max = np.inf
 
             network.add(
                 "Link", 
                 name=link['id'] + '-ext-' + str(year),
                 bus0=link['from_node'],
                 bus1=link['to_node'],
-                p_nom=p_nom,
-                p_nom_min=p_nom_min,
+                p_nom=p_nom, # starting capacity (MW)
+                p_nom_min=p_nom_min, # minimum capacity (MW)
+                p_nom_max=p_nom_max, # maximum capacity (MW)
                 p_nom_extendable=p_nom_extendable,
                 carrier=link['carrier'],
                 efficiency=link['efficiency'],
@@ -225,6 +232,13 @@ def build_pypsa_network(
                             p_nom_min = pe[closest_year]
                 else:
                     p_nom_min = 0
+                
+                # get maximum capacity
+                if 'maximum_capacity' in technology.keys():
+                    if bus in technology['maximum_capacity'].keys():
+                        p_nom_max = technology['maximum_capacity'][bus]
+                    else:
+                        p_nom_max = np.inf
                 
                 # get capacity factors
                 if technology['id'] == 'wind-onshore':
@@ -286,6 +300,7 @@ def build_pypsa_network(
                     # unique technology parameters by bus
                     p_nom = p_nom, # starting capacity (MW)
                     p_nom_min = p_nom_min, # minimum capacity (MW)
+                    p_nom_max = p_nom_max, # maximum capacity (MW)
                     p_max_pu = cf, # capacity factor
                     p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
                     efficiency = technology['efficiency'][bus], # efficiency
@@ -333,6 +348,13 @@ def build_pypsa_network(
                                 p_nom_min = pe[closest_year]
                     else:
                         p_nom_min = 0
+                    
+                    # get maximum capacity
+                    if 'maximum_capacity' in storage.keys():
+                        if bus in storage['maximum_capacity'].keys():
+                            p_nom_max = storage['maximum_capacity'][bus]
+                        else:
+                            p_nom_max = np.inf
 
                     network.add(
                         'StorageUnit',
