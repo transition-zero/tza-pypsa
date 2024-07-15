@@ -4,6 +4,11 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
+from .constraints import (
+    constr_cumulative_p_nom,
+    constr_bus_self_sufficiency,
+)
+
 def build_pypsa_network(
         model : dict,
         timeseries : xr.Dataset,
@@ -166,114 +171,163 @@ def build_pypsa_network(
             else:
                 p_nom_extendable = link['extendable']
                 p_nom = link['initial_capacity']
+            
+            # get planned expansions
+            if 'planned_expansion' in link.keys() and any( year >= int(y) for y in list( link['planned_expansion'].keys() ) ):
+                pe = link['planned_expansion']
+                closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                p_nom_min = pe[closest_year]
+            else:
+                p_nom_min = 0
+            
+            # get maximum capacity
+            if 'maximum_capacity' in link.keys():
+                p_nom_max = link['maximum_capacity']
+            else:
+                p_nom_max = np.inf
 
             network.add(
                 "Link", 
                 name=link['id'] + '-ext-' + str(year),
                 bus0=link['from_node'],
                 bus1=link['to_node'],
-                p_nom=p_nom,
+                p_nom=p_nom, # starting capacity (MW)
+                p_nom_min=p_nom_min, # minimum capacity (MW)
+                p_nom_max=p_nom_max, # maximum capacity (MW)
                 p_nom_extendable=p_nom_extendable,
                 carrier=link['carrier'],
-                efficiency=0.97,
-                lifetime=99,
+                efficiency=link['efficiency'],
+                lifetime=link['lifetime'],
+            )
+
+            if link['bidirectional']:
+                # add reverse link
+                network.add(
+                "Link", 
+                name=link['id'].split('-')[1] + '-' + link['id'].split('-')[0] + '-ext-' + str(year),
+                bus0=link['to_node'],
+                bus1=link['from_node'],
+                p_nom=p_nom,
+                p_nom_min=p_nom_min,
+                p_nom_extendable=p_nom_extendable,
+                carrier=link['carrier'],
+                efficiency=link['efficiency'],
+                lifetime=link['lifetime'],
             )
     
     # --- add generators to network --- #
-    for technology in model['generators']:
-        for bus in technology['initial_capacity'].keys():
+    for year in years:
+        for technology in model['generators']:
+            for bus in technology['initial_capacity'].keys():
 
-            if bus in network.buses.index:
-                # we can extend assets unless base year
-                if year > years[0]:
-                    p_nom_extendable = True
-                    p_nom = 0
-                else:
-                    p_nom_extendable = technology['extendable']
-                    p_nom = technology['initial_capacity'][bus]
-                
-                # get capacity factors
-                if technology['id'] == 'wind-onshore':
-                    cf = (
-                        timeseries
-                        .sel(node=bus)
-                        .cf_wind_onshore
-                        .resample(snapshot=frequency)
-                        .mean()
-                        .to_numpy()
-                    )
-                elif technology['id'] == 'wind-offshore-unspecified':
-                    cf = (
-                        timeseries
-                        .sel(node=bus)
-                        .cf_wind_offshore
-                        .resample(snapshot=frequency)
-                        .mean()
-                        .to_numpy()
-                    )
-                elif technology['id'] == 'photovoltaic-unspecified':
-                    cf = (
-                        timeseries
-                        .sel(node=bus)
-                        .cf_solar_pv
-                        .resample(snapshot=frequency)
-                        .mean()
-                        .to_numpy()
-                    )
-                elif technology['id'] == 'hydro-unspecified':
-                    cf = (
-                        timeseries
-                        .sel(node=bus)
-                        .cf_hydro
-                        .resample(snapshot=frequency)
-                        .mean()
-                        .to_numpy()
-                    )
-                else:
-                    cf = 1
-                
-                if isinstance(cf, np.ndarray):
-                    cf = (
-                        np
-                        .tile(
-                            cf, 
-                            len( years )
+                if bus in network.buses.index:
+                    # we can extend assets unless base year
+                    if year > years[0]:
+                        p_nom_extendable = True
+                        p_nom = 0
+                    else:
+                        p_nom_extendable = technology['extendable']
+                        p_nom = technology['initial_capacity'][bus]
+                    
+                    # get planned expansions
+                    if 'planned_expansion' in technology.keys():
+                        if bus in technology['planned_expansion'].keys():
+                            pe = technology['planned_expansion'][bus]
+                            if any( year >= int(y) for y in list( pe.keys() ) ):
+                                closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                                p_nom_min = pe[closest_year]
+                    else:
+                        p_nom_min = 0
+                    
+                    # get maximum capacity
+                    if 'maximum_capacity' in technology.keys():
+                        if bus in technology['maximum_capacity'].keys():
+                            p_nom_max = technology['maximum_capacity'][bus]
+                    else:
+                        p_nom_max = np.inf
+                    
+                    # get capacity factors
+                    if technology['id'] == 'wind-onshore':
+                        cf = (
+                            timeseries
+                            .sel(node=bus)
+                            .cf_wind_onshore
+                            .resample(snapshot=frequency)
+                            .mean()
+                            .to_numpy()
                         )
-                        .reshape(1, -1)
-                        [0]
-                    )
+                    elif technology['id'] == 'wind-offshore-unspecified':
+                        cf = (
+                            timeseries
+                            .sel(node=bus)
+                            .cf_wind_offshore
+                            .resample(snapshot=frequency)
+                            .mean()
+                            .to_numpy()
+                        )
+                    elif technology['id'] == 'photovoltaic-unspecified':
+                        cf = (
+                            timeseries
+                            .sel(node=bus)
+                            .cf_solar_pv
+                            .resample(snapshot=frequency)
+                            .mean()
+                            .to_numpy()
+                        )
+                    elif technology['id'] == 'hydro-unspecified':
+                        cf = (
+                            timeseries
+                            .sel(node=bus)
+                            .cf_hydro
+                            .resample(snapshot=frequency)
+                            .mean()
+                            .to_numpy()
+                        )
+                    else:
+                        cf = 1
+                    
+                    if isinstance(cf, np.ndarray):
+                        cf = (
+                            np
+                            .tile(
+                                cf, 
+                                len( years )
+                            )
+                            .reshape(1, -1)
+                            [0]
+                        )
 
-                network.add(
-                    'Generator', # PyPSA component
-                    bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
-                    type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
-                    bus = bus, # region/bus/balancing zone
-                    # ---
-                    # unique technology parameters by bus
-                    p_nom = p_nom, # starting capacity (MW)
-                    p_max_pu = cf, # capacity factor
-                    p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
-                    efficiency = technology['efficiency'][bus], # efficiency
-                    ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
-                    ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
-                    # ---
-                    # universal technology parameters
-                    p_nom_extendable = p_nom_extendable, # can the model build more?
-                    capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
-                    marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
-                    carrier = technology['carrier'], # commodity/carrier
-                    build_year = year, # year available from
-                    lifetime = technology['lifetime'], # years
-                    start_up_cost = technology['start_up_cost'], # currency/MW
-                    shut_down_cost = technology['shut_down_cost'], # currency/MW
-                    committable = technology['committable'], # UNIT COMMITMENT
-                    ramp_limit_start_up = technology['ramp_limit_start_up'], # 
-                    ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
-                    min_up_time = technology['min_up_time'], # 
-                    min_down_time = technology['min_down_time'], # 
-                )
-            else:
-                continue
+                    network.add(
+                        'Generator', # PyPSA component
+                        bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                        type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
+                        bus = bus, # region/bus/balancing zone
+                        # ---
+                        # unique technology parameters by bus
+                        p_nom = p_nom, # starting capacity (MW)
+                        p_nom_min = p_nom_min, # minimum capacity (MW)
+                        p_nom_max = p_nom_max, # maximum capacity (MW)
+                        p_max_pu = cf, # capacity factor
+                        p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
+                        efficiency = technology['efficiency'][bus], # efficiency
+                        ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
+                        ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
+                        # ---
+                        # universal technology parameters
+                        p_nom_extendable = p_nom_extendable, # can the model build more?
+                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
+                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
+                        carrier = technology['carrier'], # commodity/carrier
+                        build_year = year, # year available from
+                        lifetime = technology['lifetime'], # years
+                        start_up_cost = technology['start_up_cost'], # currency/MW
+                        shut_down_cost = technology['shut_down_cost'], # currency/MW
+                        committable = technology['committable'], # UNIT COMMITMENT
+                        ramp_limit_start_up = technology['ramp_limit_start_up'], # 
+                        ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
+                        min_up_time = technology['min_up_time'], # 
+                        min_down_time = technology['min_down_time'], # 
+                    )
     
     # --- add storage units to network --- #
     for year in years:
@@ -288,13 +342,31 @@ def build_pypsa_network(
                     else:
                         p_nom_extendable = storage['extendable']
                         p_nom = storage['initial_capacity'][bus]
+                    
+                    # get planned expansions
+                    if 'planned_expansion' in storage.keys():
+                        if bus in storage['planned_expansion'].keys():
+                            pe = storage['planned_expansion'][bus]
+                            if any( year >= int(y) for y in list( pe.keys() ) ):
+                                closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
+                                p_nom_min = pe[closest_year]
+                    else:
+                        p_nom_min = 0
+                    
+                    # get maximum capacity
+                    if 'maximum_capacity' in storage.keys():
+                        if bus in storage['maximum_capacity'].keys():
+                            p_nom_max = storage['maximum_capacity'][bus]
+                        else:
+                            p_nom_max = np.inf
 
                     network.add(
                         'StorageUnit',
                         bus + '-' + storage['id'] + '-ext-' + str(year),
                         bus=bus, 
                         carrier=storage['carrier'],
-                        p_nom=p_nom, 
+                        p_nom=p_nom, # starting capacity (MW)
+                        p_nom_min=p_nom_min, # minimum capacity (MW)
                         p_nom_extendable=p_nom_extendable,
                         capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
                         marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
@@ -379,7 +451,16 @@ def build_pypsa_network(
     # --- set global constraints --- #
     if set_global_constraints:
 
+        print('INFO: Global constraints enabled. Remember to solve using network.optimize.solve_model()')
+
         for cstr in model['global_constraints']:
+
+            # cumulative p_nom_max
+            if cstr['id'] == 'cumulative_p_nom_max' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_cumulative_p_nom(network)
 
             # emissions budget
             if cstr['id'] == 'annual_co2_budget' and cstr['enabled'] == True:

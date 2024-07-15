@@ -22,6 +22,10 @@ global_constraints:
     description: The minimum level of demand that must be met by local generation by a bus.
     min_self_sufficiency: 0.05
     enabled: true
+  
+  - id: cumulative_p_nom_max
+    description: Applies p_nom_max cumulatively across a multi-year investment problem.
+    enabled: true
 
 custom_constraints:
   - id: cfe
