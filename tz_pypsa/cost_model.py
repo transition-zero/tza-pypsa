@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def calculate_construction_finance_factor(
         r : float,      # discount rate [0-1]
         y : list,       # years ( e.g., [1,2,3] )
@@ -39,14 +40,14 @@ def calculate_annuity(
         return 1/n
     
 
-def compute_costs():
+def compute_costs(path_to_dir):
     '''Get the tech costs
     '''
 
     # load capital outlay file
     capital_outlay = ( 
         pd
-        .read_csv('data/clean/ASEAN/costs_capital_outlay_during_construction.csv',skiprows=1)
+        .read_csv(f'{path_to_dir}costs_capital_outlay_during_construction.csv',skiprows=1)
         .set_index('carrier')
     )
 
@@ -69,7 +70,7 @@ def compute_costs():
     # load cost data
     costs = (
         pd
-        .read_csv('data/clean/ASEAN/costs_technology.csv')
+        .read_csv(f'{path_to_dir}costs_technology.csv')
         .groupby(by=['Country','Technology','Year'])
         .mean(numeric_only=True)
         .reset_index()
