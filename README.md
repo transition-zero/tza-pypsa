@@ -22,6 +22,7 @@ See instructions below on how to use a pre-built model or how you can build your
 - [Aman Majid](https://www.transitionzero.org/team/aman-majid)
 - [Abhishek Shivakumar](https://www.transitionzero.org/team/abhishek-shivakumar)
 - [Handriyanti Diah Puspitarini](https://www.transitionzero.org/team/handriyanti-diah-puspitarini)
+- [Dan Wells](https://github.com/djwels)
 
 **Data:**
 - [Calvin Nesbitt](https://www.transitionzero.org/team/calvin-nesbitt)
