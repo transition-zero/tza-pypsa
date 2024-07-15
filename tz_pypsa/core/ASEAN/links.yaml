@@ -26,278 +26,291 @@ links:
   - id: BRNXX-MYSSK
     from_node: BRNXX
     to_node: MYSSK
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNJW-IDNKA
     from_node: IDNJW
     to_node: IDNKA
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNJW-IDNNU
     from_node: IDNJW
     to_node: IDNNU
-    initial_capacity: 1600
-    planned_expansion: 400
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 1600
+    reverse_capacity: 1600
+    planned_expansion: 
+      2025: 400
 
   - id: IDNJW-IDNSM
     from_node: IDNJW
     to_node: IDNSM
-    initial_capacity: 3000
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 3000
+    reverse_capacity: 3000
 
   - id: IDNKA-IDNSL
     from_node: IDNKA
     to_node: IDNSL
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
     
   - id: IDNKA-MYSSH
     from_node: IDNKA
     to_node: MYSSH
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNKA-MYSSK
     from_node: IDNKA
     to_node: MYSSK
-    initial_capacity: 230
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 230
+    reverse_capacity: 230
 
   - id: IDNML-IDNPP
     from_node: IDNML
     to_node: IDNPP
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNML-IDNSL
     from_node: IDNML
     to_node: IDNSL
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNNU-IDNSL
     from_node: IDNNU
     to_node: IDNSL
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNSM-MYSPE
     from_node: IDNSM
     to_node: MYSPE
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNSM-SGPXX
     from_node: IDNSM
     to_node: SGPXX
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
   
   - id: LAOXX-MMRXX
     from_node: LAOXX
     to_node: MMRXX
-    initial_capacity: 0
-    planned_expansion: 600
-    expansion_year: 2026
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2026 : 600
   
   - id: LAOXX-VNMNO
     from_node: LAOXX
     to_node: VNMNO
-    initial_capacity: 0
-    planned_expansion: 1032
-    expansion_year: 2025
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2025 : 1032
   
   - id: LAOXX-VNMCE
     from_node: LAOXX
     to_node: VNMCE
-    initial_capacity: 538
-    planned_expansion: 2036
-    expansion_year: 2025
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 538
+    reverse_capacity: 538
+    planned_expansion:
+      2025 : 2036
 
   - id: MYSPE-MYSSK
     from_node: MYSPE
     to_node: MYSSK
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: MYSSH-MYSSK
     from_node: MYSSH
     to_node: MYSSK
-    initial_capacity: 0
-    planned_expansion: 50
-    expansion_year: 2024
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    planned_expansion: 50
+    reverse_capacity: 50
+      2024 : 50
 
   - id: MYSSH-PHLLU
     from_node: MYSSH
     to_node: PHLLU
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: MYSPE-SGPXX 
     from_node: MYSPE
     to_node: SGPXX
-    initial_capacity: 1000
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 1000
+    reverse_capacity: 1000
 
   - id: KHMXX-LAOXX
     from_node: KHMXX
     to_node: LAOXX
-    initial_capacity: 300
-    planned_expansion: 0
-    expansion_year:
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 300
+    reverse_capacity: 300
   
   - id: KHMXX-THACE
     from_node: KHMXX
     to_node: THACE
-    initial_capacity: 120
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 120
+    reverse_capacity: 120
   
   - id: KHMXX-VNMSO
     from_node: KHMXX
     to_node: VNMSO
-    initial_capacity: 200
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 200
+    reverse_capacity: 200
 
   - id: PHLLU-PHLVI
     from_node: PHLLU
     to_node: PHLVI
-    initial_capacity: 440
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 440
+    reverse_capacity: 440
   
   - id: PHLMI-PHLVI
     from_node: PHLMI
     to_node: PHLVI
-    initial_capacity: 0
-    planned_expansion: 450
-    expansion_year: 2024
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2024: 450
   
   - id: VNMCE-VNMNO
     from_node: VNMCE
     to_node: VNMNO
-    initial_capacity: 2200
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 2200
+    reverse_capacity: 2200
 
   - id: VNMCE-VNMSO
     from_node: VNMCE
     to_node: VNMSO
-    initial_capacity: 12000
-    planned_expansion: 3500
-    expansion_year: 2025
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 12000
+    reverse_capacity: 12000
+    planned_expansion:
+      2025: 3500
 
   - id: THANO-THACE
     from_node: THANO
     to_node: THACE
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: THACE-THASO
     from_node: THACE
     to_node: THASO
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
   
   - id: THASO-MYSPE
     from_node: THASO
     to_node: MYSPE
-    initial_capacity: 380
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 380
+    reverse_capacity: 380
   
   - id: THANO-LAOXX
     from_node: LAOXX
     to_node: THANO
-    initial_capacity: 5427
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 5427
+    reverse_capacity: 5427
   
   - id: THACE-LAOXX
     from_node: THACE
     to_node: LAOXX
-    initial_capacity: 0
-    planned_expansion: 0
-    expansion_year: 
     extendable: false
     carrier: electricity
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
