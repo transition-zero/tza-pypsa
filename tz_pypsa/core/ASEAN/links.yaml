@@ -357,8 +357,8 @@ links:
     reverse_capacity: 380
   
   - id: THANO-LAOXX
-    from_node: LAOXX
-    to_node: THANO
+    from_node: THANO
+    to_node: LAOXX
     extendable: false
     carrier: electricity
     lifetime: 99

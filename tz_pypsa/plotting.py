@@ -4,7 +4,198 @@ import pandas as pd
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
+import plotly.graph_objects as go
+
 def dispatch(
+    network, 
+    period=2023,
+    iso_code='PHL', 
+    resample='D',
+    mul=1e3,
+    unit='GW',
+    show_imports=True,
+    show_exports=False,
+) -> go.Figure:
+
+    '''
+    Plot dispatch at daily resolution.
+
+    Parameters
+    ----------
+
+    model_name : pypsa.Network
+        The name of the model to load.
+    period : int
+        The year to plot.
+    bus : str
+        The bus name to filter the generators.
+    resample : str
+        The resampling frequency.
+        
+    Returns:
+    ----------
+
+    fig : go.Figure
+        The generated plot figure.
+
+    '''
+
+    # get exports
+    cols = [i for i in n.links_t.p0.columns if iso_code in i.split('-')[0] and iso_code not in i.split('-')[1]]
+    exports = (
+        network
+        .links_t
+        .p0
+        .loc[period]
+        [cols]
+        .sum(axis=1)
+        .mul(-1)
+        .resample(resample)
+        .sum()
+        .reset_index()
+    )
+
+    # get imports
+    cols = [i for i in n.links_t.p0.columns if iso_code in i.split('-')[1] and iso_code not in i.split('-')[0]]
+    imports = (
+        network
+        .links_t
+        .p0
+        .loc[period]
+        [cols]
+        .sum(axis=1)
+        .resample(resample)
+        .sum()
+        .reset_index()
+    )
+
+    # get generation
+    generation = (
+        network
+        .generators_t
+        .p
+        .loc[period]
+        .filter(regex=iso_code)
+        .groupby(n.generators.carrier, axis=1)
+        .sum()
+        .resample(resample)
+        .sum()
+        .reset_index()
+        .copy()
+    )
+
+    # get load
+    load = (
+        network
+        .loads_t
+        .p
+        .loc[period]
+        .filter(regex=iso_code)
+        .sum(axis=1)
+        .resample(resample)
+        .sum()
+        .reset_index()
+    )
+
+    # Create figure
+    fig = go.Figure()
+
+    # add traces
+    for generator in generation.columns:
+
+        if generator != 'timestep':
+            fig.add_trace(
+                go.Scatter(
+                    x=list(generation.timestep),
+                    y=list(generation[generator].div(mul)),
+                    mode='lines',
+                    stackgroup='one',
+                    name=generator,
+                    line=dict(color=n.carriers.color.to_dict()[generator]),
+                )
+            )
+
+    # add exports
+    if show_exports:
+        fig.add_trace(
+                go.Scatter(
+                x=list(exports.timestep),
+                y=list(exports[0].div(mul)),
+                mode='lines',
+                #stackgroup='one',
+                name='Exports',
+                line=dict(color='magenta'),
+                #fill='tozeroy',
+            )
+        )
+    
+    # add imports
+    if show_imports:
+        fig.add_trace(
+                go.Scatter(
+                x=list(imports.timestep),
+                y=list(imports[0].div(mul)),
+                mode='lines',
+                stackgroup='one',
+                name='Imports',
+                line=dict(color='cyan'),
+            )
+        )
+    
+    # add load
+    fig.add_trace(
+            go.Scatter(
+            x=list(load.timestep),
+            y=list(load[0].div(mul)),
+            mode='lines',
+            #stackgroup='one',
+            name='Load',
+            line=dict(color='black', width=3),
+        )
+    )
+
+    # Add range slider
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+                buttons=list([
+                    dict(count=5,
+                         label="5D",
+                         step="day",
+                         stepmode="backward"),
+                    dict(count=1,
+                         label="1M",
+                         step="month",
+                         stepmode="backward"),
+                    dict(count=3,
+                         label="3M",
+                         step="month",
+                         stepmode="backward"),
+                    dict(count=1,
+                         label="1Y",
+                         step="year",
+                         stepmode="backward"),
+                    # dict(step="all")
+                ])
+            ),
+            rangeslider=dict(
+                visible=True
+            ),
+            type="date",
+        ),
+        # yaxis_range=(0, (df.drop('timestep',axis=1).sum(axis=1).max() / 1e3)*1.05 ),
+        yaxis_title=f'Generation [{unit}]',
+        xaxis_title='Time (Day)',
+        title='Daily Generation',
+        width=1200,
+        height=500,
+    )
+
+    # Show the plot
+    return fig
+
+
+def dispatch_simple(
         network : pypsa.Network,
         time : pd.Timestamp = None,
         multiplier : float = 1,
