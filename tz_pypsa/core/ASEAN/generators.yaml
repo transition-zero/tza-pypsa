@@ -760,8 +760,6 @@ generators:
       PHLMI: 499
       PHLVI: 514
       VNMCE: 660
-    maximum_capacity:
-      IDNJW: 1000
     efficiency:
       IDNSM: 0.46
       IDNJW: 0.46
@@ -900,6 +898,9 @@ generators:
       IDNPP: 60
       IDNSL: 1900
       IDNSM: 12540
+      PHLLU: 760
+      PHLVI: 2420
+      PHLMI: 820
     efficiency:
       IDNSM: 0.1
       IDNJW: 0.1
@@ -1043,6 +1044,31 @@ generators:
       VNMCE: 5741
       VNMNO: 8068
       VNMSO: 1768
+    maximum_capacity:
+      IDNSM: 15600
+      IDNNU: 360
+      IDNJW: 4950
+      IDNSL: 10300
+      IDNKA: 21600
+      IDNML: 730
+      IDNPP: 22400
+      BRNXX: 0
+      KHMXX: 10000
+      LAOXX: 20000
+      MMRXX: 39710
+      MYSPE: 14230
+      MYSSH: 380
+      MYSSK: 5390
+      PHLLU: 11640
+      PHLMI: 4860
+      PHLVI: 0
+      SGPXX: 0
+      THACE: 3950
+      THANO: 10890
+      THASO: 310
+      VNMCE: 16450
+      VNMSO: 2390
+      VNMNO: 16160
     efficiency:
       IDNSM: 0.95
       IDNJW: 0.95
@@ -1462,6 +1488,31 @@ generators:
         2030: 0.1
       SGPXX: 
         2030: 0.1
+    maximum_capacity:
+      BRNXX: 160
+      IDNJW: 40800
+      IDNKA: 133690
+      IDNML: 1880
+      IDNNU: 6040
+      IDNPP: 16050
+      IDNSL: 15500
+      IDNSM: 150720
+      KHMXX: 123030
+      LAOXX: 39460
+      MMRXX: 240910
+      MYSPE: 26210
+      MYSSH: 4500
+      MYSSK: 14220
+      PHLLU: 15660
+      PHLMI: 18560
+      PHLVI: 8490
+      SGPXX: 420
+      THACE: 70790
+      THANO: 285970
+      THASO: 26480
+      VNMCE: 37440
+      VNMSO: 54180
+      VNMNO: 18440
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -1720,6 +1771,31 @@ generators:
     initial_capacity:
       VNMNO: 217
       VNMSO: 1086
+    maximum_capacity:
+      IDNSM: 17580
+      IDNNU: 84170
+      IDNJW: 11520
+      IDNSL: 91910
+      IDNKA: 1260
+      IDNML: 68300
+      IDNPP: 2250
+      BRNXX: 372
+      KHMXX: 0
+      LAOXX: 0
+      MMRXX: 0
+      MYSPE: 0
+      MYSSH: 0
+      MYSSK: 0
+      PHLLU: 6000
+      PHLMI: 6000
+      PHLVI: 6000
+      SGPXX: 0
+      THACE: 0
+      THANO: 0
+      THASO: 0
+      VNMCE: 0
+      VNMSO: 261000
+      VNMNO: 0
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -1851,6 +1927,31 @@ generators:
       VNMCE: 2592
       VNMNO: 26
       VNMSO: 1240
+    maximum_capacity:
+      BRNXX: 150
+      IDNSM: 1250
+      IDNNU: 5990
+      IDNJW: 820
+      IDNSL: 6540
+      IDNKA: 90
+      IDNML: 4860
+      IDNPP: 160
+      KHMXX: 125310
+      LAOXX: 54890
+      MMRXX: 324800
+      MYSPE: 32310
+      MYSSH: 8060
+      MYSSK: 16090
+      PHLLU: 27610
+      PHLMI: 37720
+      PHLVI: 17100
+      SGPXX: 280
+      THACE: 76480
+      THANO: 315000
+      THASO: 35810
+      VNMCE: 44940
+      VNMSO: 54890
+      VNMNO: 24190
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
