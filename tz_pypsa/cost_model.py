@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def calculate_construction_finance_factor(
         r : float,      # discount rate [0-1]
         y : list,       # years ( e.g., [1,2,3] )
@@ -40,14 +39,14 @@ def calculate_annuity(
         return 1/n
     
 
-def compute_costs(path_to_dir):
+def compute_costs():
     '''Get the tech costs
     '''
 
     # load capital outlay file
     capital_outlay = ( 
         pd
-        .read_csv(f'{path_to_dir}costs_capital_outlay_during_construction.csv',skiprows=1)
+        .read_csv('data/clean/ASEAN/costs_capital_outlay_during_construction.csv',skiprows=1)
         .set_index('carrier')
     )
 
@@ -70,11 +69,20 @@ def compute_costs(path_to_dir):
     # load cost data
     costs = (
         pd
-        .read_csv(f'{path_to_dir}costs_technology.csv')
+        .read_csv('data/clean/ASEAN/costs_technology.csv')
         .groupby(by=['Country','Technology','Year'])
         .mean(numeric_only=True)
         .reset_index()
         .set_index(['Country','Technology', 'Year'])
+    )
+
+    costs_links = (
+        pd
+        .read_csv('data/clean/ASEAN/costs_interconnectors.csv')
+        .groupby(by=['from_node','to_node'])
+        .mean(numeric_only=True)
+        .reset_index()
+        .set_index(['from_node','to_node'])
     )
 
     #overwrite blank fixed costs with VNM/IDN averages
