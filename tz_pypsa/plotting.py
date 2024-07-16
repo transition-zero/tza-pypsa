@@ -4,7 +4,127 @@ import pandas as pd
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
+import plotly.express as px
 import plotly.graph_objects as go
+
+def energy_balance(
+    network, 
+    period=2023,
+    mul=1e6,
+    unit='TWh',
+    show_imports=True,
+) -> go.Figure:
+
+    '''
+    Plot dispatch at daily resolution.
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot.
+    mul : float
+        The multiplier to convert units.
+    unit : str
+        The unit of the plot.
+    show_imports : bool
+        If True, show imports.
+        
+    Returns:
+    ----------
+
+    fig : go.Figure
+        The generated plot figure.
+
+    '''
+
+
+    loads = (
+        network
+        .loads_t
+        .p_set
+        .loc[period]
+        .resample('YE')
+        .sum()
+        .div(mul)
+        .melt()
+        .sort_values(by='Load')
+        .reset_index(drop=True)
+    )
+
+    total_generation = (
+        network
+        .generators_t
+        .p
+        .loc[period]
+        .resample('YE')
+        .sum()
+        .groupby([network.generators.bus, network.generators.carrier], axis=1)
+        .sum()
+        .div(mul)
+        .melt()
+        .sort_values(by='bus')
+    )
+
+    # append imports to df
+    imports = (
+        network
+        .links_t
+        .p0
+        .loc[period]
+        .resample('YE')
+        .sum()
+        .melt()
+    )
+
+    imports['bus'] = imports['Link'].apply(lambda x: x.split('-')[1])
+
+    imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
+
+    total_generation = pd.concat([total_generation, imports], ignore_index=True)
+
+    # define order for x-axis
+    cat_order = total_generation.sort_values(by='bus').bus.unique().tolist()
+
+    # define colours for carriers
+    colour_map = network.carriers.color.to_dict()
+    colour_map['imports'] = 'peru'
+
+    fig = px.bar(
+        total_generation, 
+        x="bus", 
+        y="value", 
+        color="carrier",
+        color_discrete_map=colour_map,
+        category_orders={'bus' : cat_order},
+        #barmode="group",
+    )
+
+    fig.add_scatter(
+        x=loads.Load,
+        y=loads.value,
+        mode='markers',
+        name='Load',
+        marker=dict(
+            size=7,
+            color='red',
+            symbol='circle',
+        ),
+    )
+
+    fig.update_layout(
+        yaxis_title=f'Load [{unit}]',
+        xaxis_title='',
+        title='Bus-level energy balance',
+        width=1200,
+        height=500,
+        xaxis_tickangle=-45
+    )
+    
+    return fig
+
 
 def dispatch(
     network, 
@@ -23,15 +143,23 @@ def dispatch(
     Parameters
     ----------
 
-    model_name : pypsa.Network
-        The name of the model to load.
+    network : pypsa.Network
+        The PyPSA network object.
     period : int
         The year to plot.
-    bus : str
-        The bus name to filter the generators.
+    iso_code : str
+        The ISO code of the country to plot.
     resample : str
         The resampling frequency.
-        
+    mul : float
+        The multiplier to convert units.
+    unit : str
+        The unit of the plot.
+    show_imports : bool
+        If True, show imports.
+    show_exports : bool
+        If True, show exports.
+
     Returns:
     ----------
 
