@@ -1,12 +1,69 @@
+import pypsa
+
 import pandas as pd
 
 
-def export_to_excel(
-        network, 
-        filename
+
+def get_backstop_generation_by_bus(
+        network : pypsa.Network
 ):
-    '''Exports the results from a PyPSA run to an excel sheet
-    '''
+    return (
+        network
+        .generators_t
+        .p
+        .filter(regex='Backstop')
+        .sum()
+        .reset_index()
+        .rename(columns={0: 'MW'})
+        .query(' MW > 0' )
+        .set_index('Generator')
+    )
+
+
+def get_load_by_bus(
+        network : pypsa.Network,
+        resample : str = 'YE',
+        period : int = 2023,
+        mul : float = 1e3,
+    ) -> pd.DataFrame:
+
+    """
+    Get the load by bus for a given network and time period.
+
+    Parameters:
+        network (pypsa.Network): The PyPSA network object.
+        resample (str, optional): The resampling frequency for the load data. Defaults to 'YE' (yearly).
+        period (int, optional): The time period for which to retrieve the load data. Defaults to 2023.
+        mul (float, optional): The multiplier to apply to the load data. Defaults to 1e3.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the load data by bus, resampled and scaled.
+
+    """
+    return (
+        network
+        .loads_t
+        .p_set
+        .loc[period]
+        .resample(resample)
+        .sum()
+        .div(mul)
+        .reset_index()
+        .melt(id_vars='timestep', var_name='bus', value_name='load')
+    )
+
+
+def export_to_excel(network, filename):
+    """
+    Export network components and statistics to an Excel file.
+
+    Parameters:
+        network (pypsa.Network): The PyPSA network object.
+        filename (str): The name of the Excel file to be created.
+
+    Returns:
+        None
+    """
     
     # Convert network components to DataFrames
     nodes = network.buses
