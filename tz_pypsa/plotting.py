@@ -41,7 +41,7 @@ def dispatch(
     '''
 
     # get exports
-    cols = [i for i in n.links_t.p0.columns if iso_code in i.split('-')[0] and iso_code not in i.split('-')[1]]
+    cols = [i for i in network.links_t.p0.columns if iso_code in i.split('-')[0] and iso_code not in i.split('-')[1]]
     exports = (
         network
         .links_t
@@ -56,7 +56,7 @@ def dispatch(
     )
 
     # get imports
-    cols = [i for i in n.links_t.p0.columns if iso_code in i.split('-')[1] and iso_code not in i.split('-')[0]]
+    cols = [i for i in network.links_t.p0.columns if iso_code in i.split('-')[1] and iso_code not in i.split('-')[0]]
     imports = (
         network
         .links_t
@@ -76,7 +76,7 @@ def dispatch(
         .p
         .loc[period]
         .filter(regex=iso_code)
-        .groupby(n.generators.carrier, axis=1)
+        .groupby(network.generators.carrier, axis=1)
         .sum()
         .resample(resample)
         .sum()
@@ -111,7 +111,7 @@ def dispatch(
                     mode='lines',
                     stackgroup='one',
                     name=generator,
-                    line=dict(color=n.carriers.color.to_dict()[generator]),
+                    line=dict(color=network.carriers.color.to_dict()[generator]),
                 )
             )
 
