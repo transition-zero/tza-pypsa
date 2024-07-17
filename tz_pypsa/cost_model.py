@@ -39,14 +39,14 @@ def calculate_annuity(
         return 1/n
     
 
-def compute_costs():
+def compute_costs(path_to_dir):
     '''Get the tech costs
     '''
 
     # load capital outlay file
     capital_outlay = ( 
         pd
-        .read_csv('data/clean/ASEAN/costs_capital_outlay_during_construction.csv',skiprows=1)
+        .read_csv(f'{path_to_dir}costs_capital_outlay_during_construction.csv',skiprows=1)
         .set_index('carrier')
     )
 
@@ -69,20 +69,11 @@ def compute_costs():
     # load cost data
     costs = (
         pd
-        .read_csv('data/clean/ASEAN/costs_technology.csv')
+        .read_csv(f'{path_to_dir}costs_technology.csv')
         .groupby(by=['Country','Technology','Year'])
         .mean(numeric_only=True)
         .reset_index()
         .set_index(['Country','Technology', 'Year'])
-    )
-
-    costs_links = (
-        pd
-        .read_csv('data/clean/ASEAN/costs_interconnectors.csv')
-        .groupby(by=['from_node','to_node'])
-        .mean(numeric_only=True)
-        .reset_index()
-        .set_index(['from_node','to_node'])
     )
 
     #overwrite blank fixed costs with VNM/IDN averages
@@ -116,3 +107,5 @@ def compute_costs():
     )
 
     return costs#[ ~costs.Technology.isna() ].reset_index(drop=True)
+
+
