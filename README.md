@@ -65,7 +65,10 @@ That's it! You are now ready to use tza-pypsa as shown below. However, you will 
 - [HiGHS](https://highs.dev/)
 
 ## Usage (running a model)
-You can either build your own model or use a pre-built model. With a pre-built model, you can construct and run a PyPSA model with only a few lines of code. For instance, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa/tree/main/tz_pypsa/core/ASEAN) at an hourly resolution between 2023 and 2050 at 10-year timesteps as shown below:
+
+### Working with a pre-built model
+
+You can either build your model or use a pre-built model. With a pre-built model, you can construct and run a PyPSA model with only a few lines of code. For instance, you can run the [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa/tree/main/tz_pypsa/core/ASEAN) at an hourly resolution between 2023 and 2050 at 10-year timesteps as shown below:
 
 ```python
 
@@ -79,6 +82,8 @@ network.optimize(
   solver_options={"solver": "pdlp"},
 )
 ```
+
+### Load your own model
 
 If you'd like to build and run your own model, you can do so by running:
 
