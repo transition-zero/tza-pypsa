@@ -4,6 +4,13 @@
   <a href="https://www.transitionzero.org/">
 </picture>
 
+<!-- badges-begin -->
+![Python][python badge]
+![Status][status badge]
+[python badge]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Lkruitwagen/bd1e357c1bce5fc2c0808bcdb569157c/raw/python_version_badge.json
+[status badge]: https://img.shields.io/badge/under%20construction-ffae00
+<!-- badges-end -->
+
 # TZ-Analysis-PyPSA
 This repo contains code developed by the Analysis team at TransitionZero (TZA) to build and solve with [`PyPSA`](https://pypsa.org/) models. TZA-PyPSA allows us to modularly construct and work with PyPSA network models. 
 
