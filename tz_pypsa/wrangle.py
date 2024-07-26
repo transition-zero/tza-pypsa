@@ -3,10 +3,20 @@ import pypsa
 import pandas as pd
 
 
-
 def get_backstop_generation_by_bus(
         network : pypsa.Network
-):
+    ) -> pd.DataFrame:
+    
+    '''
+    Get the backstop generation by bus for a given network.
+
+    Parameters:
+        network (pypsa.Network): The PyPSA network object.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the backstop generation by bus.
+        
+    '''
     return (
         network
         .generators_t
@@ -27,7 +37,7 @@ def get_load_by_bus(
         mul : float = 1e3,
     ) -> pd.DataFrame:
 
-    """
+    '''
     Get the load by bus for a given network and time period.
 
     Parameters:
@@ -39,13 +49,13 @@ def get_load_by_bus(
     Returns:
         pd.DataFrame: A DataFrame containing the load data by bus, resampled and scaled.
 
-    """
+    '''
     return (
         network
         .loads_t
         .p_set
         .loc[period]
-        .resample(resample)
+        .droplevel(0).resample(resample)
         .sum()
         .div(mul)
         .reset_index()
@@ -53,8 +63,12 @@ def get_load_by_bus(
     )
 
 
-def export_to_excel(network, filename):
-    """
+def export_to_excel(
+        network, 
+        filename
+    ) -> None:
+
+    '''
     Export network components and statistics to an Excel file.
 
     Parameters:
@@ -63,20 +77,21 @@ def export_to_excel(network, filename):
 
     Returns:
         None
-    """
+    
+    '''
     
     # Convert network components to DataFrames
     nodes = network.buses
     generators = network.generators
     links = network.links
     generation_hourly = network.generators_t.p
-    generation_monthly = network.generators_t.p.resample('ME').sum()
+    generation_monthly = network.generators_t.p.droplevel(0).resample('ME').sum()
     p_by_carrier = network.generators_t.p.groupby(network.generators.type, axis=1).sum()
-    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).sum().resample('ME').sum()
+    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).sum().droplevel(0).resample('ME').sum()
     interconnector_hourly = network.links_t.p0
-    interconnector_monthly = network.links_t.p0.resample('ME').sum()
+    interconnector_monthly = network.links_t.p0.droplevel(0).resample('ME').sum()
     statistics = network.statistics()
-    loads = network.loads_t.p.resample('ME').sum()
+    loads = network.loads_t.p.droplevel(0).resample('ME').sum()
     energy_balance = (network.statistics.energy_balance() / 1e6).round(2)
     curtailment = network.statistics.curtailment()
     installed_capacity = network.statistics.installed_capacity()
