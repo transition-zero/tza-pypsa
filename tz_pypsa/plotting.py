@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
+
 def energy_balance(
-    network, 
-    period=2023,
-    mul=1e6,
-    unit='TWh',
-    show_imports=True,
-) -> go.Figure:
+        network : pypsa.Network, 
+        period : int = 2023,
+        mul : float = 1e6,
+        unit : str = 'TWh',
+        show_imports : bool = True,
+    ) -> go.Figure:
 
     '''
     Plot dispatch at daily resolution.
@@ -69,21 +70,20 @@ def energy_balance(
     )
 
     # append imports to df
-    imports = (
-        network
-        .links_t
-        .p0
-        .loc[period]
-        .resample('YE')
-        .sum()
-        .melt()
-    )
+    if show_imports:
+        imports = (
+            network
+            .links_t
+            .p0
+            .loc[period]
+            .resample('YE')
+            .sum()
+            .melt()
+        )
 
-    imports['bus'] = imports['Link'].apply(lambda x: x.split('-')[1])
-
-    imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
-
-    total_generation = pd.concat([total_generation, imports], ignore_index=True)
+        imports['bus'] = imports['Link'].apply(lambda x: x.split('-')[1])
+        imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
+        total_generation = pd.concat([total_generation, imports], ignore_index=True)
 
     # define order for x-axis
     cat_order = total_generation.sort_values(by='bus').bus.unique().tolist()
@@ -127,15 +127,15 @@ def energy_balance(
 
 
 def dispatch(
-    network, 
-    period=2023,
-    iso_code='PHL', 
-    resample='D',
-    mul=1e3,
-    unit='GW',
-    show_imports=True,
-    show_exports=False,
-) -> go.Figure:
+        network : pypsa.Network, 
+        period : int = 2023,
+        iso_code : str = 'PHL', 
+        resample : str = 'D',
+        mul : float = 1e3,
+        unit : str = 'GW',
+        show_imports : bool = True,
+        show_exports : bool = False,
+    ) -> go.Figure:
 
     '''
     Plot dispatch at daily resolution.
