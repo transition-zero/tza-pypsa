@@ -15,12 +15,5 @@ notebooks/scrap*
 # scrap
 scrap/*
 
-projects/google-cfe/results/*
-
-# scripts
-scripts/plotting.py
-projects/google-cfe/test.ipynb
-models/ASEAN/calibration.yaml
-PHL_CALIBRATION.csv
-ASEAN_CALIBRATION.csv
-tz_pypsa/data/raw/global/gridfinder.gpkg
+# token
+_GITHUB_TOKEN_
