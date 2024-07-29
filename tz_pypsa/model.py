@@ -2,6 +2,7 @@ import os
 import yaml
 import pypsa
 
+import pandas as pd
 import xarray as xr
 
 # ---
@@ -12,6 +13,8 @@ from . import cost_model
 from .helpers import (
     load_yaml_from_dir,
     get_core_models,
+    get_github_token,
+    get_data_from_github_with_auth,
 )
 
 from .build_network import (
@@ -111,16 +114,44 @@ class Model:
         else:
             raise ValueError(f"Model {model_name} not found in core models.")
 
-        # get timeseries
-        ts_file = [ i for i in os.listdir( os.path.join(os.path.dirname(os.path.abspath(__file__)), f'core/{model_name}/data') ) if '.nc' in i ][-1]
-        timeseries = (
-            xr
-            .open_dataset(
-                os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), 
-                    f'core/{model_name}/data/', 
-                    ts_file,
-                )
+        # ---
+        # Load data from remote directories
+
+        PERSONAL_ACCESS_TOKEN = get_github_token()
+
+        # load capital outlay file
+        url = (
+                get_data_from_github_with_auth(
+                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
+                personal_access_token = PERSONAL_ACCESS_TOKEN,
+                remote_data = model['remote_data'],
+            )
+        )
+
+        capital_outlay = ( 
+            pd
+            .read_csv(
+                url,
+                skiprows=1
+            )
+            .set_index(
+                'carrier'
+            )
+        )
+
+        # load technology costs
+        url = (
+            get_data_from_github_with_auth(
+                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
+                personal_access_token = PERSONAL_ACCESS_TOKEN,
+                remote_data = model['remote_data'],
+            )
+        )
+
+        technology_costs = (
+            pd
+            .read_csv(
+                url
             )
         )
 
@@ -128,12 +159,35 @@ class Model:
         costs = (
             cost_model
             .compute_costs(
-                path_to_dir = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), 
-                    f'core/{model_name}/data/',
-                )
+                technology_costs = technology_costs,
+                capital_outlay = capital_outlay,
             )
+            .set_index(['Country','Technology','Year'])
         )
+
+        # get timeseries
+        datasets = []
+        for year in years:
+
+            url = get_data_from_github_with_auth(
+                path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
+                personal_access_token=PERSONAL_ACCESS_TOKEN,
+                remote_data=model['remote_data'],
+            )
+
+            # open and resample
+            ts = (
+                xr
+                .open_dataset(url)
+                .resample(
+                    snapshot = model['time_definition']['frequency'],
+                )
+                .mean()
+            )
+
+            datasets.append(ts)
+
+        timeseries = xr.concat(datasets, dim='snapshot')
 
         # build network
         return build_pypsa_network(

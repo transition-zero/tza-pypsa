@@ -1,0 +1,29 @@
+# -------------------------------------------------------------------------
+#
+#   DATA
+#   
+#     Define the paths or links to data files
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+remote_data:
+
+  github_api_info:
+    repo_owner: 'transition-zero'
+    repo_name: 'tza-asean-data'
+
+  technology_costs:
+    description: Technology costs for the ASEAN model
+    git_api: application/vnd.github.v3.raw
+    path_to_cost: outputs/technology-costs/
+
+  timeseries:
+    description: Timeseries data for the ASEAN model
+    git_api: application/vnd.github.v3.raw
+    path_to_timeseries: outputs/timeseries/

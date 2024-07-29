@@ -9,6 +9,9 @@ from .constraints import (
     constr_bus_self_sufficiency,
 )
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def build_pypsa_network(
         model : dict,
         timeseries : xr.Dataset,
@@ -70,20 +73,6 @@ def build_pypsa_network(
 
     elif isinstance(years, list) and len(years) > 1:
         multi_year_investment = True
-
-    # --- filter costs for nearest years --- #
-    closest_year_in_data = min( costs.Year.unique(), key=lambda x:abs(x-years[0]))
-
-    costs = (
-        costs
-        .loc[
-            costs.Year == closest_year_in_data
-        ]
-        .reset_index(drop=True)
-        .set_index(
-            ['Country','Technology']
-        )
-    )
     
     # --- get subset of model by countries --- #
     if not select_nodes:
@@ -93,7 +82,6 @@ def build_pypsa_network(
         links       = [link for link in model['links'] if link['id'][0:3] in select_nodes and link['id'][6:9] in select_nodes]
         nodes       = [node for node in model['nodes'] if node['id'][0:3] in select_nodes]
         timeseries  = timeseries.sel(node=[n for n in timeseries.node.values if n[0:3] in select_nodes])
-        costs       = costs.loc[select_nodes]
 
     # --- initialise PyPSA network --- #
     network = pypsa.Network()
@@ -113,19 +101,18 @@ def build_pypsa_network(
 
     else:
         '''Multi-year investment problem'''
-        snapshots = pd.DatetimeIndex([])
-        for year in years:
-            period = pd.date_range(
-                start=f"{year}-01-01 00:00",
-                freq=frequency,
-                periods= int(8760 / float( frequency.strip('h') )),
-            )
-            snapshots = snapshots.append(period)
-
         # convert to multiindex and assign to network
-        network.snapshots = pd.MultiIndex.from_arrays([snapshots.year, snapshots])
+        network.snapshots = (
+            pd.MultiIndex.from_arrays(
+                [
+                    timeseries.snapshot.to_series().dt.year, 
+                    timeseries.snapshot.to_series()
+                ]
+            )
+        )
+        
         network.investment_periods = years
-
+        
         network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
 
         # Set the years and objective weighting per investment period. 
@@ -250,52 +237,46 @@ def build_pypsa_network(
                     if technology['id'] == 'wind-onshore':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_wind_onshore
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'wind-offshore-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_wind_offshore
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'photovoltaic-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_solar_pv
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'hydro-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_hydro
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     else:
                         cf = 1
                     
-                    if isinstance(cf, np.ndarray):
-                        cf = (
-                            np
-                            .tile(
-                                cf, 
-                                len( years )
-                            )
-                            .reshape(1, -1)
-                            [0]
-                        )
 
                     network.add(
                         'Generator', # PyPSA component
@@ -315,8 +296,8 @@ def build_pypsa_network(
                         # ---
                         # universal technology parameters
                         p_nom_extendable = p_nom_extendable, # can the model build more?
-                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
-                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
+                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].MarginalCost, # currency/MWh
                         carrier = technology['carrier'], # commodity/carrier
                         build_year = year, # year available from
                         lifetime = technology['lifetime'], # years
@@ -368,8 +349,8 @@ def build_pypsa_network(
                         p_nom=p_nom, # starting capacity (MW)
                         p_nom_min=p_nom_min, # minimum capacity (MW)
                         p_nom_extendable=p_nom_extendable,
-                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
-                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
+                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].AnnualCapitalCost,
+                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].MarginalCost,
                         build_year=year,
                         lifetime=storage['lifetime'],
                         state_of_charge_initial=storage['state_of_charge_initial'],
@@ -387,25 +368,14 @@ def build_pypsa_network(
 
         demand = (
             timeseries
-            .sel(node=bus)
+            .sel(
+                node=bus,
+            )
             .demand
-            .resample(snapshot=frequency)
-            .mean()
             .to_pandas()
             .mul(load_multiplier)
-            .to_numpy()
+            .values
         )
-
-        if isinstance(demand, np.ndarray):
-            demand = (
-                np
-                .tile(
-                    demand, 
-                    len( years )
-                )
-                .reshape(1, -1)
-                [0]
-            )
 
         network.add(
             "Load", # PyPSA component
