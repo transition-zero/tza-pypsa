@@ -94,7 +94,7 @@ def get_data_from_github_with_auth(
     '''
 
     import requests
-    from io import StringIO
+    from io import StringIO, BytesIO
 
     REPO_OWNER = remote_data['github_api_info']['repo_owner']
     REPO_NAME = remote_data['github_api_info']['repo_name']
@@ -113,6 +113,9 @@ def get_data_from_github_with_auth(
 
     # Check for successful response
     if response.status_code == 200:
-        return StringIO(response.text)
+        if '.csv' in path_to_file:
+            return StringIO(response.text) 
+        elif '.nc' in path_to_file:
+            return BytesIO(response.content)
     else:
         raise Exception(f'\nCould not access remote repository.\nRepository: {url}\nResponse code: {response.status_code}')
