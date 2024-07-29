@@ -8,9 +8,12 @@
 
 <!-- badges-begin -->
 
+[![License][license badge]][license]
 ![Python][python badge]
 ![Active Development](https://img.shields.io/badge/Status-Active%20Development-brightgreen)
 
+[license badge]: https://img.shields.io/github/license/ad-aures/castopod?color=blue
+[license]: https://opensource.org/license/agpl-v3
 [python badge]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Lkruitwagen/bd1e357c1bce5fc2c0808bcdb569157c/raw/python_version_badge.json
 
 <!-- ![Status][status badge] 
