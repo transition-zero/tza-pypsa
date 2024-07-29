@@ -17,16 +17,14 @@
 
 <!-- badges-end -->
 
-This repo contains code developed by the Analysis team at TransitionZero (TZA) to build and solve with [`PyPSA`](https://pypsa.org/) models. TZA-PyPSA allows us to modularly construct and work with PyPSA network models. 
+This repo contains code developed by the Analysis team at TransitionZero (TZA) to build and solve with [`PyPSA`](https://pypsa.org/) models. `TZA-PyPSA` allows us to modularly construct and work with PyPSA network models. 
 
-TZA-PyPSA can be used to build a PyPSA model from scratch, but there are a set of pre-built models that a user can call as a starting point for their analysis. A list of pre-built models is given in the table below. 
+`TZA-PyPSA` can be used to build a PyPSA model from scratch, but there are a set of pre-built models that a user can call as a starting point for their analysis. Please see all pre-built models are available in `tza-pypsa` [here](https://github.com/transition-zero/tza-pypsa/tree/main/tz_pypsa/core). See instructions below on how to use a pre-built model or how you can build your own. 
 
-Model  | Status | Method | Overview
+<!-- Model  | Status | Method | Overview
 --- | --- | ---  | ---
-[ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states. 
+[ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states.  -->
 <!-- Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan -->
-
-See instructions below on how to use a pre-built model or how you can build your own. 
 
 # Contributors
 
@@ -51,13 +49,13 @@ Firstly, clone or download this repository (or an older version) and then naviga
 cd tz-analysis-pypsa
 ```
 
-Next, install tza-pypsa into your local environment by running:
+Next, install `tza-pypsa` into your local environment by running:
 
 ```
 pip install -e .
 ```
 
-That's it! You are now ready to use tza-pypsa as shown below. However, you will need to install additional packages before doing so, which are:
+That's it! You are now ready to use `tza-pypsa` as shown below. However, you will need to install additional packages before doing so, which are:
 
 - [PyPSA](https://github.com/PyPSA/PyPSA)
 - [pandas](https://github.com/pandas-dev/pandas)
