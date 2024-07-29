@@ -113,6 +113,13 @@ class Model:
             )
         else:
             raise ValueError(f"Model {model_name} not found in core models.")
+        
+        # --- get model years and frequency --- #
+        if not years:
+            years = model['time_definition']['years']
+        
+        if not frequency:
+            frequency = model['time_definition']['frequency']
 
         # ---
         # Load data from remote directories
@@ -180,7 +187,7 @@ class Model:
                 xr
                 .open_dataset(url)
                 .resample(
-                    snapshot = model['time_definition']['frequency'],
+                    snapshot = frequency,
                 )
                 .mean()
             )
@@ -254,55 +261,57 @@ class Model:
         This function loads a model from the core models available in tz_pypsa. It first checks if the specified model exists in the core models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
 
         '''
+
+        return Exception("This function is not yet implemented.")
         
-        try:
-            #print( 'Loading model from: ' + path_to_dir)
-            model = load_yaml_from_dir(path_to_dir)
-        except:
-            raise ValueError(f"Error loading model from directory {path_to_dir}")
+        # try:
+        #     #print( 'Loading model from: ' + path_to_dir)
+        #     model = load_yaml_from_dir(path_to_dir)
+        # except:
+        #     raise ValueError(f"Error loading model from directory {path_to_dir}")
 
-        try:
-            #print( 'Loading timeseries from: ' + os.path.join( path_to_dir, f'data/', 'timeseries.nc' ) )
+        # try:
+        #     #print( 'Loading timeseries from: ' + os.path.join( path_to_dir, f'data/', 'timeseries.nc' ) )
                   
-            timeseries = (
-                xr
-                .open_dataset(
-                    os.path.join(
-                        path_to_dir, 
-                        f'data/', 
-                        'timeseries.nc',
-                    )
-                )
-            )
-        except:
-            raise ValueError(f"Error loading timeseries data from directory {path_to_dir}. Check if there is a timeseries.nc file in the data/ directory.")
+        #     timeseries = (
+        #         xr
+        #         .open_dataset(
+        #             os.path.join(
+        #                 path_to_dir, 
+        #                 f'data/', 
+        #                 'timeseries.nc',
+        #             )
+        #         )
+        #     )
+        # except:
+        #     raise ValueError(f"Error loading timeseries data from directory {path_to_dir}. Check if there is a timeseries.nc file in the data/ directory.")
 
-        try:
-            # get costs
-            costs = (
-                cost_model
-                .compute_costs(
-                    path_to_dir = os.path.join(
-                        path_to_dir, 
-                        f'data/',
-                    )
-                )
-            )
-        except:
-            raise ValueError(f"Error computing costs from directory {path_to_dir}")
+        # try:
+        #     # get costs
+        #     costs = (
+        #         cost_model
+        #         .compute_costs(
+        #             path_to_dir = os.path.join(
+        #                 path_to_dir, 
+        #                 f'data/',
+        #             )
+        #         )
+        #     )
+        # except:
+        #     raise ValueError(f"Error computing costs from directory {path_to_dir}")
     
-        # build network
-        return build_pypsa_network(
-            model = model,
-            timeseries = timeseries,
-            costs = costs,
-            years = years,
-            select_nodes = select_nodes,
-            frequency = frequency,
-            backstop = backstop,
-            set_global_constraints = set_global_constraints,
-            **kwargs,
-        )
+        # # build network
+        # return build_pypsa_network(
+        #     model = model,
+        #     timeseries = timeseries,
+        #     costs = costs,
+        #     years = years,
+        #     select_nodes = select_nodes,
+        #     frequency = frequency,
+        #     backstop = backstop,
+        #     set_global_constraints = set_global_constraints,
+        #     **kwargs,
+        # )
         
         
     @staticmethod
