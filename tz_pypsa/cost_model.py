@@ -40,16 +40,12 @@ def calculate_annuity(
         return 1/n
     
 
-def compute_costs(path_to_dir):
+def compute_costs(
+        technology_costs,
+        capital_outlay,
+):
     '''Get the tech costs
     '''
-
-    # load capital outlay file
-    capital_outlay = ( 
-        pd
-        .read_csv(f'{path_to_dir}costs_capital_outlay_during_construction.csv',skiprows=1)
-        .set_index('carrier')
-    )
 
     # compute the construction finance factor
     y = list( range(1,len(capital_outlay.filter(regex='year').columns)+1) )
@@ -69,8 +65,7 @@ def compute_costs(path_to_dir):
 
     # load cost data
     costs = (
-        pd
-        .read_csv(f'{path_to_dir}costs_technology.csv')
+        technology_costs
         .groupby(by=['Country','Technology','Year'])
         .mean(numeric_only=True)
         .reset_index()
