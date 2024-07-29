@@ -2,6 +2,7 @@ import os
 import yaml
 import pypsa
 
+import pandas as pd
 import xarray as xr
 
 # ---
@@ -12,6 +13,8 @@ from . import cost_model
 from .helpers import (
     load_yaml_from_dir,
     get_core_models,
+    get_github_token,
+    get_data_from_github_with_auth,
 )
 
 from .build_network import (
@@ -111,6 +114,52 @@ class Model:
         else:
             raise ValueError(f"Model {model_name} not found in core models.")
 
+        # ---
+        # Load data from remote directories
+
+        PERSONAL_ACCESS_TOKEN = get_github_token()
+
+        # load capital outlay file
+        path_to_capital_outlay = get_data_from_github_with_auth(
+            path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
+            personal_access_token = PERSONAL_ACCESS_TOKEN,
+            remote_data = model['remote_data'],
+        )
+
+        capital_outlay = ( 
+            pd
+            .read_csv(
+                path_to_capital_outlay,
+                skiprows=1
+            )
+            .set_index(
+                'carrier'
+            )
+        )
+
+        # load technology costs
+        path_to_tech_costs = get_data_from_github_with_auth(
+            path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_technology.csv',
+            personal_access_token = PERSONAL_ACCESS_TOKEN,
+            remote_data = model['remote_data'],
+        )
+
+        technology_costs = (
+            pd
+            .read_csv(
+                path_to_tech_costs
+            )
+        )
+
+        # get costs
+        costs = (
+            cost_model
+            .compute_costs(
+                technology_costs = technology_costs,
+                capital_outlay = capital_outlay,
+            )
+        )
+
         # get timeseries
         ts_file = [ i for i in os.listdir( os.path.join(os.path.dirname(os.path.abspath(__file__)), f'core/{model_name}/data') ) if '.nc' in i ][-1]
         timeseries = (
@@ -120,17 +169,6 @@ class Model:
                     os.path.dirname(os.path.abspath(__file__)), 
                     f'core/{model_name}/data/', 
                     ts_file,
-                )
-            )
-        )
-
-        # get costs
-        costs = (
-            cost_model
-            .compute_costs(
-                path_to_dir = os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), 
-                    f'core/{model_name}/data/',
                 )
             )
         )
