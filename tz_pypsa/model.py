@@ -142,7 +142,7 @@ class Model:
         # load technology costs
         url = (
             get_data_from_github_with_auth(
-                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_technology.csv',
+                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
             )
@@ -162,6 +162,7 @@ class Model:
                 technology_costs = technology_costs,
                 capital_outlay = capital_outlay,
             )
+            .set_index(['Country','Technology','Year'])
         )
 
         # get timeseries

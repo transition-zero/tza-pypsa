@@ -73,20 +73,6 @@ def build_pypsa_network(
 
     elif isinstance(years, list) and len(years) > 1:
         multi_year_investment = True
-
-    # --- filter costs for nearest years --- #
-    closest_year_in_data = min( costs.Year.unique(), key=lambda x:abs(x-years[0]))
-
-    costs = (
-        costs
-        .loc[
-            costs.Year == closest_year_in_data
-        ]
-        .reset_index(drop=True)
-        .set_index(
-            ['Country','Technology']
-        )
-    )
     
     # --- get subset of model by countries --- #
     if not select_nodes:
@@ -96,7 +82,6 @@ def build_pypsa_network(
         links       = [link for link in model['links'] if link['id'][0:3] in select_nodes and link['id'][6:9] in select_nodes]
         nodes       = [node for node in model['nodes'] if node['id'][0:3] in select_nodes]
         timeseries  = timeseries.sel(node=[n for n in timeseries.node.values if n[0:3] in select_nodes])
-        costs       = costs.loc[select_nodes]
 
     # --- initialise PyPSA network --- #
     network = pypsa.Network()
@@ -127,14 +112,8 @@ def build_pypsa_network(
         )
         
         network.investment_periods = years
-
-        # --------------------------------------------------------------------------------
-        # !!! IMPORTANT !!!
-        # TODO: FIX LINE BELOW
-
+        
         network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
-
-        # --------------------------------------------------------------------------------
 
         # Set the years and objective weighting per investment period. 
         # - The objective weighting is the sum of the discounted values of the years in the investment period.
@@ -317,8 +296,8 @@ def build_pypsa_network(
                         # ---
                         # universal technology parameters
                         p_nom_extendable = p_nom_extendable, # can the model build more?
-                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].AnnualCapitalCost, # currency/MW
-                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].MarginalCost, # currency/MWh
+                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].MarginalCost, # currency/MWh
                         carrier = technology['carrier'], # commodity/carrier
                         build_year = year, # year available from
                         lifetime = technology['lifetime'], # years
@@ -370,8 +349,8 @@ def build_pypsa_network(
                         p_nom=p_nom, # starting capacity (MW)
                         p_nom_min=p_nom_min, # minimum capacity (MW)
                         p_nom_extendable=p_nom_extendable,
-                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].AnnualCapitalCost,
-                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].MarginalCost,
+                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].AnnualCapitalCost,
+                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].MarginalCost,
                         build_year=year,
                         lifetime=storage['lifetime'],
                         state_of_charge_initial=storage['state_of_charge_initial'],
