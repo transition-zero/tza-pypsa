@@ -12,8 +12,8 @@
 ![Status][status badge]
 
 [python badge]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Lkruitwagen/bd1e357c1bce5fc2c0808bcdb569157c/raw/python_version_badge.json
-
-[status badge]: https://img.shields.io/badge/under%20construction-ffae00
+[status badge]: (https://img.shields.io/badge/Status-Active%20Development-brightgreen)
+<!-- [status badge]: https://img.shields.io/badge/under%20construction-ffae00 -->
 
 <!-- badges-end -->
 
