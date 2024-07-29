@@ -127,8 +127,8 @@ To discuss ideas for the project, please contact [@amanmajid](mailto:aman.m@tran
 - Create issues and allocate an individual.
 - One pull request per issue.
 
-# Licence
+<!-- # Licence
 
 Copyright 2020-2023 [TransitionZero](https://www.transitionzero.org/)
 
-This repository is licensed under the open source [XXX](...).
+This repository is licensed under the open source [XXX](...). -->
