@@ -9,6 +9,9 @@ from .constraints import (
     constr_bus_self_sufficiency,
 )
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def build_pypsa_network(
         model : dict,
         timeseries : xr.Dataset,
@@ -113,20 +116,25 @@ def build_pypsa_network(
 
     else:
         '''Multi-year investment problem'''
-        snapshots = pd.DatetimeIndex([])
-        for year in years:
-            period = pd.date_range(
-                start=f"{year}-01-01 00:00",
-                freq=frequency,
-                periods= int(8760 / float( frequency.strip('h') )),
-            )
-            snapshots = snapshots.append(period)
-
         # convert to multiindex and assign to network
-        network.snapshots = pd.MultiIndex.from_arrays([snapshots.year, snapshots])
+        network.snapshots = (
+            pd.MultiIndex.from_arrays(
+                [
+                    timeseries.snapshot.to_series().dt.year, 
+                    timeseries.snapshot.to_series()
+                ]
+            )
+        )
+        
         network.investment_periods = years
 
+        # --------------------------------------------------------------------------------
+        # !!! IMPORTANT !!!
+        # TODO: FIX LINE BELOW
+
         network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
+
+        # --------------------------------------------------------------------------------
 
         # Set the years and objective weighting per investment period. 
         # - The objective weighting is the sum of the discounted values of the years in the investment period.
@@ -250,52 +258,46 @@ def build_pypsa_network(
                     if technology['id'] == 'wind-onshore':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_wind_onshore
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'wind-offshore-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_wind_offshore
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'photovoltaic-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_solar_pv
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     elif technology['id'] == 'hydro-unspecified':
                         cf = (
                             timeseries
-                            .sel(node=bus)
+                            .sel(
+                                node=bus, 
+                            )
                             .cf_hydro
-                            .resample(snapshot=frequency)
-                            .mean()
-                            .to_numpy()
+                            .to_pandas()
+                            .values
                         )
                     else:
                         cf = 1
                     
-                    if isinstance(cf, np.ndarray):
-                        cf = (
-                            np
-                            .tile(
-                                cf, 
-                                len( years )
-                            )
-                            .reshape(1, -1)
-                            [0]
-                        )
 
                     network.add(
                         'Generator', # PyPSA component
@@ -387,25 +389,14 @@ def build_pypsa_network(
 
         demand = (
             timeseries
-            .sel(node=bus)
+            .sel(
+                node=bus,
+            )
             .demand
-            .resample(snapshot=frequency)
-            .mean()
             .to_pandas()
             .mul(load_multiplier)
-            .to_numpy()
+            .values
         )
-
-        if isinstance(demand, np.ndarray):
-            demand = (
-                np
-                .tile(
-                    demand, 
-                    len( years )
-                )
-                .reshape(1, -1)
-                [0]
-            )
 
         network.add(
             "Load", # PyPSA component

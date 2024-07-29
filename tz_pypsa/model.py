@@ -120,16 +120,18 @@ class Model:
         PERSONAL_ACCESS_TOKEN = get_github_token()
 
         # load capital outlay file
-        path_to_capital_outlay = get_data_from_github_with_auth(
-            path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
-            personal_access_token = PERSONAL_ACCESS_TOKEN,
-            remote_data = model['remote_data'],
+        url = (
+                get_data_from_github_with_auth(
+                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
+                personal_access_token = PERSONAL_ACCESS_TOKEN,
+                remote_data = model['remote_data'],
+            )
         )
 
         capital_outlay = ( 
             pd
             .read_csv(
-                path_to_capital_outlay,
+                url,
                 skiprows=1
             )
             .set_index(
@@ -138,16 +140,18 @@ class Model:
         )
 
         # load technology costs
-        path_to_tech_costs = get_data_from_github_with_auth(
-            path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_technology.csv',
-            personal_access_token = PERSONAL_ACCESS_TOKEN,
-            remote_data = model['remote_data'],
+        url = (
+            get_data_from_github_with_auth(
+                path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_technology.csv',
+                personal_access_token = PERSONAL_ACCESS_TOKEN,
+                remote_data = model['remote_data'],
+            )
         )
 
         technology_costs = (
             pd
             .read_csv(
-                path_to_tech_costs
+                url
             )
         )
 
@@ -161,17 +165,28 @@ class Model:
         )
 
         # get timeseries
-        ts_file = [ i for i in os.listdir( os.path.join(os.path.dirname(os.path.abspath(__file__)), f'core/{model_name}/data') ) if '.nc' in i ][-1]
-        timeseries = (
-            xr
-            .open_dataset(
-                os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), 
-                    f'core/{model_name}/data/', 
-                    ts_file,
-                )
+        datasets = []
+        for year in years:
+
+            url = get_data_from_github_with_auth(
+                path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
+                personal_access_token=PERSONAL_ACCESS_TOKEN,
+                remote_data=model['remote_data'],
             )
-        )
+
+            # open and resample
+            ts = (
+                xr
+                .open_dataset(url)
+                .resample(
+                    snapshot = model['time_definition']['frequency'],
+                )
+                .mean()
+            )
+
+            datasets.append(ts)
+
+        timeseries = xr.concat(datasets, dim='snapshot')
 
         # build network
         return build_pypsa_network(
