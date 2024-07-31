@@ -79,9 +79,9 @@ def build_pypsa_network(
         links       = model['links']
         nodes       = model['nodes']
     else:
-        links       = [link for link in model['links'] if link['id'][0:3] in select_nodes and link['id'][6:9] in select_nodes]
-        nodes       = [node for node in model['nodes'] if node['id'][0:3] in select_nodes]
-        timeseries  = timeseries.sel(node=[n for n in timeseries.node.values if n[0:3] in select_nodes])
+        links       = [link for link in model['links'] if link['id'][0:5] in select_nodes and link['id'][6:11] in select_nodes]
+        nodes       = [node for node in model['nodes'] if node['id'] in select_nodes]
+        timeseries  = timeseries.sel(node=[n for n in timeseries.node.values if n in select_nodes])
 
     # --- initialise PyPSA network --- #
     network = pypsa.Network()
@@ -212,9 +212,13 @@ def build_pypsa_network(
                     if year > years[0]:
                         p_nom_extendable = True
                         p_nom = 0
+                        p_nom_min = 0
+                        p_nom_max = np.inf
                     else:
                         p_nom_extendable = technology['extendable']
                         p_nom = technology['initial_capacity'][bus]
+                        p_nom_min = 0
+                        p_nom_max = np.inf
                     
                     # get planned expansions
                     if 'planned_expansion' in technology.keys():
@@ -276,7 +280,6 @@ def build_pypsa_network(
                         )
                     else:
                         cf = 1
-                    
 
                     network.add(
                         'Generator', # PyPSA component
