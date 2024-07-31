@@ -108,7 +108,7 @@ def constr_annual_matching(
             A list of generators to apply the constraint to (e.g., all renewable generators).
         
         rhs_min_generation : float
-            The minimum total annual generation of the set of generators (e.g., 0.5 = 50%).
+            The minimum total annual generation of the set of generators (e.g., 100 = 100MW).
         
         sign : str
             The sign of the constraint. Default is '>='.
