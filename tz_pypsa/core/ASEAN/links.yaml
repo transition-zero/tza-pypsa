@@ -153,7 +153,7 @@ links:
     carrier: electricity
     lifetime: 99
     efficiency: 0.97
-    bidirectional: true
+    bidirectional: false
     initial_capacity: 0
     reverse_capacity: 0
   
@@ -238,9 +238,9 @@ links:
     carrier: electricity
     lifetime: 99
     efficiency: 0.97
-    bidirectional: true
+    bidirectional: false
     initial_capacity: 1000
-    reverse_capacity: 1000
+    reverse_capacity: 0
 
   - id: KHMXX-LAOXX
     from_node: KHMXX
