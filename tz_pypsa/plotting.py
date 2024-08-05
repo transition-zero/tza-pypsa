@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 
 def energy_balance(
         network : pypsa.Network, 
-        period : int = 2023,
+        period : int,
         mul : float = 1e6,
         unit : str = 'TWh',
         show_imports : bool = True,
@@ -25,7 +25,7 @@ def energy_balance(
     network : pypsa.Network
         The PyPSA network object.
     period : int
-        The year to plot.
+        The year to plot (e.g., 2030).
     mul : float
         The multiplier to convert units.
     unit : str
@@ -128,8 +128,8 @@ def energy_balance(
 
 def dispatch(
         network : pypsa.Network, 
-        period : int = 2023,
-        iso_code : str = 'PHL', 
+        period : int,
+        iso_code : str, 
         resample : str = 'D',
         mul : float = 1e3,
         unit : str = 'GW',
@@ -146,9 +146,9 @@ def dispatch(
     network : pypsa.Network
         The PyPSA network object.
     period : int
-        The year to plot.
+        The year to plot (e.g., 2030).
     iso_code : str
-        The ISO code of the country to plot.
+        The ISO code of the country to plot (e.g., 'PHL').
     resample : str
         The resampling frequency.
     mul : float
@@ -211,6 +211,22 @@ def dispatch(
         .reset_index()
         .copy()
     )
+
+    # get storage dispatch
+    storage_dispatch = (
+        network
+        .storage_units_t
+        .p_dispatch
+        .loc[period]
+        .filter(regex=iso_code)
+        .resample(resample)
+        .sum()
+        .sum(axis=1)
+        .to_numpy()
+    )
+
+    # append storage dispatch to generation
+    generation['battery'] = storage_dispatch
 
     # get load
     load = (
