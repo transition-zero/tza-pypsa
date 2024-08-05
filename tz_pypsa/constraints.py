@@ -3,6 +3,7 @@ import pypsa
 import numpy as np
 import pandas as pd
 
+
 def constr_bus_self_sufficiency(
         network : pypsa.Network,
         min_self_sufficiency : float = 0.5,
@@ -144,7 +145,8 @@ def constr_annual_matching(
 def constr_hourly_matching(
         network : pypsa.Network,
         lhs_generators : list,
-        rhs_min_generation : float,
+        lhs_storages : list,
+        rhs_load : float,
         sign : str = '>=',
         name : str = None,
 ):
@@ -191,18 +193,23 @@ def constr_hourly_matching(
     # get total annual renewable generation (additional)
     lp_model = network.optimize.create_model()
 
-    lhs_total_generation = (
+    # get hourly dispatch from clean generators
+    lhs_total_hourly_generation = (
         lp_model
         .variables['Generator-p']
         .sel(Generator=lhs_generators)
-        #.sum() TODO
+    )
+
+    # get hourly dispatch from storage
+    lhs_total_hourly_storage_discharge = (
+        lp_model
+        .variables['StorageUnit-p_dispatch']
+        .sel(StorageUnit=lhs_storages)
     )
 
     lp_model.add_constraints(
-        lhs = lhs_total_generation,
-        sign = sign,
-        rhs = rhs_min_generation,
-        name = name,
+        lhs_total_hourly_generation + lhs_total_hourly_storage_discharge >= rhs_load,
+        name=name,
     )
 
 
