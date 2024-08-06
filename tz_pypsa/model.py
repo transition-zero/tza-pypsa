@@ -9,17 +9,10 @@ import xarray as xr
 # Local imports
 
 from . import cost_model
-
-from .helpers import (
-    load_yaml_from_dir,
-    get_core_models,
-    get_github_token,
-    get_data_from_github_with_auth,
-)
+from . import utils 
 
 from .build_network import (
     build_pypsa_network,
-
 )
 
 # ---
@@ -103,10 +96,10 @@ class Model:
         '''
 
         # get core model
-        if model_name in get_core_models():
-            model = load_yaml_from_dir(
+        if model_name in utils.get_core_models():
+            model = utils.load_yaml_from_dir(
                 os.path.join( 
-                    os.path.dirname(os.path.abspath(__file__)), 
+                    utils.get_package_root(), 
                     'core_models', 
                     model_name,
                 ) 
@@ -124,11 +117,11 @@ class Model:
         # ---
         # Load data from remote directories
 
-        PERSONAL_ACCESS_TOKEN = get_github_token()
+        PERSONAL_ACCESS_TOKEN = utils.get_github_token()
 
         # load capital outlay file
         url = (
-                get_data_from_github_with_auth(
+                utils.get_data_from_github_with_auth(
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
@@ -148,7 +141,7 @@ class Model:
 
         # load technology costs
         url = (
-            get_data_from_github_with_auth(
+            utils.get_data_from_github_with_auth(
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
@@ -178,7 +171,7 @@ class Model:
         datasets = []
         for year in years:
 
-            url = get_data_from_github_with_auth(
+            url = utils.get_data_from_github_with_auth(
                 path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
                 personal_access_token=PERSONAL_ACCESS_TOKEN,
                 remote_data=model['remote_data'],
@@ -268,7 +261,7 @@ class Model:
         
         # try:
         #     #print( 'Loading model from: ' + path_to_dir)
-        #     model = load_yaml_from_dir(path_to_dir)
+        #     model = utils.load_yaml_from_dir(path_to_dir)
         # except:
         #     raise ValueError(f"Error loading model from directory {path_to_dir}")
 
@@ -320,16 +313,16 @@ class Model:
     def get_available_models():
         '''Returns a list of core models available in tz_pypsa.
         '''
-        return get_core_models()
+        return utils.get_core_models()
     
 
     @staticmethod
     def get_raw_core_model(model_name):
         '''Returns a core model as a dictionary.
         '''
-        return load_yaml_from_dir(
+        return utils.load_yaml_from_dir(
             os.path.join( 
-                os.path.dirname(os.path.abspath(__file__)), 
+                utils.get_package_root(), 
                 'core_models', 
                 model_name,
             ) 
