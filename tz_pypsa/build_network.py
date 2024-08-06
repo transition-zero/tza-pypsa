@@ -188,8 +188,11 @@ def build_pypsa_network(
                 p_nom_max=p_nom_max, # maximum capacity (MW)
                 p_nom_extendable=p_nom_extendable,
                 carrier=link['carrier'],
+                type=link['type'],
                 efficiency=link['efficiency'],
                 lifetime=link['lifetime'],
+                capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
 
             if link['bidirectional']:
@@ -204,8 +207,11 @@ def build_pypsa_network(
                 p_nom_min=p_nom_min,
                 p_nom_extendable=p_nom_extendable,
                 carrier=link['carrier'],
+                type=link['type'],
                 efficiency=link['efficiency'],
                 lifetime=link['lifetime'],
+                capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
     
     # --- add lengths to links --- #

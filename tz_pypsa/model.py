@@ -172,6 +172,8 @@ class Model:
             .set_index(['Country','Technology','Year'])
         )
 
+        #costs.to_csv('COSTS.csv')
+
         # get timeseries
         datasets = []
         for year in years:
