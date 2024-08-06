@@ -9,10 +9,12 @@ description = "PyPSA models created by the Analysis team at TransitionZero"
 authors = [
     { name = "Aman Majid", email = "aman.m@transitionzero.org" }
 ]
+readme = "README.md"
+license = { file="LICENSE" }
 dependencies = []
 
 [tool.setuptools]
-py-modules = []
+py-modules = ["tz_pypsa"]
 
-[tool.setuptools.packages]
-find = {}
+[tool.setuptools.packages.find]
+where = ["."]
