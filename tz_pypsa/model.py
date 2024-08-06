@@ -155,6 +155,22 @@ class Model:
             )
         )
 
+        # load policy and targets database
+        url = (
+            utils.get_data_from_github_with_auth(
+                path_to_file = model['remote_data']['policies']['path_to_policy'] + 'power_sector_targets.csv',
+                personal_access_token = PERSONAL_ACCESS_TOKEN,
+                remote_data = model['remote_data'],
+            )
+        )
+
+        targets = (
+            pd
+            .read_csv(
+                url
+            )
+        )
+
         # get costs
         costs = (
             cost_model
@@ -197,6 +213,7 @@ class Model:
             timeseries = timeseries,
             costs = costs,
             years = years,
+            targets = targets,
             select_nodes = select_nodes,
             frequency = frequency,
             backstop = backstop,
