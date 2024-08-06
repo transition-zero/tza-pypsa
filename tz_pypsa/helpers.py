@@ -6,8 +6,8 @@ def get_core_models() -> list:
     '''Returns a list of pre-defined core models available in tz_pypsa.
     '''
     abspath = os.path.dirname( os.path.abspath(__file__) ) 
-    entries = os.listdir( os.path.join(abspath, 'core') )
-    return [entry for entry in entries if os.path.isdir(os.path.join(abspath, 'core', entry))]
+    entries = os.listdir( os.path.join(abspath, 'core_models') )
+    return [entry for entry in entries if os.path.isdir(os.path.join(abspath, 'core_models', entry))]
 
 
 def load_yaml_from_dir(path_to_dir) -> dict:

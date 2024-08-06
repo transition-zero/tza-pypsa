@@ -107,7 +107,7 @@ class Model:
             model = load_yaml_from_dir(
                 os.path.join( 
                     os.path.dirname(os.path.abspath(__file__)), 
-                    'core', 
+                    'core_models', 
                     model_name,
                 ) 
             )
@@ -328,7 +328,7 @@ class Model:
         return load_yaml_from_dir(
             os.path.join( 
                 os.path.dirname(os.path.abspath(__file__)), 
-                'core', 
+                'core_models', 
                 model_name,
             ) 
         )
