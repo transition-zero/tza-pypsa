@@ -27,3 +27,8 @@ remote_data:
     description: Timeseries data for the ASEAN model
     git_api: application/vnd.github.v3.raw
     path_to_timeseries: outputs/timeseries/
+
+  policies:
+    description: Renewables targets and climate policies
+    git_api: application/vnd.github.v3.raw
+    path_to_policy: outputs/policies-and-targets/
