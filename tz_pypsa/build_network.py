@@ -9,6 +9,10 @@ from .constraints import (
     constr_bus_self_sufficiency,
 )
 
+from .helpers import (
+    haversine,
+)
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -178,6 +182,7 @@ def build_pypsa_network(
                 name=link['id'] + '-ext-' + str(year),
                 bus0=link['from_node'],
                 bus1=link['to_node'],
+                build_year=year,
                 p_nom=p_nom, # starting capacity (MW)
                 p_nom_min=p_nom_min, # minimum capacity (MW)
                 p_nom_max=p_nom_max, # maximum capacity (MW)
@@ -194,6 +199,7 @@ def build_pypsa_network(
                 name=link['id'].split('-')[1] + '-' + link['id'].split('-')[0] + '-ext-' + str(year),
                 bus0=link['to_node'],
                 bus1=link['from_node'],
+                build_year=year,
                 p_nom=p_nom,
                 p_nom_min=p_nom_min,
                 p_nom_extendable=p_nom_extendable,
@@ -202,6 +208,25 @@ def build_pypsa_network(
                 lifetime=link['lifetime'],
             )
     
+    # --- add lengths to links --- #
+    for link in network.links.index:
+        if network.links.loc[link].length == 0:
+            # Get the nodes connected by the link
+            bus0 = network.links.at[link, 'bus0']
+            bus1 = network.links.at[link, 'bus1']
+            
+            # Get the coordinates of these nodes
+            lat1 = network.buses.at[bus0, 'y']
+            lon1 = network.buses.at[bus0, 'x']
+            lat2 = network.buses.at[bus1, 'y']
+            lon2 = network.buses.at[bus1, 'x']
+            
+            # Calculate the distance using the Haversine formula
+            distance = haversine(lat1, lon1, lat2, lon2)
+            
+            # Assign the calculated length to the link
+            network.links.at[link, 'length'] = distance
+
     # --- add generators to network --- #
     for year in years:
         for technology in model['generators']:

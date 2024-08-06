@@ -27,7 +27,7 @@ links:
     from_node: BRNXX
     to_node: MYSSK
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -38,7 +38,7 @@ links:
     from_node: IDNJW
     to_node: IDNKA
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -49,7 +49,7 @@ links:
     from_node: IDNJW
     to_node: IDNNU
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -62,7 +62,7 @@ links:
     from_node: IDNJW
     to_node: IDNSM
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -73,7 +73,7 @@ links:
     from_node: IDNKA
     to_node: IDNSL
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -84,7 +84,7 @@ links:
     from_node: IDNKA
     to_node: MYSSH
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -95,7 +95,7 @@ links:
     from_node: IDNKA
     to_node: MYSSK
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -106,7 +106,7 @@ links:
     from_node: IDNML
     to_node: IDNPP
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -117,7 +117,7 @@ links:
     from_node: IDNML
     to_node: IDNSL
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -128,7 +128,7 @@ links:
     from_node: IDNNU
     to_node: IDNSL
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -139,7 +139,7 @@ links:
     from_node: IDNSM
     to_node: MYSPE
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -150,7 +150,7 @@ links:
     from_node: IDNSM
     to_node: SGPXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: false
@@ -161,7 +161,7 @@ links:
     from_node: LAOXX
     to_node: MMRXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -174,7 +174,7 @@ links:
     from_node: LAOXX
     to_node: VNMNO
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -187,7 +187,7 @@ links:
     from_node: LAOXX
     to_node: VNMCE
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -200,7 +200,7 @@ links:
     from_node: MYSPE
     to_node: MYSSK
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -211,7 +211,7 @@ links:
     from_node: MYSSH
     to_node: MYSSK
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -224,7 +224,7 @@ links:
     from_node: MYSSH
     to_node: PHLLU
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -235,7 +235,7 @@ links:
     from_node: MYSPE
     to_node: SGPXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: false
@@ -246,7 +246,7 @@ links:
     from_node: KHMXX
     to_node: LAOXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -257,7 +257,7 @@ links:
     from_node: KHMXX
     to_node: THACE
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -268,7 +268,7 @@ links:
     from_node: KHMXX
     to_node: VNMSO
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -279,7 +279,7 @@ links:
     from_node: PHLLU
     to_node: PHLVI
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -290,7 +290,7 @@ links:
     from_node: PHLMI
     to_node: PHLVI
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -303,7 +303,7 @@ links:
     from_node: VNMCE
     to_node: VNMNO
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -314,7 +314,7 @@ links:
     from_node: VNMCE
     to_node: VNMSO
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -327,7 +327,7 @@ links:
     from_node: THANO
     to_node: THACE
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -338,7 +338,7 @@ links:
     from_node: THACE
     to_node: THASO
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -349,7 +349,7 @@ links:
     from_node: THASO
     to_node: MYSPE
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -360,7 +360,7 @@ links:
     from_node: THANO
     to_node: LAOXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
@@ -371,7 +371,7 @@ links:
     from_node: THACE
     to_node: LAOXX
     extendable: false
-    carrier: electricity
+    carrier: HVAC
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
