@@ -1621,7 +1621,7 @@ generators:
 
   - id: wind-offshore-unspecified
     type: wind-offshore-unspecified
-    carrier: wind
+    carrier: off-wind
     # ---
     # unique technology parameters by bus
     initial_capacity:
@@ -1768,7 +1768,7 @@ generators:
 
   - id: wind-onshore
     type: wind-onshore
-    carrier: wind
+    carrier: on-wind
     # ---
     # unique technology parameters by bus
     initial_capacity:

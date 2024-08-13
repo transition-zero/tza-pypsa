@@ -64,8 +64,13 @@ carriers:
     color: peru
     co2_emissions: 0.
   
-  - id: wind
-    nice_name: Wind
+  - id: on-wind
+    nice_name: Onshore Wind
+    color: aquamarine
+    co2_emissions: 0.
+  
+  - id: off-wind
+    nice_name: Offshore Wind
     color: aquamarine
     co2_emissions: 0.
   
