@@ -1,0 +1,68 @@
+# -------------------------------------------------------------------------
+#
+#   GENERATORS
+#   
+#     Define generators (technologies) and their attributes
+#
+#     Link to docs: 
+#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/commodities.yaml
+#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/technologies.yaml
+#
+#     Authors:
+#       - @AlexLutaTZ
+#
+# -------------------------------------------------------------------------
+
+generators:
+
+  - id: bioenergy-unspecified
+    type: bioenergy-unspecified
+    carrier: biomass
+  
+  - id: combined-cycle
+    type: combined-cycle
+    carrier: gas
+
+  - id: coal-subcritical
+    type: coal-subcritical
+    carrier: coal
+
+  - id: coal-supercritical
+    type: coal-supercritical
+    carrier: coal
+
+  - id: coal-ultrasupercritical
+    type: coal-ultrasupercritical
+    carrier: coal
+
+  - id: oil-unspecified
+    type: oil-unspecified # THIS IS DIESEL
+    carrier: oil
+  
+  - id: geothermal-unspecified
+    type: geothermal-unspecified
+    carrier: geothermal
+
+  - id: hydro-unspecified
+    type: hydro-unspecified
+    carrier: hydro
+
+  - id: open-cycle-gas-turbine
+    type: open-cycle-gas-turbine
+    carrier: gas
+
+  - id: photovoltaic-unspecified
+    type: photovoltaic-unspecified
+    carrier: solar
+
+  - id: waste
+    type: waste
+    carrier: bioenergy
+
+  - id: wind-offshore-unspecified
+    type: wind-offshore-unspecified
+    carrier: wind
+
+  - id: wind-onshore
+    type: wind-onshore
+    carrier: wind
