@@ -28,47 +28,47 @@
 # -------------------------------------------------------------------------
 nodes:
 
-  - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+  - id: JPN01
+    long_name: Japan Hokkaido
+    coords: [42.98035308624939, 142.42728606657633]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN02
+    long_name: Japan Tohoku
+    coords: [38.44914885939095, 140.3148358713323]
     load_rate_of_change: 0.02
     
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN03
+    long_name: Japan Tokyo
+    coords: [35.7508274828079, 139.5238202697086]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN04
+    long_name: Japan Chubu
+    coords: [35.249961314843354, 137.238664028637]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN05
+    long_name: Japan Hokuriku
+    coords: [36.5580462556383, 136.8101972380931]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN06
+    long_name: Japan Kansai
+    coords: [36.5580462556383, 136.8101972380931]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN07
+    long_name: Japan Chugoku
+    coords: [34.556190420916856, 132.31678900883216]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN08
+    long_name: Japan Shikoku
+    coords: [33.71048575888968, 133.3275311813973]
     load_rate_of_change: 0.02
 
-    - id: JPNXX
-    long_name: Japan XXX
-    coords: [-0.456, 101.521]
+    - id: JPN09
+    long_name: Japan Kyushu
+    coords: [33.15120192984871, 131.29506050505762]
     load_rate_of_change: 0.02
