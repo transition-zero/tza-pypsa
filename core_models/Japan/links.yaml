@@ -82,21 +82,6 @@ links:
     frequency: 60
     voltage: 
 
-  - id: JPN06-JPN07
-    description: Kansai-Chugoku
-    from_node: JPN06
-    to_node: JPN07
-    extendable: false
-    carrier: transmission-HVAC-overhead
-    type: HVAC
-    lifetime: 99
-    efficiency: 0.97
-    bidirectional: true
-    initial_capacity: 2780
-    reverse_capacity: 4650
-    frequency: 60
-    voltage: 
-
   - id: JPN04-JPN05
     description: Chubu-Hokuriku
     from_node: JPN04
@@ -130,22 +115,7 @@ links:
   - id: JPN06-JPN04
     description: Kansai-Chubu
     from_node: JPN06
-    to_node: JPN05
-    extendable: false
-    carrier: transmission-HVAC-overhead
-    type: HVAC
-    lifetime: 99
-    efficiency: 0.97
-    bidirectional: true
-    initial_capacity: 2500
-    reverse_capacity: 1020
-    frequency: 60
-    voltage: 
-
-  - id: JPN06-JPN04
-    description: Kansai-Chubu
-    from_node: JPN06
-    to_node: JPN05
+    to_node: JPN04
     extendable: false
     carrier: transmission-HVAC-overhead
     type: HVAC

@@ -47,7 +47,7 @@ nodes:
 
   - id: JPN04
     long_name: Japan Chubu
-    coords: [35.249961314843354, 137.238664028637]
+    coords: [35.187133704149424, 137.11781439799591]
     load_rate_of_change: 0.02
 
   - id: JPN05
@@ -57,7 +57,7 @@ nodes:
 
   - id: JPN06
     long_name: Japan Kansai
-    coords: [36.5580462556383, 136.8101972380931]
+    coords: [35.14222708665534, 135.46986520359624]
     load_rate_of_change: 0.02
 
   - id: JPN07
