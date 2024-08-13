@@ -1,0 +1,207 @@
+# -------------------------------------------------------------------------
+#
+#   LINKS
+#   
+#     Define links between nodes and their attributes.
+#
+#     The main components of links are:
+#       - ID
+#       - From node (i.e., start of the line)
+#       - To node (i.e., end of the line)
+#       - Initial line capacity (MW)
+#       - extendable (i.e., can we build more capacity on this line?)
+#
+#     Link to docs: 
+#       - https://pypsa.readthedocs.io/en/latest/components.html
+#
+#     Authors:
+#       - @AlexLutaTZ
+#       - @amanmajid
+#       - @Handriyanti
+#       - @djwels
+#
+# -------------------------------------------------------------------------
+links:
+
+  - id: JPN07-JPN09
+    description: Chugoku-Kyushu
+    from_node: JPN07
+    to_node: JPN09
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2300
+    reverse_capacity: 230
+    frequency: 60
+    voltage: 
+
+  - id: JPN07-JPN08
+    description: Chugoku-Shikoku
+    from_node: JPN07
+    to_node: JPN09
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 1200
+    reverse_capacity: 1200
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN08
+    description: Kansai-Shikoku
+    from_node: JPN06
+    to_node: JPN08
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 1400
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN07
+    description: Kansai-Chugoku
+    from_node: JPN06
+    to_node: JPN07
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2780
+    reverse_capacity: 4650
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN07
+    description: Kansai-Chugoku
+    from_node: JPN06
+    to_node: JPN07
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2780
+    reverse_capacity: 4650
+    frequency: 60
+    voltage: 
+
+  - id: JPN04-JPN05
+    description: Chubu-Hokuriku
+    from_node: JPN04
+    to_node: JPN05
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 300
+    reverse_capacity: 300
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN05
+    description: Kansai-Hokuriku
+    from_node: JPN06
+    to_node: JPN05
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 1300
+    reverse_capacity: 1700
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN04
+    description: Kansai-Chubu
+    from_node: JPN06
+    to_node: JPN05
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2500
+    reverse_capacity: 1020
+    frequency: 60
+    voltage: 
+
+  - id: JPN06-JPN04
+    description: Kansai-Chubu
+    from_node: JPN06
+    to_node: JPN05
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2500
+    reverse_capacity: 1020
+    frequency: 60
+    voltage: 
+
+  - id: JPN04-JPN03
+    description: Chubu-Tokyo
+    from_node: JPN04
+    to_node: JPN03
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 1800
+    reverse_capacity: 1720
+    frequency: 60-50
+    voltage: 
+    #planned_expansion:
+
+  - id: JPN03-JPN02
+    description: Tokyo-Tohoku
+    from_node: JPN03
+    to_node: JPN02    
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 2360
+    reverse_capacity: 6500
+    frequency: 50
+    voltage: 
+    #planned_expansion:
+
+  - id: JPN01-JPN02
+    description: Hokkaido-Tohoku
+    from_node: JPN01
+    to_node: JPN02    
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 900
+    reverse_capacity: 900
+    frequency: 50
+    voltage: 
+    #planned_expansion:
