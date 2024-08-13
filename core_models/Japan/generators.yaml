@@ -5,8 +5,8 @@
 #     Define generators (technologies) and their attributes
 #
 #     Link to docs: 
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/commodities.yaml
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/technologies.yaml
+#       - https://github.com/transition-zero/tz-data/blob/main/tz_assets/canonicalisation/commodities.yaml
+#       - https://github.com/transition-zero/tz-data/blob/main/tz_assets/canonicalisation/technologies.yaml
 #
 #     Authors:
 #       - @AlexLutaTZ
@@ -15,6 +15,38 @@
 
 generators:
 
+  - id: coal-subcritical
+    type: coal-subcritical
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      JPN01: 0
+      JPN02: 100
+      JPN03: 0
+      JPN04: 0
+      JPN05: 0
+      JPN06: 0
+      JPN07: 0
+      JPN08: 0
+      JPN09: 0
+    maximum_capacity:
+    efficiency:
+    ramp_limit_up:
+    ramp_limit_down:
+    p_min_pu:
+    # ---
+    # universal technology parameters
+    extendable: false
+    lifetime: 30
+    committable: false
+    start_up_cost: 0 # currency/MW
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 
+    ramp_limit_shut_down: 0 
+    min_up_time: 0 
+    min_down_time: 0 
+
   - id: bioenergy-unspecified
     type: bioenergy-unspecified
     carrier: biomass
@@ -22,10 +54,6 @@ generators:
   - id: combined-cycle
     type: combined-cycle
     carrier: gas
-
-  - id: coal-subcritical
-    type: coal-subcritical
-    carrier: coal
 
   - id: coal-supercritical
     type: coal-supercritical
