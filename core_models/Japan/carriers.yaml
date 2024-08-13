@@ -1,0 +1,90 @@
+# -------------------------------------------------------------------------
+#
+#   CARRIERS
+#   
+#     Define all carriers to implement in the ASEAN model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#
+# -------------------------------------------------------------------------
+
+carriers:
+
+  - id: biomass
+    nice_name: Biomass
+    color: teal
+    co2_emissions: 0.
+  
+  - id: bioenergy
+    nice_name: Bioenergy
+    color: teal
+    co2_emissions: 0.
+  
+  - id: gas
+    nice_name: Gas
+    color: grey
+    co2_emissions: 0.20
+  
+  - id: coal
+    nice_name: Coal
+    color: black
+    co2_emissions: 0.34
+  
+  - id: diesel
+    nice_name: Diesel
+    color: darkgray
+    co2_emissions: 0.26
+  
+  - id: geothermal
+    nice_name: Geothermal
+    color: brown
+    co2_emissions: 0.
+  
+  - id: hydro
+    nice_name: Hydro
+    color: deepskyblue
+    co2_emissions: 0.
+  
+  - id: oil
+    nice_name: Oil
+    color: gainsboro
+    co2_emissions: 0.26
+  
+  - id: solar
+    nice_name: Solar
+    color: gold
+    co2_emissions: 0.
+  
+  - id: waste
+    nice_name: Waste
+    color: peru
+    co2_emissions: 0.
+  
+  - id: wind
+    nice_name: Wind
+    color: aquamarine
+    co2_emissions: 0.
+  
+  - id: battery
+    nice_name: Battery
+    color: red
+    co2_emissions: 0.
+  
+  - id: backstop
+    nice_name: Backstop
+    color: pink
+    co2_emissions: 0.
+
+  - id: transmission-HVAC-overhead
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+  
+  - id: AC
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
