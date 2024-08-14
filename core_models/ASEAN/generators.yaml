@@ -219,7 +219,7 @@ generators:
       IDNJW: 12211.87
       IDNSL: 435
       IDNKA: 501
-      IDNML: 40
+      IDNML: 136
       IDNPP: 205
       VNMSO: 7076
       MYSPE: 12669.2
@@ -762,10 +762,11 @@ generators:
       IDNJW: 1544
       IDNSL: 144
       IDNKA: 142
-      IDNML: 105
+      IDNML: 207
       IDNPP: 13.74
       VNMSO: 660
-      MYSSK: 33.5
+      MYSSH: 148.4
+      MYSSK: 35.5
       PHLLU: 2025.36
       PHLVI: 514
       PHLMI: 499
@@ -1044,7 +1045,7 @@ generators:
       VNMSO: 1556
       MYSPE: 2536.1
       MYSSH: 75
-      MYSSK: 3452
+      MYSSK: 3462.5
       PHLLU: 2486
       PHLVI: 49.8
       PHLMI: 1083
@@ -1337,7 +1338,7 @@ generators:
       VNMCE: 5722.4
       VNMSO: 3350.6
       MYSPE: 1445.42
-      MYSSH: 0
+      MYSSH: 50
       MYSSK: 0
       PHLLU: 937.2
       PHLVI: 373.1
