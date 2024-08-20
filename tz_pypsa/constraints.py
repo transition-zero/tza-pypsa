@@ -143,11 +143,12 @@ def constr_annual_matching(
 
 
 def constr_hourly_matching(
-        network : pypsa.Network,
+        lp_model,
         lhs_generators : list,
         lhs_storages : list,
         rhs_load : float,
         sign : str = '>=',
+        cfe_score : float = 1.,
         name : str = None,
 ):
     '''
@@ -190,9 +191,6 @@ def constr_hourly_matching(
     
     '''
 
-    # get total annual renewable generation (additional)
-    lp_model = network.optimize.create_model()
-
     # get hourly dispatch from clean generators
     lhs_total_hourly_generation = (
         lp_model
@@ -207,9 +205,13 @@ def constr_hourly_matching(
         .sel(StorageUnit=lhs_storages)
     )
 
+    lhs_dispatch = lhs_total_hourly_generation + lhs_total_hourly_storage_discharge
+
     lp_model.add_constraints(
-        lhs_total_hourly_generation + lhs_total_hourly_storage_discharge >= rhs_load,
-        name=name,
+        lhs = lhs_dispatch,
+        sign = sign,
+        rhs = cfe_score * rhs_load,
+        #name = name,
     )
 
 
