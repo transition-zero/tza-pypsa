@@ -42,6 +42,7 @@ class Model:
         years : list = None,
         select_nodes : list = None,
         frequency : str = None,
+        timesteps : int = None,
         backstop : bool = False,
         set_global_constraints : bool = False,
         **kwargs,
@@ -206,6 +207,10 @@ class Model:
             datasets.append(ts)
 
         timeseries = xr.concat(datasets, dim='snapshot')
+
+        # subset for timesteps
+        if timesteps:
+            timeseries = timeseries.isel(snapshot=slice(0, timesteps))
 
         # build network
         return build_pypsa_network(
