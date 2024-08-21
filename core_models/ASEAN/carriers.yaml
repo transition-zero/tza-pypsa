@@ -66,17 +66,17 @@ carriers:
   
   - id: on-wind
     nice_name: Onshore Wind
-    color: aquamarine
+    color: turquoise
     co2_emissions: 0.
   
   - id: off-wind
     nice_name: Offshore Wind
-    color: aquamarine
+    color: mediumturquoise
     co2_emissions: 0.
   
   - id: battery
     nice_name: Battery
-    color: red
+    color: plum
     co2_emissions: 0.
   
   - id: backstop
