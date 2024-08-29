@@ -1416,7 +1416,7 @@ generators:
       PHLLU: 61520
       PHLMI: 27620
       PHLVI: 24720
-      SGPXX: 660
+      SGPXX: 1660 # replaced '660'
       THACE: 92050
       THANO: 100000
       THASO: 12660
