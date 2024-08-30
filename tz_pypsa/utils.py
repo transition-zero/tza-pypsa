@@ -5,12 +5,12 @@ def get_package_root():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def get_core_models() -> list:
-    '''Returns a list of pre-defined core models available in tz_pypsa.
+def get_stock_models() -> list:
+    '''Returns a list of pre-defined stock models available in tz_pypsa.
     '''
     abspath = get_package_root()
-    entries = os.listdir( os.path.join(abspath, 'core_models') )
-    return [entry for entry in entries if os.path.isdir(os.path.join(abspath, 'core_models', entry))]
+    entries = os.listdir( os.path.join(abspath, 'stock_models') )
+    return [entry for entry in entries if os.path.isdir(os.path.join(abspath, 'stock_models', entry))]
 
 
 def load_yaml_from_dir(path_to_dir) -> dict:

@@ -25,10 +25,10 @@ class Model:
     ----------
 
     get_available_models()
-        Returns a list of core models available in tz_pypsa.
+        Returns a list of stock models available in tz_pypsa.
 
     load_model(model_name)
-        Load a model from pre-defined core models.
+        Load a model from pre-defined stock models.
 
     load_from_dir(path_to_dir)
         Loads a model from a directory containing yaml and .nc files.
@@ -49,7 +49,7 @@ class Model:
     ) -> pypsa.Network:
 
         '''
-        Load a model from pre-defined core models.
+        Load a model from pre-defined stock models.
 
         Parameters
         ----------
@@ -76,7 +76,7 @@ class Model:
         Raises
         ----------
 
-            ValueError: If the specified model is not found in the core models.
+            ValueError: If the specified model is not found in the stock models.
 
         Example
         ----------
@@ -85,28 +85,28 @@ class Model:
 
             >>> model = load_model("example_model")
 
-        This function loads a model from the core models available in tz_pypsa. It first checks if the specified model exists in the core models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
+        This function loads a model from the stock models available in tz_pypsa. It first checks if the specified model exists in the stock models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
 
         Notes
         ----------
 
-            To see a list of core models available in tz_pypsa, you can run the following command:
+            To see a list of stock models available in tz_pypsa, you can run the following command:
 
             >>> Model.get_available_models()
 
         '''
 
         # get core model
-        if model_name in utils.get_core_models():
+        if model_name in utils.get_stock_models():
             model = utils.load_yaml_from_dir(
                 os.path.join( 
                     utils.get_package_root(), 
-                    'core_models', 
+                    'stock_models', 
                     model_name,
                 ) 
             )
         else:
-            raise ValueError(f"Model {model_name} not found in core models.")
+            raise ValueError(f"Model {model_name} not found in stock models.")
         
         # --- get model years and frequency --- #
         if not years:
@@ -266,7 +266,7 @@ class Model:
         Raises
         ----------
 
-            ValueError: If the specified model is not found in the core models.
+            ValueError: If the specified model is not found in the stock models.
 
         Example
         ----------
@@ -275,7 +275,7 @@ class Model:
 
             >>> model = load_from_dir("some/path/to/dir")
 
-        This function loads a model from the core models available in tz_pypsa. It first checks if the specified model exists in the core models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
+        This function loads a model from the stock models available in tz_pypsa. It first checks if the specified model exists in the stock models. If found, it loads the model YAML file and the associated timeseries data. Finally, it builds a PyPSA network using the loaded model, timeseries, and optional costs.
 
         '''
 
@@ -333,19 +333,19 @@ class Model:
         
     @staticmethod
     def get_available_models():
-        '''Returns a list of core models available in tz_pypsa.
+        '''Returns a list of stock models available in tz_pypsa.
         '''
-        return utils.get_core_models()
+        return utils.get_stock_models()
     
 
     @staticmethod
-    def get_raw_core_model(model_name):
+    def get_raw_stock_model(model_name):
         '''Returns a core model as a dictionary.
         '''
         return utils.load_yaml_from_dir(
             os.path.join( 
                 utils.get_package_root(), 
-                'core_models', 
+                'stock_models', 
                 model_name,
             ) 
         )
