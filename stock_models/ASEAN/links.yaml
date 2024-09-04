@@ -168,6 +168,8 @@ links:
     bidirectional: false
     initial_capacity: 0
     reverse_capacity: 0
+    planned_expansion:
+      2035: 2000
   
   - id: LAOXX-MMRXX
     from_node: LAOXX
@@ -408,3 +410,31 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+
+  - id: VNMSO-SGPXX
+    from_node: VNMCE
+    to_node: VNMSO
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2035: 1200
+
+  - id: KHMXX-SGPXX
+    from_node: VNMCE
+    to_node: VNMSO
+    extendable: false
+    carrier: transmission-HVAC-overhead
+    type: HVAC
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2035: 1000
