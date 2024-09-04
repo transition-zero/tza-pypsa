@@ -17,7 +17,7 @@ storages:
   - id: lithium-ion
     type: battery
     carrier: battery
-    extendable: false
+    extendable: true
     lifetime: 15
     state_of_charge_initial: 0
     max_hours: 6
