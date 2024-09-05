@@ -50,7 +50,7 @@ links:
   - id: IDNJW-IDNNU # Domestic - Existing
     from_node: IDNJW
     to_node: IDNNU
-    extendable: false
+    extendable: true
     carrier: interconnector-IDNJW-IDNNU
     type: hvdc
     lifetime: 99
@@ -61,7 +61,7 @@ links:
     planned_expansion: 
       2025: 400
 
-  - id: IDNJW-IDNSM # AIMS3 - Existing
+  - id: IDNJW-IDNSM # AIMS3 - Future
     from_node: IDNJW
     to_node: IDNSM
     extendable: false
@@ -70,8 +70,8 @@ links:
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
-    initial_capacity: 3000
-    reverse_capacity: 3000
+    initial_capacity: 0
+    reverse_capacity: 0
 
   - id: IDNKA-IDNSL # Domestic - Future
     from_node: IDNKA
@@ -100,7 +100,7 @@ links:
   - id: IDNKA-MYSSK # AIMS3 - Existing
     from_node: IDNKA
     to_node: MYSSK
-    extendable: false
+    extendable: true
     carrier: interconnector-IDNKA-MYSSK
     type: hvdc
     lifetime: 99
@@ -189,7 +189,7 @@ links:
     from_node: THANO
     to_node: MMRXX
     extendable: false
-    carrier: interconnector-THA-MMR # Add costs
+    carrier: interconnector-THANO-MMR # Add costs
     type: hvdc
     lifetime: 99
     efficiency: 0.97
@@ -214,7 +214,7 @@ links:
   - id: LAOXX-VNMCE # AIMS3 - Existing
     from_node: LAOXX
     to_node: VNMCE
-    extendable: false
+    extendable: true
     carrier: interconnector-LAO-VNMCE
     type: hvdc
     lifetime: 99
@@ -240,7 +240,7 @@ links:
   - id: MYSSH-MYSSK # AIMS3 - Existing
     from_node: MYSSH
     to_node: MYSSK
-    extendable: false
+    extendable: true
     carrier: interconnector-MYSSH-MYSSK
     type: hvdc
     lifetime: 99
@@ -266,7 +266,7 @@ links:
   - id: MYSPE-SGPXX # AIMS3 - Existing
     from_node: MYSPE
     to_node: SGPXX
-    extendable: false
+    extendable: true
     carrier: interconnector-MYSPE-SGP
     type: hvac
     lifetime: 99
@@ -278,7 +278,7 @@ links:
   - id: KHMXX-LAOXX # AIMS3 - Existing
     from_node: KHMXX
     to_node: LAOXX
-    extendable: false
+    extendable: true
     carrier: interconnector-KHM-LAO
     type: hvdc
     lifetime: 99
@@ -290,7 +290,7 @@ links:
   - id: KHMXX-THACE # AIMS3 - Existing
     from_node: KHMXX
     to_node: THACE
-    extendable: false
+    extendable: true
     carrier: interconnector-KHM-THACE
     type: hvdc
     lifetime: 99
@@ -302,7 +302,7 @@ links:
   - id: KHMXX-VNMSO # AIMS3 - Existing
     from_node: KHMXX
     to_node: VNMSO
-    extendable: false
+    extendable: true
     carrier: interconnector-KHM-VNMSO
     type: hvac
     lifetime: 99
@@ -314,7 +314,7 @@ links:
   - id: PHLLU-PHLVI # Domestic - Existing
     from_node: PHLLU
     to_node: PHLVI
-    extendable: false
+    extendable: true
     carrier: interconnector-PHLLU-PHLVI
     type: subsea
     lifetime: 99
@@ -326,7 +326,7 @@ links:
   - id: PHLMI-PHLVI # Domestic - Existing 
     from_node: PHLMI
     to_node: PHLVI
-    extendable: false
+    extendable: true
     carrier: interconnector-PHLMI-PHLVI
     type: subsea
     lifetime: 99
@@ -338,7 +338,7 @@ links:
   - id: VNMCE-VNMNO # Domestic - Existing
     from_node: VNMCE
     to_node: VNMNO
-    extendable: false
+    extendable: true
     carrier: interconnector-VNMCE-VNMNO
     type: hvdc
     lifetime: 99
@@ -350,7 +350,7 @@ links:
   - id: VNMCE-VNMSO # Domestic - Existing
     from_node: VNMCE
     to_node: VNMSO
-    extendable: false
+    extendable: true
     carrier: interconnector-VNMCE-VNMSO
     type: hvdc
     lifetime: 99
@@ -364,7 +364,7 @@ links:
   - id: THANO-THACE # Domestic - Existing
     from_node: THANO
     to_node: THACE
-    extendable: false
+    extendable: true
     carrier: interconnector-THANO-THACE
     type: hvdc
     lifetime: 99
@@ -376,7 +376,7 @@ links:
   - id: THACE-THASO # Domestic - Existing
     from_node: THACE
     to_node: THASO
-    extendable: false
+    extendable: true
     carrier: interconnector-THACE-THASO
     type: hvdc
     lifetime: 99
@@ -388,7 +388,7 @@ links:
   - id: THASO-MYSPE # AIMS3 - Existing
     from_node: THASO
     to_node: MYSPE
-    extendable: false
+    extendable: true
     carrier: interconnector-THASO-MYSPE
     type: hvdc
     lifetime: 99
@@ -400,7 +400,7 @@ links:
   - id: THANO-LAOXX # AIMS3 - Existing
     from_node: THANO
     to_node: LAOXX
-    extendable: false
+    extendable: true
     carrier: interconnector-THANO-LAO
     type: hvdc
     lifetime: 99
