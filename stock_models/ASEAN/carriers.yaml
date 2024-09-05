@@ -93,3 +93,168 @@ carriers:
     nice_name: 'Transmission'
     color: red
     co2_emissions: 0.
+
+  - id: interconnector-BRN-MYSSK
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNJW-IDNKA
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+  
+  - id: interconnector-IDNJW-IDNNU
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNJW-IDNSM
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNKA-MYSSH
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNKA-MYSSK
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNML-IDNPP
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNML-IDNSL
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNNU-IDNSL
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNSM-MYSPE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNSM-SGP
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-LAO-MMR
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-THANO-MMR
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-LAO-VNMNO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-LAO-VNMCE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-MYSPE-MYSSK
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+  
+  - id: interconnector-MYSSH-MYSSK
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-MYSSH-PHLLU
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-MYSPE-SGP
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-KHM-LAO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-KHM-THACE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-KHM-VNMSO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-PHLLU-PHLVI
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-IDNKA-IDNSL
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-PHLMI-PHLVI
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-VNMCE-VNMNO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-VNMCE-VNMSO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-THANO-THACE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-THACE-THASO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-THASO-MYSPE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-THANO-LAO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-VNMSO-SGP
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-KHM-SGP
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
