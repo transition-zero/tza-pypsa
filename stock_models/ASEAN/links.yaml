@@ -189,7 +189,7 @@ links:
     from_node: THANO
     to_node: MMRXX
     extendable: false
-    carrier: interconnector-THANO-MMR # Add costs
+    carrier: interconnector-THANO-MMR
     type: hvdc
     lifetime: 99
     efficiency: 0.97
@@ -422,8 +422,8 @@ links:
   #   reverse_capacity: 0
 
   - id: VNMSO-SGPXX # SGP initiative
-    from_node: VNMCE
-    to_node: VNMSO
+    from_node: VNMSO
+    to_node: SGPXX
     extendable: false
     carrier: interconnector-VNMSO-SGP
     type: hvdc
