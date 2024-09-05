@@ -632,7 +632,7 @@ nodes:
   - id: MMRXX
     long_name: Myanmar 
     coords: [21.9162, 95.9560]
-    load_rate_of_change: 0.004
+    load_rate_of_change: 0.04
     co2_budget:
       2022: 9999999999
       2023: 9999999999
