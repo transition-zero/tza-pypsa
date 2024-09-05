@@ -434,7 +434,7 @@ def build_pypsa_network(
                 for bus in network.loads_t.p_set.columns:
 
                     network.loads_t.p_set.loc[year, bus] = (
-                        network.loads_t.p_set.loc[year, bus].to_numpy() * (1 + gradient[bus])**(year - base_year)
+                        network.loads_t.p_set.loc[base_year, bus].to_numpy() * (1 + gradient[bus])**(year - base_year)
                     )
     
     # --- add backstop --- #
