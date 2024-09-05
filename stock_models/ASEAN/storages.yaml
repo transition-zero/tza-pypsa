@@ -50,8 +50,3 @@ storages:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
-    planned_expansion:
-      BRNXX: 
-        2030: 0.1
-      SGPXX: 
-        2030: 0.1
