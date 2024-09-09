@@ -1394,30 +1394,30 @@ generators:
       MMRXX: 181
       LAOXX: 0
     maximum_capacity:
-      IDNJW: 42690
-      IDNKA: 102300
-      IDNML: 13880
-      IDNNU: 94460
-      IDNPP: 40180
-      IDNSL: 42710
-      IDNSM: 107980
-      LAOXX: 63270
-      MMRXX: 518120
-      MYSPE: 15520
-      MYSSH: 4660
-      MYSSK: 21070
-      PHLLU: 76330
-      PHLMI: 75280
-      PHLVI: 36470
-      THACE: 88130
-      THANO: 445970
-      THASO: 12480
-      # VNMCE: 43650 # Target of 155000 MW in 2050 (for VNM)
-      # VNMNO: 23610 # Target of 155000 MW in 2050 (for VNM)
-      # VNMSO: 68710 # Target of 155000 MW in 2050 (for VNM)
-      BRNXX: 250
-      KHMXX: 255670
-      # SGPXX: 10 # Target of 1600 MW from 2030 onwards
+      IDNSM: 166398
+      IDNNU: 116257
+      IDNJW: 58455
+      IDNSL: 56349
+      IDNKA: 144489
+      IDNML: 15993
+      IDNPP: 53389
+      VNMNO: 34462
+      VNMCE: 59353
+      VNMSO: 77260
+      MYSPE: 17335
+      MYSSH: 4645
+      MYSSK: 21768
+      PHLLU: 86286
+      PHLVI: 36614
+      PHLMI: 82843
+      THANO: 467486
+      THACE: 88858
+      THASO: 12130
+      KHMXX: 268131
+      SGPXX: 6900 # From EMA: 8.6 GW-p -> 6.9 GW-ac
+      BRNXX: 4800 # From Accenture study: floating (2323 MW) + utility (1500 MW) + rooftop (1000 MW)
+      MMRXX: 722690
+      LAOXX: 84603
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -1713,30 +1713,30 @@ generators:
       MMRXX: 0
       LAOXX: 0
     maximum_capacity:
-      IDNJW: 326620
-      IDNKA: 336400
-      IDNML: 489020
-      IDNNU: 59190
-      IDNPP: 792100
-      IDNSL: 89980
-      IDNSM: 458410
-      LAOXX: 0
-      MMRXX: 470800
-      MYSPE: 183950
-      MYSSH: 139560
-      MYSSK: 353440
-      PHLLU: 227300
-      PHLMI: 70880
-      PHLVI: 50060
-      THACE: 92410
+      IDNSM: 2891026
+      IDNNU: 180272
+      IDNJW: 1075116
+      IDNSL: 499801
+      IDNKA: 969031
+      IDNML: 905302
+      IDNPP: 1205570
+      VNMNO: 215347
+      VNMCE: 365036
+      VNMSO: 1181464
+      MYSPE: 820431
+      MYSSH: 175425
+      MYSSK: 572175
+      PHLLU: 579482
+      PHLVI: 179302
+      PHLMI: 440988
       THANO: 0
-      THASO: 279210
-      VNMCE: 403200
-      VNMNO: 194070
-      VNMSO: 709770
-      BRNXX: 25100
-      KHMXX: 80580
-      SGPXX: 350
+      THACE: 241905
+      THASO: 769041
+      KHMXX: 195511
+      SGPXX: 1827
+      BRNXX: 37323
+      MMRXX: 979039
+      LAOXX: 0
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -1885,30 +1885,30 @@ generators:
       MMRXX: 0
       LAOXX: 0
     maximum_capacity:
-      IDNJW: 4930
-      IDNKA: 4200
-      IDNML: 1030
-      IDNNU: 5050
-      IDNPP: 2560
-      IDNSL: 1310
-      IDNSM: 7710
-      LAOXX: 4070
-      MMRXX: 60700
-      MYSPE: 1500
-      MYSSH: 960
-      MYSSK: 810
-      PHLLU: 20070
-      PHLMI: 9740
-      PHLVI: 6760
-      THACE: 16860
-      THANO: 48530
-      THASO: 2890
-      # VNMCE: 8120 # Target of 60050 MW by 2050 (for VNM)
-      # VNMNO: 3450 # Target of 60050 MW by 2050 (for VNM)
-      # VNMSO: 16860 # Target of 60050 MW by 2050 (for VNM)
-      BRNXX: 20
-      KHMXX: 65070
-      SGPXX: 0
+      IDNSM: 83905
+      IDNNU: 30295
+      IDNJW: 41711
+      IDNSL: 21992
+      IDNKA: 51891
+      IDNML: 3539
+      IDNPP: 10102
+      VNMNO: 23886
+      VNMCE: 42102
+      VNMSO: 57481
+      MYSPE: 12455
+      MYSSH: 1506
+      MYSSK: 5528
+      PHLLU: 55510
+      PHLVI: 21025
+      PHLMI: 54981
+      THANO: 360974
+      THACE: 67981
+      THASO: 9174
+      KHMXX: 205638
+      SGPXX: 4
+      BRNXX: 74
+      MMRXX: 494034
+      LAOXX: 63805
     efficiency:
       IDNSM: 1.
       IDNJW: 1.

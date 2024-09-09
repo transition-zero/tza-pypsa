@@ -418,24 +418,24 @@ def build_pypsa_network(
             p_set=demand # demand profile
         )
     
-    # --- apply rate of change to load if multi-year investment problem --- #
-    if multi_year_investment:
+    # # --- apply rate of change to load if multi-year investment problem --- #
+    # if multi_year_investment:
 
-        for year in years:
+    #     for year in years:
 
-            # get rate of change by bus
-            gradient = {}
-            for n in nodes:
-                gradient[n['id']] = kwargs.get('load_rate_of_change', n['load_rate_of_change'])
+    #         # get rate of change by bus
+    #         gradient = {}
+    #         for n in nodes:
+    #             gradient[n['id']] = kwargs.get('load_rate_of_change', n['load_rate_of_change'])
 
-            base_year = years[0]
+    #         base_year = years[0]
 
-            for year in years[1:]:
-                for bus in network.loads_t.p_set.columns:
+    #         for year in years[1:]:
+    #             for bus in network.loads_t.p_set.columns:
 
-                    network.loads_t.p_set.loc[year, bus] = (
-                        network.loads_t.p_set.loc[base_year, bus].to_numpy() * (1 + gradient[bus])**(year - base_year)
-                    )
+    #                 network.loads_t.p_set.loc[year, bus] = (
+    #                     network.loads_t.p_set.loc[base_year, bus].to_numpy() * (1 + gradient[bus])**(year - base_year)
+    #                 )
     
     # --- add backstop --- #
     if backstop:
