@@ -35,6 +35,13 @@ generators:
       THACE: 444
       THASO: 73
       SGPXX: 278
+      MYSPE: 0
+      MYSSH: 0
+      MYSSK: 0
+      MMRXX: 0
+      BRNXX: 0
+      LAOXX: 0
+      KHMXX: 0
     maximum_capacity:
       IDNJW: 1130
       IDNKA: 10590
