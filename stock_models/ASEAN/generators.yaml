@@ -50,6 +50,23 @@ generators:
       IDNPP: 510
       IDNSL: 360
       IDNSM: 17980
+      BRNXX: 0
+      KHMXX: 2152
+      LAOXX: 200
+      MYSPE: 9667 # 1/3 of 29000 total for MYS
+      MYSSK: 9667 # 1/3 of 29000 total for MYS
+      MYSSH: 9667 # 1/3 of 29000 total for MYS
+      MMRXX: 11640
+      PHLLU: 145 # Based on current installed capacity
+      PHLVI: 310 # Based on current installed capacity
+      PHLMI: 50.9 # Based on current installed capacity
+      SGPXX: 280 # Based on current installed capacity
+      THANO: 2333 # 1/3 of 7000 total for THA
+      THACE: 2333 # 1/3 of 7000 total for THA
+      THASO: 2333 # 1/3 of 7000 total for THA
+      VNMNO: 106210 # 1/3 of 7000 total for VNM
+      VNMCE: 106210 # 1/3 of 7000 total for VNM
+      VNMSO: 106210 # 1/3 of 7000 total for VNM
     capital_cost:
       IDNSM: 1.0
       IDNJW: 1.0
