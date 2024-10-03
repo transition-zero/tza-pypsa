@@ -92,8 +92,6 @@ def build_pypsa_network(
 
     # --- set snapshots --- #
     if not multi_year_investment:
-        print('-'*50)
-        print('BUILDING SINGLE-YEAR INVESTMENT PROBLEM')
         '''Single-year investment problem'''
         snapshot = (
             pd.date_range(
@@ -106,8 +104,6 @@ def build_pypsa_network(
         network.set_snapshots(snapshot)
 
     else:
-        print('-'*50)
-        print('BUILDING MULTI-YEAR INVESTMENT PROBLEM')
         '''Multi-year investment problem'''
         # convert to multiindex and assign to network
         network.snapshots = (
