@@ -186,22 +186,25 @@ class Model:
 
         # get timeseries
         datasets = []
-        for year in years:
+        if isinstance(years, int):
+            yyears = [years]
+        
+        for year in yyears:
 
             url = utils.get_data_from_github_with_auth(
-                path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
-                personal_access_token=PERSONAL_ACCESS_TOKEN,
-                remote_data=model['remote_data'],
+            path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
+            personal_access_token=PERSONAL_ACCESS_TOKEN,
+            remote_data=model['remote_data'],
             )
 
             # open and resample
             ts = (
-                xr
-                .open_dataset(url)
-                .resample(
-                    snapshot = frequency,
-                )
-                .mean()
+            xr
+            .open_dataset(url)
+            .resample(
+                snapshot = frequency,
+            )
+            .mean()
             )
 
             datasets.append(ts)

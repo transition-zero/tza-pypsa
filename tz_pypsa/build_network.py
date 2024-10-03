@@ -91,43 +91,46 @@ def build_pypsa_network(
     network = pypsa.Network()
 
     # --- set snapshots --- #
-    # if not multi_year_investment and isinstance(years, int):
-    #     '''Single-year investment problem'''
-    #     snapshot = (
-    #         pd.date_range(
-    #             start=f'{years}-01-01 00:00:00', 
-    #             end= f'{years}-12-31 23:00:00',
-    #             freq=frequency,
-    #         )
-    #     )
-        
-    #     network.set_snapshots(snapshot)
-
-    # else:
-    '''Multi-year investment problem'''
-    # convert to multiindex and assign to network
-    network.snapshots = (
-        pd.MultiIndex.from_arrays(
-            [
-                timeseries.snapshot.to_series().dt.year, 
-                timeseries.snapshot.to_series()
-            ]
+    if not multi_year_investment:
+        print('-'*50)
+        print('BUILDING SINGLE-YEAR INVESTMENT PROBLEM')
+        '''Single-year investment problem'''
+        snapshot = (
+            pd.date_range(
+                start=f'{years[0]}-01-01 00:00:00', 
+                end= f'{years[0]}-12-31 23:00:00',
+                freq=frequency,
+            )
         )
-    )
-    
-    network.investment_periods = years
-    
-    network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
+        
+        network.set_snapshots(snapshot)
 
-    # Set the years and objective weighting per investment period. 
-    # - The objective weighting is the sum of the discounted values of the years in the investment period.
-    # - For each period we sum up all discounts rates of the corresponding years which gives us the effective objective weighting.
-    r = kwargs.get('multi_year_discount_rate', model['time_definition']['multi_year_discount_rate'])
-    T = 0
-    for period, nyears in network.investment_period_weightings.years.items():
-        discounts = [(1 / (1 + r) ** t) for t in range(T, T + nyears)]
-        network.investment_period_weightings.at[period, "objective"] = sum(discounts)
-        T += nyears
+    else:
+        print('-'*50)
+        print('BUILDING MULTI-YEAR INVESTMENT PROBLEM')
+        '''Multi-year investment problem'''
+        # convert to multiindex and assign to network
+        network.snapshots = (
+            pd.MultiIndex.from_arrays(
+                [
+                    timeseries.snapshot.to_series().dt.year, 
+                    timeseries.snapshot.to_series()
+                ]
+            )
+        )
+    
+        network.investment_periods = years
+        network.investment_period_weightings["years"] = list(np.diff(years)) + [10]
+
+        # Set the years and objective weighting per investment period. 
+        # - The objective weighting is the sum of the discounted values of the years in the investment period.
+        # - For each period we sum up all discounts rates of the corresponding years which gives us the effective objective weighting.
+        r = kwargs.get('multi_year_discount_rate', model['time_definition']['multi_year_discount_rate'])
+        T = 0
+        for period, nyears in network.investment_period_weightings.years.items():
+            discounts = [(1 / (1 + r) ** t) for t in range(T, T + nyears)]
+            network.investment_period_weightings.at[period, "objective"] = sum(discounts)
+            T += nyears
 
     #network.set_snapshots(snapshot.tz_localize('UTC').tz_convert('Asia/Manila'))
 
