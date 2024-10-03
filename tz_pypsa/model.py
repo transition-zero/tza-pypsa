@@ -188,6 +188,8 @@ class Model:
         datasets = []
         if isinstance(years, int):
             yyears = [years]
+        else:
+            yyears = years
         
         for year in yyears:
 
