@@ -258,3 +258,8 @@ carriers:
     nice_name: 'Transmission'
     color: red
     co2_emissions: 0.
+
+  - id: uranium
+    nice_name: 'Uranium'
+    color: blue
+    co2_emissions: 0.

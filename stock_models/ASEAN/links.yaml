@@ -320,8 +320,8 @@ links:
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
-    initial_capacity: 440
-    reverse_capacity: 440
+    initial_capacity: 3622
+    reverse_capacity: 3622
   
   - id: PHLMI-PHLVI # Domestic - Existing 
     from_node: PHLMI
@@ -332,8 +332,8 @@ links:
     lifetime: 99
     efficiency: 0.97
     bidirectional: true
-    initial_capacity: 450 # Updated in 2024 from 0
-    reverse_capacity: 450 # Updated in 2024 from 0
+    initial_capacity: 1213 # Updated in 2024 from 0
+    reverse_capacity: 1213 # Updated in 2024 from 0
   
   - id: VNMCE-VNMNO # Domestic - Existing
     from_node: VNMCE

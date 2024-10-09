@@ -28,9 +28,9 @@ generators:
       VNMNO: 85
       VNMCE: 200.1
       VNMSO: 61
-      PHLLU: 145
-      PHLVI: 310
-      PHLMI: 50.9
+      PHLLU: 157.5
+      PHLVI: 378
+      PHLMI: 64
       THANO: 277.9
       THACE: 444
       THASO: 73
@@ -57,9 +57,9 @@ generators:
       MYSSK: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       MYSSH: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       MMRXX: 1000 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      PHLLU: 145 # Based on current installed capacity
-      PHLVI: 310 # Based on current installed capacity
-      PHLMI: 50.9 # Based on current installed capacity
+      PHLLU: 175
+      PHLVI: 420
+      PHLMI: 71 
       SGPXX: 280 # Based on current installed capacity
       THANO: 6000 # 1/3 of 18000 total for THA [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       THACE: 6000 # 1/3 of 18000 total for THA [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
@@ -217,6 +217,10 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_nom_min:  
+      PHLLU: 157.5
+      PHLVI: 378
+      PHLMI: 64
     # ---
     # universal technology parameters
     extendable: false
@@ -249,12 +253,18 @@ generators:
       MYSPE: 12669.2
       MYSSH: 977
       MYSSK: 1159
-      PHLLU: 2734.4
+      PHLLU: 6412
+      PHLVI: 0.
+      PHLMI: 0.  
       THANO: 966
       THACE: 29900.55
       THASO: 2690
       SGPXX: 10645
       BRNXX: 268
+    maximum_capacity:
+      PHLLU: 7124
+      PHLVI: 0.
+      PHLMI: 0.       
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -355,6 +365,10 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_nom_min:
+      PHLLU: 6412
+      PHLVI: 0.
+      PHLMI: 0.               
     # ---
     # universal technology parameters
     extendable: false
@@ -390,14 +404,18 @@ generators:
       VNMSO: 1245
       MYSPE: 8200
       MYSSK: 480
-      PHLLU: 5898.6
-      PHLVI: 786
-      PHLMI: 1465
+      PHLLU: 5606
+      PHLVI: 829
+      PHLMI: 1373   
       THANO: 2360
       THACE: 2291
       KHMXX: 755
       MMRXX: 138
       LAOXX: 1878
+    maximum_capacity:
+      PHLLU: 6229
+      PHLVI: 921
+      PHLMI: 1525         
     efficiency:
       IDNSM: 0.35
       IDNJW: 0.35
@@ -497,7 +515,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.  
+    maximum_capacity:
+      PHLLU: 5606
+      PHLVI: 829
+      PHLMI: 1373            
     # ---
     # universal technology parameters
     extendable: false
@@ -528,11 +550,15 @@ generators:
       VNMCE: 5514
       VNMSO: 4333
       MYSSK: 624
-      PHLLU: 2714
-      PHLVI: 625
-      PHLMI: 765
+      PHLLU: 3128
+      PHLVI: 0.
+      PHLMI: 0.   
       THACE: 660
       KHMXX: 700
+    maximum_capacity:
+      PHLLU: 3128
+      PHLVI: 0.
+      PHLMI: 0.        
     efficiency:
       IDNSM: 0.38
       IDNJW: 0.38
@@ -633,6 +659,10 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_nom_min:
+      PHLLU: 3128
+      PHLVI: 0.
+      PHLMI: 0.              
     # ---
     # universal technology parameters
     extendable: false
@@ -658,6 +688,13 @@ generators:
     initial_capacity:
       IDNJW: 1900
       MYSPE: 4000
+      PHLLU: 630
+      PHLVI: 0.
+      PHLMI: 0.       
+    maximum_capacity:  
+      PHLLU: 700
+      PHLVI: 0.
+      PHLMI: 0.       
     efficiency:
       IDNSM: 0.42
       IDNJW: 0.42
@@ -757,7 +794,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.  
+    p_nom_min:  
+      PHLLU: 630
+      PHLVI: 0.
+      PHLMI: 0.            
     # ---
     # universal technology parameters
     extendable: false
@@ -791,11 +832,15 @@ generators:
       VNMSO: 660
       MYSSH: 148.4
       MYSSK: 35.5
-      PHLLU: 2025.36
-      PHLVI: 514
-      PHLMI: 499
+      PHLLU: 1832 
+      PHLVI: 545
+      PHLMI: 549 
       KHMXX: 521.4
       MMRXX: 181
+    maximum_capacity:
+      PHLLU: 2036 
+      PHLVI: 605
+      PHLMI: 610        
     efficiency:
       IDNSM: 0.46
       IDNJW: 0.46
@@ -895,7 +940,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0. 
+    p_nom_min:
+      PHLLU: 1832 
+      PHLVI: 545
+      PHLMI: 549           
     # ---
     # universal technology parameters
     extendable: false
@@ -923,9 +972,9 @@ generators:
       IDNNU: 16
       IDNJW: 1233
       IDNSL: 120
-      PHLLU: 850
-      PHLVI: 780
-      PHLMI: 113
+      PHLLU: 1350
+      PHLVI: 2178
+      PHLMI: 738  
     maximum_capacity:
       BRNXX: 0
       IDNJW: 10270
@@ -941,9 +990,9 @@ generators:
       MYSPE: 0
       MYSSH: 0
       MYSSK: 0
-      PHLLU: 3790
-      PHLMI: 5280
-      PHLVI: 15620
+      PHLLU: 1500
+      PHLVI: 2420
+      PHLMI: 820  
       SGPXX: 0
       THACE: 0
       THANO: 0
@@ -1050,7 +1099,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.  
+    p_nom_min:     
+      PHLLU: 1350
+      PHLVI: 2178
+      PHLMI: 738       
     # ---
     # universal technology parameters
     extendable: false
@@ -1087,9 +1140,9 @@ generators:
       MYSPE: 2536.1
       MYSSH: 75
       MYSSK: 3462.5
-      PHLLU: 2486
-      PHLVI: 49.8
-      PHLMI: 1083
+      PHLLU: 3325
+      PHLVI: 112.5
+      PHLMI: 1142.1 
       THANO: 2754.2
       THACE: 1078
       THASO: 324
@@ -1113,9 +1166,9 @@ generators:
       MYSPE: 14230
       MYSSH: 380
       MYSSK: 5390
-      PHLLU: 11640
-      PHLMI: 4860
-      PHLVI: 49.8 # replaced '0'
+      PHLLU: 3694
+      PHLVI: 125
+      PHLMI: 1269   
       SGPXX: 0
       THACE: 3950
       THANO: 10890
@@ -1222,7 +1275,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.     
+    p_nom_min:      
+      PHLLU: 3325
+      PHLVI: 112.5
+      PHLMI: 1142.1        
     # ---
     # universal technology parameters
     extendable: false
@@ -1259,7 +1316,7 @@ generators:
       MYSPE: 834
       MYSSH: 0
       MYSSK: 102
-      PHLLU: 373
+      PHLLU: 336   
       PHLVI: 0
       PHLMI: 0
       THANO: 0
@@ -1270,6 +1327,10 @@ generators:
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
+    maximum_capacity:
+      PHLLU: 373
+      PHLVI: 0.
+      PHLMI: 0.        
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -1369,7 +1430,9 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0. 
+    p_nom_min:
+      PHLLU: 336     
     # ---
     # universal technology parameters
     extendable: false
@@ -1406,9 +1469,9 @@ generators:
       MYSPE: 1445.42
       MYSSH: 50
       MYSSK: 0
-      PHLLU: 937.2
-      PHLVI: 373.1
-      PHLMI: 78
+      PHLLU: 14672 
+      PHLVI: 1002
+      PHLMI: 227    
       THANO: 695.41
       THACE: 657.21
       THASO: 0
@@ -1431,9 +1494,9 @@ generators:
       MYSPE: 17335
       MYSSH: 4645
       MYSSK: 21768
-      PHLLU: 86286
-      PHLVI: 36614
-      PHLMI: 82843
+      PHLLU: 16302 
+      PHLVI: 1113
+      PHLMI: 252  
       THANO: 467486
       THACE: 88858
       THASO: 12130
@@ -1541,7 +1604,11 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.   
+    p_nom_min:
+      PHLLU: 14672 
+      PHLVI: 1002
+      PHLMI: 227      
     # ---
     # universal technology parameters
     extendable: false
@@ -1688,7 +1755,7 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.  
     # ---
     # universal technology parameters
     extendable: false
@@ -1750,9 +1817,9 @@ generators:
       MYSPE: 820431
       MYSSH: 175425
       MYSSK: 572175
-      PHLLU: 579482
-      PHLVI: 179302
-      PHLMI: 440988
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
       THANO: 0
       THACE: 241905
       THASO: 769041
@@ -1860,7 +1927,7 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0.      
     # ---
     # universal technology parameters
     extendable: false
@@ -1897,8 +1964,8 @@ generators:
       MYSPE: 0
       MYSSH: 0
       MYSSK: 0
-      PHLLU: 379
-      PHLVI: 90
+      PHLLU: 1960
+      PHLVI: 540  
       PHLMI: 0
       THANO: 1369.5
       THACE: 0
@@ -1922,9 +1989,9 @@ generators:
       MYSPE: 12455
       MYSSH: 1506
       MYSSK: 5528
-      PHLLU: 55510
-      PHLVI: 21025
-      PHLMI: 54981
+      PHLLU: 2167
+      PHLVI: 605
+      PHLMI: 0. 
       THANO: 360974
       THACE: 67981
       THASO: 9174
@@ -2032,7 +2099,10 @@ generators:
       VNMCE: 0.
       VNMSO: 0.
       KHMXX: 0.
-      LAOXX: 0.
+      LAOXX: 0. 
+    p_nom_min:   
+      PHLLU: 1960
+      PHLVI: 540        
     # ---
     # universal technology parameters
     extendable: false
