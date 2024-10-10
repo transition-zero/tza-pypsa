@@ -126,6 +126,7 @@ class Model:
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
@@ -146,6 +147,7 @@ class Model:
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
@@ -162,6 +164,7 @@ class Model:
                 path_to_file = model['remote_data']['policies']['path_to_policy'] + 'power_sector_targets.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
@@ -194,9 +197,10 @@ class Model:
         for year in yyears:
 
             url = utils.get_data_from_github_with_auth(
-            path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
-            personal_access_token=PERSONAL_ACCESS_TOKEN,
-            remote_data=model['remote_data'],
+                path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
+                personal_access_token=PERSONAL_ACCESS_TOKEN,
+                remote_data=model['remote_data'],
+                branch=kwargs.get('branch', 'main'),
             )
 
             # open and resample
@@ -216,7 +220,7 @@ class Model:
         # subset for timesteps
         if timesteps:
             timeseries = timeseries.isel(snapshot=slice(0, timesteps))
-
+    
         # build network
         return build_pypsa_network(
             model = model,
