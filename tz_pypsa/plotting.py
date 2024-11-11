@@ -410,3 +410,200 @@ def network_map(
 
     plt.colorbar(collection[2], fraction=0.04, pad=0.004, label="Mean Flow [MW]")
     plt.show()
+
+
+def capacity_mix(
+        network : pypsa.Network,
+        period : int, 
+        mul : float = 1e3,        
+    ) -> go.Figure:
+
+    capacity = (network.generators.p_nom_opt[network.generators
+                                             .index
+                                             .str
+                                             .contains(str(period))
+                                             ]
+                .groupby([network.generators.bus, network.generators.type])
+                .sum()
+                .reset_index()
+    )
+
+    capacity.type.replace('', np.nan, inplace=True)
+    capacity.dropna(subset=['type'], inplace=True)
+
+    region_list = capacity.bus.unique()
+
+    # function to show only percentages more than 5% in the pie chart
+    def autopct_more_than_5(pct):
+        return ('%1.f%%' % pct) if pct > 5 else ''
+
+    # pie subplots
+    fig, axs = plt.subplots(1,len(region_list), sharex='col', figsize=(10, 3))
+
+    for region_list, ax in zip(region_list, axs.flat):
+
+        # select data per region
+        data_region = capacity[capacity.bus == region_list]
+        labels = data_region.type
+
+        # plot data
+        texts, autotexts, wedges = ax.pie(data_region.p_nom_opt,
+                                        labels = None, 
+                                        autopct=autopct_more_than_5,
+                                        colors=plt.cm.tab20.colors)                            
+        ax.set_title(region_list.upper())
+
+    fig.legend(labels,
+            ncols = 2,
+            bbox_to_anchor = (0.5,0.),
+            loc = 'center',
+            )
+
+    fig.suptitle("Capacity mix by technology per region in " + str(period), fontsize = 20)
+
+    # plt.show()
+
+    return fig
+
+
+def total_capacity(
+        network : pypsa.Network,
+        period : int, 
+        mul : float = 1e3,
+    ) -> go.Figure:
+
+    capacity = (network.generators.p_nom_opt[network.generators
+                                             .index
+                                             .str
+                                             .contains(str(period))
+                                             ]
+                .groupby([network.generators.bus, network.generators.type])
+                .sum()
+                .reset_index()
+    )
+
+    capacity.type.replace('', np.nan, inplace=True)
+    capacity.dropna(subset=['type'], inplace=True)
+
+    # convert capacity values to GW
+    capacity.p_nom_opt = capacity.p_nom_opt.div(mul)
+
+    # define order for x-axis
+    nodes = capacity.bus.unique().tolist()
+
+    fig = px.bar(capacity, 
+        x = "bus", 
+        y = "p_nom_opt", 
+        color = "type",
+        category_orders = {'bus' : nodes},
+    )
+
+    fig.update_layout(
+            yaxis_title= 'Capacity (GW)',
+            xaxis_title='',
+            title='Installed capacity in ' + str(period),
+            # width=1200,
+            # height=500,
+            # xaxis_tickangle=-45
+        )
+    
+    return fig
+
+
+def generation_mix(
+        network : pypsa.Network,
+        period : int, 
+    ) -> go.Figure:
+
+    generation = (network.generators_t.p
+                    .loc[period]
+                    .resample('YE')
+                    .sum()
+                    .groupby([network.generators.bus, network.generators.type], axis=1)
+                    .sum()
+                    .melt()
+                    .sort_values(by='bus')
+                    )
+    generation.type.replace('', 'backstop', inplace=True)
+
+    region_list = generation.bus.unique()
+
+    # function to show only percentages more than 5% in the pie chart
+    def autopct_more_than_5(pct):
+        return ('%1.f%%' % pct) if pct > 5 else ''
+
+    # pie subplots
+    fig, axs = plt.subplots(1, len(region_list), sharex='col', figsize=(10, 3))
+
+    for region_list, ax in zip(region_list, axs.flat):
+
+        # select data per region
+        data_region = groupped_gen[groupped_gen.bus == region_list]
+        labels = data_region.type
+
+        # plot data
+        texts, autotexts, wedges = ax.pie(data_region.value,
+                                        labels = None, 
+                                        autopct=autopct_more_than_5,
+                                        colors=plt.cm.tab20.colors)                            
+        ax.set_title(region_list.upper())
+
+    plt.legend(labels,
+            ncols = 2,
+            bbox_to_anchor = (-0.5,0.))
+
+    fig.suptitle("Generation mix by technology per region in " + str(yr), fontsize = 20)
+
+    return fig
+
+
+def total_emission(
+        network : pypsa.Network,
+        period : int,
+        mul : float = 1e6, 
+    ) -> go.Figure:
+
+    total_gen_per_carrier = (network.generators_t.p
+                            .loc[period]
+                            .resample('YE')
+                            .sum()
+                            .groupby([network.generators.bus, network.generators.carrier], axis=1)
+                            .sum()
+                            .melt()
+                            .sort_values(by='bus'))
+
+    carrier_list = total_gen_per_carrier.carrier
+
+    emission_per_mwh = network.carriers.co2_emissions.reset_index()
+
+    total_gen_per_carrier['emission'] = ''
+
+    for idx, val in enumerate(carrier_list):
+        total_gen_per_carrier.emission[idx] = (total_gen_per_carrier.value[idx] * 
+                    (emission_per_mwh.co2_emissions
+                        .loc[emission_per_mwh.Carrier == val].values[0])
+                        )
+
+    # convert emission values to MtCO2
+    total_gen_per_carrier.emission = total_gen_per_carrier.emission.div(mul)
+
+    # define order for x-axis
+    nodes = total_gen_per_carrier.bus.unique().tolist()
+
+    fig = px.bar(total_gen_per_carrier, 
+        x = "bus", 
+        y = "emission", 
+        color = "carrier",
+        category_orders = {'bus' : nodes},
+    )
+
+    fig.update_layout(
+            yaxis_title= 'Emission (MtCO2)',
+            xaxis_title='',
+            title='Emission in ' + str(yr),
+            # width=1200,
+            # height=500,
+            # xaxis_tickangle=-45
+        )
+    
+    return fig
