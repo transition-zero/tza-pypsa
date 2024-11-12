@@ -1,12 +1,10 @@
 import pypsa
-
+import numpy as np
 import pandas as pd
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
 import plotly.express as px
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-
 
 def energy_balance(
         network : pypsa.Network, 
@@ -414,56 +412,85 @@ def network_map(
 
 def capacity_mix(
         network : pypsa.Network,
-        period : int, 
-        mul : float = 1e3,        
-    ) -> go.Figure:
+        period : int,
+        mul : float = 1e3,
+    ) -> plt.figure:
 
-    capacity = (network.generators.p_nom_opt[network.generators
-                                             .index
-                                             .str
-                                             .contains(str(period))
-                                             ]
-                .groupby([network.generators.bus, network.generators.type])
-                .sum()
-                .reset_index()
+    '''
+    Plot dispatch at daily resolution.
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot (e.g., 2030).
+    mul : float
+        A scaling factor to convert units.
+
+    Returns:
+    ----------
+
+    fig : plt.Figure
+        The generated plot figure.
+
+    '''
+
+    # Filter and aggregate capacity data
+    capacity = (
+        network.generators.p_nom_opt[network.generators.index.str.contains(str(period))]
+        .groupby([network.generators.bus, network.generators.type])
+        .sum()
+        .reset_index()
     )
 
-    capacity.type.replace('', np.nan, inplace=True)
+    # Drop rows with missing types
+    capacity['type'].replace('', np.nan, inplace=True)
     capacity.dropna(subset=['type'], inplace=True)
-
+    
+    # List of unique regions
     region_list = capacity.bus.unique()
 
     # function to show only percentages more than 5% in the pie chart
     def autopct_more_than_5(pct):
         return ('%1.f%%' % pct) if pct > 5 else ''
 
-    # pie subplots
-    fig, axs = plt.subplots(1,len(region_list), sharex='col', figsize=(10, 3))
+    # Configure figure size based on number of regions
+    fig, axs = plt.subplots(
+        nrows=1, 
+        ncols=len(region_list), 
+        figsize=(3 * len(region_list), 5)  # Dynamically adjust width
+    )
 
-    for region_list, ax in zip(region_list, axs.flat):
+    # Ensures axs is always iterable
+    axs = np.atleast_1d(axs)  
 
-        # select data per region
-        data_region = capacity[capacity.bus == region_list]
-        labels = data_region.type
+    # Generate pie chart for each region
+    for region, ax in zip(region_list, axs):
+        data_region = capacity[capacity['bus'] == region]
+        labels = data_region['type']
 
-        # plot data
-        texts, autotexts, wedges = ax.pie(data_region.p_nom_opt,
-                                        labels = None, 
-                                        autopct=autopct_more_than_5,
-                                        colors=plt.cm.tab20.colors)                            
-        ax.set_title(region_list.upper())
+        ax.pie(
+            data_region['p_nom_opt'] * mul,  # Apply scaling factor
+            labels=None,
+            autopct=autopct_more_than_5,
+            colors=plt.cm.tab20.colors
+        )
 
-    fig.legend(labels,
-            ncols = 2,
-            bbox_to_anchor = (0.5,0.),
-            loc = 'center',
-            )
+        ax.set_title(region.upper())
 
-    fig.suptitle("Capacity mix by technology per region in " + str(period), fontsize = 20)
+    # Create a single legend for all subplots
+    fig.legend(
+        labels=capacity['type'].unique(),
+        ncols=2,
+        bbox_to_anchor=(0.5, 0),
+        loc='center'
+    )
 
-    # plt.show()
+    fig.suptitle("Capacity mix by technology per region in " + str(period))
 
-    return fig
+    return fig, axs
 
 
 def total_capacity(
