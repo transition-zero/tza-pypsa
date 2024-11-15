@@ -1,0 +1,65 @@
+# -------------------------------------------------------------------------
+#
+#   NODES
+#   
+#     Define model nodes (buses) and their attributes.
+#
+#     The main components of nodes are:
+#       - ID
+#       - Long name
+#       - Population
+#       - Area
+#       - Capital
+#       - Currency
+#       - GDP
+#       - GDP per capita
+#       - Language
+#       - Region
+#       - Subregion
+#       - Timezone
+#       - Coordinates (latitude, longitude)
+#
+#     Link to docs: 
+#       - https://pypsa.readthedocs.io/en/latest/components.html
+#
+#     Authors:
+#       - @irfanm-tz
+#
+# -------------------------------------------------------------------------
+
+nodes:
+
+  - id: INDNO
+    long_name: India Northern Grid
+    coords: [28.36, 77.12]
+    load_rate_of_change: 0.02
+    co2_budget:
+      "*": 9999.9
+
+  - id: INDSO
+    long_name: India Southern Grid
+    coords: [12.97, 77.59]
+    load_rate_of_change: 0.02
+    co2_budget:
+      "*": 9999.9
+
+  - id: INDEA
+    long_name: India Eastern Grid
+    coords: [22.57, 88.36]
+    load_rate_of_change: 0.02
+    co2_budget:
+      "*": 9999.9
+
+  - id: INDWE
+    long_name: India Western Grid
+    coords: [21.15, 77.30]
+    load_rate_of_change: 0.02
+    co2_budget:
+      "*": 9999.9
+
+  - id: INDNE
+    long_name: India North-Eastern Grid
+    coords: [26.14, 91.77]
+    load_rate_of_change: 0.02
+    co2_budget:
+      "*": 9999.9

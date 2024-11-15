@@ -1,0 +1,19 @@
+# -------------------------------------------------------------------------
+#
+#   TIME DEFINITIONS
+#   
+#     Define the model temporal resolution and time horizion of the model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @irfanm-tz
+#
+# -------------------------------------------------------------------------
+
+time_definition:
+  id: india_default_temporal_resolution
+  years: [2023, 2030, 2040, 2050]
+  frequency: '4h'
+  multi_year_discount_rate: 0.02
