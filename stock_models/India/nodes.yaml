@@ -23,6 +23,7 @@
 #       - https://pypsa.readthedocs.io/en/latest/components.html
 #
 #     Authors:
+#       - @amanmajid 
 #       - @irfanm-tz
 #
 # -------------------------------------------------------------------------
@@ -32,7 +33,7 @@ nodes:
   - id: INDNO
     long_name: India Northern Grid
     coords: [28.36, 77.12]
-    load_rate_of_change: 0.02
+    load_rate_of_change: 0.02 # does this still apply - corresponding fn is commented out
     co2_budget:
       "*": 9999.9
 

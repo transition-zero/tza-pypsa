@@ -1,0 +1,101 @@
+# -------------------------------------------------------------------------
+#
+#   CARRIERS
+#   
+#     Define all carriers to implement in the India model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#       - @irfanm-tz  
+#
+# -------------------------------------------------------------------------
+
+carriers:
+
+  - id: biomass
+    nice_name: Biomass
+    color: teal
+    co2_emissions: 0.
+  
+  - id: bioenergy
+    nice_name: Bioenergy
+    color: teal
+    co2_emissions: 0.
+  
+  - id: gas
+    nice_name: Gas
+    color: grey
+    co2_emissions: 0.20 # kgCO2/kWh -> tCO2/MWh
+  
+  - id: coal
+    nice_name: Coal
+    color: black
+    co2_emissions: 0.34 # kgCO2/kWh -> tCO2/MWh
+  
+  - id: diesel
+    nice_name: Diesel
+    color: darkgray
+    co2_emissions: 0.26 # kgCO2/kWh -> tCO2/MWh
+  
+  - id: geothermal
+    nice_name: Geothermal
+    color: brown
+    co2_emissions: 0.
+  
+  - id: hydro
+    nice_name: Hydro
+    color: deepskyblue
+    co2_emissions: 0.
+  
+  - id: oil
+    nice_name: Oil
+    color: gainsboro
+    co2_emissions: 0.26 # kgCO2/kWh -> tCO2/MWh
+  
+  - id: solar
+    nice_name: Solar
+    color: gold
+    co2_emissions: 0.
+  
+  - id: waste
+    nice_name: Waste
+    color: peru
+    co2_emissions: 0.
+  
+  - id: on-wind
+    nice_name: Onshore Wind
+    color: turquoise
+    co2_emissions: 0.
+  
+  - id: off-wind
+    nice_name: Offshore Wind
+    color: mediumturquoise
+    co2_emissions: 0.
+  
+  - id: battery
+    nice_name: Battery
+    color: plum
+    co2_emissions: 0.
+  
+  - id: backstop
+    nice_name: Backstop
+    color: pink
+    co2_emissions: 0.
+
+  - id: transmission-HVAC-overhead
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+  
+  - id: AC
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-INDNO-INDEA
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
