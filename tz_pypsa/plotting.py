@@ -1,12 +1,10 @@
 import pypsa
-
+import numpy as np
 import pandas as pd
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
 import plotly.express as px
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-
 
 def energy_balance(
         network : pypsa.Network, 
@@ -410,3 +408,331 @@ def network_map(
 
     plt.colorbar(collection[2], fraction=0.04, pad=0.004, label="Mean Flow [MW]")
     plt.show()
+
+
+def capacity_mix(
+        network : pypsa.Network,
+        period : int,
+        mul : float = 1e3,
+    ) -> plt.figure:
+
+    '''
+    Plot capacity mix at the certain year per technology type
+    (not per carrier)
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot (e.g., 2030).
+    mul : float
+        A scaling factor to convert units.
+
+    Returns:
+    ----------
+
+    fig : plt.Figure
+        The generated plot figure.
+
+    '''
+
+    # Filter and aggregate capacity data
+    capacity = (
+        network
+        .generators
+        .p_nom_opt[network.generators.index.str.contains(str(period))]
+        .groupby([network.generators.bus, network.generators.type])
+        .sum()
+        .reset_index()
+    )
+
+    # Drop rows with missing types
+    capacity['type'].replace('', np.nan, inplace=True)
+    capacity.dropna(subset=['type'], inplace=True)
+
+    # define order for x-axis
+    cat_order = capacity.sort_values(by='bus').bus.unique().tolist()
+
+    # function to show only percentages more than 5% in the pie chart
+    def autopct_more_than_5(pct):
+        return ('%1.f%%' % pct) if pct > 5 else ''
+
+    # Configure figure size based on number of regions
+    fig, axs = plt.subplots(
+        nrows=1, 
+        ncols=len(region_list), 
+        figsize=(3 * len(cat_order), 5)  # Dynamically adjust width
+    )
+
+    # Ensures axs is always iterable
+    axs = np.atleast_1d(axs)  
+
+    # Generate pie chart for each region
+    for region, ax in zip(cat_order, axs):
+        data_region = capacity[capacity['bus'] == region]
+        labels = data_region['type']
+
+        ax.pie(
+            data_region['p_nom_opt'] * mul,  # Apply scaling factor
+            labels=None,
+            autopct=autopct_more_than_5,
+            colors=plt.cm.tab20.colors
+        )
+
+        ax.set_title(region.upper())
+
+    # Create a single legend for all subplots
+    fig.legend(
+        labels=capacity['type'].unique(),
+        ncols=2,
+        bbox_to_anchor=(0.5, 0),
+        loc='center'
+    )
+
+    fig.suptitle("Capacity mix by technology per region in " + str(period))
+
+    return fig, axs
+
+
+def total_capacity(
+        network : pypsa.Network,
+        period : int, 
+        mul : float = 1e3,
+    ) -> plt.Figure:
+
+    '''
+    Plot total installed capacity at the certain year 
+    per technology type (not per carrier)
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot (e.g., 2030).
+    mul : float
+        A scaling factor to convert units.
+
+    Returns:
+    ----------
+
+    fig : plt.Figure
+        The generated plot figure.
+
+    '''
+
+    capacity = (
+        network
+        .generators
+        .p_nom_opt[network.generators.index.str.contains(str(period))]
+        .groupby([network.generators.bus, network.generators.type])
+        .sum()
+        .reset_index()
+    )
+
+    # remove backstop technology indicated by empty technology type
+    capacity['type'].replace('', np.nan, inplace=True)
+    capacity.dropna(subset=['type'], inplace=True)
+
+    # Apply scaling factor
+    capacity.p_nom_opt = capacity.p_nom_opt.div(mul)
+
+    # define order for x-axis
+    cat_order = capacity.sort_values(by='bus').bus.unique().tolist()
+
+    fig = px.bar(
+        capacity, 
+        x = "bus", 
+        y = "p_nom_opt", 
+        color = "type",
+        category_orders = {'bus' : cat_order},
+    )
+
+    fig.update_layout(
+            yaxis_title= 'Capacity (GW)',
+            xaxis_title='',
+            title='Installed capacity in ' + str(period),
+            width=1200,
+            height=500,
+            xaxis_tickangle=-45
+        )
+    
+    return fig
+
+
+def generation_mix(
+        network : pypsa.Network,
+        period : int, 
+        mul : float = 1e6
+    ) -> plt.Figure:
+
+    '''
+    Plot generation mix at the certain year per technology type
+    (not per carrier)
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot (e.g., 2030).
+    mul : float
+        A scaling factor to convert units.
+
+    Returns:
+    ----------
+
+    fig : plt.Figure
+        The generated plot figure.
+
+    '''
+
+    generation = (
+        network
+        .generators_t
+        .p
+        .loc[period]
+        .resample('YE')
+        .sum()
+        .groupby([network.generators.bus, network.generators.type], axis=1)
+        .sum()
+        .melt()
+        .sort_values(by='bus')
+        )
+    
+    # change empty technology type into 'backstop'
+    generation.type.replace('', 'backstop', inplace=True)
+
+    # Apply scaling factor
+    generation.value = generation.value.div(mul)
+
+    # define order for x-axis
+    cat_order = generation.sort_values(by='bus').bus.unique().tolist()
+
+    # function to show only percentages more than 5% in the pie chart
+    def autopct_more_than_5(pct):
+        return ('%1.f%%' % pct) if pct > 5 else ''
+
+    # Configure figure size based on number of regions
+    fig, axs = plt.subplots(
+        nrows=1, 
+        ncols=len(region_list), 
+        figsize=(3 * len(cat_order), 5)  # Dynamically adjust width
+    )
+
+    # Ensures axs is always iterable
+    axs = np.atleast_1d(axs)  
+
+    # Generate pie chart for each region
+    for region_list, ax in zip(region_list, axs.flat):
+        data_region = generation[generation.bus == cat_order]
+        labels = data_region.type
+
+        ax.pie(
+            data_region.value,
+            labels = None, 
+            autopct=autopct_more_than_5,
+            colors=plt.cm.tab20.colors
+            )                       
+             
+        ax.set_title(cat_order.upper())
+
+    # Create a single legend for all subplots
+    fig.legend(
+        labels=generation['type'].unique(),
+        ncols=2,
+        bbox_to_anchor=(0.5, 0),
+        loc='center'
+    )
+
+    fig.suptitle("Generation mix by technology per region in " + str(period))
+
+    return fig, axs
+
+
+def total_emission(
+        network : pypsa.Network,
+        period : int,
+        mul : float = 1e6, 
+    ) -> plt.Figure:
+
+    '''
+    Plot total installed capacity at the certain year per carrier
+
+    Parameters
+    ----------
+
+    network : pypsa.Network
+        The PyPSA network object.
+    period : int
+        The year to plot (e.g., 2030).
+    mul : float
+        A scaling factor to convert units.
+
+    Returns:
+    ----------
+
+    fig : plt.Figure
+        The generated plot figure.
+
+    '''
+
+    total_gen_per_carrier = (
+        network
+        .generators_t
+        .p
+        .loc[period]
+        .resample('YE')
+        .sum()
+        .groupby([network.generators.bus, network.generators.carrier], axis=1)
+        .sum()
+        .melt()
+        .sort_values(by='bus')
+    )
+
+    # List carriers from the generators output
+    carrier_list = total_gen_per_carrier.carrier
+
+    # List carriers from emission inputs
+    emission_per_mwh = network.carriers.co2_emissions.reset_index()
+
+    # Create new column in generators output
+    total_gen_per_carrier['emission'] = ''
+
+    # Calculate total emission from the generated power outputs based on 
+    # emitted CO2 per MWh defined in the inputs
+    for idx, val in enumerate(carrier_list):
+        total_gen_per_carrier.emission[idx] = (
+            total_gen_per_carrier.value[idx] * 
+            (emission_per_mwh.co2_emissions
+            .loc[emission_per_mwh.Carrier == val].values[0])
+        )
+
+    # convert emission values to MtCO2
+    total_gen_per_carrier.emission = total_gen_per_carrier.emission.div(mul)
+
+    # define order for x-axis
+    cat_order = total_gen_per_carrier.sort_values(by='bus').bus.unique().tolist()
+
+    fig = px.bar(
+        total_gen_per_carrier, 
+        x = "bus", 
+        y = "emission", 
+        color = "carrier",
+        category_orders = {'bus' : cat_order},
+    )
+
+    fig.update_layout(
+            yaxis_title= 'Emission (MtCO2)',
+            xaxis_title='',
+            title='Emission in ' + str(period),
+            width=1200,
+            height=500,
+            xaxis_tickangle=-45
+        )
+    
+    return fig
