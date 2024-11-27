@@ -77,203 +77,6 @@ def constr_bus_self_sufficiency(
         )
 
 
-def constr_annual_matching(
-        network : pypsa.Network,
-        lhs_generators : list,
-        rhs_min_generation : float,
-        sign : str = '>=',
-        name : str = None,
-):
-    '''
-    
-    ###################################
-    ANNUAL MATCHING CONSTRAINT
-    ###################################
-
-    Description:
-    -----------------------------------
-        This constraint ensures that the total annual generation of a set of generators is greater than or equal to a certain value.
-        It is particularly useful for setting renewable generation targets. For example, one can use this constraint to ensure that 
-        a certain proportion of demand is met by renewable generation.
-    
-    Example user story:
-    -----------------------------------
-        "I want to ensure that my demand is met by renewable generation across the year."
-
-    Inputs:
-    -----------------------------------
-    
-        network : pypsa.Network
-
-        lhs_generators : list
-            A list of generators to apply the constraint to (e.g., all renewable generators).
-        
-        rhs_min_generation : float
-            The minimum total annual generation of the set of generators (e.g., 100 = 100MW).
-        
-        sign : str
-            The sign of the constraint. Default is '>='.
-        
-        name : str
-            The name of the constraint. Default is None.
-
-    Returns:
-    -----------------------------------
-    
-        None
-    
-    '''
-
-    # get total annual renewable generation (additional)
-    lp_model = network.optimize.create_model()
-
-    lhs_total_generation = (
-        lp_model
-        .variables['Generator-p']
-        .sel(Generator=lhs_generators)
-        .sum()
-    )
-
-    lp_model.add_constraints(
-        lhs = lhs_total_generation,
-        sign = sign,
-        rhs = rhs_min_generation,
-        name = name,
-    )
-
-
-def constr_hourly_matching(
-        lp_model,
-        lhs_generators : list,
-        lhs_storages : list,
-        rhs_load : float,
-        sign : str = '>=',
-        cfe_score : float = 1.,
-        name : str = None,
-):
-    '''
-    
-    ###################################
-    HOURLY MATCHING (CFE) CONSTRAINT
-    ###################################
-
-    Description:
-    -----------------------------------
-        This constraint ensures that the total hourly generation of a set of generators is greater than or equal to a certain value.
-        It is particularly useful for setting renewable generation targets under a 24/7 CFE procurement strategy. For example, one can
-        use this constraint to ensure that a certain load is met by renewable generation in each hour of the year.
-    
-    Example user story:
-    -----------------------------------
-        "I want to ensure that my demand is met by renewable generation in each hour of the year."
-
-    Inputs:
-    -----------------------------------
-    
-        network : pypsa.Network
-
-        lhs_generators : list
-            A list of generators to apply the constraint to (e.g., all renewable generators).
-        
-        rhs_min_generation : float
-            The minimum total annual generation of the set of generators (e.g., 0.5 = 50%).
-        
-        sign : str
-            The sign of the constraint. Default is '>='.
-        
-        name : str
-            The name of the constraint. Default is None.
-            
-    Returns:
-    -----------------------------------
-    
-        None
-    
-    '''
-
-    # get hourly dispatch from clean generators
-    lhs_total_hourly_generation = (
-        lp_model
-        .variables['Generator-p']
-        .sel(Generator=lhs_generators)
-    )
-
-    # get hourly dispatch from storage
-    lhs_total_hourly_storage_discharge = (
-        lp_model
-        .variables['StorageUnit-p_dispatch']
-        .sel(StorageUnit=lhs_storages)
-    )
-
-    lhs_dispatch = lhs_total_hourly_generation + lhs_total_hourly_storage_discharge
-
-    lp_model.add_constraints(
-        lhs = lhs_dispatch,
-        sign = sign,
-        rhs = cfe_score * rhs_load,
-        #name = name,
-    )
-
-
-def constr_min_annual_generation(
-        network : pypsa.Network,
-        lhs_generator : str,
-        rhs_min_generation : float,
-        sign : str = '>=',
-        name : str = None,
-):
-    '''
-    ###################################
-    MINIMUM ANNUAL GENERATION 
-    ###################################
-
-    Description:
-    -----------------------------------
-        This constraint ensures that the total annual generation by a specific unit is greater than or equal to a certain value.
-    
-    Example user story:
-    -----------------------------------
-        "I want to ensure my gas power plant produces at least 70% of its theoretical annual generation."
-
-    Inputs:
-    -----------------------------------
-    
-        network : pypsa.Network
-
-        lhs_generator : str
-            The generator to apply the constraint to.
-        
-        rhs_min_generation : float
-            The minimum total generation as a proportion of the theoretical annual maximum (e.g., 0.7 = 70%).
-        
-        sign : str
-            The sign of the constraint. Default is '>='.
-        
-        name : str
-            The name of the constraint. Default is None.
-            
-    Returns:
-    -----------------------------------
-    
-        None
-    
-    '''
-    lp_model = network.optimize.create_model()
-
-    lhs_total_generation = lp_model['Generator-p'].sel(Generator=lhs_generator).sum()
-
-    rhs_total_theoretical_generation = (
-        lp_model['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
-    )
-
-    lp_model.add_constraints(
-        lhs = lhs_total_generation,
-        sign = sign,
-        rhs = rhs_total_theoretical_generation,
-        name = name,
-    )
-
-
 def constr_cumulative_p_nom(
         network : pypsa.Network,
 ):
@@ -347,3 +150,200 @@ def constr_cumulative_p_nom(
             constraint_expression,
             name=f'cumu_p_nom_{generators[0]}',
         )
+
+
+def constr_min_annual_generation(
+        network : pypsa.Network,
+        lhs_generator : str,
+        rhs_min_generation : float,
+        sign : str = '>=',
+        name : str = None,
+):
+    '''
+    ###################################
+    MINIMUM ANNUAL GENERATION 
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual generation by a specific unit is greater than or equal to a certain value.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure my gas power plant produces at least 70% of its theoretical annual generation."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+
+        lhs_generator : str
+            The generator to apply the constraint to.
+        
+        rhs_min_generation : float
+            The minimum total generation as a proportion of the theoretical annual maximum (e.g., 0.7 = 70%).
+        
+        sign : str
+            The sign of the constraint. Default is '>='.
+        
+        name : str
+            The name of the constraint. Default is None.
+            
+    Returns:
+    -----------------------------------
+    
+        None
+    
+    '''
+    lp_model = network.optimize.create_model()
+
+    lhs_total_generation = lp_model['Generator-p'].sel(Generator=lhs_generator).sum()
+
+    rhs_total_theoretical_generation = (
+        lp_model['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
+    )
+
+    lp_model.add_constraints(
+        lhs = lhs_total_generation,
+        sign = sign,
+        rhs = rhs_total_theoretical_generation,
+        name = name,
+    )
+
+
+# def constr_annual_matching(
+#         network : pypsa.Network,
+#         lhs_generators : list,
+#         rhs_min_generation : float,
+#         sign : str = '>=',
+#         name : str = None,
+# ):
+#     '''
+    
+#     ###################################
+#     ANNUAL MATCHING CONSTRAINT
+#     ###################################
+
+#     Description:
+#     -----------------------------------
+#         This constraint ensures that the total annual generation of a set of generators is greater than or equal to a certain value.
+#         It is particularly useful for setting renewable generation targets. For example, one can use this constraint to ensure that 
+#         a certain proportion of demand is met by renewable generation.
+    
+#     Example user story:
+#     -----------------------------------
+#         "I want to ensure that my demand is met by renewable generation across the year."
+
+#     Inputs:
+#     -----------------------------------
+    
+#         network : pypsa.Network
+
+#         lhs_generators : list
+#             A list of generators to apply the constraint to (e.g., all renewable generators).
+        
+#         rhs_min_generation : float
+#             The minimum total annual generation of the set of generators (e.g., 100 = 100MW).
+        
+#         sign : str
+#             The sign of the constraint. Default is '>='.
+        
+#         name : str
+#             The name of the constraint. Default is None.
+
+#     Returns:
+#     -----------------------------------
+    
+#         None
+    
+#     '''
+
+#     # get total annual renewable generation (additional)
+#     lp_model = network.optimize.create_model()
+
+#     lhs_total_generation = (
+#         lp_model
+#         .variables['Generator-p']
+#         .sel(Generator=lhs_generators)
+#         .sum()
+#     )
+
+#     lp_model.add_constraints(
+#         lhs = lhs_total_generation,
+#         sign = sign,
+#         rhs = rhs_min_generation,
+#         name = name,
+#     )
+
+
+# def constr_hourly_matching(
+#         lp_model,
+#         lhs_generators : list,
+#         lhs_storages : list,
+#         rhs_load : float,
+#         sign : str = '>=',
+#         cfe_score : float = 1.,
+#         name : str = None,
+# ):
+#     '''
+    
+#     ###################################
+#     HOURLY MATCHING (CFE) CONSTRAINT
+#     ###################################
+
+#     Description:
+#     -----------------------------------
+#         This constraint ensures that the total hourly generation of a set of generators is greater than or equal to a certain value.
+#         It is particularly useful for setting renewable generation targets under a 24/7 CFE procurement strategy. For example, one can
+#         use this constraint to ensure that a certain load is met by renewable generation in each hour of the year.
+    
+#     Example user story:
+#     -----------------------------------
+#         "I want to ensure that my demand is met by renewable generation in each hour of the year."
+
+#     Inputs:
+#     -----------------------------------
+    
+#         network : pypsa.Network
+
+#         lhs_generators : list
+#             A list of generators to apply the constraint to (e.g., all renewable generators).
+        
+#         rhs_min_generation : float
+#             The minimum total annual generation of the set of generators (e.g., 0.5 = 50%).
+        
+#         sign : str
+#             The sign of the constraint. Default is '>='.
+        
+#         name : str
+#             The name of the constraint. Default is None.
+            
+#     Returns:
+#     -----------------------------------
+    
+#         None
+    
+#     '''
+
+#     # get hourly dispatch from clean generators
+#     lhs_total_hourly_generation = (
+#         lp_model
+#         .variables['Generator-p']
+#         .sel(Generator=lhs_generators)
+#     )
+
+#     # get hourly dispatch from storage
+#     lhs_total_hourly_storage_discharge = (
+#         lp_model
+#         .variables['StorageUnit-p_dispatch']
+#         .sel(StorageUnit=lhs_storages)
+#     )
+
+#     lhs_dispatch = lhs_total_hourly_generation + lhs_total_hourly_storage_discharge
+
+#     lp_model.add_constraints(
+#         lhs = lhs_dispatch,
+#         sign = sign,
+#         rhs = cfe_score * rhs_load,
+#         #name = name,
+#     )
