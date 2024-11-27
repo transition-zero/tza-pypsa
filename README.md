@@ -113,7 +113,7 @@ network.optimize(
 )
 ``` -->
 
-For the above code snippet to work, you will need to define your model using the file structure below:
+<!-- For the above code snippet to work, you will need to define your model using the file structure below:
 
 ```
 path_to_your_model/
@@ -123,7 +123,7 @@ path_to_your_model/
 │   ├── costs_capital_outlay_during_construction.csv
 ├── model.yaml
 └── *.yaml
-```
+``` -->
 
 Please see one of the pre-built models to understand how the files should be written and structured. 
 
