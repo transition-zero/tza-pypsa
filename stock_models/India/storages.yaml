@@ -1,0 +1,37 @@
+# -------------------------------------------------------------------------
+#
+#   STORAGES
+#   
+#     Define all storage technologies to implement in the India model.
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#       - @irfanm-tz
+#
+# -------------------------------------------------------------------------
+
+storages:
+
+  - id: lithium-ion
+    type: battery
+    carrier: battery
+    extendable: true
+    lifetime: 15
+    state_of_charge_initial: 0
+    max_hours: 6
+    efficiency_store: 0.95
+    efficiency_dispatch: 0.95
+    standing_loss: 0.01
+    cyclic_state_of_charge: true
+    initial_capacity:
+      INDNO: 0.
+      INDSO: 0.
+      INDEA: 0.
+      INDWE: 0.
+      INDNE: 0.
+
+  # pumped storage?
+  # hydrogen?

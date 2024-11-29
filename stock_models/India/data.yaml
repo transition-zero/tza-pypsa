@@ -1,0 +1,42 @@
+# -------------------------------------------------------------------------
+#
+#   DATA
+#   
+#     Define the paths or links to data files
+#
+#     Link to docs: 
+#       N/A
+#
+#     Authors:
+#       - @amanmajid
+#       - @irfanm-tz
+#
+# -------------------------------------------------------------------------
+
+remote_data:
+
+  github_api_info:
+    repo_owner: 'transition-zero'
+    repo_name:    # 'tza-asean-data' # think point this to a test private repo
+
+  technology_costs: 
+  # carrier, technology, efficiency, overnight capex,
+  # fixed opex, variable opex, fuel cost
+  # all by year and node
+    description: Technology costs for the India model
+    git_api: application/vnd.github.v3.raw
+    path_to_cost:     # outputs/technology-costs/
+
+  timeseries: 
+  # demand and cf for hydro, solar and wind
+  # for one year on an hourly basis
+    description: Timeseries data for the India model
+    git_api: application/vnd.github.v3.raw
+    path_to_timeseries:     # outputs/timeseries/
+
+  policies:
+  # power sector targets which is used to create constraints
+  # need to check where this as actually
+    description: Renewables targets and India policies
+    git_api: application/vnd.github.v3.raw
+    path_to_policy:     # outputs/policies-and-targets/

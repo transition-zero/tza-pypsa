@@ -1,0 +1,84 @@
+# -------------------------------------------------------------------------
+#
+#   GENERATORS
+#   
+#     Define generators (technologies) and their attributes
+#
+#     Link to docs: 
+#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/commodities.yaml
+#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/technologies.yaml
+#
+#     Authors:
+#       - @amanmajid
+#       - @irfanm-tz
+#
+# -------------------------------------------------------------------------
+
+generators:
+
+  - id: bioenergy-unspecified
+    type: bioenergy-unspecified
+    carrier: biomass
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    capital_cost:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    marginal_cost:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    efficiency:
+      INDNO: 0.32
+      INDEA: 0.32
+      INDWE: 0.32
+      INDSO: 0.32
+      INDNE: 0.32
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0.
+      INDEA: 0.
+      INDWE: 0.
+      INDSO: 0.
+      INDNE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    lifetime: 25 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)

@@ -23,11 +23,71 @@
 
 links:
 
-  - id: INDNO-INDEA 
+  - id: INDNO-INDEA
     from_node: INDNO
     to_node: INDEA
     extendable: false
     carrier: interconnector-INDNO-INDEA
+    type: hvac
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 40000 # placeholder for now
+    reverse_capacity: 40000
+
+  - id: INDNO-INDWE 
+    from_node: INDNO
+    to_node: INDWE
+    extendable: false
+    carrier: interconnector-INDNO-INDWE
+    type: hvac
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 40000 # placeholder for now
+    reverse_capacity: 40000
+
+  - id: INDEA-INDWE
+    from_node: INDEA
+    to_node: INDWE
+    extendable: false
+    carrier: interconnector-INDEA-INDWE
+    type: hvac
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 40000 # placeholder for now
+    reverse_capacity: 40000
+  
+  - id: INDEA-INDNE
+    from_node: INDEA
+    to_node: INDNE
+    extendable: false
+    carrier: interconnector-INDEA-INDNE
+    type: hvac
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 40000 # placeholder for now
+    reverse_capacity: 40000
+
+  - id: INDEA-INDSO
+    from_node: INDEA
+    to_node: INDSO
+    extendable: false
+    carrier: interconnector-INDNO-INDSO
+    type: hvac
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 40000 # placeholder for now
+    reverse_capacity: 40000
+
+  - id: INDWE-INDSO
+    from_node: INDWE
+    to_node: INDSO
+    extendable: false
+    carrier: interconnector-INDWE-INDWE
     type: hvac
     lifetime: 99
     efficiency: 0.97

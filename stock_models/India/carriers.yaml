@@ -99,3 +99,28 @@ carriers:
     nice_name: 'Transmission'
     color: red
     co2_emissions: 0.
+
+  - id: interconnector-INDNO-INDWE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-INDEA-INDWE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-INDEA-INDNE
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-INDEA-INDSO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.
+
+  - id: interconnector-INDWE-INDSO
+    nice_name: 'Transmission'
+    color: red
+    co2_emissions: 0.

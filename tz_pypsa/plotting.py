@@ -247,10 +247,10 @@ def dispatch(
     # add traces
     for generator in generation.columns:
 
-        if generator != 'timestep':
+        if generator != 'snapshot':
             fig.add_trace(
                 go.Scatter(
-                    x=list(generation.timestep),
+                    x=list(generation.snapshot),
                     y=list(generation[generator].div(mul)),
                     mode='lines',
                     stackgroup='one',
@@ -263,7 +263,7 @@ def dispatch(
     if show_exports:
         fig.add_trace(
                 go.Scatter(
-                x=list(exports.timestep),
+                x=list(exports.snapshot),
                 y=list(exports[0].div(mul)),
                 mode='lines',
                 #stackgroup='one',
@@ -277,7 +277,7 @@ def dispatch(
     if show_imports:
         fig.add_trace(
                 go.Scatter(
-                x=list(imports.timestep),
+                x=list(imports.snapshot),
                 y=list(imports[0].div(mul)),
                 mode='lines',
                 stackgroup='one',
@@ -289,7 +289,7 @@ def dispatch(
     # add load
     fig.add_trace(
             go.Scatter(
-            x=list(load.timestep),
+            x=list(load.snapshot),
             y=list(load[0].div(mul)),
             mode='lines',
             #stackgroup='one',
@@ -371,7 +371,7 @@ def dispatch_simple(
         charge.plot.area(
             ax=ax,
             linewidth=0,
-            color=charge.columns.map(network.carriers.color),
+            # color=charge.columns.map(network.carriers.color),
         )
 
     network.loads_t.p_set.sum(axis=1).loc[time].mul(multiplier).plot(ax=ax, c="k")
