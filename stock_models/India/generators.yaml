@@ -82,3 +82,645 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: combined-cycle
+    type: combined-cycle
+    carrier: gas
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.56
+      INDEA: 0.56
+      INDWE: 0.56
+      INDSO: 0.56
+      INDNE: 0.56
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 40 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  
+  - id: coal-subcritical
+    type: coal-subcritical
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.38
+      INDEA: 0.38
+      INDWE: 0.38
+      INDSO: 0.38
+      INDNE: 0.38
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: coal-supercritical
+    type: coal-supercritical
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.42
+      INDEA: 0.42
+      INDWE: 0.42
+      INDSO: 0.42
+      INDNE: 0.42
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: coal-ultrasupercritical
+    type: coal-ultrasupercritical
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.42
+      INDEA: 0.42
+      INDWE: 0.42
+      INDSO: 0.42
+      INDNE: 0.42
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: oil-unspecified
+    type: oil-unspecified # THIS IS DIESEL
+    carrier: oil
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.46
+      INDEA: 0.46
+      INDWE: 0.46
+      INDSO: 0.46
+      INDNE: 0.46
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 40 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: geothermal-unspecified
+    type: geothermal-unspecified
+    carrier: geothermal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    efficiency:
+      INDNO: 0.1
+      INDEA: 0.1
+      INDWE: 0.1
+      INDSO: 0.1
+      INDNE: 0.1
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: hydro-unspecified
+    type: hydro-unspecified
+    carrier: hydro
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    efficiency:
+      INDNO: 0.95
+      INDEA: 0.95
+      INDWE: 0.95
+      INDSO: 0.95
+      INDNE: 0.95
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 50 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: open-cycle-gas-turbine
+    type: open-cycle-gas-turbine
+    carrier: gas
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency:
+      INDNO: 0.34
+      INDEA: 0.34
+      INDWE: 0.34
+      INDSO: 0.34
+      INDNE: 0.34
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 40 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 9.6 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: photovoltaic-unspecified
+    type: photovoltaic-unspecified
+    carrier: solar
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    efficiency:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_up:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_down:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    p_min_pu:
+      INDNO: 0.
+      INDEA: 0.
+      INDWE: 0.
+      INDSO: 0.
+      INDNE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 0 # currency/MWh
+    lifetime: 25 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: waste
+    type: waste
+    carrier: bioenergy
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    efficiency: # using biomass solid values
+      INDNO: 0.32
+      INDEA: 0.32
+      INDWE: 0.32
+      INDSO: 0.32
+      INDNE: 0.32
+    ramp_limit_up:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    ramp_limit_down:
+      INDNO: 1.0
+      INDEA: 1.0
+      INDWE: 1.0
+      INDSO: 1.0
+      INDNE: 1.0
+    p_min_pu:
+      INDNO: 0
+      INDEA: 0
+      INDWE: 0
+      INDSO: 0
+      INDNE: 0
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 25 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: wind-offshore-unspecified
+    type: wind-offshore-unspecified
+    carrier: off-wind
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    efficiency:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_up:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_down:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    p_min_pu:
+      INDNO: 0.
+      INDEA: 0.
+      INDWE: 0.
+      INDSO: 0.
+      INDNE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 0 # currency/MWh
+    lifetime: 27 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+  - id: wind-onshore
+    type: wind-onshore
+    carrier: on-wind
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      INDNO: 10
+      INDEA: 10
+      INDWE: 10
+      INDSO: 10
+      INDNE: 10
+    maximum_capacity:
+      INDNO: 100
+      INDEA: 100
+      INDWE: 100
+      INDSO: 100
+      INDNE: 100
+    efficiency:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_up:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    ramp_limit_down:
+      INDNO: 1.
+      INDEA: 1.
+      INDWE: 1.
+      INDSO: 1.
+      INDNE: 1.
+    p_min_pu:
+      INDNO: 0.
+      INDEA: 0.
+      INDWE: 0.
+      INDSO: 0.
+      INDNE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 0 # currency/MWh
+    lifetime: 27 # years
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
