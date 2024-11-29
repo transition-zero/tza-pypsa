@@ -92,16 +92,8 @@ def build_pypsa_network(
 
     # --- set snapshots --- #
     if not multi_year_investment:
-        '''Single-year investment problem'''
-        snapshot = (
-            pd.date_range(
-                start=f'{years[0]}-01-01 00:00:00', 
-                end= f'{years[0]}-12-31 23:00:00',
-                freq=frequency,
-            )
-        )
-        
-        network.set_snapshots(snapshot)
+        '''Single-year investment problem'''        
+        network.set_snapshots(timeseries.snapshot.to_dataframe().index)
 
     else:
         '''Multi-year investment problem'''

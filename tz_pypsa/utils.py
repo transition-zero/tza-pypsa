@@ -60,40 +60,34 @@ def get_github_token(
 
 
 def get_data_from_github_with_auth(
-        path_to_file : str,
-        personal_access_token : str,
-        remote_data : dict,
+        path_to_file: str,
+        personal_access_token: str,
+        remote_data: dict,
+        branch: str = 'main'  # Default to 'main' branch if not specified
 ):
     '''
-    Check for data in a remote repository and return the data as a StringIO object.
+    Check for data in a remote repository and return the data as a StringIO or BytesIO object.
 
         Parameters
         ----------
-
             path_to_file : str
                 The path to the file in the remote repository.
             personal_access_token : str
-                The personal access token for the GitHub API. You can generate a personal access token on: https://github.com/settings/tokens
+                The personal access token for the GitHub API.
             remote_data : dict
-                A dictionary containing the GitHub API information.]
+                A dictionary containing the GitHub API information.
+            branch : str, optional
+                The branch from which to fetch the file (default is 'main').
 
         Returns
         ----------
-
-            StringIO:
-                The data from the remote repository as a StringIO object.
+            StringIO or BytesIO:
+                The data from the remote repository as a StringIO or BytesIO object.
 
         Raises
         ----------
-
             Exception:
                 If the response code is not 200, it raises an exception with the response code.
-                
-        Notes
-        ----------
-
-            Generate a personal access token here: https://github.com/settings/tokens
-
     '''
 
     import requests
@@ -102,8 +96,8 @@ def get_data_from_github_with_auth(
     REPO_OWNER = remote_data['github_api_info']['repo_owner']
     REPO_NAME = remote_data['github_api_info']['repo_name']
 
-    # GitHub API URL for the file
-    url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path_to_file}'
+    # GitHub API URL for the file with the branch parameter
+    url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path_to_file}?ref={branch}'
 
     # Headers with authentication
     headers = {

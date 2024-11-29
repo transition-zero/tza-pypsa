@@ -75,9 +75,20 @@ You can either build your model or use a pre-built model. With a pre-built model
 ```python
 
 from tz_pypsa.model import Model
+from tz_pypsa.constraints import constr_bus_self_sufficiency
 
-# load a pre-defined model (returns PyPSA network)
-network = Model.load_model('ASEAN', years=[2023,2030, 2040, 2050], frequency='1h')
+# load a pre-defined stock model (returns PyPSA network)
+network = (
+  Model
+  .load_model(
+    'ASEAN', 
+    years=[2023, 2030, 2040, 2050], 
+    frequency='1h'
+  )
+)
+
+# add stock constraints ((optional))
+constr_bus_self_sufficiency(network)
 
 network.optimize(
   solver_name='highs',
@@ -85,7 +96,7 @@ network.optimize(
 )
 ```
 
-### Load your own model
+<!-- ### Load your own model
 
 If you'd like to build and run your own model, you can do so by running:
 
@@ -100,9 +111,9 @@ network.optimize(
   solver_name='highs',
   solver_options={"solver": "pdlp"},
 )
-```
+``` -->
 
-For the above code snippet to work, you will need to define your model using the file structure below:
+<!-- For the above code snippet to work, you will need to define your model using the file structure below:
 
 ```
 path_to_your_model/
@@ -112,7 +123,7 @@ path_to_your_model/
 │   ├── costs_capital_outlay_during_construction.csv
 ├── model.yaml
 └── *.yaml
-```
+``` -->
 
 Please see one of the pre-built models to understand how the files should be written and structured. 
 
