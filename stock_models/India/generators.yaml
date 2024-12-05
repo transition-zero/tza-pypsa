@@ -22,11 +22,11 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      INDNO: 10
-      INDEA: 10
-      INDWE: 10
-      INDSO: 10
-      INDNE: 10
+      INDNO: 1
+      INDEA: 1
+      INDWE: 1
+      INDSO: 1
+      INDNE: 1
     maximum_capacity:
       INDNO: 100
       INDEA: 100
@@ -566,11 +566,11 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      INDNO: 10
-      INDEA: 10
-      INDWE: 10
-      INDSO: 10
-      INDNE: 10
+      INDNO: 1
+      INDEA: 1
+      INDWE: 1
+      INDSO: 1
+      INDNE: 1
     efficiency: # using biomass solid values
       INDNO: 0.32
       INDEA: 0.32
