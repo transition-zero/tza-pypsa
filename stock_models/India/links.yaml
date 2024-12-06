@@ -75,7 +75,7 @@ links:
     from_node: INDEA
     to_node: INDSO
     extendable: false
-    carrier: interconnector-INDNO-INDSO
+    carrier: interconnector-INDEA-INDSO
     type: hvac
     lifetime: 99
     efficiency: 0.97
@@ -87,7 +87,7 @@ links:
     from_node: INDWE
     to_node: INDSO
     extendable: false
-    carrier: interconnector-INDWE-INDWE
+    carrier: interconnector-INDWE-INDSO
     type: hvac
     lifetime: 99
     efficiency: 0.97

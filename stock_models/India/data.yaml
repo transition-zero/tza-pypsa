@@ -17,7 +17,7 @@ remote_data:
 
   github_api_info:
     repo_owner: 'transition-zero'
-    repo_name:  'tza-india-data'
+    repo_name: 'tza-india-data'
   
   technology_costs: 
   # carrier, technology, efficiency, overnight capex,
@@ -32,11 +32,11 @@ remote_data:
   # for one year on an hourly basis
     description: Timeseries data for the India model
     git_api: application/vnd.github.v3.raw
-    path_to_timeseries:     # outputs/timeseries/
+    path_to_timeseries: outputs/timeseries/
 
   policies:
   # power sector targets which is used to create constraints
   # need to check where this is actually used
     description: Renewables targets and India policies
     git_api: application/vnd.github.v3.raw
-    path_to_policy:     # outputs/policies-and-targets/
+    path_to_policy: outputs/policies-and-targets/
