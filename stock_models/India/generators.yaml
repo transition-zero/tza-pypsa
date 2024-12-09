@@ -18,7 +18,7 @@ generators:
 
   - id: bioenergy-unspecified
     type: bioenergy-unspecified
-    carrier: biomass
+    carrier: bioenergy
     # ---
     # unique technology parameters by bus
     initial_capacity: # MW
@@ -140,11 +140,11 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      INDNO: 42000
-      INDEA: 42000
-      INDWE: 42000
-      INDSO: 42000
-      INDNE: 42000
+      INDNO: 49052
+      INDEA: 48836
+      INDWE: 92778
+      INDSO: 48230
+      INDNE: 750
     efficiency:
       INDNO: 0.38
       INDEA: 0.38
