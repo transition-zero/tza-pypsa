@@ -1,5 +1,6 @@
 import os
 import yaml
+import shutil
 
 def get_package_root():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -116,3 +117,30 @@ def get_data_from_github_with_auth(
             return BytesIO(response.content)
     else:
         raise Exception(f'\nCould not access remote repository.\nRepository: {url}\nResponse code: {response.status_code}')
+
+
+def get_examples():
+    '''Copies the examples directory from tza-pypsa to the user's working directory.
+    '''
+    # Get the current working directory of the user
+    target_dir = os.getcwd()
+
+    # Locate the 'examples' directory within the package
+    package_dir = os.path.dirname(os.path.abspath(__file__))  # Current directory of utils.py
+    examples_dir = os.path.join(package_dir, '..', 'examples')  # Relative path to 'examples'
+
+    # Resolve absolute paths
+    examples_dir = os.path.abspath(examples_dir)
+
+    if not os.path.exists(examples_dir):
+        raise FileNotFoundError(f"The examples directory was not found at {examples_dir}")
+
+    # Define the destination directory
+    destination_dir = os.path.join(target_dir, 'examples')
+
+    # Copy the 'examples' directory to the user's working directory
+    if os.path.exists(destination_dir):
+        raise FileExistsError(f"Destination directory '{destination_dir}' already exists. Remove it or choose a different name.")
+
+    shutil.copytree(examples_dir, destination_dir)
+    print(f"Copied 'examples' directory to: {destination_dir}")

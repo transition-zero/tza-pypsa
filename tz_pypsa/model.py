@@ -339,7 +339,61 @@ class Model:
         #     **kwargs,
         # )
         
+    @staticmethod
+    def load_csv_from_dir(
+        path_to_dir,
+        backstop : bool = False,
+        **kwargs,
+    ) -> pypsa.Network:
         
+        '''
+        Load a model from a defined directory.
+
+        Parameters
+        ----------
+
+            path_to_dir : str
+                Directory from which we load the model. This directory should contain csv files. File names are strictly enforced.
+            backstop : bool (optional)
+                If True, the model will include backstop technologies (default is False).
+
+        Returns
+        ----------
+
+            network : pypsa.Network.
+                A PyPSA network object representing the loaded model.
+
+        Example
+        ----------
+        
+            You can call the function as follows:
+
+            >>> n = model.load_csv_from_dir("some/path/to/dir")
+
+        '''
+
+        network = pypsa.Network()
+
+        network.import_from_csv_folder(path_to_dir)
+
+        # --- add backstop --- #
+        if backstop:
+
+            for bus in network.buses.index:
+
+                network.add(
+                    'Generator',
+                    f'Backstop-{bus}',
+                    bus=bus,
+                    carrier='backstop',
+                    p_nom=1e9,
+                    capital_cost=1e9,
+                    marginal_cost=1e9,
+                )
+
+        return network
+
+
     @staticmethod
     def get_available_models():
         '''Returns a list of stock models available in tz_pypsa.
