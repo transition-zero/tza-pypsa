@@ -1,0 +1,16 @@
+name,co2_emissions,color,nice_name
+biomass,0.0,teal,Biomass
+bioenergy,0.0,teal,Bioenergy
+gas,0.2,grey,Gas
+coal,0.34,black,Coal
+diesel,0.26,darkgray,Diesel
+geothermal,0.0,brown,Geothermal
+hydro,0.0,deepskyblue,Hydro
+oil,0.26,gainsboro,Oil
+solar,0.0,gold,Solar
+waste,0.0,peru,Waste
+on-wind,0.0,turquoise,Onshore Wind
+off-wind,0.0,mediumturquoise,Offshore Wind
+battery,0.0,plum,Battery
+backstop,0.0,pink,Backstop
+transmission,0.0,red,Transmission

@@ -1,0 +1,5 @@
+name,bus,p_nom,p_nom_extendable,carrier,capital_cost,build_year,lifetime,cyclic_state_of_charge,max_hours,efficiency_store,efficiency_dispatch,standing_loss
+PAK-lithium-ion-ext-2020,PAK,0,FALSE,battery,999,2020,15,TRUE,6,0.95,0.95,0.01
+PAK-lithium-ion-ext-2030,PAK,0,TRUE,battery,999,2030,15,TRUE,6,0.95,0.95,0.01
+PAK-lithium-ion-ext-2040,PAK,0,TRUE,battery,999,2040,15,TRUE,6,0.95,0.95,0.01
+PAK-lithium-ion-ext-2050,PAK,0,TRUE,battery,999,2050,15,TRUE,6,0.95,0.95,0.01

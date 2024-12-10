@@ -1,0 +1,9 @@
+name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,lifetime,efficiency
+coal-plant-2020,IND,10000,FALSE,coal,1,10,2020,25,0.4
+coal-plant-2030,IND,0,TRUE,coal,1,10,2030,25,0.5
+coal-plant-2040,IND,0,TRUE,coal,1,10,2040,25,0.5
+coal-plant-2050,IND,0,TRUE,coal,1,10,2050,25,0.5
+hydro-plant-2020,PAK,250,FALSE,hydro,0,99,2020,40,0.9
+hydro-plant-2030,PAK,250,FALSE,hydro,0,99,2030,40,0.9
+hydro-plant-2040,PAK,250,FALSE,hydro,0,99,2040,40,0.9
+hydro-plant-2050,PAK,250,FALSE,hydro,0,99,2050,40,0.9
