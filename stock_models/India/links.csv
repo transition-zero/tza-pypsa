@@ -1,0 +1,7 @@
+name,bus0,bus1,carrier,efficiency,build_year,lifetime,p_nom,p_nom_extendable,p_nom_min,capital_cost,length
+INDNO-INDEA-interconnector-2030,INDNO,INDEA,transmission,0.97,2030,50,0,True,0,999,1000
+INDNO-INDWE-interconnector-2030,INDNO,INDWE,transmission,0.97,2030,50,0,True,0,999,1000
+INDEA-INDSO-interconnector-2030,INDEA,INDSO,transmission,0.97,2030,50,0,True,0,999,1000
+INDWE-INDSO-interconnector-2030,INDWE,INDSO,transmission,0.97,2030,50,0,True,0,999,1000
+INDEA-INDNE-interconnector-2030,INDEA,INDNE,transmission,0.97,2030,50,0,True,0,999,1000
+INDEA-INDWE-interconnector-2030,INDEA,INDWE,transmission,0.97,2030,50,0,True,0,999,1000
