@@ -211,139 +211,374 @@ def constr_min_annual_generation(
     )
 
 
-# def constr_annual_matching(
-#         network : pypsa.Network,
-#         lhs_generators : list,
-#         rhs_min_generation : float,
-#         sign : str = '>=',
-#         name : str = None,
-# ):
-#     '''
+def constr_policy_targets(
+        network : pypsa.Network,
+):
+    '''
+    ###########################################
+    CONSTRAINTS FROM TARGETS AND POLICIES SHEET
+    ###########################################
+
+    Description:
+    -----------------------------------
+        This constraint creates custom constraints based on user-defined policies and targets.
     
-#     ###################################
-#     ANNUAL MATCHING CONSTRAINT
-#     ###################################
+    Example user story:
+    -----------------------------------
+        "I want to ensure total solar generation is 30% at given bus in a specific year."
 
-#     Description:
-#     -----------------------------------
-#         This constraint ensures that the total annual generation of a set of generators is greater than or equal to a certain value.
-#         It is particularly useful for setting renewable generation targets. For example, one can use this constraint to ensure that 
-#         a certain proportion of demand is met by renewable generation.
+    Inputs:
+    -----------------------------------
     
-#     Example user story:
-#     -----------------------------------
-#         "I want to ensure that my demand is met by renewable generation across the year."
-
-#     Inputs:
-#     -----------------------------------
-    
-#         network : pypsa.Network
-
-#         lhs_generators : list
-#             A list of generators to apply the constraint to (e.g., all renewable generators).
-        
-#         rhs_min_generation : float
-#             The minimum total annual generation of the set of generators (e.g., 100 = 100MW).
-        
-#         sign : str
-#             The sign of the constraint. Default is '>='.
-        
-#         name : str
-#             The name of the constraint. Default is None.
-
-#     Returns:
-#     -----------------------------------
-    
-#         None
-    
-#     '''
-
-#     # get total annual renewable generation (additional)
-#     lp_model = network.optimize.create_model()
-
-#     lhs_total_generation = (
-#         lp_model
-#         .variables['Generator-p']
-#         .sel(Generator=lhs_generators)
-#         .sum()
-#     )
-
-#     lp_model.add_constraints(
-#         lhs = lhs_total_generation,
-#         sign = sign,
-#         rhs = rhs_min_generation,
-#         name = name,
-#     )
-
-
-# def constr_hourly_matching(
-#         lp_model,
-#         lhs_generators : list,
-#         lhs_storages : list,
-#         rhs_load : float,
-#         sign : str = '>=',
-#         cfe_score : float = 1.,
-#         name : str = None,
-# ):
-#     '''
-    
-#     ###################################
-#     HOURLY MATCHING (CFE) CONSTRAINT
-#     ###################################
-
-#     Description:
-#     -----------------------------------
-#         This constraint ensures that the total hourly generation of a set of generators is greater than or equal to a certain value.
-#         It is particularly useful for setting renewable generation targets under a 24/7 CFE procurement strategy. For example, one can
-#         use this constraint to ensure that a certain load is met by renewable generation in each hour of the year.
-    
-#     Example user story:
-#     -----------------------------------
-#         "I want to ensure that my demand is met by renewable generation in each hour of the year."
-
-#     Inputs:
-#     -----------------------------------
-    
-#         network : pypsa.Network
-
-#         lhs_generators : list
-#             A list of generators to apply the constraint to (e.g., all renewable generators).
-        
-#         rhs_min_generation : float
-#             The minimum total annual generation of the set of generators (e.g., 0.5 = 50%).
-        
-#         sign : str
-#             The sign of the constraint. Default is '>='.
-        
-#         name : str
-#             The name of the constraint. Default is None.
+        network : pypsa.Network
             
-#     Returns:
-#     -----------------------------------
+    Returns:
+    -----------------------------------
     
-#         None
+        None
     
-#     '''
+    '''
+    lp_model = network.optimize.create_model()
+    
+    master_targets = pd.read_csv('stock_models/ASEAN/power_sector_targets.csv')
+    indices = []
 
-#     # get hourly dispatch from clean generators
-#     lhs_total_hourly_generation = (
-#         lp_model
-#         .variables['Generator-p']
-#         .sel(Generator=lhs_generators)
-#     )
+    # ----- constr: absolute capacity targets ----- #
+    #       This block sets absolute capacity targets. For example:
+    #           - CAP_SOLAR[VNM, 2035] >= 100 MW
 
-#     # get hourly dispatch from storage
-#     lhs_total_hourly_storage_discharge = (
-#         lp_model
-#         .variables['StorageUnit-p_dispatch']
-#         .sel(StorageUnit=lhs_storages)
-#     )
+    for investment_period in network.investment_periods:
+        
+        targets_cap_abs = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == True ")
+            .query(" target_type == 'capacity' ")
+            # .query(" ~carrier.str.contains(',') ")
+        )
 
-#     lhs_dispatch = lhs_total_hourly_generation + lhs_total_hourly_storage_discharge
+        indices += targets_cap_abs.index.to_list()
 
-#     lp_model.add_constraints(
-#         lhs = lhs_dispatch,
-#         sign = sign,
-#         rhs = cfe_score * rhs_load,
-#         #name = name,
-#     )
+    for _, row in targets_cap_abs.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                generators_investment_years = ( 
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains(row['nodes']) ) &
+                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0])
+                        #( network.generators.p_nom_extendable == True)
+                        ]
+                    .index
+                    .tolist()
+                )
+
+                total_capacity_investment_years = (
+                    lp_model
+                    .variables['Generator-p_nom']
+                    .sel(
+                        {
+                            "Generator-ext" : generators_investment_years
+                        }
+                    )
+                    .sum()
+                    .sum()
+                )
+                
+                total_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = (total_capacity_investment_years 
+                            + total_capacity_base_year
+                            ),
+                    sign = row['sense'],
+                    rhs = row['value'],
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: capacity share targets ----- #
+    #       This block sets capacity share targets. For example:
+    #           - CAP_SOLAR[VNM, 2035] >= 35% of total capacity
+
+    for investment_period in network.investment_periods:
+
+        targets_cap_pct = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == False ")
+            .query(" target_type == 'capacity' ")
+            # .query(" ~carrier.str.contains(',') ")
+        )
+
+        indices += targets_cap_pct.index.to_list()
+
+    for _, row in targets_cap_pct.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0])
+                        # ( network.generators.p_nom_extendable == True)
+                        ]
+                    .index
+                    .tolist()
+                    )
+        
+                all_generators = (
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0])
+                        # ( network.generators.p_nom_extendable == True)
+                    ]
+                    .index
+                    .tolist()
+                )
+                
+                target_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+                
+                all_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+        
+                target_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': target_generators}).sum()
+                                + target_capacity_base_year
+                                )
+                total_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': all_generators}).sum()
+                                + all_capacity_base_year
+                                )
+
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = target_capacity - ((row['value']/100)*total_capacity),
+                    sign = row['sense'],
+                    rhs = 0,
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: generation share targets ----- #
+    #       This block sets generation share targets. For example:
+    #           - %_SOLAR[VNM, 2035] >= 20% of total generation
+
+    for investment_period in network.investment_periods:
+
+        targets = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == False ")
+            .query(" target_type == 'generation' ")
+            # .query(" ~carrier.str.contains(',') ")
+        )
+
+        indices += targets.index.to_list()
+
+    for _, row in targets.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    .index
+                    .tolist()
+                )
+
+                all_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) & 
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    .index
+                    .tolist()
+                )
+
+                target_generation = lp_model.variables['Generator-p'].sel(period=generator_year,
+                                                                            Generator=target_generators).sum()
+                total_generation = lp_model.variables['Generator-p'].sel(period=generator_year, 
+                                                                            Generator=all_generators).sum()
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = target_generation - ((row['value']/100)*total_generation),
+                    sign = row['sense'],
+                    rhs =  0,
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: absolute emissions targets ----- #
+
+    emissions = network.carriers.co2_emissions[lambda ds: ds != 0]
+
+    for investment_period in network.investment_periods:
+
+        targets = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == True ")
+            .query(" target_type == 'emissions' ")
+        )
+
+        indices += targets.index.to_list()
+
+    for _, row in targets.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.carrier.isin(emissions.index)) &
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    )
+
+                generator_efficiency = network.generators.efficiency
+
+                emission_factor = (target_generators.carrier.map(emissions) / generator_efficiency).dropna()
+
+                target_generators_list = target_generators.index.to_list()
+                total_emissions = ((lp_model.variables['Generator-p'].sel(period=generator_year, 
+                                                                Generator=target_generators_list) 
+                                    * emission_factor)
+                                    .sum()
+                                    )
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = total_emissions,
+                    sign = row['sense'],
+                    rhs =  row['value'],
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+def constr_max_annual_utilisation(
+        network : pypsa.Network,
+        max_utilisation_rate : float = 0.85,
+        carriers : list = None,
+        model_frequency : int = 1,
+):
+    '''
+    
+    ###################################
+    SELF-SUFFICIENCY CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that each bus in the network is self-sufficient to a certain degree. That is,
+        it generates at least a certain percentage of its own electricity demand. In other words, it constraints
+        the maximum amount of electricity that can be imported to a bus. 
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure each region is at least 50% self-sufficient across the year. This prevents any region
+        from being too dependent on imports and ensures that each region has a certain level of energy security."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+
+        max_utilisation_rate : float
+            The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
+        
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+            
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+    
+        None
+    
+    '''
+
+    # ----- constr: coal and gas max utilisation rates ----- #
+
+    lp_model = network.optimize.create_model()
+    
+    for generator_year in network.investment_periods:
+        target_generators = (
+            network
+            .generators
+            .loc[
+            (network.generators.carrier.str.contains('|'.join(carriers))) &
+            (network.generators.build_year <= generator_year)
+            ]
+            .index
+            .tolist())
+
+        for each_generator in target_generators:
+
+            # The generation by coal plant in the generation year
+            target_generation = (
+                    lp_model.variables['Generator-p']
+                    .sel(
+                            period=generator_year,
+                            Generator=each_generator
+                        )
+                        .sum()
+            )
+
+            if str(network.investment_periods[0]) in each_generator:
+                target_capacity = network.generators.loc[each_generator].p_nom
+            else:
+                target_capacity = (
+                    lp_model.variables['Generator-p_nom']
+                    .sel({'Generator-ext': each_generator})
+                    .sum()
+                )
+            
+            # set constraint
+            lp_model.add_constraints(
+                lhs = target_generation,
+                sign = '<=',
+                rhs =  max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(generator_year) + str(each_generator) + '_max_utilisation_rate',
+            )
