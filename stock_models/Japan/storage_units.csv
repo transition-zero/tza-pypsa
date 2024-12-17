@@ -1,0 +1,10 @@
+name,bus,p_nom,p_nom_extendable,carrier,capital_cost,build_year,lifetime,cyclic_state_of_charge,max_hours,efficiency_store,efficiency_dispatch,standing_loss
+JPN01-Batteries-2030,JPN01,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN02-Batteries-2030,JPN02,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN03-Batteries-2030,JPN03,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN04-Batteries-2030,JPN04,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN05-Batteries-2030,JPN05,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN06-Batteries-2030,JPN06,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN07-Batteries-2030,JPN07,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN08-Batteries-2030,JPN08,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01
+JPN09-Batteries-2030,JPN09,0,TRUE,Batteries,999,2030,15,TRUE,6,0.95,0.95,0.01

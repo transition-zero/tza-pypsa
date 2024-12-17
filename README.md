@@ -50,7 +50,7 @@ This repo contains code developed by the Analysis team at TransitionZero (TZA) t
 Firstly, clone or download this repository (or an older version) and then navigate into the directory.
 
 ```
-cd tz-analysis-pypsa
+cd tza-pypsa
 ```
 
 Next, install `tza-pypsa` into your local environment by running:
@@ -90,10 +90,15 @@ network = (
 # add stock constraints ((optional))
 constr_bus_self_sufficiency(network)
 
+# solve the model
 network.optimize(
   solver_name='highs',
   solver_options={"solver": "pdlp"},
 )
+
+# export results to csv
+network.export_to_csv_folder('some-output-folder-name')
+
 ```
 
 <!-- ### Load your own model

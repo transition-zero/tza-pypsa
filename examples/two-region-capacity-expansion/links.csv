@@ -1,0 +1,5 @@
+name,bus0,bus1,carrier,efficiency,build_year,lifetime,p_nom,p_nom_extendable,p_nom_min,capital_cost,length
+IND-PAK-interconnector-2020,IND,PAK,transmission,0.97,2020,50,0,True,0,999,1000
+IND-PAK-interconnector-2030,IND,PAK,transmission,0.97,2030,50,0,True,0,999,1000
+IND-PAK-interconnector-2040,IND,PAK,transmission,0.97,2040,50,0,True,0,999,1000
+IND-PAK-interconnector-2050,IND,PAK,transmission,0.97,2050,50,0,True,0,999,1000
