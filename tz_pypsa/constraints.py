@@ -6,6 +6,7 @@ import pandas as pd
 
 def constr_bus_self_sufficiency(
         network : pypsa.Network,
+        lp_model,
         min_self_sufficiency : float = 0.5,
         buses : list = None,
 ):
@@ -45,7 +46,7 @@ def constr_bus_self_sufficiency(
     '''
 
     # get total renewable generation
-    lp_model = network.optimize.create_model()
+    #lp_model = network.optimize.create_model()
 
     if not buses:
         buses = network.buses.index
@@ -79,6 +80,7 @@ def constr_bus_self_sufficiency(
 
 def constr_cumulative_p_nom(
         network : pypsa.Network,
+        lp_model,
 ):
     '''
     ###################################
@@ -97,6 +99,8 @@ def constr_cumulative_p_nom(
     -----------------------------------
     
         network : pypsa.Network
+        
+        lp_model : linopy model with variables and constraints
             
     Returns:
     -----------------------------------
@@ -105,7 +109,7 @@ def constr_cumulative_p_nom(
     
     '''
 
-    lp_model = network.optimize.create_model()
+    #lp_model = network.optimize.create_model()
 
     x = np.inf
     y = network.investment_periods[1:].to_list()
@@ -154,6 +158,7 @@ def constr_cumulative_p_nom(
 
 def constr_min_annual_generation(
         network : pypsa.Network,
+        lp_model,
         lhs_generator : str,
         rhs_min_generation : float,
         sign : str = '>=',
@@ -176,6 +181,8 @@ def constr_min_annual_generation(
     -----------------------------------
     
         network : pypsa.Network
+        
+        lp_model : linopy model with variables and constraints
 
         lhs_generator : str
             The generator to apply the constraint to.
@@ -195,7 +202,7 @@ def constr_min_annual_generation(
         None
     
     '''
-    lp_model = network.optimize.create_model()
+    #lp_model = network.optimize.create_model()
 
     lhs_total_generation = lp_model['Generator-p'].sel(Generator=lhs_generator).sum()
 
@@ -213,6 +220,7 @@ def constr_min_annual_generation(
 
 def constr_policy_targets(
         network : pypsa.Network,
+        lp_model,
 ):
     '''
     ###########################################
@@ -231,6 +239,8 @@ def constr_policy_targets(
     -----------------------------------
     
         network : pypsa.Network
+        
+        lp_model : linopy model with variables and constraints
             
     Returns:
     -----------------------------------
@@ -238,7 +248,7 @@ def constr_policy_targets(
         None
     
     '''
-    lp_model = network.optimize.create_model()
+    # lp_model = network.optimize.create_model()
     
     master_targets = pd.read_csv('stock_models/ASEAN/power_sector_targets.csv')
     indices = []
@@ -497,6 +507,7 @@ def constr_policy_targets(
 
 def constr_max_annual_utilisation(
         network : pypsa.Network,
+        lp_model,
         max_utilisation_rate : float = 0.85,
         carriers : list = None,
         model_frequency : int = 1,
@@ -522,6 +533,8 @@ def constr_max_annual_utilisation(
     -----------------------------------
     
         network : pypsa.Network
+        
+        lp_model : linopy model with variables and constraints
 
         max_utilisation_rate : float
             The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
@@ -541,7 +554,7 @@ def constr_max_annual_utilisation(
 
     # ----- constr: coal and gas max utilisation rates ----- #
 
-    lp_model = network.optimize.create_model()
+    # lp_model = network.optimize.create_model()
     
     for generator_year in network.investment_periods:
         target_generators = (
