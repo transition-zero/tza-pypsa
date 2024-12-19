@@ -1,0 +1,6 @@
+name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,lifetime,efficiency
+coal-plant-north,INDNO,10000,FALSE,coal,1,10,2030,25,0.4
+coal-plant-east,INDEA,10000,TRUE,coal,1,10,2030,25,0.4
+coal-plant-south,INDSO,10000,TRUE,coal,1,10,2030,25,0.4
+coal-plant-west,INDWE,10000,TRUE,coal,1,10,2030,25,0.4
+coal-plant-northeast,INDNE,10000,TRUE,coal,1,10,2030,25,0.4

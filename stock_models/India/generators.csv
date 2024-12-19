@@ -1,0 +1,70 @@
+name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,lifetime,efficiency
+Bio-power - Bagasse (in MW),INDEA,462.9,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Bagasse (in MW),INDNE,0.0,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Bagasse (in MW),INDNO,2600.37,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Bagasse (in MW),INDSO,3372.3999999999996,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Bagasse (in MW),INDWE,2997.89,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Non-bagasse (in MW),INDEA,97.84,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Non-bagasse (in MW),INDNE,15.8,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Non-bagasse (in MW),INDNO,579.51,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Non-bagasse (in MW),INDSO,182.89,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Non-bagasse (in MW),INDWE,45.75,FALSE,biomass,Unknown,10,2030,25,0.32
+Bio-power - Waste-to-energy (in MW),INDEA,0.0,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy (in MW),INDNE,0.0,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy (in MW),INDNO,105.95,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy (in MW),INDSO,106.35999999999999,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy (in MW),INDWE,37.43,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy-off-grid (in MW),INDEA,6.16,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy-off-grid (in MW),INDNE,0.0,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy-off-grid (in MW),INDNO,153.34,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy-off-grid (in MW),INDSO,90.08,FALSE,biomass,23,10,2030,25,0.32
+Bio-power - Waste-to-energy-off-grid (in MW),INDWE,86.48,FALSE,biomass,23,10,2030,25,0.32
+Coal (in MW),INDEA,37657.0,FALSE,coal,27,10,2030,30,0.38
+Coal (in MW),INDNE,750.0,FALSE,coal,27,10,2030,30,0.38
+Coal (in MW),INDNO,47185.0,FALSE,coal,27,10,2030,30,0.38
+Coal (in MW),INDSO,46211.5,FALSE,coal,27,10,2030,30,0.38
+Coal (in MW),INDWE,85786.01,FALSE,coal,27,10,2030,30,0.38
+Hydro (in MW),INDEA,5987.75,FALSE,hydro,0,10,2030,50,0.95
+Hydro (in MW),INDNE,2027.0,FALSE,hydro,0,10,2030,50,0.95
+Hydro (in MW),INDNO,19774.27,FALSE,hydro,0,10,2030,50,0.95
+Hydro (in MW),INDSO,11747.15,FALSE,hydro,0,10,2030,50,0.95
+Hydro (in MW),INDWE,7392.0,FALSE,hydro,0,10,2030,50,0.95
+Nuclear (in MW),INDEA,0.0,FALSE,nuclear,4.8,10,2030,50,0.33
+Nuclear (in MW),INDNE,0.0,FALSE,nuclear,4.8,10,2030,50,0.33
+Nuclear (in MW),INDNO,1620.0,FALSE,nuclear,4.8,10,2030,50,0.33
+Nuclear (in MW),INDSO,3320.0,FALSE,nuclear,4.8,10,2030,50,0.33
+Nuclear (in MW),INDWE,3240.0,FALSE,nuclear,4.8,10,2030,50,0.33
+Oil & Gas (in MW),INDEA,80.0,FALSE,gas,35,10,2030,40,0.56
+Oil & Gas (in MW),INDNE,1700.96,FALSE,gas,35,10,2030,40,0.56
+Oil & Gas (in MW),INDNO,5994.96,FALSE,gas,35,10,2030,40,0.56
+Oil & Gas (in MW),INDSO,7035.0,FALSE,gas,35,10,2030,40,0.56
+Oil & Gas (in MW),INDWE,10806.49,FALSE,gas,35,10,2030,40,0.56
+Small-Hydro (in MW),INDEA,343.99,FALSE,hydro,0,10,2030,50,0.95
+Small-Hydro (in MW),INDNE,321.85,FALSE,hydro,0,10,2030,50,0.95
+Small-Hydro (in MW),INDNO,1724.0,FALSE,hydro,0,10,2030,50,0.95
+Small-Hydro (in MW),INDSO,1939.73,FALSE,hydro,0,10,2030,50,0.95
+Small-Hydro (in MW),INDWE,673.68,FALSE,hydro,0,10,2030,50,0.95
+Solar - Ground Mounted (in MW),INDEA,700.02,FALSE,solar,0,10,2030,25,1
+Solar - Ground Mounted (in MW),INDNE,133.87,FALSE,solar,0,10,2030,25,1
+Solar - Ground Mounted (in MW),INDNO,21506.53,FALSE,solar,0,10,2030,25,1
+Solar - Ground Mounted (in MW),INDSO,24477.02,FALSE,solar,0,10,2030,25,1
+Solar - Ground Mounted (in MW),INDWE,17597.76,FALSE,solar,0,10,2030,25,1
+Solar - Hybrid-solar (in MW),INDEA,0.0,FALSE,solar,0,10,2030,25,1
+Solar - Hybrid-solar (in MW),INDNO,1980.0,FALSE,solar,0,10,2030,25,1
+Solar - Hybrid-solar (in MW),INDSO,0.0,FALSE,solar,0,10,2030,25,1
+Solar - Hybrid-solar (in MW),INDWE,590.96,FALSE,solar,0,10,2030,25,1
+Solar - Off-grid (in MW),INDEA,114.12,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Off-grid (in MW),INDNE,42.93,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Off-grid (in MW),INDNO,1655.6699999999998,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Off-grid (in MW),INDSO,220.93,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Off-grid (in MW),INDWE,879.14,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Roof-top (in MW),INDEA,284.23,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Roof-top (in MW),INDNE,60.39000000000001,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Roof-top (in MW),INDNO,2991.73,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Roof-top (in MW),INDSO,2508.83,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Solar - Roof-top (in MW),INDWE,6024.460000000001,FALSE,Unknown,Unknown,10,2030,Unknown,Unknown
+Wind (in MW),INDEA,0.0,FALSE,on-wind,0,10,2030,27,1
+Wind (in MW),INDNE,0.0,FALSE,on-wind,0,10,2030,27,1
+Wind (in MW),INDNO,5195.82,FALSE,on-wind,0,10,2030,27,1
+Wind (in MW),INDSO,20911.399999999998,FALSE,on-wind,0,10,2030,27,1
+Wind (in MW),INDWE,19774.989999999998,FALSE,on-wind,0,10,2030,27,1

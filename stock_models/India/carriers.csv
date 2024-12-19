@@ -6,6 +6,7 @@ coal,0.34,black,Coal
 diesel,0.26,darkgray,Diesel
 geothermal,0.0,brown,Geothermal
 hydro,0.0,deepskyblue,Hydro
+nuclear,0.0,blue,Nuclear
 oil,0.26,gainsboro,Oil
 solar,0.0,gold,Solar
 waste,0.0,peru,Waste
