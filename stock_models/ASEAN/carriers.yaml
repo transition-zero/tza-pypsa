@@ -78,6 +78,11 @@ carriers:
     nice_name: Battery
     color: plum
     co2_emissions: 0.
+
+  - id: hydrogen-storage
+    nice_name: Hydrogen Storage
+    color: grey
+    co2_emissions: 0.
   
   - id: backstop
     nice_name: Backstop
