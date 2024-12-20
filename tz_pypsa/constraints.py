@@ -221,6 +221,7 @@ def constr_min_annual_generation(
 def constr_policy_targets(
         network : pypsa.Network,
         lp_model,
+        stock_model : str
 ):
     '''
     ###########################################
@@ -241,6 +242,8 @@ def constr_policy_targets(
         network : pypsa.Network
         
         lp_model : linopy model with variables and constraints
+        
+        stock_model : PyPSA model for a selected country / region
             
     Returns:
     -----------------------------------
@@ -250,12 +253,14 @@ def constr_policy_targets(
     '''
     # lp_model = network.optimize.create_model()
     
-    master_targets = pd.read_csv('stock_models/ASEAN/power_sector_targets.csv')
+    master_targets = pd.read_csv('stock_models/' + stock_model + '/power_sector_targets.csv')
     indices = []
 
     # ----- constr: absolute capacity targets ----- #
     #       This block sets absolute capacity targets. For example:
     #           - CAP_SOLAR[VNM, 2035] >= 100 MW
+
+    countries = [i[:3] for i in network.buses.index.to_list()]
 
     for investment_period in network.investment_periods:
         
@@ -264,7 +269,7 @@ def constr_policy_targets(
             #.query(" year >= @investment_period ")
             .query(" absolute == True ")
             .query(" target_type == 'capacity' ")
-            # .query(" ~carrier.str.contains(',') ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
         )
 
         indices += targets_cap_abs.index.to_list()
@@ -330,7 +335,7 @@ def constr_policy_targets(
             #.query(" year >= @investment_period ")
             .query(" absolute == False ")
             .query(" target_type == 'capacity' ")
-            # .query(" ~carrier.str.contains(',') ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
         )
 
         indices += targets_cap_pct.index.to_list()
@@ -412,7 +417,7 @@ def constr_policy_targets(
             #.query(" year >= @investment_period ")
             .query(" absolute == False ")
             .query(" target_type == 'generation' ")
-            # .query(" ~carrier.str.contains(',') ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
         )
 
         indices += targets.index.to_list()
@@ -468,6 +473,7 @@ def constr_policy_targets(
             #.query(" year >= @investment_period ")
             .query(" absolute == True ")
             .query(" target_type == 'emissions' ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
         )
 
         indices += targets.index.to_list()
@@ -504,6 +510,7 @@ def constr_policy_targets(
                     rhs =  row['value'],
                     name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
                 )
+
 
 def constr_max_annual_utilisation(
         network : pypsa.Network,
