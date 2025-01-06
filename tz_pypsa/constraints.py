@@ -522,19 +522,17 @@ def constr_max_annual_utilisation(
     '''
     
     ###################################
-    SELF-SUFFICIENCY CONSTRAINT
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
     ###################################
 
     Description:
     -----------------------------------
-        This constraint ensures that each bus in the network is self-sufficient to a certain degree. That is,
-        it generates at least a certain percentage of its own electricity demand. In other words, it constraints
-        the maximum amount of electricity that can be imported to a bus. 
+        This constraint ensures that the total annual utilisation rate of a technology or carrier 
+        equals to a certain percentage value.
     
     Example user story:
     -----------------------------------
-        "I want to ensure each region is at least 50% self-sufficient across the year. This prevents any region
-        from being too dependent on imports and ensures that each region has a certain level of energy security."
+        "I want to ensure that coal utilisation rate is only 85% annually, not 100%"
 
     Inputs:
     -----------------------------------
