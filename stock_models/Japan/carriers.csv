@@ -1,11 +1,11 @@
 name,co2_emissions,color,nice_name
 AC,0,red,AC
-Coal,0.396,#322f34,Coal
+Coal,0.36,#322f34,Coal
 Gas,0.198,#bababa,Gas
-Oil,0.297,#5d407c,Oil
-GasCCS,0.0198,#d9d9d9,Gas CCS
-Ammonia,0.0198,#d9a88b,Ammonia/coal
-Hydrogen,0.0792,#f3f3f3,Hydrogen/gas
+Oil,0.2571,#5d407c,Oil
+GasCCS,0.0297,#d9d9d9,Gas CCS
+Ammonia,0.072,#d9a88b,Ammonia/coal
+Hydrogen,0.0198,#f3f3f3,Hydrogen/gas
 Nuclear,0,#ee9dda,Nuclear
 Biomass,-999,#e25329,Biomass
 Geothermal,0,#f75726,Geothermal
