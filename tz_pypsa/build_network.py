@@ -260,7 +260,11 @@ def build_pypsa_network(
                         p_nom_max = np.inf
                     
                     # get capacity factors
-                    if technology['id'] == 'wind-onshore':
+                    if 'p_max_pu' in technology.keys():
+                        if bus in technology['p_max_pu'].keys():
+                            # cf = np.tile(technology['p_max_pu'][bus], len(timeseries.snapshot))
+                            cf = technology['p_max_pu'][bus]
+                    elif technology['id'] == 'wind-onshore':
                         cf = (
                             timeseries
                             .sel(
