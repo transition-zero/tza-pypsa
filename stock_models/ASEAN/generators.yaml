@@ -42,6 +42,15 @@ generators:
       BRNXX: 0
       LAOXX: 0
       KHMXX: 0
+    planned_expansion:
+      PHLLU: 
+        2024: 23.385
+      PHLVI: 
+        2024: 74
+      PHLMI: 
+        2024: 10
+      SGPXX:
+        2025: 20
     maximum_capacity:
       IDNJW: 1130
       IDNKA: 10590
@@ -217,6 +226,31 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu: # (assumption based on the lowest number for wood-based bioenergy plants : https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Sep/IRENA_Renewable_power_generation_costs_in_2023.pdf)
+      IDNSM: 0.6 
+      IDNJW: 0.6
+      IDNNU: 0.6
+      IDNKA: 0.6
+      IDNSL: 0.6
+      IDNML: 0.6
+      IDNPP: 0.6
+      MYSPE: 0.6
+      MYSSK: 0.6
+      MYSSH: 0.6
+      PHLLU: 0.6
+      PHLVI: 0.6
+      PHLMI: 0.6
+      SGPXX: 0.6
+      BRNXX: 0.6
+      MMRXX: 0.6
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.6
     # ---
     # universal technology parameters
     extendable: false
@@ -255,6 +289,26 @@ generators:
       THASO: 2690
       SGPXX: 10645
       BRNXX: 268
+    planned_expansion:
+      IDNSM:
+        2024: 1600
+      IDNJW:
+        2024: 1760
+      IDNPP:
+        2029: 20
+      VNMSO:
+        2025: 2824
+      PHLLU:
+        2024: 1320
+      THANO:
+        2024: 31.2
+      THACE:
+        2024: 2054
+        2025: 780
+      SGPXX:
+        2026: 600
+      MMRXX:
+        2024: 388
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -355,12 +409,38 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    # capacity_factor: 0.9
     # ---
     # unit commitment
     committable: false
@@ -398,6 +478,22 @@ generators:
       KHMXX: 755
       MMRXX: 138
       LAOXX: 1878
+    planned_expansion:
+      IDNSM:
+        2024: 600
+        2026: 300
+      IDNJW:
+        2024: 600
+        2025: 1000
+        2026: 1000
+      IDNSL:
+        2024: 200
+      IDNKA:
+        2025: 150
+      PHLLU:
+        2024: 450
+      KHMXX:
+        2025: 265
     efficiency:
       IDNSM: 0.35
       IDNJW: 0.35
@@ -498,6 +594,31 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -533,6 +654,13 @@ generators:
       PHLMI: 765
       THACE: 660
       KHMXX: 700
+    planned_extension:
+      VNMCE:
+        2024: 1432
+      VNMSO:
+        2026: 1200
+      LAOXX:
+        2025: 660
     efficiency:
       IDNSM: 0.38
       IDNJW: 0.38
@@ -633,6 +761,31 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -658,6 +811,10 @@ generators:
     initial_capacity:
       IDNJW: 1900
       MYSPE: 4000
+    planned_expansion:
+      VNMCE:
+        2025: 1330
+        2026: 1403
     efficiency:
       IDNSM: 0.42
       IDNJW: 0.42
@@ -758,6 +915,31 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -796,6 +978,11 @@ generators:
       PHLMI: 499
       KHMXX: 521.4
       MMRXX: 181
+    planned_expansion:
+      PHLVI: 
+        2024: 114.874
+      PHLMI:
+        2024: 55
     efficiency:
       IDNSM: 0.46
       IDNJW: 0.46
@@ -926,6 +1113,16 @@ generators:
       PHLLU: 850
       PHLVI: 780
       PHLMI: 113
+    planned_expansion:
+      IDNSM:
+        2025: 55
+      IDNJW:
+        2024: 110
+        2025: 70
+      PHLLU:
+        2024: 89.073
+      PHLVI:
+        2024: 5.645
     maximum_capacity:
       BRNXX: 0
       IDNJW: 10270
@@ -1098,6 +1295,48 @@ generators:
       BRNXX: 0
       MMRXX: 3262
       LAOXX: 9312
+    planned_expansion:
+      IDNSM:
+        2024: 177
+        2025: 1370
+      IDNJW:
+        2024: 227
+      IDNSL:
+        2026: 58.1
+        2028: 21
+      VNMNO:
+        2024: 126
+        2025: 480
+      VNMCE:
+        2024: 546
+        2025: 945
+        2026: 120
+        2028: 1200
+      VNMSO:
+        2026: 240
+      MYSPE:
+        2027: 300
+      MYSSK:
+        2028: 1285
+      PHLLU: 
+        2024: 54.97
+        2025: 62.4
+        2030: 500
+      PHLVI:
+        2024: 20.1
+      PHLMI:
+        2024: 76.65
+      KHMXX:
+        2026: 230
+      MMRXX:
+        2024: 111
+        2026: 152
+      LAOXX:
+        2024: 129
+        2025: 1184
+        2026: 30
+        2028: 124
+        2030: 1527.5
     maximum_capacity:
       BRNXX: 0
       IDNJW: 4950
@@ -1270,6 +1509,9 @@ generators:
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
+    planned_expansion:
+      SGPXX:
+        2025: 680
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -1370,12 +1612,38 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    capacity_factor: 0.9
     # ---
     # unit commitment
     committable: false
@@ -1417,6 +1685,32 @@ generators:
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
+    planned_expansion:    
+      IDNSM:
+        2024:33.6
+      IDNKA:
+        2024: 80
+      VNMCE:
+        2024: 120
+      MYSPE:
+        2024: 638
+        2025: 100
+      PHLLU:
+        2024: 761
+        2025: 565.856
+        2026: 93
+        2027: 6.9
+      PHLMI:
+        2024: 1
+      THANO:
+        2024: 127.8
+        2025: 477
+      THACE:
+        2024: 309
+      SGPXX:
+        2025: 34.4
+      LAOXX:
+        2025: 64
     maximum_capacity:
       IDNSM: 166398
       IDNNU: 116257
@@ -1736,6 +2030,9 @@ generators:
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
+    planned_expansion:
+      VNMSO:
+        2025: 711.4
     maximum_capacity:
       IDNSM: 2891026
       IDNNU: 180272
@@ -1908,6 +2205,18 @@ generators:
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
+    planned_expansion:
+      IDNJW:
+        2025: 250
+      VNMCE:
+        2024: 276.2
+        2025: 1289.7
+      VNMSO:
+        2025: 268
+      PHLLU:
+        2025: 240
+      LAOXX:
+        2025: 600
     maximum_capacity:
       IDNSM: 83905
       IDNNU: 30295
