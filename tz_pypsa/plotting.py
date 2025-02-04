@@ -78,7 +78,7 @@ def energy_balance(
             .sum()
             .melt()
         )
-
+        imports['Link'] = imports['Link'].str.replace(' ', '-')
         imports['bus'] = imports['Link'].apply(lambda x: x.split('-')[1])
         imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
         total_generation = pd.concat([total_generation, imports], ignore_index=True)
