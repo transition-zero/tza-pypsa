@@ -1006,30 +1006,30 @@ generators:
       PHLVI:
         2026: 135
     efficiency:
-      IDNSM: 0.42
-      IDNJW: 0.42
-      IDNNU: 0.42
-      IDNKA: 0.42
-      IDNSL: 0.42
-      IDNML: 0.42
-      IDNPP: 0.42
-      MYSPE: 0.42
-      MYSSK: 0.42
-      MYSSH: 0.42
-      PHLLU: 0.42
-      PHLVI: 0.42
-      PHLMI: 0.42
-      SGPXX: 0.42
-      BRNXX: 0.42
-      MMRXX: 0.42
-      THANO: 0.42
-      THASO: 0.42
-      THACE: 0.42
-      VNMNO: 0.43
-      VNMCE: 0.43
-      VNMSO: 0.43
-      KHMXX: 0.42
-      LAOXX: 0.42
+      IDNSM: 0.41
+      IDNJW: 0.41
+      IDNNU: 0.41
+      IDNKA: 0.41
+      IDNSL: 0.41
+      IDNML: 0.41
+      IDNPP: 0.41
+      MYSPE: 0.41
+      MYSSK: 0.41
+      MYSSH: 0.41
+      PHLLU: 0.41
+      PHLVI: 0.41
+      PHLMI: 0.41
+      SGPXX: 0.41
+      BRNXX: 0.41
+      MMRXX: 0.41
+      THANO: 0.41
+      THASO: 0.41
+      THACE: 0.41
+      VNMNO: 0.41
+      VNMCE: 0.41
+      VNMSO: 0.41
+      KHMXX: 0.41
+      LAOXX: 0.41
     ramp_limit_up:
       IDNSM: 1.0
       IDNJW: 1.0
