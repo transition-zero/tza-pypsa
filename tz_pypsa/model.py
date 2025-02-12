@@ -344,6 +344,7 @@ class Model:
         path_to_dir,
         backstop : bool = False,
         **kwargs,
+
     ) -> pypsa.Network:
         
         '''
@@ -356,7 +357,7 @@ class Model:
                 Directory from which we load the model. This directory should contain csv files. File names are strictly enforced.
             backstop : bool (optional)
                 If True, the model will include backstop technologies (default is False).
-
+                
         Returns
         ----------
 
@@ -374,7 +375,8 @@ class Model:
 
         network = pypsa.Network()
 
-        network.import_from_csv_folder(path_to_dir)
+        network.import_from_csv_folder(
+            path_to_dir)
 
         # --- add backstop --- #
         if backstop:

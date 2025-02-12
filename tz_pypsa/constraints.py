@@ -571,6 +571,7 @@ def constr_max_annual_utilisation(
             ]
             .index
             .tolist())
+        print(target_generators)
 
         for each_generator in target_generators:
 
@@ -599,4 +600,36 @@ def constr_max_annual_utilisation(
                 sign = '<=',
                 rhs =  max_utilisation_rate * target_capacity * 8760 / model_frequency,
                 name=str(generator_year) + str(each_generator) + '_max_utilisation_rate',
+            )
+
+def constr_cogeneration(
+        network : pypsa.Network,
+        lp_model,
+        generators : list=None,
+        carriers : list = None,
+        model_frequency : int = 1,
+        ):
+    
+    for generator_year in network.investment_periods:
+        target_generators = (
+            network
+            .generators
+            .loc[
+            (network.generators.str.contains('cofiring')) &
+            (network.generators.build_year <= generator_year)
+            ]
+            .index
+            .tolist())
+        print(target_generators)
+
+        for each_generator in target_generators:
+
+            # The generation by coal plant in the generation year
+            target_generation = (
+                    lp_model.variables['Generator-p']
+                    .sel(
+                            period=generator_year,
+                            Generator=each_generator
+                        )
+                        .sum()
             )

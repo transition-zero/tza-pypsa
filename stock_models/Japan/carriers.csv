@@ -1,24 +1,24 @@
-name,co2_emissions,color,nice_name
-AC,0.,red,AC
-Coal,0.5,#322f34,Coal
-Gas,0.5,#bababa,Gas
-LNG,0.5,#bababa,LNG
-Oil,0.5,#5d407c,Oil
-GasCCS,0.5,#d9d9d9,Gas CCS
-Ammonia,0.5,#d9a88b,Ammonia/coal
-Hydrogen,0.5,#f3f3f3,Hydrogen/gas
-Nuclear,0,#ee9dda,Nuclear
-Biomass,-999,#e25329,Biomass
-Geothermal,0,#f75726,Geothermal
-HydroConventional,0,#8292e8,Hydro conventional
-Solar,0,#ffe19b,Solar
-SolarGrid,0,#ffe19b,Solar grid-scale
-Wind,0,#66dad0,Wind
-OffshoreWind,0,#66dad0,Offshore wind
-OnshoreWind,0,#99e6df,Onshore wind
-PumpedHydro,-999,#a5d1f9,Pumped hydro
-battery,-999,#c3e0fb,Battery
-Batteries,-999,#c3e0fb,Battery storage
-Batteries,-999,#c3e0fb,Battery storage
-Transmission,-999,#ba63da,Transmission
-Other,-999,#ba63da,Other
+name,co2_emissions,color,nice_name,max_annual_utilisation
+AC,0,red,AC,0.9
+Coal,0.5,#322f34,Coal,0.4
+Gas,0.5,#bababa,Gas,0.9
+LNG,0.5,#bababa,LNG,0.9
+Oil,0.5,#5d407c,Oil,0.9
+GasCCS,0.5,#d9d9d9,Gas CCS,0.9
+Ammonia,0.5,#d9a88b,Ammonia/coal,0.9
+Hydrogen,0,#f3f3f3,Hydrogen,0.9
+Nuclear,0,#ee9dda,Nuclear,0.9
+Biomass,-999,#e25329,Biomass,0.9
+Geothermal,0,#f75726,Geothermal,0.9
+HydroConventional,0,#8292e8,Hydro conventional,0.9
+Solar,0,#ffe19b,Solar,0.9
+SolarGrid,0,#ffe19b,Solar grid-scale,0.9
+Wind,0,#66dad0,Wind,0.9
+OffshoreWind,0,#66dad0,Offshore wind,0.9
+OnshoreWind,0,#99e6df,Onshore wind,0.9
+PumpedHydro,-999,#a5d1f9,Pumped hydro,1
+battery,-999,#c3e0fb,Battery,1
+Batteries,-999,#c3e0fb,Battery storage,1
+Transmission,-999,#ba63da,Transmission,0.9
+Other,-999,#ba63da,Other,0.9
+Hydrogen Storage,0,#f3f3f3,Hydrogen storage,1
