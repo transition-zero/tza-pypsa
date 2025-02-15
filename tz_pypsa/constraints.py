@@ -602,34 +602,39 @@ def constr_max_annual_utilisation(
                 name=str(generator_year) + str(each_generator) + '_max_utilisation_rate',
             )
 
-def constr_cogeneration(
+def constr_max_cofiring_set_generation(
         network : pypsa.Network,
         lp_model,
-        generators : list=None,
-        carriers : list = None,
-        model_frequency : int = 1,
-        ):
-    
-    for generator_year in network.investment_periods:
-        target_generators = (
-            network
-            .generators
-            .loc[
-            (network.generators.str.contains('cofiring')) &
-            (network.generators.build_year <= generator_year)
-            ]
-            .index
-            .tolist())
-        print(target_generators)
+        generator_1 : str,
+        generator_2: str,
+        rhs_max_generation_1 : float = 0.5, # split of capacity between two generators
+        rhs_max_generation_2 : float = 0.5, # split of capacity between two generators
+        sign : str = '<=',
+):
+        
+        if str(network.investment_periods[0]) in generator_1:
+                target_generator_capacity_1 = network.generators.loc[generator_1].p_nom
+        else:
+            target_generator_capacity_1 = (
+            network.generators.loc[generator_1].p_nom
+                )
 
-        for each_generator in target_generators:
+        if str(network.investment_periods[0]) in generator_2:
+                target_generator_capacity_2 = network.generators.loc[generator_2].p_nom
+        else:
+            target_generator_capacity_2 = (
+            network.generators.loc[generator_2].p_nom
+                )           
 
-            # The generation by coal plant in the generation year
-            target_generation = (
-                    lp_model.variables['Generator-p']
-                    .sel(
-                            period=generator_year,
-                            Generator=each_generator
-                        )
-                        .sum()
+        lhs_total_generation = lp_model.variables['Generator-p'].sel(Generator=generator_1) + lp_model.variables['Generator-p'].sel(Generator=generator_2)
+
+        rhs_combined_capacity = (
+            ((target_generator_capacity_1) * (rhs_max_generation_1)) + ((target_generator_capacity_2) * (rhs_max_generation_2))
             )
+
+        lp_model.add_constraints(
+            lhs = lhs_total_generation,
+            sign = sign,
+            rhs = rhs_combined_capacity,
+            name = str(generator_1) + str(generator_2) + '_max_generation_cofiring',
+        )

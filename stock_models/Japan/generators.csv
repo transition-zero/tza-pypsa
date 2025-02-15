@@ -89,3 +89,5 @@ JPN06-Hydrogen,JPN06,0,FALSE,Hydrogen,1,2000,2030,25,0.46,JPN06-Hydrogen
 JPN07-Hydrogen,JPN07,0,FALSE,Hydrogen,1,2000,2030,25,0.46,JPN07-Hydrogen
 JPN08-Hydrogen,JPN08,0,FALSE,Hydrogen,1,2000,2030,25,0.46,JPN08-Hydrogen
 JPN09-Hydrogen,JPN09,0,FALSE,Hydrogen,1,2000,2030,25,0.46,JPN09-Hydrogen
+JPN01-Coal-Biomass-Cofiring-Unit1,JPN01,1000,FALSE,Coal,0.01,2000,2030,25,1,JPN01-Coal-Biomass-Cofiring-Unit1
+JPN01-Coal-Biomass-Cofiring-Unit2,JPN01,1000,FALSE,Biomass,0.1,2000,2030,25,1,JPN01-Coal-Biomass-Cofiring-Unit2
