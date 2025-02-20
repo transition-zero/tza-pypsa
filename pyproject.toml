@@ -24,4 +24,4 @@ dependencies = [
 packages = ["tz_pypsa", "stock_models"]  # List both packages explicitly
 
 [tool.setuptools.package-data]
-"stock_models" = ["**/*.yaml"]  # YAML files should be under stock_models package
+"stock_models" = ["**/*.yaml","**/*.csv"]  # YAML files should be under stock_models package
