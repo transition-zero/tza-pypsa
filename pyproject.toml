@@ -26,3 +26,6 @@ py-modules = ["tz_pypsa"]
 
 [tool.setuptools.packages.find]
 where = ["."]
+
+[tool.setuptools.package-data]
+"tza_pypsa" = ["stock_models/**/*.yaml"]
