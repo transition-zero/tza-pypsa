@@ -10,22 +10,18 @@ authors = [
     { name = "Aman Majid", email = "aman.m@transitionzero.org" }
 ]
 readme = "README.md"
-license = { file="LICENSE" }
-
+license = { file = "LICENSE" }
 dependencies = [
-    "pypsa", 
-    "pandas", 
-    "cartopy", 
-    "plotly", 
+    "pypsa",
+    "pandas",
+    "cartopy",
+    "plotly",
     "requests",
     "h5netcdf",
 ]
 
 [tool.setuptools]
-py-modules = ["tz_pypsa"]
-
-[tool.setuptools.packages.find]
-where = ["."]
+packages = ["tz_pypsa", "stock_models"]  # List both packages explicitly
 
 [tool.setuptools.package-data]
-"tza_pypsa" = ["stock_models/**/*.yaml"]
+"stock_models" = ["**/*.yaml"]  # YAML files should be under stock_models package
