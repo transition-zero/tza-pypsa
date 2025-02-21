@@ -1,0 +1,30 @@
+name,co2_emissions,color,nice_name
+agricultural-waste-solids,0.0,peru,Agricultural Waste Solids
+backstop,0.0,pink,Backstop
+battery,0.0,plum,Battery
+biomass,0.0,teal,Biomass
+bioenergy,0.0,teal,Bioenergy
+bituminous,0.34,black,Bituminous Coal
+coal,0.34,black,Coal
+coal-unspecified,0.34,black,Coal Unspecified
+diesel,0.26,darkgray,Diesel
+gas,0.2,grey,Gas
+gas-unspecified,0.2,grey,Gas Unspecified
+geothermal,0.0,brown,Geothermal
+hydro,0.0,deepskyblue,Hydro
+lignite,0.34,black,Lignite Coal
+liquified-natural-gas,0.2,grey,Liquefied Natural Gas
+natural-gas,0.2,grey,Natural Gas
+naphtha,0.2,grey,Naptha
+nuclear,0.0,blue,Nuclear
+oil,0.26,gainsboro,Oil
+pumped-hydro,0.0,deepskyblue,Pumped Hydro
+solar,0.0,gold,Solar
+sub-bituminous,0.34,black,Sub-bituminous Coal
+uranium,0.0,blue,Uranium
+waste,0.0,peru,Waste
+waste-unspecified,0.0,peru,Waste Unspecified
+water,0.0,deepskyblue,Water
+wind,0.0,turquoise,Onshore Wind
+transmission,0.0,red,Transmission
+AC,0.0,red,Transmission
