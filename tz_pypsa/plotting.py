@@ -78,7 +78,7 @@ def energy_balance(
             .sum()
             .melt()
         )
-        imports['Link'] = imports['Link'].str.replace(' ', '-')
+
         imports['bus'] = imports['Link'].apply(lambda x: x.split('-')[1])
         imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
         total_generation = pd.concat([total_generation, imports], ignore_index=True)
@@ -245,10 +245,10 @@ def dispatch(
     # add traces
     for generator in generation.columns:
 
-        if generator != 'snapshot':
+        if generator != 'timestep':
             fig.add_trace(
                 go.Scatter(
-                    x=list(generation.snapshot),
+                    x=list(generation.timestep),
                     y=list(generation[generator].div(mul)),
                     mode='lines',
                     stackgroup='one',
@@ -261,7 +261,7 @@ def dispatch(
     if show_exports:
         fig.add_trace(
                 go.Scatter(
-                x=list(exports.snapshot),
+                x=list(exports.timestep),
                 y=list(exports[0].div(mul)),
                 mode='lines',
                 #stackgroup='one',
@@ -275,7 +275,7 @@ def dispatch(
     if show_imports:
         fig.add_trace(
                 go.Scatter(
-                x=list(imports.snapshot),
+                x=list(imports.timestep),
                 y=list(imports[0].div(mul)),
                 mode='lines',
                 stackgroup='one',
@@ -287,7 +287,7 @@ def dispatch(
     # add load
     fig.add_trace(
             go.Scatter(
-            x=list(load.snapshot),
+            x=list(load.timestep),
             y=list(load[0].div(mul)),
             mode='lines',
             #stackgroup='one',
@@ -369,7 +369,7 @@ def dispatch_simple(
         charge.plot.area(
             ax=ax,
             linewidth=0,
-            # color=charge.columns.map(network.carriers.color),
+            color=charge.columns.map(network.carriers.color),
         )
 
     network.loads_t.p_set.sum(axis=1).loc[time].mul(multiplier).plot(ax=ax, c="k")
