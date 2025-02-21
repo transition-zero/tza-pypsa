@@ -18,6 +18,7 @@ natural-gas,0.2,grey,Natural Gas
 naphtha,0.2,grey,Naptha
 nuclear,0.0,blue,Nuclear
 oil,0.26,gainsboro,Oil
+pumped-hydro,0.0,deepskyblue,Pumped Hydro
 solar,0.0,gold,Solar
 sub-bituminous,0.34,black,Sub-bituminous Coal
 uranium,0.0,blue,Uranium

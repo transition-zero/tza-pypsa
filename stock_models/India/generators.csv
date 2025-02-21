@@ -1,112 +1,91 @@
-name,type,bus,p_nom,p_nom_extendable,carrier,year,technology,efficiency,capital_cost,marginal_cost,lifetime
-Bio-power - Bagasse-INDEA-agricultural-waste-solids,biomass-INDEA,INDEA,462.9,FALSE,agricultural-waste-solids,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Bagasse-INDNE-agricultural-waste-solids,biomass-INDNE,INDNE,0.0,FALSE,agricultural-waste-solids,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Bagasse-INDNO-agricultural-waste-solids,biomass-INDNO,INDNO,2600.37,FALSE,agricultural-waste-solids,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Bagasse-INDSO-agricultural-waste-solids,biomass-INDSO,INDSO,3372.3999999999996,FALSE,agricultural-waste-solids,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Bagasse-INDWE-agricultural-waste-solids,biomass-INDWE,INDWE,2997.89,FALSE,agricultural-waste-solids,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Non-bagasse-INDEA-bioenergy,biomass-INDEA,INDEA,97.84,FALSE,bioenergy,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Non-bagasse-INDNE-bioenergy,biomass-INDNE,INDNE,15.8,FALSE,bioenergy,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Non-bagasse-INDNO-bioenergy,biomass-INDNO,INDNO,579.51,FALSE,bioenergy,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Non-bagasse-INDSO-bioenergy,biomass-INDSO,INDSO,182.89,FALSE,bioenergy,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Non-bagasse-INDWE-bioenergy,biomass-INDWE,INDWE,45.75,FALSE,bioenergy,2023,biomass,0.3,1800000.0,3.4,100
-Bio-power - Waste-to-energy-INDEA-waste,waste-INDEA,INDEA,0.0,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-INDNE-waste,waste-INDNE,INDNE,0.0,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-INDNO-waste,waste-INDNO,INDNO,105.95,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-INDSO-waste,waste-INDSO,INDSO,106.35999999999999,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-INDWE-waste,waste-INDWE,INDWE,37.43,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-off-grid-INDEA-waste,waste-INDEA,INDEA,6.16,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-off-grid-INDNE-waste,waste-INDNE,INDNE,0.0,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-off-grid-INDNO-waste,waste-INDNO,INDNO,153.34,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-off-grid-INDSO-waste,waste-INDSO,INDSO,90.08,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Bio-power - Waste-to-energy-off-grid-INDWE-waste,waste-INDWE,INDWE,86.48,FALSE,waste,2023,waste,0.3,2900000.0,15.4,100
-Solar - Ground Mounted-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,700.02,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Ground Mounted-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,133.87,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Ground Mounted-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,21506.53,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Ground Mounted-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,24477.02,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Ground Mounted-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,17597.76,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Hybrid-solar-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,0.0,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Hybrid-solar-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,1980.0,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Hybrid-solar-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,0.0,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Hybrid-solar-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,590.96,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Off-grid-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,114.12,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Off-grid-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,42.93,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Off-grid-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,1655.6699999999998,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Off-grid-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,220.93,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Off-grid-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,879.14,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Roof-top-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,284.23,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Roof-top-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,60.39000000000001,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Roof-top-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,2991.73,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Roof-top-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,2508.83,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Solar - Roof-top-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,6024.460000000001,FALSE,solar,2023,photovoltaic-unspecified,1.0,790000.0,0.0,100
-Wind-INDEA-wind,wind-onshore-INDEA,INDEA,0.0,FALSE,wind,2023,wind-onshore,1.0,1500000.0,0.0,100
-Wind-INDNE-wind,wind-onshore-INDNE,INDNE,0.0,FALSE,wind,2023,wind-onshore,1.0,1500000.0,0.0,100
-Wind-INDNO-wind,wind-onshore-INDNO,INDNO,5195.82,FALSE,wind,2023,wind-onshore,1.0,1500000.0,0.0,100
-Wind-INDSO-wind,wind-onshore-INDSO,INDSO,20911.399999999998,FALSE,wind,2023,wind-onshore,1.0,1500000.0,0.0,100
-Wind-INDWE-wind,wind-onshore-INDWE,INDWE,19774.989999999998,FALSE,wind,2023,wind-onshore,1.0,1500000.0,0.0,100
-circulating-fluidized-bed-INDSO-lignite,circulating-fluidized-bed-INDSO,INDSO,500.0,FALSE,lignite,2023,circulating-fluidized-bed,0.4,2284000.0,16.18,100
-circulating-fluidized-bed-INDWE-lignite,circulating-fluidized-bed-INDWE,INDWE,500.0,FALSE,lignite,2023,circulating-fluidized-bed,0.4,2284000.0,16.18,100
-coal-unspecified-INDEA-coal-unspecified,coal-unspecified-INDEA,INDEA,495.0,FALSE,coal-unspecified,2023,coal-unspecified,0.4,2284000.0,16.18,100
-coal-unspecified-INDSO-coal-unspecified,coal-unspecified-INDSO,INDSO,1525.0,FALSE,coal-unspecified,2023,coal-unspecified,0.4,2284000.0,16.18,100
-coal-unspecified-INDSO-lignite,coal-unspecified-INDSO,INDSO,1000.0,FALSE,lignite,2023,coal-unspecified,0.4,2284000.0,16.18,100
-coal-unspecified-INDWE-coal-unspecified,coal-unspecified-INDWE,INDWE,1600.0,FALSE,coal-unspecified,2023,coal-unspecified,0.4,2284000.0,16.18,100
-combined-cycle-INDNE-natural-gas,combined-cycle-INDNE,INDNE,1415.4,FALSE,natural-gas,2023,combined-cycle,0.6,690000.0,17.2,100
-combined-cycle-INDNO-natural-gas,combined-cycle-INDNO,INDNO,5602.6,FALSE,natural-gas,2023,combined-cycle,0.6,690000.0,17.2,100
-combined-cycle-INDSO-naphtha,combined-cycle-INDSO,INDSO,165.0,FALSE,naphtha,2023,combined-cycle,0.6,690000.0,17.2,100
-combined-cycle-INDSO-natural-gas,combined-cycle-INDSO,INDSO,6132.0,FALSE,natural-gas,2023,combined-cycle,0.6,690000.0,17.2,100
-combined-cycle-INDWE-liquified-natural-gas,combined-cycle-INDWE,INDWE,1968.0,FALSE,liquified-natural-gas,2023,combined-cycle,0.6,690000.0,17.2,100
-combined-cycle-INDWE-natural-gas,combined-cycle-INDWE,INDWE,8942.0,FALSE,natural-gas,2023,combined-cycle,0.6,690000.0,17.2,100
-gas-turbine-INDNE-gas-unspecified,gas-turbine-INDNE,INDNE,202.2,FALSE,gas-unspecified,2023,gas-turbine,0.4,770000.0,18.2,100
-gas-turbine-INDSO-gas-unspecified,gas-turbine-INDSO,INDSO,32.5,FALSE,gas-unspecified,2023,gas-turbine,0.4,770000.0,18.2,100
-hydro-reservoir-INDEA-hydro,hydro-reservoir-INDEA,INDEA,2293.0,FALSE,hydro,2023,hydro-reservoir,0.75,2080000.0,0.7,100
-hydro-reservoir-INDNE-hydro,hydro-reservoir-INDNE,INDNE,380.0,FALSE,hydro,2023,hydro-reservoir,0.75,2080000.0,0.7,100
-hydro-reservoir-INDNO-hydro,hydro-reservoir-INDNO,INDNO,5502.0,FALSE,hydro,2023,hydro-reservoir,0.75,2080000.0,0.7,100
-hydro-reservoir-INDSO-hydro,hydro-reservoir-INDSO,INDSO,6660.0,FALSE,hydro,2023,hydro-reservoir,0.75,2080000.0,0.7,100
-hydro-reservoir-INDWE-hydro,hydro-reservoir-INDWE,INDWE,4130.0,FALSE,hydro,2023,hydro-reservoir,0.75,2080000.0,0.7,100
-hydro-run-of-river-INDEA-hydro,hydro-run-of-river-INDEA,INDEA,2574.0,FALSE,hydro,2023,hydro-run-of-river,0.75,2080000.0,0.7,100
-hydro-run-of-river-INDNE-hydro,hydro-run-of-river-INDNE,INDNE,1341.0,FALSE,hydro,2023,hydro-run-of-river,0.75,2080000.0,0.7,100
-hydro-run-of-river-INDNO-hydro,hydro-run-of-river-INDNO,INDNO,13714.0,FALSE,hydro,2023,hydro-run-of-river,0.75,2080000.0,0.7,100
-hydro-run-of-river-INDSO-hydro,hydro-run-of-river-INDSO,INDSO,1694.0,FALSE,hydro,2023,hydro-run-of-river,0.75,2080000.0,0.7,100
-hydro-run-of-river-INDWE-hydro,hydro-run-of-river-INDWE,INDWE,965.0,FALSE,hydro,2023,hydro-run-of-river,0.75,2080000.0,0.7,100
-hydro-unspecified-INDNO-hydro,hydro-unspecified-INDNO,INDNO,50.0,FALSE,hydro,2023,hydro-unspecified,0.75,2080000.0,0.7,100
-hydro-unspecified-INDSO-hydro,hydro-unspecified-INDSO,INDSO,100.0,FALSE,hydro,2023,hydro-unspecified,0.75,2080000.0,0.7,100
-internal-combustion-combined-cycle-INDNE-natural-gas,internal-combustion-combined-cycle-INDNE,INDNE,69.755,FALSE,natural-gas,2023,internal-combustion-combined-cycle,0.4,770000.0,18.2,100
-internal-combustion-combined-cycle-INDSO-diesel,internal-combustion-combined-cycle-INDSO,INDSO,63.96,FALSE,diesel,2023,internal-combustion-combined-cycle,0.4,770000.0,18.2,100
-internal-combustion-combined-cycle-INDSO-natural-gas,internal-combustion-combined-cycle-INDSO,INDSO,150.0,FALSE,natural-gas,2023,internal-combustion-combined-cycle,0.4,770000.0,18.2,100
-oil-unspecified-INDEA-diesel,oil-unspecified-INDEA,INDEA,92.71000000000001,FALSE,diesel,2023,oil-unspecified,0.4,800000.0,40.199999999999996,100
-oil-unspecified-INDSO-diesel,oil-unspecified-INDSO,INDSO,26.83,FALSE,diesel,2023,oil-unspecified,0.4,800000.0,40.199999999999996,100
-pressurized-heavy-water-reactor-INDNO-uranium,pressurized-heavy-water-reactor-INDNO,INDNO,1520.0,FALSE,uranium,2023,pressurized-heavy-water-reactor,0.8,5910000.0,2.4,100
-pressurized-heavy-water-reactor-INDSO-uranium,pressurized-heavy-water-reactor-INDSO,INDSO,1100.0,FALSE,uranium,2023,pressurized-heavy-water-reactor,0.8,5910000.0,2.4,100
-pressurized-heavy-water-reactor-INDWE-uranium,pressurized-heavy-water-reactor-INDWE,INDWE,2920.0,FALSE,uranium,2023,pressurized-heavy-water-reactor,0.8,5910000.0,2.4,100
-pressurized-water-reactor-INDSO-uranium,pressurized-water-reactor-INDSO,INDSO,2000.0,FALSE,uranium,2023,pressurized-water-reactor,0.8,5910000.0,2.4,100
-steam-turbine-INDEA-coal-unspecified,steam-turbine-INDEA,INDEA,12.0,FALSE,coal-unspecified,2023,steam-turbine,0.4,770000.0,18.2,100
-subcritical-INDEA-bituminous,subcritical-INDEA,INDEA,10824.0,FALSE,bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDEA-coal-unspecified,subcritical-INDEA,INDEA,12625.0,FALSE,coal-unspecified,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDEA-lignite,subcritical-INDEA,INDEA,2340.0,FALSE,lignite,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDEA-sub-bituminous,subcritical-INDEA,INDEA,2100.0,FALSE,sub-bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDNE-bituminous,subcritical-INDNE,INDNE,500.0,FALSE,bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDNO-bituminous,subcritical-INDNO,INDNO,18100.0,FALSE,bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDNO-coal-unspecified,subcritical-INDNO,INDNO,6150.0,FALSE,coal-unspecified,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDNO-lignite,subcritical-INDNO,INDNO,1580.0,FALSE,lignite,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDNO-sub-bituminous,subcritical-INDNO,INDNO,2920.0,FALSE,sub-bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDSO-bituminous,subcritical-INDSO,INDSO,11230.0,FALSE,bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDSO-coal-unspecified,subcritical-INDSO,INDSO,10142.5,FALSE,coal-unspecified,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDSO-lignite,subcritical-INDSO,INDSO,2930.0,FALSE,lignite,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDSO-sub-bituminous,subcritical-INDSO,INDSO,2220.0,FALSE,sub-bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDWE-bituminous,subcritical-INDWE,INDWE,27735.0,FALSE,bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDWE-coal-unspecified,subcritical-INDWE,INDWE,19511.0,FALSE,coal-unspecified,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDWE-lignite,subcritical-INDWE,INDWE,900.0,FALSE,lignite,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDWE-sub-bituminous,subcritical-INDWE,INDWE,4200.0,FALSE,sub-bituminous,2023,subcritical,0.4,1650000.0,9.7,100
-subcritical-INDWE-waste-unspecified,subcritical-INDWE,INDWE,613.0,FALSE,waste-unspecified,2023,subcritical,0.4,1650000.0,9.7,100
-supercritical-INDEA-coal-unspecified,supercritical-INDEA,INDEA,12700.0,FALSE,coal-unspecified,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDNO-bituminous,supercritical-INDNO,INDNO,3300.0,FALSE,bituminous,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDNO-coal-unspecified,supercritical-INDNO,INDNO,11220.0,FALSE,coal-unspecified,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDNO-lignite,supercritical-INDNO,INDNO,1980.0,FALSE,lignite,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDNO-sub-bituminous,supercritical-INDNO,INDNO,5240.0,FALSE,sub-bituminous,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDSO-bituminous,supercritical-INDSO,INDSO,4700.0,FALSE,bituminous,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDSO-coal-unspecified,supercritical-INDSO,INDSO,14800.0,FALSE,coal-unspecified,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDWE-bituminous,supercritical-INDWE,INDWE,10610.0,FALSE,bituminous,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDWE-coal-unspecified,supercritical-INDWE,INDWE,15300.0,FALSE,coal-unspecified,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDWE-lignite,supercritical-INDWE,INDWE,1320.0,FALSE,lignite,2023,supercritical,0.4,1400000.0,9.6,100
-supercritical-INDWE-sub-bituminous,supercritical-INDWE,INDWE,4000.0,FALSE,sub-bituminous,2023,supercritical,0.4,1400000.0,9.6,100
-ultrasupercritical-INDNO-coal-unspecified,ultrasupercritical-INDNO,INDNO,1320.0,FALSE,coal-unspecified,2023,ultrasupercritical,0.4,1520000.0,9.5,100
-ultrasupercritical-INDWE-coal-unspecified,ultrasupercritical-INDWE,INDWE,1320.0,FALSE,coal-unspecified,2023,ultrasupercritical,0.4,1520000.0,9.5,100
+name,type,bus,p_nom,p_nom_extendable,carrier,year,technology,capital_cost,efficiency,marginal_cost,lifetime,ramp_limit_up,ramp_limit_down
+Bio-power - Bagasse-INDEA-agricultural-waste-solids,biomass-INDEA,INDEA,463.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Bagasse-INDNE-agricultural-waste-solids,biomass-INDNE,INDNE,0.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Bagasse-INDNO-agricultural-waste-solids,biomass-INDNO,INDNO,2600.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Bagasse-INDSO-agricultural-waste-solids,biomass-INDSO,INDSO,3372.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Bagasse-INDWE-agricultural-waste-solids,biomass-INDWE,INDWE,2998.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Non-bagasse-INDEA-bioenergy,biomass-INDEA,INDEA,98.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Non-bagasse-INDNE-bioenergy,biomass-INDNE,INDNE,16.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Non-bagasse-INDNO-bioenergy,biomass-INDNO,INDNO,580.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Non-bagasse-INDSO-bioenergy,biomass-INDSO,INDSO,183.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Non-bagasse-INDWE-bioenergy,biomass-INDWE,INDWE,46.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-INDEA-waste,waste-INDEA,INDEA,0.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-INDNE-waste,waste-INDNE,INDNE,0.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-INDNO-waste,waste-INDNO,INDNO,106.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-INDSO-waste,waste-INDSO,INDSO,106.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-INDWE-waste,waste-INDWE,INDWE,37.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-off-grid-INDEA-waste,waste-INDEA,INDEA,6.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-off-grid-INDNE-waste,waste-INDNE,INDNE,0.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-off-grid-INDNO-waste,waste-INDNO,INDNO,153.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-off-grid-INDSO-waste,waste-INDSO,INDSO,90.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Bio-power - Waste-to-energy-off-grid-INDWE-waste,waste-INDWE,INDWE,86.0,False,waste,2023,waste,2150,0.35,31.120657120657125,100,,
+Solar - Ground Mounted-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,700.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Ground Mounted-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,134.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Ground Mounted-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,21507.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Ground Mounted-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,24477.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Ground Mounted-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,17598.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Hybrid-solar-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,0.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Hybrid-solar-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,1980.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Hybrid-solar-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,0.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Hybrid-solar-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,591.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Off-grid-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,114.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Off-grid-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,43.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Off-grid-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,1656.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Off-grid-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,221.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Off-grid-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,879.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Roof-top-INDEA-solar,photovoltaic-unspecified-INDEA,INDEA,284.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Roof-top-INDNE-solar,photovoltaic-unspecified-INDNE,INDNE,60.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Roof-top-INDNO-solar,photovoltaic-unspecified-INDNO,INDNO,2992.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Roof-top-INDSO-solar,photovoltaic-unspecified-INDSO,INDSO,2509.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Solar - Roof-top-INDWE-solar,photovoltaic-unspecified-INDWE,INDWE,6024.0,False,solar,2023,photovoltaic-unspecified,640,1.0,0.01,100,,
+Wind-INDEA-wind,wind-onshore-INDEA,INDEA,0.0,False,wind,2023,wind-onshore,1120,1.0,0.01,100,,
+Wind-INDNE-wind,wind-onshore-INDNE,INDNE,0.0,False,wind,2023,wind-onshore,1120,1.0,0.01,100,,
+Wind-INDNO-wind,wind-onshore-INDNO,INDNO,5196.0,False,wind,2023,wind-onshore,1120,1.0,0.01,100,,
+Wind-INDSO-wind,wind-onshore-INDSO,INDSO,20911.0,False,wind,2023,wind-onshore,1120,1.0,0.01,100,,
+Wind-INDWE-wind,wind-onshore-INDWE,INDWE,19775.0,False,wind,2023,wind-onshore,1120,1.0,0.01,100,,
+circulating-fluidized-bed-INDSO-coal,circulating-fluidized-bed-INDSO,INDSO,500.0,False,coal,2023,circulating-fluidized-bed,1000,0.36,12.372987239447532,100,,
+circulating-fluidized-bed-INDWE-coal,circulating-fluidized-bed-INDWE,INDWE,500.0,False,coal,2023,circulating-fluidized-bed,1000,0.36,12.372987239447532,100,,
+coal-unspecified-INDEA-coal,coal-unspecified-INDEA,INDEA,495.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
+coal-unspecified-INDSO-coal,coal-unspecified-INDSO,INDSO,2525.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
+coal-unspecified-INDWE-coal,coal-unspecified-INDWE,INDWE,1600.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
+combined-cycle-INDNE-gas,combined-cycle-INDNE,INDNE,1415.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+combined-cycle-INDNO-gas,combined-cycle-INDNO,INDNO,5603.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+combined-cycle-INDSO-gas,combined-cycle-INDSO,INDSO,6132.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+combined-cycle-INDSO-oil,combined-cycle-INDSO,INDSO,165.0,False,oil,2023,combined-cycle,700,0.56,88.03632374451487,100,,
+combined-cycle-INDWE-gas,combined-cycle-INDWE,INDWE,10910.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+gas-turbine-INDNE-gas,gas-turbine-INDNE,INDNE,202.0,False,gas,2023,gas-turbine,400,0.38,129.73774025507456,100,,
+gas-turbine-INDSO-gas,gas-turbine-INDSO,INDSO,32.0,False,gas,2023,gas-turbine,400,0.38,129.73774025507456,100,,
+hydro-reservoir-INDEA-water,hydro-reservoir-INDEA,INDEA,2293.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
+hydro-reservoir-INDNE-water,hydro-reservoir-INDNE,INDNE,380.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
+hydro-reservoir-INDNO-water,hydro-reservoir-INDNO,INDNO,5502.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
+hydro-reservoir-INDSO-water,hydro-reservoir-INDSO,INDSO,6660.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
+hydro-reservoir-INDWE-water,hydro-reservoir-INDWE,INDWE,4130.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
+hydro-run-of-river-INDEA-water,hydro-run-of-river-INDEA,INDEA,2574.0,False,water,2023,hydro-run-of-river,3050,1.0,0.1,100,,
+hydro-run-of-river-INDNE-water,hydro-run-of-river-INDNE,INDNE,1341.0,False,water,2023,hydro-run-of-river,3050,1.0,0.1,100,,
+hydro-run-of-river-INDNO-water,hydro-run-of-river-INDNO,INDNO,13714.0,False,water,2023,hydro-run-of-river,3050,1.0,0.1,100,,
+hydro-run-of-river-INDSO-water,hydro-run-of-river-INDSO,INDSO,1694.0,False,water,2023,hydro-run-of-river,3050,1.0,0.1,100,,
+hydro-run-of-river-INDWE-water,hydro-run-of-river-INDWE,INDWE,965.0,False,water,2023,hydro-run-of-river,3050,1.0,0.1,100,,
+hydro-unspecified-INDNO-water,hydro-unspecified-INDNO,INDNO,50.0,False,water,2023,hydro-unspecified,2000,1.0,0.1,100,,
+hydro-unspecified-INDSO-water,hydro-unspecified-INDSO,INDSO,100.0,False,water,2023,hydro-unspecified,2000,1.0,0.1,100,,
+internal-combustion-combined-cycle-INDNE-gas,internal-combustion-combined-cycle-INDNE,INDNE,70.0,False,gas,2023,internal-combustion-combined-cycle,1600,0.41,120.2447348705569,100,,
+internal-combustion-combined-cycle-INDSO-gas,internal-combustion-combined-cycle-INDSO,INDSO,150.0,False,gas,2023,internal-combustion-combined-cycle,1600,0.41,120.2447348705569,100,,
+internal-combustion-combined-cycle-INDSO-oil,internal-combustion-combined-cycle-INDSO,INDSO,64.0,False,oil,2023,internal-combustion-combined-cycle,1600,0.41,120.2447348705569,100,,
+oil-unspecified-INDEA-oil,oil-unspecified-INDEA,INDEA,93.0,False,oil,2023,oil-unspecified,400,0.38,106.0,100,,
+oil-unspecified-INDSO-oil,oil-unspecified-INDSO,INDSO,27.0,False,oil,2023,oil-unspecified,400,0.38,106.0,100,,
+pressurized-heavy-water-reactor-INDNO-uranium,pressurized-heavy-water-reactor-INDNO,INDNO,1520.0,False,uranium,2023,pressurized-heavy-water-reactor,2800,0.33,2.2,100,,
+pressurized-heavy-water-reactor-INDSO-uranium,pressurized-heavy-water-reactor-INDSO,INDSO,1100.0,False,uranium,2023,pressurized-heavy-water-reactor,2800,0.33,2.2,100,,
+pressurized-heavy-water-reactor-INDWE-uranium,pressurized-heavy-water-reactor-INDWE,INDWE,2920.0,False,uranium,2023,pressurized-heavy-water-reactor,2800,0.33,2.2,100,,
+pressurized-water-reactor-INDSO-uranium,pressurized-water-reactor-INDSO,INDSO,2000.0,False,uranium,2023,pressurized-water-reactor,2800,0.33,2.2,100,,
+steam-turbine-INDEA-coal,steam-turbine-INDEA,INDEA,12.0,False,coal,2023,steam-turbine,400,0.38,129.73774025507456,100,,
+subcritical-INDEA-coal,subcritical-INDEA,INDEA,27889.0,False,coal,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+subcritical-INDNE-coal,subcritical-INDNE,INDNE,500.0,False,coal,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+subcritical-INDNO-coal,subcritical-INDNO,INDNO,28750.0,False,coal,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+subcritical-INDSO-coal,subcritical-INDSO,INDSO,26522.0,False,coal,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+subcritical-INDWE-coal,subcritical-INDWE,INDWE,52346.0,False,coal,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+subcritical-INDWE-waste,subcritical-INDWE,INDWE,613.0,False,waste,2023,subcritical,1000,0.36,12.372987239447532,100,0.6,0.6
+supercritical-INDEA-coal,supercritical-INDEA,INDEA,12700.0,False,coal,2023,supercritical,1200,0.4,11.135688515502778,100,0.6,0.6
+supercritical-INDNO-coal,supercritical-INDNO,INDNO,21740.0,False,coal,2023,supercritical,1200,0.4,11.135688515502778,100,0.6,0.6
+supercritical-INDSO-coal,supercritical-INDSO,INDSO,19500.0,False,coal,2023,supercritical,1200,0.4,11.135688515502778,100,0.6,0.6
+supercritical-INDWE-coal,supercritical-INDWE,INDWE,31230.0,False,coal,2023,supercritical,1200,0.4,11.135688515502778,100,0.6,0.6
+ultrasupercritical-INDNO-coal,ultrasupercritical-INDNO,INDNO,1320.0,False,coal,2023,ultrasupercritical,1400,0.4,11.135688515502778,100,0.6,0.6
+ultrasupercritical-INDWE-coal,ultrasupercritical-INDWE,INDWE,1320.0,False,coal,2023,ultrasupercritical,1400,0.4,11.135688515502778,100,0.6,0.6
