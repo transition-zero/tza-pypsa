@@ -606,9 +606,9 @@ def constr_max_cofiring_set_generation(
         network : pypsa.Network,
         lp_model,
         generator_1 : str,
-        generator_2: str,
-        rhs_max_generation_1 : float = 0.5, # split of capacity between two generators
-        rhs_max_generation_2 : float = 0.5, # split of capacity between two generators
+        generator_2 : str,
+        rhs_max_capacity_1 : float = 0.5, # split of capacity between two generators
+        rhs_max_capacity_2 : float = 0.5, # split of capacity between two generators
         sign : str = '<=',
 ):
         
@@ -629,7 +629,7 @@ def constr_max_cofiring_set_generation(
         lhs_total_generation = lp_model.variables['Generator-p'].sel(Generator=generator_1) + lp_model.variables['Generator-p'].sel(Generator=generator_2)
 
         rhs_combined_capacity = (
-            ((target_generator_capacity_1) * (rhs_max_generation_1)) + ((target_generator_capacity_2) * (rhs_max_generation_2))
+            ((target_generator_capacity_1) * (rhs_max_capacity_1)) + ((target_generator_capacity_2) * (rhs_max_capacity_2))
             )
 
         lp_model.add_constraints(
