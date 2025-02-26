@@ -2,7 +2,7 @@ name,bus,control,type,p_nom,p_nom_mod,p_nom_extendable,p_nom_min,p_nom_max,p_min
 JPN01-Coal-2023active_exo,JPN01,,,2630,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN01-Gas-2023active_exo,JPN01,,,677,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN01-Oil-2023active_exo,JPN01,,,2083,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN01-Nuclear-2023active_exo,JPN01,,,2070,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN01-Nuclear-2023active_exo,JPN01,,,2070,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN01-GreenAmmonia-2023active_exo,JPN01,,,0,0,FALSE,,0,0,,,,,GreenAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN01-GreenHydrogen-2023active_exo,JPN01,,,0,0,FALSE,,0,0,,,,,GreenHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN01-BlueAmmonia-2023active_exo,JPN01,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -20,7 +20,7 @@ JPN01-OnshoreWind-post2016_exo,JPN01,,,295,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023
 JPN02-Coal-2023active_exo,JPN02,,,4864,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN02-Gas-2023active_exo,JPN02,,,5036,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN02-Oil-2023active_exo,JPN02,,,514,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN02-Nuclear-2023active_exo,JPN02,,,1650,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN02-Nuclear-2023active_exo,JPN02,,,1650,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN02-BlueAmmonia-2023active_exo,JPN02,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN02-BlueHydrogen-2023active_exo,JPN02,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN02-HydroConventional-pre2016_exo,JPN02,,,1775,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -36,7 +36,7 @@ JPN02-OnshoreWind-post2016_exo,JPN02,,,1012,0,FALSE,0,0,0,,,,,OnshoreWind,0,,202
 JPN03-Coal-2023active_exo,JPN03,,,8206,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN03-Gas-2023active_exo,JPN03,,,32915,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN03-Oil-2023active_exo,JPN03,,,6085,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN03-Nuclear-2023active_exo,JPN03,,,9312,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN03-Nuclear-2023active_exo,JPN03,,,9312,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN03-BlueAmmonia-2023active_exo,JPN03,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN03-BlueHydrogen-2023active_exo,JPN03,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN03-HydroConventional-pre2016_exo,JPN03,,,3971,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -52,7 +52,7 @@ JPN03-OnshoreWind-post2016_exo,JPN03,,,7,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023,i
 JPN04-Coal-2023active_exo,JPN04,,,5473,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN04-Gas-2023active_exo,JPN04,,,16752,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN04-Oil-2023active_exo,JPN04,,,1904,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN04-Nuclear-2023active_exo,JPN04,,,3617,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN04-Nuclear-2023active_exo,JPN04,,,3617,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN04-BlueAmmonia-2023active_exo,JPN04,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN04-BlueHydrogen-2023active_exo,JPN04,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN04-HydroConventional-pre2016_exo,JPN04,,,2878,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -68,7 +68,7 @@ JPN04-OnshoreWind-post2016_exo,JPN04,,,187,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023
 JPN05-Coal-2023active_exo,JPN05,,,4896,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN05-Gas-2023active_exo,JPN05,,,1550,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN05-Oil-2023active_exo,JPN05,,,1233,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN05-Nuclear-2023active_exo,JPN05,,,2906,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN05-Nuclear-2023active_exo,JPN05,,,2906,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN05-BlueAmmonia-2023active_exo,JPN05,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN05-BlueHydrogen-2023active_exo,JPN05,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN05-HydroConventional-pre2016_exo,JPN05,,,4228,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -84,7 +84,7 @@ JPN05-OnshoreWind-post2016_exo,JPN05,,,22,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023,
 JPN06-Coal-2023active_exo,JPN06,,,4476,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN06-Gas-2023active_exo,JPN06,,,9497,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN06-Oil-2023active_exo,JPN06,,,3270,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN06-Nuclear-2023active_exo,JPN06,,,6578,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN06-Nuclear-2023active_exo,JPN06,,,6578,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN06-BlueAmmonia-2023active_exo,JPN06,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN06-BlueHydrogen-2023active_exo,JPN06,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN06-HydroConventional-pre2016_exo,JPN06,,,3364,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -100,7 +100,7 @@ JPN06-OnshoreWind-post2016_exo,JPN06,,,74,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023,
 JPN07-Coal-2023active_exo,JPN07,,,5717,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN07-Gas-2023active_exo,JPN07,,,2506,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN07-Oil-2023active_exo,JPN07,,,2209,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN07-Nuclear-2023active_exo,JPN07,,,820,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN07-Nuclear-2023active_exo,JPN07,,,820,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN07-BlueAmmonia-2023active_exo,JPN07,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN07-BlueHydrogen-2023active_exo,JPN07,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN07-HydroConventional-pre2016_exo,JPN07,,,926,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -116,7 +116,7 @@ JPN07-OnshoreWind-post2016_exo,JPN07,,,56,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023,
 JPN08-Coal-2023active_exo,JPN08,,,3916,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN08-Gas-2023active_exo,JPN08,,,915,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN08-Oil-2023active_exo,JPN08,,,1551,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN08-Nuclear-2023active_exo,JPN08,,,890,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN08-Nuclear-2023active_exo,JPN08,,,890,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN08-BlueAmmonia-2023active_exo,JPN08,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN08-BlueHydrogen-2023active_exo,JPN08,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN08-HydroConventional-pre2016_exo,JPN08,,,852,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
@@ -132,7 +132,7 @@ JPN08-OnshoreWind-post2016_exo,JPN08,,,127,0,FALSE,0,0,0,,,,,OnshoreWind,0,,2023
 JPN09-Coal-2023active_exo,JPN09,,,7368,0,FALSE,0,0,0,,,,,Coal,40.99,,2023,inf,,0.365,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN09-Gas-2023active_exo,JPN09,,,4315,0,FALSE,0,0,0,,,,,Gas,88.37,,2023,inf,,0.502,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN09-Oil-2023active_exo,JPN09,,,1438,0,FALSE,0,0,0,,,,,Oil,168.85,,2023,inf,,0.2858,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
-JPN09-Nuclear-2023active_exo,JPN09,,,4140,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
+JPN09-Nuclear-2023active_exo,JPN09,,,4140,0,FALSE,0,0,0,,,,,Nuclear,12.13,,2023,inf,,0.351,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN09-BlueAmmonia-2023active_exo,JPN09,,,0,0,FALSE,0,0,0,,,,,BlueAmmonia,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN09-BlueHydrogen-2023active_exo,JPN09,,,0,0,FALSE,0,0,0,,,,,BlueHydrogen,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
 JPN09-HydroConventional-pre2016_exo,JPN09,,,1623,0,FALSE,0,0,0,,,,,HydroConventional,0,,2023,inf,,0,FALSE,0,0,0,0,0,1,0,,,1,1,1,0
