@@ -1,9 +1,9 @@
 name,type,bus,p_nom,p_nom_extendable,carrier,year,technology,capital_cost,efficiency,marginal_cost,lifetime,ramp_limit_up,ramp_limit_down
-Bio-power - Bagasse-INDEA-agricultural-waste-solids,biomass-INDEA,INDEA,463.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
-Bio-power - Bagasse-INDNE-agricultural-waste-solids,biomass-INDNE,INDNE,0.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
-Bio-power - Bagasse-INDNO-agricultural-waste-solids,biomass-INDNO,INDNO,2600.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
-Bio-power - Bagasse-INDSO-agricultural-waste-solids,biomass-INDSO,INDSO,3372.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
-Bio-power - Bagasse-INDWE-agricultural-waste-solids,biomass-INDWE,INDWE,2998.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,0.1,100,,
+Bio-power - Bagasse-INDEA-agricultural-waste-solids,biomass-INDEA,INDEA,463.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Bagasse-INDNE-agricultural-waste-solids,biomass-INDNE,INDNE,0.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Bagasse-INDNO-agricultural-waste-solids,biomass-INDNO,INDNO,2600.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Bagasse-INDSO-agricultural-waste-solids,biomass-INDSO,INDSO,3372.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,31.120657120657125,100,,
+Bio-power - Bagasse-INDWE-agricultural-waste-solids,biomass-INDWE,INDWE,2998.0,False,agricultural-waste-solids,2023,biomass,2150,0.35,31.120657120657125,100,,
 Bio-power - Non-bagasse-INDEA-bioenergy,biomass-INDEA,INDEA,98.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
 Bio-power - Non-bagasse-INDNE-bioenergy,biomass-INDNE,INDNE,16.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
 Bio-power - Non-bagasse-INDNO-bioenergy,biomass-INDNO,INDNO,580.0,False,bioenergy,2023,biomass,2150,0.35,31.120657120657125,100,,
@@ -48,11 +48,11 @@ circulating-fluidized-bed-INDWE-coal,circulating-fluidized-bed-INDWE,INDWE,500.0
 coal-unspecified-INDEA-coal,coal-unspecified-INDEA,INDEA,495.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
 coal-unspecified-INDSO-coal,coal-unspecified-INDSO,INDSO,2525.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
 coal-unspecified-INDWE-coal,coal-unspecified-INDWE,INDWE,1600.0,False,coal,2023,coal-unspecified,1000,0.36,12.372987239447532,100,0.6,0.6
-combined-cycle-INDNE-gas,combined-cycle-INDNE,INDNE,1415.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
-combined-cycle-INDNO-gas,combined-cycle-INDNO,INDNO,5603.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
-combined-cycle-INDSO-gas,combined-cycle-INDSO,INDSO,6132.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+combined-cycle-INDNE-gas,combined-cycle-INDNE,INDNE,1415.0,False,gas,2023,combined-cycle,700,0.56,88.03632374451487,100,,
+combined-cycle-INDNO-gas,combined-cycle-INDNO,INDNO,5603.0,False,gas,2023,combined-cycle,700,0.56,88.03632374451487,100,,
+combined-cycle-INDSO-gas,combined-cycle-INDSO,INDSO,6132.0,False,gas,2023,combined-cycle,700,0.56,88.03632374451487,100,,
 combined-cycle-INDSO-oil,combined-cycle-INDSO,INDSO,165.0,False,oil,2023,combined-cycle,700,0.56,88.03632374451487,100,,
-combined-cycle-INDWE-gas,combined-cycle-INDWE,INDWE,10910.0,False,gas,2023,combined-cycle,700,0.56,40,100,,
+combined-cycle-INDWE-gas,combined-cycle-INDWE,INDWE,10910.0,False,gas,2023,combined-cycle,700,0.56,88.03632374451487,100,,
 gas-turbine-INDNE-gas,gas-turbine-INDNE,INDNE,202.0,False,gas,2023,gas-turbine,400,0.38,129.73774025507456,100,,
 gas-turbine-INDSO-gas,gas-turbine-INDSO,INDSO,32.0,False,gas,2023,gas-turbine,400,0.38,129.73774025507456,100,,
 hydro-reservoir-INDEA-water,hydro-reservoir-INDEA,INDEA,2293.0,False,water,2023,hydro-reservoir,2000,1.0,0.1,100,,
