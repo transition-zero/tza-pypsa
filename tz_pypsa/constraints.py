@@ -211,139 +211,92 @@ def constr_min_annual_generation(
     )
 
 
-# def constr_annual_matching(
-#         network : pypsa.Network,
-#         lhs_generators : list,
-#         rhs_min_generation : float,
-#         sign : str = '>=',
-#         name : str = None,
-# ):
-#     '''
+def constr_max_annual_utilisation(
+        network : pypsa.Network,
+        lp_model,
+        max_utilisation_rate : float = 0.85,
+        carriers : list = None,
+        model_frequency : int = 1,
+):
+    '''
     
-#     ###################################
-#     ANNUAL MATCHING CONSTRAINT
-#     ###################################
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
 
-#     Description:
-#     -----------------------------------
-#         This constraint ensures that the total annual generation of a set of generators is greater than or equal to a certain value.
-#         It is particularly useful for setting renewable generation targets. For example, one can use this constraint to ensure that 
-#         a certain proportion of demand is met by renewable generation.
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a technology or carrier 
+        equals to a certain percentage value.
     
-#     Example user story:
-#     -----------------------------------
-#         "I want to ensure that my demand is met by renewable generation across the year."
+    Example user story:
+    -----------------------------------
+        "I want to ensure that coal utilisation rate is only 85% annually, not 100%"
 
-#     Inputs:
-#     -----------------------------------
+    Inputs:
+    -----------------------------------
     
-#         network : pypsa.Network
-
-#         lhs_generators : list
-#             A list of generators to apply the constraint to (e.g., all renewable generators).
+        network : pypsa.Network
         
-#         rhs_min_generation : float
-#             The minimum total annual generation of the set of generators (e.g., 100 = 100MW).
+        lp_model : linopy model with variables and constraints
+
+        max_utilisation_rate : float
+            The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
         
-#         sign : str
-#             The sign of the constraint. Default is '>='.
-        
-#         name : str
-#             The name of the constraint. Default is None.
-
-#     Returns:
-#     -----------------------------------
-    
-#         None
-    
-#     '''
-
-#     # get total annual renewable generation (additional)
-#     lp_model = network.optimize.create_model()
-
-#     lhs_total_generation = (
-#         lp_model
-#         .variables['Generator-p']
-#         .sel(Generator=lhs_generators)
-#         .sum()
-#     )
-
-#     lp_model.add_constraints(
-#         lhs = lhs_total_generation,
-#         sign = sign,
-#         rhs = rhs_min_generation,
-#         name = name,
-#     )
-
-
-# def constr_hourly_matching(
-#         lp_model,
-#         lhs_generators : list,
-#         lhs_storages : list,
-#         rhs_load : float,
-#         sign : str = '>=',
-#         cfe_score : float = 1.,
-#         name : str = None,
-# ):
-#     '''
-    
-#     ###################################
-#     HOURLY MATCHING (CFE) CONSTRAINT
-#     ###################################
-
-#     Description:
-#     -----------------------------------
-#         This constraint ensures that the total hourly generation of a set of generators is greater than or equal to a certain value.
-#         It is particularly useful for setting renewable generation targets under a 24/7 CFE procurement strategy. For example, one can
-#         use this constraint to ensure that a certain load is met by renewable generation in each hour of the year.
-    
-#     Example user story:
-#     -----------------------------------
-#         "I want to ensure that my demand is met by renewable generation in each hour of the year."
-
-#     Inputs:
-#     -----------------------------------
-    
-#         network : pypsa.Network
-
-#         lhs_generators : list
-#             A list of generators to apply the constraint to (e.g., all renewable generators).
-        
-#         rhs_min_generation : float
-#             The minimum total annual generation of the set of generators (e.g., 0.5 = 50%).
-        
-#         sign : str
-#             The sign of the constraint. Default is '>='.
-        
-#         name : str
-#             The name of the constraint. Default is None.
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
             
-#     Returns:
-#     -----------------------------------
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
     
-#         None
+        None
     
-#     '''
+    '''
 
-#     # get hourly dispatch from clean generators
-#     lhs_total_hourly_generation = (
-#         lp_model
-#         .variables['Generator-p']
-#         .sel(Generator=lhs_generators)
-#     )
+    # ----- constr: coal and gas max utilisation rates ----- #
 
-#     # get hourly dispatch from storage
-#     lhs_total_hourly_storage_discharge = (
-#         lp_model
-#         .variables['StorageUnit-p_dispatch']
-#         .sel(StorageUnit=lhs_storages)
-#     )
+    # lp_model = network.optimize.create_model()
+    
+    for generator_year in network.investment_periods:
+        target_generators = (
+            network
+            .generators
+            .loc[
+            (network.generators.carrier.str.contains('|'.join(carriers))) &
+            (network.generators.build_year <= generator_year)
+            ]
+            .index
+            .tolist())
+        print(target_generators)
 
-#     lhs_dispatch = lhs_total_hourly_generation + lhs_total_hourly_storage_discharge
+        for each_generator in target_generators:
 
-#     lp_model.add_constraints(
-#         lhs = lhs_dispatch,
-#         sign = sign,
-#         rhs = cfe_score * rhs_load,
-#         #name = name,
-#     )
+            # The generation by coal plant in the generation year
+            target_generation = (
+                    lp_model.variables['Generator-p']
+                    .sel(
+                            period=generator_year,
+                            Generator=each_generator
+                        )
+                        .sum()
+            )
+
+            if str(network.investment_periods[0]) in each_generator:
+                target_capacity = network.generators.loc[each_generator].p_nom
+            else:
+                target_capacity = (
+                    lp_model.variables['Generator-p_nom']
+                    .sel({'Generator-ext': each_generator})
+                    .sum()
+                )
+            
+            # set constraint
+            lp_model.add_constraints(
+                lhs = target_generation,
+                sign = '<=',
+                rhs =  max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(generator_year) + str(each_generator) + '_max_utilisation_rate',
+            )
