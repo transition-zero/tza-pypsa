@@ -78,6 +78,11 @@ carriers:
     nice_name: Battery
     color: plum
     co2_emissions: 0.
+
+  - id: hydro-storage
+    nice_name: Pumped Hydro
+    color: mediumplum
+    co2_emissions: 0.
   
   - id: backstop
     nice_name: Backstop
