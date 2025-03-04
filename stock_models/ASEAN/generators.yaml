@@ -385,30 +385,30 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 0.
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      IDNSM: 0.3
+      IDNJW: 0.3
+      IDNNU: 0.3
+      IDNKA: 0.3
+      IDNSL: 0.3
+      IDNML: 0.3
+      IDNPP: 0.3
+      MYSPE: 0.38
+      MYSSK: 0.7
+      MYSSH: 0.7
+      PHLLU: 0.3
+      PHLVI: 0.3
+      PHLMI: 0.3
+      SGPXX: 0.5
+      BRNXX: 0.3
+      MMRXX: 0.3
+      THANO: 0.4
+      THASO: 0.4
+      THACE: 0.4
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
+      KHMXX: 0.3
+      LAOXX: 0.3
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -417,7 +417,7 @@ generators:
       IDNSL: 0.9
       IDNML: 0.9
       IDNPP: 0.9
-      MYSPE: 0.9
+      MYSPE: 0.6
       MYSSK: 0.9
       MYSSH: 0.9
       PHLLU: 0.9
@@ -570,30 +570,54 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
+      # IDNSM: 0.
+      # IDNJW: 0.
+      # IDNNU: 0.
+      # IDNKA: 0.
+      # IDNSL: 0.
+      # IDNML: 0.
+      # IDNPP: 0.
+      # MYSPE: 0.65
+      # MYSSK: 0.65
+      # MYSSH: 0.6
+      # PHLLU: 0.
+      # PHLVI: 0.
+      # PHLMI: 0.
+      # SGPXX: 0.
+      # BRNXX: 0.
+      # MMRXX: 0.
+      # THANO: 0.6
+      # THASO: 0.6
+      # THACE: 0.6
+      # VNMNO: 0.6
+      # VNMCE: 0.6
+      # VNMSO: 0.6
+      # KHMXX: 0.6
+      # LAOXX: 0.65
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
-      IDNKA: 0.
+      IDNKA: 0.4
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.6
+      MYSSK: 0.6
+      MYSSH: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.6
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -627,7 +651,7 @@ generators:
     lifetime: 30 # years
     # ---
     # unit commitment
-    committable: false
+    committable: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -756,23 +780,23 @@ generators:
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.65
+      MYSSK: 0.65
+      MYSSH: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.5
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -910,23 +934,23 @@ generators:
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.65
+      MYSSK: 0.65
+      MYSSH: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.5
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -1084,27 +1108,27 @@ generators:
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
-      IDNKA: 0.
+      IDNKA: 0.4
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.65
+      MYSSK: 0.65
+      MYSSH: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.5
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -1138,7 +1162,7 @@ generators:
     lifetime: 30 # years
     # ---
     # unit commitment
-    committable: false
+    committable: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1258,8 +1282,8 @@ generators:
       IDNPP: 0.
       MYSPE: 0.
       MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
+      MYSSH: 0.7
+      PHLLU: 0
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
@@ -1268,9 +1292,9 @@ generators:
       THANO: 0.
       THASO: 0.
       THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
       KHMXX: 0.
       LAOXX: 0.
     # ---
@@ -1636,8 +1660,8 @@ generators:
       IDNML: 0.
       IDNPP: 0.
       MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSSK: 0.3
+      MYSSH: 0.3
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
@@ -1660,7 +1684,7 @@ generators:
     lifetime: 100 # years
     # ---
     # unit commitment
-    committable: false
+    committable: true
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1778,30 +1802,30 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 0.
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      IDNSM: 0.3
+      IDNJW: 0.3
+      IDNNU: 0.3
+      IDNKA: 0.3
+      IDNSL: 0.3
+      IDNML: 0.3
+      IDNPP: 0.3
+      MYSPE: 0.4
+      MYSSK: 0.7
+      MYSSH: 0.7 
+      PHLLU: 0.3
+      PHLVI: 0.3
+      PHLMI: 0.3
+      SGPXX: 0.5
+      BRNXX: 0.3
+      MMRXX: 0.3
+      THANO: 0.4
+      THASO: 0.4
+      THACE: 0.4
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
+      KHMXX: 0.3
+      LAOXX: 0.3
     p_max_pu:
       IDNSM: 0.9
       IDNJW: 0.9
@@ -1810,7 +1834,7 @@ generators:
       IDNSL: 0.9
       IDNML: 0.9
       IDNPP: 0.9
-      MYSPE: 0.9
+      MYSPE: 0.6
       MYSSK: 0.9
       MYSSH: 0.9
       PHLLU: 0.9
