@@ -26,38 +26,38 @@ storages:
     standing_loss: 0.004 # 0.1% per day = 0.004% per hour
     cyclic_state_of_charge: true
     initial_capacity:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
-      MYSPE: 0.
+      # IDNSM: 0.
+      # IDNJW: 0.
+      # IDNNU: 0.
+      # IDNKA: 0.
+      # IDNSL: 0.
+      # IDNML: 0.
+      # IDNPP: 0.
+      # MYSPE: 0.
       MYSSK: 0.
       MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 200
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      # PHLLU: 0.
+      # PHLVI: 0.
+      # PHLMI: 0.
+      SGPXX: 0. # https://www.ema.gov.sg/news-events/news/media-releases/2022/largest-energy-storage-system-in-south-east-asia-to-enhance-singapores-grid-resilience
+      # BRNXX: 0.
+      # MMRXX: 0.
+      # THANO: 0.
+      # THASO: 0.
+      # THACE: 0.
+      # VNMNO: 0.
+      # VNMCE: 0.
+      # VNMSO: 0.
+      # KHMXX: 0.
+      # LAOXX: 0.
     planned_expansion:
       SGPXX: 
         2024: 7.5      
 
   - id: hydro-pumped-storage
     type: hydro-pumped-storage
-    carrier: battery
-    extendable: true
+    carrier: hydro-storage
+    extendable: false
     lifetime: 60
     state_of_charge_initial: 0
     max_hours: 10
@@ -95,3 +95,15 @@ storages:
         2028: 1200
       PHLLU:
         2030: 500
+    maximum_capacity: # Chose only the green dots from here: https://www.google.com/maps/d/viewer?mid=1O9aK_dTL3mDOgLgY2G0BSgmlHqRNSlHA&ll=-5.940230107153618%2C118.98343250532182&z=5
+      # IDNSM: 1000
+      # IDNKA: 1000
+      # IDNPP: 2000
+      PHLLU: 2000
+      VNMCE: 2000
+      # VNMMO: 17000
+      # LAOXX: 12000
+      # MMRXX: 52000
+      THANO: 2000
+      THACE: 1000
+
