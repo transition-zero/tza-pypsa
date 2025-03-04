@@ -570,30 +570,6 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
-      # IDNSM: 0.
-      # IDNJW: 0.
-      # IDNNU: 0.
-      # IDNKA: 0.
-      # IDNSL: 0.
-      # IDNML: 0.
-      # IDNPP: 0.
-      # MYSPE: 0.65
-      # MYSSK: 0.65
-      # MYSSH: 0.6
-      # PHLLU: 0.
-      # PHLVI: 0.
-      # PHLMI: 0.
-      # SGPXX: 0.
-      # BRNXX: 0.
-      # MMRXX: 0.
-      # THANO: 0.6
-      # THASO: 0.6
-      # THACE: 0.6
-      # VNMNO: 0.6
-      # VNMCE: 0.6
-      # VNMSO: 0.6
-      # KHMXX: 0.6
-      # LAOXX: 0.65
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
