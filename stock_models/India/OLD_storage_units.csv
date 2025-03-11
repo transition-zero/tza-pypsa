@@ -1,6 +1,0 @@
-name,type,bus,p_nom,p_nom_extendable,carrier,capital_cost,build_year,lifetime,cyclic_state_of_charge,max_hours,efficiency_store,efficiency_dispatch,standing_loss
-INDNO-Batteries-2023,INDNO-Batteries-2023,INDNO,0,FALSE,battery,999,2023,15,TRUE,6,0.95,0.95,0.01
-INDEA-Batteries-2023,INDEA-Batteries-2023,INDEA,0,FALSE,battery,999,2023,15,TRUE,6,0.95,0.95,0.01
-INDWE-Batteries-2023,INDWE-Batteries-2023,INDWE,0,FALSE,battery,999,2023,15,TRUE,6,0.95,0.95,0.01
-INDSO-Batteries-2023,INDSO-Batteries-2023,INDSO,0,FALSE,battery,999,2023,15,TRUE,6,0.95,0.95,0.01
-INDNE-Batteries-2023,INDNE-Batteries-2023,INDNE,0,FALSE,battery,999,2023,15,TRUE,6,0.95,0.95,0.01
