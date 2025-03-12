@@ -51,7 +51,7 @@ hydro-reservoir-INDNO-water,hydro-reservoir,INDNO,5502.0,False,water,2023,hydro-
 hydro-reservoir-INDSO-water,hydro-reservoir,INDSO,6660.0,False,water,2023,hydro-reservoir,2000,1.0,0.01,100,,
 hydro-reservoir-INDWE-water,hydro-reservoir,INDWE,4130.0,False,water,2023,hydro-reservoir,2000,1.0,0.01,100,,
 hydro-run-of-river-INDEA-water,hydro-run-of-river,INDEA,2574.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
-hydro-run-of-river-INDNE-water,hydro-run-of-river,INDNE,3477.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
+hydro-run-of-river-INDNE-water,hydro-run-of-river,INDNE,1341.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
 hydro-run-of-river-INDNO-water,hydro-run-of-river,INDNO,13714.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
 hydro-run-of-river-INDSO-water,hydro-run-of-river,INDSO,1694.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
 hydro-run-of-river-INDWE-water,hydro-run-of-river,INDWE,965.0,False,water,2023,hydro-run-of-river,3050,1.0,0.01,100,,
