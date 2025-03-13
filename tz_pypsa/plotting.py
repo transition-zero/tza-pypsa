@@ -83,6 +83,13 @@ def energy_balance(
         imports = imports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='imports')
         total_generation = pd.concat([total_generation, imports], ignore_index=True)
 
+    # # append exports to df
+    #     exports = imports
+    #     exports['bus'] = exports['Link'].apply(lambda x: x.split('-')[0])
+    #     exports = exports.groupby(by='bus').sum(numeric_only=True).div(mul).reset_index().assign(carrier='exports')
+    #     total_generation = pd.concat([total_generation - exports, exports, imports], ignore_index=True)
+
+
     # define order for x-axis
     cat_order = total_generation.sort_values(by='bus').bus.unique().tolist()
 
@@ -245,10 +252,10 @@ def dispatch(
     # add traces
     for generator in generation.columns:
 
-        if generator != 'timestep':
+        if generator != 'snapshot':
             fig.add_trace(
                 go.Scatter(
-                    x=list(generation.timestep),
+                    x=list(generation.snapshot),
                     y=list(generation[generator].div(mul)),
                     mode='lines',
                     stackgroup='one',
@@ -261,7 +268,7 @@ def dispatch(
     if show_exports:
         fig.add_trace(
                 go.Scatter(
-                x=list(exports.timestep),
+                x=list(exports.snapshot),
                 y=list(exports[0].div(mul)),
                 mode='lines',
                 #stackgroup='one',
@@ -275,7 +282,7 @@ def dispatch(
     if show_imports:
         fig.add_trace(
                 go.Scatter(
-                x=list(imports.timestep),
+                x=list(imports.snapshot),
                 y=list(imports[0].div(mul)),
                 mode='lines',
                 stackgroup='one',
@@ -287,7 +294,7 @@ def dispatch(
     # add load
     fig.add_trace(
             go.Scatter(
-            x=list(load.timestep),
+            x=list(load.snapshot),
             y=list(load[0].div(mul)),
             mode='lines',
             #stackgroup='one',
