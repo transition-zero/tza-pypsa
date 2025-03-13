@@ -342,6 +342,7 @@ class Model:
     @staticmethod
     def load_csv_from_dir(
         path_to_dir,
+        year,
         backstop : bool = False,
         **kwargs,
     ) -> pypsa.Network:
@@ -354,6 +355,8 @@ class Model:
 
             path_to_dir : str
                 Directory from which we load the model. This directory should contain csv files. File names are strictly enforced.
+            year: int or list
+                The year(s) to load in the model, which can be supplied as an integer or a list of integers.
             backstop : bool (optional)
                 If True, the model will include backstop technologies (default is False).
 
@@ -390,9 +393,14 @@ class Model:
                     capital_cost=1e9,
                     marginal_cost=1e9,
                 )
+        
+        # --- choose years to load in --- #
+        if isinstance(year, list):
+            network.snapshots = network.snapshots[network.snapshots.year.isin(year)]
+        else:
+            network.snapshots = network.snapshots[network.snapshots.year == year]
 
         return network
-
 
     @staticmethod
     def get_available_models():
