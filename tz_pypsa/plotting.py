@@ -469,7 +469,7 @@ def capacity_mix(
     # Configure figure size based on number of regions
     fig, axs = plt.subplots(
         nrows=1, 
-        ncols=len(region_list), 
+        ncols=len(cat_order), 
         figsize=(3 * len(cat_order), 5)  # Dynamically adjust width
     )
 
@@ -627,7 +627,7 @@ def generation_mix(
     # Configure figure size based on number of regions
     fig, axs = plt.subplots(
         nrows=1, 
-        ncols=len(region_list), 
+        ncols=len(cat_order), 
         figsize=(3 * len(cat_order), 5)  # Dynamically adjust width
     )
 
@@ -635,8 +635,8 @@ def generation_mix(
     axs = np.atleast_1d(axs)  
 
     # Generate pie chart for each region
-    for region_list, ax in zip(region_list, axs.flat):
-        data_region = generation[generation.bus == cat_order]
+    for region, ax in zip(cat_order, axs.flat):
+        data_region = generation[generation.bus == region]
         labels = data_region.type
 
         ax.pie(
