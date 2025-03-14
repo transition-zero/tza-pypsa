@@ -1,0 +1,4 @@
+name,type,bus,p_nom,p_nom_extendable,carrier,year,max_hours,efficiency_store,efficiency_dispatch,standing_loss
+hydro-pumped-storage-INDEA-water,hydro-pumped-storage,INDEA,900.0,FALSE,pumped-hydro,2023,8,1,0.95,0.01
+hydro-pumped-storage-INDSO-water,hydro-pumped-storage,INDSO,2106.0,FALSE,pumped-hydro,2023,8,1,0.95,0.01
+hydro-pumped-storage-INDWE-water,hydro-pumped-storage,INDWE,1840.0,FALSE,pumped-hydro,2023,8,1,0.95,0.01
