@@ -56,7 +56,7 @@ storages:
 
   - id: hydro-pumped-storage
     type: hydro-pumped-storage
-    carrier: hydro-storage
+    carrier: hydro # should be: hydro-storage but we follow THA for now
     extendable: false
     lifetime: 60
     state_of_charge_initial: 0

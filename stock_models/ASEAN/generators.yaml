@@ -598,7 +598,7 @@ generators:
       IDNSM: 0.9
       IDNJW: 0.9
       IDNNU: 0.9
-      IDNKA: 0.9
+      IDNKA: 0.9 # CFE calibration: 0.75
       IDNSL: 0.9
       IDNML: 0.9
       IDNPP: 0.9
@@ -627,7 +627,7 @@ generators:
     lifetime: 30 # years
     # ---
     # unit commitment
-    committable: false
+    committable: false # calibration: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
