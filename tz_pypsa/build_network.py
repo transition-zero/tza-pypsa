@@ -259,13 +259,13 @@ def build_pypsa_network(
                     else:
                         p_nom_max = np.inf
                     
-                    # get capacity factors
+                    # get capacity factors as p_max_pu
                     if 'p_max_pu' in technology.keys():
                         if bus in technology['p_max_pu'].keys():
                             # cf = np.tile(technology['p_max_pu'][bus], len(timeseries.snapshot))
-                            cf = technology['p_max_pu'][bus]
+                            cf_max = technology['p_max_pu'][bus]
                     elif technology['id'] == 'wind-onshore':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -275,7 +275,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'wind-offshore-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -285,7 +285,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'photovoltaic-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -295,7 +295,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'hydro-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -305,7 +305,27 @@ def build_pypsa_network(
                             .values
                         )
                     else:
-                        cf = 1
+                        cf_max = 1
+
+                    # get capacity factors as p_min_pu
+                    if 'p_min_pu' in technology.keys():
+                        if bus in technology['p_min_pu'].keys():
+                            # cf = np.tile(technology['p_max_pu'][bus], len(timeseries.snapshot))
+                            cf_min = technology['p_min_pu'][bus]
+
+                    # this is for calibrating hydro - forcing hydro to generate according to the official data
+                    # elif technology['id'] == 'hydro-unspecified':
+                    #     cf_min = (
+                    #         timeseries
+                    #         .sel(
+                    #             node=bus, 
+                    #         )
+                    #         .cf_hydro
+                    #         .to_pandas()
+                    #         .values
+                    #     )
+                    else:
+                        cf_min = 0.
 
                     network.add(
                         'Generator', # PyPSA component
@@ -317,8 +337,8 @@ def build_pypsa_network(
                         p_nom = p_nom, # starting capacity (MW)
                         p_nom_min = p_nom_min, # minimum capacity (MW)
                         p_nom_max = p_nom_max, # maximum capacity (MW)
-                        p_max_pu = cf, # capacity factor
-                        p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
+                        p_max_pu = cf_max, # capacity factor
+                        p_min_pu = cf_min, # technology['p_min_pu'][bus], # minimum capacity factor
                         efficiency = technology['efficiency'][bus], # efficiency
                         ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
                         ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
