@@ -158,10 +158,16 @@ def build_pypsa_network(
             if 'planned_expansion' in link.keys() and any( year >= int(y) for y in list( link['planned_expansion'].keys() ) ):
                 pe = link['planned_expansion']
                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                p_nom_min = pe[closest_year]
+                p_nom = link['initial_capacity'] + pe[closest_year]
+            else:
+                p_nom = link['initial_capacity']
+            
+            # get minimum capacity
+            if 'minimum_capacity' in link.keys():
+                p_nom_min = link['minimum_capacity']
             else:
                 p_nom_min = 0
-            
+
             # get maximum capacity
             if 'maximum_capacity' in link.keys():
                 p_nom_max = link['maximum_capacity']
@@ -248,7 +254,14 @@ def build_pypsa_network(
                             pe = technology['planned_expansion'][bus]
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                                p_nom_min = pe[closest_year]
+                                p_nom = technology['initial_capacity'][bus] + pe[closest_year]
+                    else:
+                        p_nom = technology['initial_capacity']
+                    
+                    # get minimum capacity
+                    if 'minimum_capacity' in technology.keys():
+                        if bus in technology['minimum_capacity'].keys():
+                            p_nom_min = technology['minimum_capacity'][bus]
                     else:
                         p_nom_min = 0
                     
@@ -379,10 +392,17 @@ def build_pypsa_network(
                             pe = storage['planned_expansion'][bus]
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                                p_nom_min = pe[closest_year]
+                                p_nom = storage['initial_capacity'][bus] + pe[closest_year]
                     else:
-                        p_nom_min = 0
+                        p_nom = 0
                     
+                    # get minimum capacity
+                    if 'minimum_capacity' in storage.keys():
+                        if bus in storage['minimum_capacity'].keys():
+                            p_nom_min = storage['minimum_capacity'][bus]
+                        else:
+                            p_nom_min = np.inf
+
                     # get maximum capacity
                     if 'maximum_capacity' in storage.keys():
                         if bus in storage['maximum_capacity'].keys():
