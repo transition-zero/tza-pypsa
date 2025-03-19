@@ -2,7 +2,7 @@ Carrier,color,co2_emissions,nice_name,max_growth,max_relative_growth
 Coal,#322f34,0.36,Coal,inf,0
 Gas,#bababa,0.198,Gas,inf,0
 Oil,#5d407c,0.257,Oil,inf,0
-GasCCS,#d9d9d9,0.02,Gas CCS,inf,0
+GasCCS,#d9d9d9,0.0198,Gas CCS,inf,0
 BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf,0
 BlueHydrogen,#f3f3f3,0.178,Blue hydrogen & gas co-firing,inf,0
 GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf,0
@@ -18,4 +18,3 @@ PumpedHydro,#a5d1f9,0,Pumped hydro,inf,0
 Batteries,#c3e0fb,0,Battery storage,inf,0
 Transmission,#ba63da,0,Transmission,inf,0
 Other,TBD,0,Other,inf,0
-

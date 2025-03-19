@@ -45,7 +45,7 @@ def constr_bus_self_sufficiency(
     '''
 
     # get total renewable generation
-    lp_model = network.optimize.create_model()
+    #network.optimize.create_model()
 
     if not buses:
         buses = network.buses.index
@@ -57,7 +57,8 @@ def constr_bus_self_sufficiency(
         network.generators.query( f' bus == "{bus}" ').index
         # get total generation by bus
         total_gen_by_bus = ( 
-            lp_model
+            network
+            .model
             .variables['Generator-p']
             .sel(
                 Generator=network.generators.query( f' bus == "{bus}" ').index
@@ -66,12 +67,13 @@ def constr_bus_self_sufficiency(
             .sum()
         )
 
+        min_self_sufficiency = network.buses.min_self_sufficiency
         # get demand at bus
         total_demand_by_bus = network.loads_t.p_set[bus].sum(axis=0)
         # set expression
         constraint_expression = total_gen_by_bus >= total_demand_by_bus * min_self_sufficiency
         # set constraint
-        lp_model.add_constraints(
+        network.model.add_constraints(
             constraint_expression,
             name=f'min_gen_by_{bus}',
         )
@@ -212,42 +214,220 @@ def constr_min_annual_generation(
 
 
 def constr_max_annual_utilisation(
-        network : pypsa.Network,
-        lp_model,
-        max_utilisation_rate : float = 0.85,
-        carriers : list = None,
-        model_frequency : int = 1,
+    network: pypsa.Network,
+    max_utilisation_rate: float = 0.85,
+    carriers: list = None,
+    model_frequency: int = 1,
 ):
-    '''
-    
+    """
+
     ###################################
     MAXIMUM ANNUAL UTILISATION CONSTRAINT
     ###################################
 
     Description:
     -----------------------------------
-        This constraint ensures that the total annual utilisation rate of a technology or carrier 
+        This constraint ensures that the total annual utilisation rate of a technology or carrier
         equals to a certain percentage value.
-    
+
     Example user story:
     -----------------------------------
         "I want to ensure that coal utilisation rate is only 85% annually, not 100%"
 
     Inputs:
     -----------------------------------
-    
+
         network : pypsa.Network
-        
+
         lp_model : linopy model with variables and constraints
 
         max_utilisation_rate : float
             The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
-        
+
         carriers : list
             A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
-            
+
         model_frequency : int
             Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: coal and gas max utilisation rates ----- #
+
+    #network.optimize.create_model()
+
+    for generator_year in network.investment_periods:
+        target_generators = network.generators.loc[
+            (network.generators.carrier.str.contains(carriers))
+            & (network.generators.build_year <= generator_year)
+        ].index.tolist()
+        print(target_generators)
+
+        for each_generator in target_generators:
+
+            # The generation by coal plant in the generation year
+            target_generation = (
+                network.model.variables["Generator-p"].sel(Generator=each_generator).sum()
+            )
+
+            # if str(network.investment_periods[0]) in each_generator:
+            #     target_capacity = network.generators.loc[each_generator].p_nom
+            # else:
+            
+            if network.generators.p_nom_extendable[each_generator] == True:
+
+                target_capacity = (
+                    network.model.variables["Generator-p_nom"]
+                    .sel({"Generator-ext": each_generator})
+                    .sum()
+            )
+                
+            else: 
+
+                target_capacity = network.generators.loc[each_generator].p_nom
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_generation,
+                sign="<=",
+                rhs=max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(generator_year)
+                + str(each_generator)
+                + "_max_utilisation_rate",
+            )
+
+def constr_min_annual_utilisation_links(
+    network: pypsa.Network,
+    carriers: str = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a technology or carrier
+        equals to a certain percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that coal utilisation rate is only 85% annually, not 100%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        lp_model : linopy model with variables and constraints
+
+        max_utilisation_rate : float
+            The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: coal and gas max utilisation rates ----- #
+
+    #network.optimize.create_model()
+
+    for link_year in network.investment_periods:
+        target_links = network.links.loc[
+            (network.links.carrier.str.contains(carriers))
+            & (network.links.build_year <= link_year)
+        ].index.tolist()
+        print(target_links)
+
+        for each_link in target_links:
+
+            # The generation by coal plant in the generation year
+            target_links_output = (
+                network.model.variables["Link-p"].sel(Link=each_link).sum()
+            )
+
+            # if str(network.investment_periods[0]) in each_generator:
+            #     target_capacity = network.generators.loc[each_generator].p_nom
+            # else:
+            
+            if network.links.p_nom_extendable[each_link] == True:
+
+                target_capacity = (
+                    network.model.variables["Link-p_nom"]
+                    .sel({"Link-ext": each_link})
+                    .sum()
+                )
+                
+                min_utilisation_rate = (
+                    network.links.loc[each_link].min_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.links.loc[each_link].p_nom
+
+                min_utilisation_rate = (
+                    network.links.loc[each_link].min_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_links_output,
+                sign=">=",
+                rhs=min_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(link_year)
+                + str(each_link)
+                + "_min_utilisation_rate",
+            )
+
+
+def constr_bus_individual_self_sufficiency(
+        network : pypsa.Network,
+):
+    '''
+    
+    ###################################
+    SELF-SUFFICIENCY CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that each bus in the network is self-sufficient to a certain degree. That is,
+        it generates at least a certain percentage of its own electricity demand. In other words, it constraints
+        the maximum amount of electricity that can be imported to a bus. 
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure each region is at least 50% self-sufficient across the year. This prevents any region
+        from being too dependent on imports and ensures that each region has a certain level of energy security."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+
+        min_self_sufficiency : float
+            The minimum self-sufficiency of each bus in the network. Default is 0.5 (i.e., 50% self-sufficiency).
+        
+        bus : list
+            A list of buses to apply the constraint to. Default is None, which applies the constraint to all buses in the network.
 
     Returns:
     -----------------------------------
@@ -256,47 +436,34 @@ def constr_max_annual_utilisation(
     
     '''
 
-    # ----- constr: coal and gas max utilisation rates ----- #
+    # get total renewable generation
+    #network.optimize.create_model()
 
-    # lp_model = network.optimize.create_model()
-    
-    for generator_year in network.investment_periods:
-        target_generators = (
+
+    buses = network.buses.index
+
+    for bus in buses:
+        # get all generators at bus
+        network.generators.query( f' bus == "{bus}" ').index
+        # get total generation by bus
+        total_gen_by_bus = ( 
             network
-            .generators
-            .loc[
-            (network.generators.carrier.str.contains('|'.join(carriers))) &
-            (network.generators.build_year <= generator_year)
-            ]
-            .index
-            .tolist())
-        print(target_generators)
-
-        for each_generator in target_generators:
-
-            # The generation by coal plant in the generation year
-            target_generation = (
-                    lp_model.variables['Generator-p']
-                    .sel(
-                            period=generator_year,
-                            Generator=each_generator
-                        )
-                        .sum()
+            .model
+            .variables['Generator-p']
+            .sel(
+                Generator=network.generators.query( f' bus == "{bus}" ').index
             )
+            .sum()
+            .sum()
+        )
 
-            if str(network.investment_periods[0]) in each_generator:
-                target_capacity = network.generators.loc[each_generator].p_nom
-            else:
-                target_capacity = (
-                    lp_model.variables['Generator-p_nom']
-                    .sel({'Generator-ext': each_generator})
-                    .sum()
-                )
-            
-            # set constraint
-            lp_model.add_constraints(
-                lhs = target_generation,
-                sign = '<=',
-                rhs =  max_utilisation_rate * target_capacity * 8760 / model_frequency,
-                name=str(generator_year) + str(each_generator) + '_max_utilisation_rate',
-            )
+        min_self_sufficiency = network.buses.loc[bus].min_self_sufficiency
+        # get demand at bus
+        total_demand_by_bus = network.loads_t.p_set[bus].sum(axis=0)
+        # set expression
+        constraint_expression = total_gen_by_bus >= total_demand_by_bus * min_self_sufficiency
+        # set constraint
+        network.model.add_constraints(
+            constraint_expression,
+            name=f'min_gen_by_individual_{bus}',
+        )
