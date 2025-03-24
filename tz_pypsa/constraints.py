@@ -314,22 +314,17 @@ def constr_min_annual_utilisation_links(
 
     Description:
     -----------------------------------
-        This constraint ensures that the total annual utilisation rate of a technology or carrier
-        equals to a certain percentage value.
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
 
     Example user story:
     -----------------------------------
-        "I want to ensure that coal utilisation rate is only 85% annually, not 100%"
+        "I want to ensure that interconnector x is operating at least y% annually%"
 
     Inputs:
     -----------------------------------
 
         network : pypsa.Network
-
-        lp_model : linopy model with variables and constraints
-
-        max_utilisation_rate : float
-            The maximum annual utilisation rate of a technology type in the network. Default is 0.85 (i.e., 85% max utlisation rate annually).
 
         carriers : list
             A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
@@ -344,9 +339,8 @@ def constr_min_annual_utilisation_links(
 
     """
 
-    # ----- constr: coal and gas max utilisation rates ----- #
+    # ----- constr: interconnector min utilisation rates ----- #
 
-    #network.optimize.create_model()
 
     for link_year in network.investment_periods:
         target_links = network.links.loc[
@@ -357,14 +351,10 @@ def constr_min_annual_utilisation_links(
 
         for each_link in target_links:
 
-            # The generation by coal plant in the generation year
+            # The output by each interconnector in each year
             target_links_output = (
                 network.model.variables["Link-p"].sel(Link=each_link).sum()
             )
-
-            # if str(network.investment_periods[0]) in each_generator:
-            #     target_capacity = network.generators.loc[each_generator].p_nom
-            # else:
             
             if network.links.p_nom_extendable[each_link] == True:
 
@@ -373,7 +363,8 @@ def constr_min_annual_utilisation_links(
                     .sel({"Link-ext": each_link})
                     .sum()
                 )
-                
+
+                # minimum utilisation rate set by user in network.links - means minimum rates can be set at a link level  
                 min_utilisation_rate = (
                     network.links.loc[each_link].min_utilisation_rate
                 )
@@ -467,3 +458,90 @@ def constr_bus_individual_self_sufficiency(
             constraint_expression,
             name=f'min_gen_by_individual_{bus}',
         )
+
+def constr_max_annual_utilisation_links(
+    network: pypsa.Network,
+    carriers: str = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at most a user-defined percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at a maximum y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector max utilisation rates ----- #
+
+
+    for link_year in network.investment_periods:
+        target_links = network.links.loc[
+            (network.links.carrier.str.contains(carriers))
+            & (network.links.build_year <= link_year)
+        ].index.tolist()
+        print(target_links)
+
+        for each_link in target_links:
+
+            # The output by each interconnector in each year
+            target_links_output = (
+                network.model.variables["Link-p"].sel(Link=each_link).sum()
+            )
+            
+            if network.links.p_nom_extendable[each_link] == True:
+
+                target_capacity = (
+                    network.model.variables["Link-p_nom"]
+                    .sel({"Link-ext": each_link})
+                    .sum()
+                )
+
+                # maximum utilisation rate set by user in network.links - means maximum rates can be set at a link level  
+                max_utilisation_rate = (
+                    network.links.loc[each_link].max_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.links.loc[each_link].p_nom
+
+                max_utilisation_rate = (
+                    network.links.loc[each_link].max_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_links_output,
+                sign="<=",
+                rhs=max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(link_year)
+                + str(each_link)
+                + "_max_utilisation_rate",
+            )
