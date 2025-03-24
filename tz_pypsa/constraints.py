@@ -210,6 +210,301 @@ def constr_min_annual_generation(
         name = name,
     )
 
+def constr_policy_targets(
+        network : pypsa.Network,
+        lp_model,
+        stock_model : str
+):
+    '''
+    ###########################################
+    CONSTRAINTS FROM TARGETS AND POLICIES SHEET
+    ###########################################
+
+    Description:
+    -----------------------------------
+        This constraint creates custom constraints based on user-defined policies and targets.
+    
+    Example user story:
+    -----------------------------------
+        "I want to ensure total solar generation is 30% at given bus in a specific year."
+
+    Inputs:
+    -----------------------------------
+    
+        network : pypsa.Network
+        
+        lp_model : linopy model with variables and constraints
+        
+        stock_model : PyPSA model for a selected country / region
+            
+    Returns:
+    -----------------------------------
+    
+        None
+    
+    '''
+    # lp_model = network.optimize.create_model()
+    
+    # master_targets = pd.read_csv('stock_models/' + stock_model + '/power_sector_targets.csv')
+    master_targets = pd.read_csv('/Users/irfanm/Documents/tz-pypsa-workspace/tza-pypsa/stock_models/India/power_sector_targets.csv')
+    indices = []
+
+    # ----- constr: absolute capacity targets ----- #
+    #       This block sets absolute capacity targets. For example:
+    #           - CAP_SOLAR[VNM, 2035] >= 100 MW
+
+    countries = [i[:3] for i in network.buses.index.to_list()]
+
+    for investment_period in network.investment_periods:
+        
+        targets_cap_abs = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == True ")
+            .query(" target_type == 'capacity' ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
+        )
+
+        indices += targets_cap_abs.index.to_list()
+
+    for _, row in targets_cap_abs.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                generators_investment_years = ( 
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains(row['nodes']) ) &
+                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0]) &
+                        ( network.generators.p_nom_extendable == True)
+                        ]
+                    .index
+                    .tolist()
+                )
+                print(generators_investment_years)
+
+                total_capacity_investment_years = (
+                    lp_model
+                    .variables['Generator-p_nom']
+                    .sel(
+                        {
+                            "Generator-ext" : generators_investment_years
+                        }
+                    )
+                    .sum()
+                    .sum()
+                )
+                
+                total_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = (total_capacity_investment_years 
+                            + total_capacity_base_year
+                            ),
+                    sign = row['sense'],
+                    rhs = row['value'],
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: capacity share targets ----- #
+    #       This block sets capacity share targets. For example:
+    #           - CAP_SOLAR[VNM, 2035] >= 35% of total capacity
+
+    for investment_period in network.investment_periods:
+
+        targets_cap_pct = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == False ")
+            .query(" target_type == 'capacity' ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
+        )
+
+        indices += targets_cap_pct.index.to_list()
+
+    for _, row in targets_cap_pct.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0])
+                        # ( network.generators.p_nom_extendable == True)
+                        ]
+                    .index
+                    .tolist()
+                    )
+        
+                all_generators = (
+                    network
+                    .generators
+                    .loc[
+                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                        ( network.generators.build_year <= generator_year) &
+                        ( network.generators.build_year > network.investment_periods[0])
+                        # ( network.generators.p_nom_extendable == True)
+                    ]
+                    .index
+                    .tolist()
+                )
+                
+                target_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+                
+                all_capacity_base_year = (
+                    network.generators
+                    .p_nom
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year == network.investment_periods[0])
+                        ]
+                    .sum()
+                    )
+        
+                target_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': target_generators}).sum()
+                                + target_capacity_base_year
+                                )
+                total_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': all_generators}).sum()
+                                + all_capacity_base_year
+                                )
+
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = target_capacity - ((row['value']/100)*total_capacity),
+                    sign = row['sense'],
+                    rhs = 0,
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: generation share targets ----- #
+    #       This block sets generation share targets. For example:
+    #           - %_SOLAR[VNM, 2035] >= 20% of total generation
+
+    for investment_period in network.investment_periods:
+
+        targets = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == False ")
+            .query(" target_type == 'generation' ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
+        )
+
+        indices += targets.index.to_list()
+
+    for _, row in targets.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    .index
+                    .tolist()
+                )
+
+                all_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.bus.str.contains(row['nodes'])) & 
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    .index
+                    .tolist()
+                )
+
+                target_generation = lp_model.variables['Generator-p'].sel(period=generator_year,
+                                                                            Generator=target_generators).sum()
+                total_generation = lp_model.variables['Generator-p'].sel(period=generator_year, 
+                                                                            Generator=all_generators).sum()
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = target_generation - ((row['value']/100)*total_generation),
+                    sign = row['sense'],
+                    rhs =  0,
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
+    # ----- constr: absolute emissions targets ----- #
+
+    emissions = network.carriers.co2_emissions[lambda ds: ds != 0]
+
+    for investment_period in network.investment_periods:
+
+        targets = (
+            master_targets
+            #.query(" year >= @investment_period ")
+            .query(" absolute == True ")
+            .query(" target_type == 'emissions' ")
+            .query(" nodes.str.contains('|'.join(@countries)) ")
+        )
+
+        indices += targets.index.to_list()
+
+    for _, row in targets.iterrows():
+        for generator_year in network.investment_periods:
+            if generator_year >= row['year']:
+                
+                target_generators = (
+                    network
+                    .generators
+                    .loc[
+                        (network.generators.carrier.isin(emissions.index)) &
+                        (network.generators.bus.str.contains(row['nodes'])) &
+                        (network.generators.build_year <= generator_year)
+                    ]
+                    )
+
+                generator_efficiency = network.generators.efficiency
+
+                emission_factor = (target_generators.carrier.map(emissions) / generator_efficiency).dropna()
+
+                target_generators_list = target_generators.index.to_list()
+                total_emissions = ((lp_model.variables['Generator-p'].sel(period=generator_year, 
+                                                                Generator=target_generators_list) 
+                                    * emission_factor)
+                                    .sum()
+                                    )
+                
+                # set constraint
+                lp_model.add_constraints(
+                    lhs = total_emissions,
+                    sign = row['sense'],
+                    rhs =  row['value'],
+                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                )
+
 
 # def constr_annual_matching(
 #         network : pypsa.Network,

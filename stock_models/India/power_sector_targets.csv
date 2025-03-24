@@ -1,0 +1,2 @@
+target_type,carrier,nodes,absolute,value,unit,sense,year,years_onwards,constraint,description
+capacity,"solar,wind,water",IND,TRUE,491000,MW,>=,2030,onwards,"[solar, water, wind, uranium] capacity in IND >= 491GW (2030 onwards)",RE capacity target
