@@ -2,6 +2,6 @@ name,type,bus,p_nom,p_nom_extendable,carrier,build_year,max_hours,efficiency_sto
 hydro-pumped-storage-INDEA-water,hydro-pumped-storage,INDEA,900.0,TRUE,pumped-hydro,2023,8,1,0.95,0.01,1096257.4
 hydro-pumped-storage-INDSO-water,hydro-pumped-storage,INDSO,2106.0,TRUE,pumped-hydro,2023,8,1,0.95,0.01,1096257.4
 hydro-pumped-storage-INDWE-water,hydro-pumped-storage,INDWE,1840.0,TRUE,pumped-hydro,2023,8,1,0.95,0.01,1096257.4
-battery-storage-INDEA-battery,battery-storage,INDEA,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
-battery-storage-INDSO-battery,battery-storage,INDSO,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
-battery-storage-INDWE-battery,battery-storage,INDWE,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
+battery-storage-INDEA-battery,battery-storage,INDEA,0.0,True,battery,2030,1,1,0.95,0.01,731534.99
+battery-storage-INDSO-battery,battery-storage,INDSO,0.0,True,battery,2030,1,1,0.95,0.01,731534.99
+battery-storage-INDWE-battery,battery-storage,INDWE,0.0,True,battery,2030,1,1,0.95,0.01,731534.99
