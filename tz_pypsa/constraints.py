@@ -545,3 +545,177 @@ def constr_max_annual_utilisation_links(
                 + str(each_link)
                 + "_max_utilisation_rate",
             )
+
+def constr_min_annual_utilisation_generator(
+    network: pypsa.Network,
+    carriers: str = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at least y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector min utilisation rates ----- #
+
+
+    for generator_year in network.investment_periods:
+        target_generators = network.generators.loc[
+            (network.generators.carrier.str.contains(carriers))
+            & (network.generators.build_year <= generator_year)
+        ].index.tolist()
+        print(target_generators)
+
+        for each_generator in target_generators:
+
+            # The output by each interconnector in each year
+            target_generators_output = (
+                network.model.variables["Generator-p"].sel(Generator=each_generator).sum()
+            )
+            
+            if network.generators.p_nom_extendable[each_generator] == True:
+
+                target_capacity = (
+                    network.model.variables["Generator-p_nom"]
+                    .sel({"Generator-ext": each_generator})
+                    .sum()
+                )
+
+                # minimum utilisation rate set by user in network.generators - means minimum rates can be set at a generator level  
+                min_utilisation_rate = (
+                    network.generators.loc[each_generator].min_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.generators.loc[each_generator].p_nom
+
+                min_utilisation_rate = (
+                    network.generators.loc[each_generator].min_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_generators_output,
+                sign=">=",
+                rhs=min_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(generator_year)
+                + str(each_generator)
+                + "_min_utilisation_rate",
+            )
+
+def constr_max_annual_utilisation_generator(
+    network: pypsa.Network,
+    carriers: str = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at least y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector min utilisation rates ----- #
+
+
+    for generator_year in network.investment_periods:
+        target_generators = network.generators.loc[
+            (network.generators.carrier.str.contains(carriers))
+            & (network.generators.build_year <= generator_year)
+        ].index.tolist()
+        print(target_generators)
+
+        for each_generator in target_generators:
+
+            # The output by each interconnector in each year
+            target_generators_output = (
+                network.model.variables["Generator-p"].sel(Generator=each_generator).sum()
+            )
+            
+            if network.generators.p_nom_extendable[each_generator] == True:
+
+                target_capacity = (
+                    network.model.variables["Generator-p_nom"]
+                    .sel({"Generator-ext": each_generator})
+                    .sum()
+                )
+
+                # minimum utilisation rate set by user in network.generators - means minimum rates can be set at a generator level  
+                max_utilisation_rate = (
+                    network.generators.loc[each_generator].max_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.generators.loc[each_generator].p_nom
+
+                max_utilisation_rate = (
+                    network.generators.loc[each_generator].max_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_generators_output,
+                sign="<=",
+                rhs=max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(generator_year)
+                + str(each_generator)
+                + "_max_utilisation_rate",
+            )

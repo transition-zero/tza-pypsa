@@ -1,20 +1,21 @@
-Carrier,color,co2_emissions,nice_name,max_growth,max_relative_growth
-Coal,#322f34,0.36,Coal,inf,0
-Gas,#bababa,0.198,Gas,inf,0
-Oil,#5d407c,0.257,Oil,inf,0
-GasCCS,#d9d9d9,0.0198,Gas CCS,inf,0
-BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf,0
-BlueHydrogen,#f3f3f3,0.178,Blue hydrogen & gas co-firing,inf,0
-GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf,0
-GreenHydrogen,#f3f3f3,0.178,Green hydrogen & gas co-firing,inf,0
-Nuclear,#ee9dda,0,Nuclear,inf,0
-Biomass,#e25329,0,Biomass,inf,0
-Geothermal,#f75726,0,Geothermal,inf,0
-HydroConventional,#8292e8,0,Hydro conventional,inf,0
-SolarGrid,#ffe19b,0,Solar grid-scale,inf,0
-OffshoreWind,#66dad0,0,Offshore wind,inf,0
-OnshoreWind,#99e6df,0,Onshore wind,inf,0
-PumpedHydro,#a5d1f9,0,Pumped hydro,inf,0
-Batteries,#c3e0fb,0,Battery storage,inf,0
-Transmission,#ba63da,0,Transmission,inf,0
-Other,TBD,0,Other,inf,0
+Carrier,color,co2_emissions,nice_name,max_growth
+Coal,#322f34,0.36,Coal,inf
+Gas,#bababa,0.198,Gas,inf
+Oil,#5d407c,0.257,Oil,inf
+GasCCS,#d9d9d9,0.0198,Gas CCS,inf
+BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
+BlueHydrogen,#f3f3f3,0.178,Blue hydrogen & gas co-firing,inf
+GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf
+GreenHydrogen,#f3f3f3,0.178,Green hydrogen & gas co-firing,inf
+Nuclear,#ee9dda,0,Nuclear,inf
+Biomass,#e25329,0,Biomass,inf
+Geothermal,#f75726,0,Geothermal,inf
+HydroConventional,#8292e8,0,Hydro conventional,inf
+SolarGrid,#ffe19b,0,Solar grid-scale,inf
+OffshoreWind,#66dad0,0,Offshore wind,inf
+OnshoreWind,#99e6df,0,Onshore wind,inf
+PumpedHydro,#a5d1f9,0,Pumped hydro,inf
+Batteries,#c3e0fb,0,Battery storage,inf
+Transmission,#ba63da,0,Transmission,inf
+Other,TBD,0,Other,inf
+GasDmy,#bababa,0.198,GasDmy,inf
