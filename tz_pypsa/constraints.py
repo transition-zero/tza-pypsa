@@ -347,3 +347,122 @@ def constr_min_annual_generation(
 #         rhs = cfe_score * rhs_load,
 #         #name = name,
 #     )
+
+
+def constr_cofiring_ccs_generation(
+    network: pypsa.Network,
+    carriers: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at least y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector min utilisation rates ----- #
+
+
+    for generator_year in network.investment_periods:
+        target_generators = network.generators.loc[
+            (network.generators.is_carbon_free_share == True)
+            & (network.generators.build_year <= generator_year)
+        ].index.tolist()
+        print(target_generators)
+
+        for each_generator in target_generators:
+
+            # The output by each interconnector in each year
+            
+            if network.generators.p_nom_extendable[each_generator] == True:
+
+                target_capacity = (
+                    network.model.variables["Generator-p_nom"]
+                    .sel({"Generator-ext": each_generator})
+                    .sum()
+                )
+
+                network.carriers.co2_emissions = 0
+
+                target_generators_output_carbon_free = (
+                    network.model.variables["Generator-p"].sel(Generator=each_generator)
+                ) * network.generators.loc[each_generator].share_carbon_free
+
+                network.carriers.co2_emissions = network.carriers.co2_emissions
+
+                target_generators_output_carbon = (
+                    network.model.variables["Generator-p"].sel(Generator=each_generator)
+                ) * (1 - network.generators.loc[each_generator].share_carbon_free)
+
+                # minimum utilisation rate set by user in network.generators - means minimum rates can be set at a generator level  
+
+            else: 
+
+                target_capacity = network.generators.loc[each_generator].p_nom
+
+                network.carriers.co2_emissions = 0
+
+                target_generators_output_carbon_free = (
+                    network.model.variables["Generator-p"].sel(Generator=each_generator)
+                ) * network.generators.loc[each_generator].share_carbon_free
+
+                network.carriers.co2_emissions = network.carriers.co2_emissions
+
+                target_generators_output_carbon = (
+                    network.model.variables["Generator-p"].sel(Generator=each_generator)
+                ) * (1 - network.generators.loc[each_generator].share_carbon_free)
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_generators_output_carbon + target_generators_output_carbon_free,
+                sign="<=",
+                rhs= target_capacity / model_frequency,
+                name=str(generator_year)
+                + str(each_generator)
+                + "total_generation_from_mixed_fossil-clean_generator",
+            )
+
+            network.model.add_constraints(
+                lhs=target_generators_output_carbon_free,
+                sign="<=",
+                rhs= (target_capacity * network.generators.loc[each_generator].share_carbon_free) / model_frequency,
+                name=str(generator_year)
+                + str(each_generator)
+                + "generation_from_clean_component",
+            )
+
+            # network.model.add_constraints(
+            #     lhs=target_generators_output_carbon,
+            #     sign="<=",
+            #     rhs= (target_capacity * 8760 * (1 - network.generators.share_carbon_free)) / model_frequency,
+            #     name=str(generator_year)
+            #     + str(each_generator)
+            #     + "generation_from_clean_component",
+            # )
