@@ -1,23 +1,23 @@
-name,co2_emissions,color,nice_name
-AC,0.,red,AC
-Coal,0.5,#322f34,Coal
-Gas,0.5,#bababa,Gas
-LNG,0.5,#bababa,LNG
-Oil,0.5,#5d407c,Oil
-GasCCS,0.5,#d9d9d9,Gas CCS
-Ammonia,0.5,#d9a88b,Ammonia/coal
-Hydrogen,0.5,#f3f3f3,Hydrogen/gas
-Nuclear,0,#ee9dda,Nuclear
-Biomass,-999,#e25329,Biomass
-Geothermal,0,#f75726,Geothermal
-HydroConventional,0,#8292e8,Hydro conventional
-Solar,0,#ffe19b,Solar
-SolarGrid,0,#ffe19b,Solar grid-scale
-Wind,0,#66dad0,Wind
-OffshoreWind,0,#66dad0,Offshore wind
-OnshoreWind,0,#99e6df,Onshore wind
-PumpedHydro,-999,#a5d1f9,Pumped hydro
-battery,-999,#c3e0fb,Battery
-Batteries,-999,#c3e0fb,Battery storage
-Transmission,-999,#ba63da,Transmission
-Other,-999,#ba63da,Other
+name,co2_emissions,color,nice_name,is_carbon_free_share,share_carbon_free
+AC,0,red,AC,FALSE,0
+Coal,0.5,#322f34,Coal,FALSE,0
+Gas,0.5,#bababa,Gas,FALSE,0
+LNG,0.5,#bababa,LNG,FALSE,0
+Oil,0.5,#5d407c,Oil,FALSE,0
+GasCCS,0.5,#d9d9d9,Gas CCS,TRUE,0.7
+Ammonia,0.5,#d9a88b,Ammonia/coal,TRUE,0.2
+Hydrogen,0.5,#f3f3f3,Hydrogen/gas,TRUE,0.1
+Nuclear,0,#ee9dda,Nuclear,FALSE,0
+Biomass,-999,#e25329,Biomass,FALSE,0
+Geothermal,0,#f75726,Geothermal,FALSE,0
+HydroConventional,0,#8292e8,Hydro conventional,FALSE,0
+Solar,0,#ffe19b,Solar,FALSE,0
+SolarGrid,0,#ffe19b,Solar grid-scale,FALSE,0
+Wind,0,#66dad0,Wind,FALSE,0
+OffshoreWind,0,#66dad0,Offshore wind,FALSE,0
+OnshoreWind,0,#99e6df,Onshore wind,FALSE,0
+PumpedHydro,-999,#a5d1f9,Pumped hydro,FALSE,0
+battery,-999,#c3e0fb,Battery,FALSE,0
+Batteries,-999,#c3e0fb,Battery storage,FALSE,0
+Transmission,-999,#ba63da,Transmission,FALSE,0
+Other,-999,#ba63da,Other,FALSE,0
