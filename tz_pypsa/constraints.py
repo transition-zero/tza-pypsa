@@ -269,54 +269,109 @@ def constr_policy_targets(
 
     for _, row in targets_cap_abs.iterrows():
         for generator_year in network.investment_periods:
-            if generator_year >= row['year']:
-                generators_investment_years = ( 
-                    network
-                    .generators
-                    .loc[
-                        ( network.generators.bus.str.contains(row['nodes']) ) &
-                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                        ( network.generators.build_year <= generator_year) &
-                        ( network.generators.build_year > network.investment_periods[0]) &
-                        ( network.generators.p_nom_extendable == True)
-                        ]
-                    .index
-                    .tolist()
-                )
-                print(generators_investment_years)
+            if row['carrier'] in network.generators.carrier.to_list():
+                if generator_year >= row['year']:
+                    generators_investment_years = ( 
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains(row['nodes']) ) &
+                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.generators.build_year <= generator_year) &
+                            ( network.generators.build_year > network.investment_periods[0]) &
+                            ( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                    )
+                    # print(generators_investment_years)
 
-                total_capacity_investment_years = (
-                    lp_model
-                    .variables['Generator-p_nom']
-                    .sel(
-                        {
-                            "Generator-ext" : generators_investment_years
-                        }
+                    total_capacity_investment_years = (
+                        lp_model
+                        .variables['Generator-p_nom']
+                        .sel(
+                            {
+                                "Generator-ext" : generators_investment_years
+                            }
+                        )
+                        .sum()
+                        .sum()
                     )
-                    .sum()
-                    .sum()
-                )
-                
-                total_capacity_base_year = (
-                    network.generators
-                    .p_nom
-                    .loc[
-                        (network.generators.bus.str.contains(row['nodes'])) &
-                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
-                        (network.generators.build_year == network.investment_periods[0])
-                        ]
-                    .sum()
+                    
+                    total_capacity_base_year = (
+                        network.generators
+                        .p_nom
+                        .loc[
+                            (network.generators.bus.str.contains(row['nodes'])) &
+                            (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                            (network.generators.build_year == network.investment_periods[0])
+                            ]
+                        .sum()
+                        )
+                    
+                    # set constraint
+                    lp_model.add_constraints(
+                        lhs = (total_capacity_investment_years 
+                                + total_capacity_base_year
+                                ),
+                        sign = row['sense'],
+                        rhs = row['value'],
+                        name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
                     )
-                
-                # set constraint
-                lp_model.add_constraints(
-                    lhs = (total_capacity_investment_years 
-                            + total_capacity_base_year
-                            ),
-                    sign = row['sense'],
-                    rhs = row['value'],
-                    name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
-                )
+
+            # Do the same thing with storage units
+            if row['carrier'] in network.storage_units.carrier.to_list():
+                print(row['carrier'])
+                if generator_year >= row['year']:
+                    generators_investment_years = ( 
+                        network
+                        .storage_units
+                        .loc[
+                            ( network.storage_units .bus.str.contains(row['nodes']) ) &
+                            ( network.storage_units.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.storage_units.build_year <= generator_year) &
+                            ( network.storage_units.build_year > network.investment_periods[0]) &
+                            ( network.storage_units.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                    )
+                    print(generators_investment_years)
+
+                    total_capacity_investment_years = (
+                        lp_model
+                        .variables['StorageUnit-p_nom']
+                        .sel(
+                            {
+                                "StorageUnit-ext" : generators_investment_years
+                            }
+                        )
+                        .sum()
+                        .sum()
+                    )
+                    print(total_capacity_investment_years)
+                    
+                    total_capacity_base_year = (
+                        network.storage_units
+                        .p_nom
+                        .loc[
+                            (network.storage_units.bus.str.contains(row['nodes'])) &
+                            (network.storage_units.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                            (network.storage_units.build_year == network.investment_periods[0])
+                            ]
+                        .sum()
+                        )
+                    print(total_capacity_base_year)
+                    
+                    # set constraint
+                    lp_model.add_constraints(
+                        lhs = (total_capacity_investment_years 
+                                + total_capacity_base_year
+                                ),
+                        sign = row['sense'],
+                        rhs = row['value'],
+                        name=str(generator_year) + str(row['year']) + '_' + row['target_type'] + '_' + row['nodes'] + '_' + row['description'].replace(' ', '_').lower(),
+                    )
 
     # ----- constr: capacity share targets ----- #
     #       This block sets capacity share targets. For example:

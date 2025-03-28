@@ -1,6 +1,6 @@
 target_type,carrier,nodes,absolute,value,unit,sense,year,years_onwards,constraint,description,notes
-capacity,"solar,wind,water",IND,TRUE,191000,MW,>=,2030,onwards,"[solar, water, wind, uranium] capacity in IND >= 491GW (2030 onwards)",RE capacity target,govt target
-capacity,hydro,IND,TRUE,51363,MW,<=,2030,only,[hydro] additional capacity in IND <= 12 GW (by 2030),Hydro expansion potential,from TERI 2050 report
+capacity,"solar,wind,water",IND,TRUE,491000,MW,>=,2030,onwards,"[solar, water, wind, uranium] capacity in IND >= 491GW (2030 onwards)",RE capacity target,govt target
+capacity,water,IND,TRUE,51363,MW,<=,2030,only,[water] additional capacity in IND <= 12 GW (by 2030),Hydro expansion potential,from TERI 2050 report
 capacity,solar,INDEA,TRUE,61420,MW,<=,2030,only,[solar] max potential in INDEA <= 61420 MW(by 2030),solar INDEA max potential,from TERI 2050 report
 capacity,solar,INDNE,TRUE,62300,MW,<=,2030,only,[solar] max potential in INDNE <= 62300 MW(by 2030),solar INDNE max potential,from TERI 2050 report
 capacity,solar,INDNO,TRUE,336250,MW,<=,2030,only,[solar] max potential in INDNO <= 336250 MW(by 2030),solar INDNO max potential,from TERI 2050 report
