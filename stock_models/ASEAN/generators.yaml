@@ -355,6 +355,8 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      SGPXX: 0.1  
     # ---
     # universal technology parameters
     extendable: false
