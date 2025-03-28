@@ -475,11 +475,189 @@ def constr_cofiring_ccs_generation(
                 + "generation_from_clean_component",
             )
 
+def constr_cofiring_ccs_generation_join_plant_fossil(
+    network: pypsa.Network,
+    clean_generator : list = None,
+    fossil_generator: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at least y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector min utilisation rates ----- #
+
+
+    # for generator_year in network.investment_periods:
+    # target_generators = network.generators.loc[
+    #         (network.generators.is_carbon_free_share == True)
+    #         & (network.generators.build_year <= generator_year)
+    #     ].index.tolist()
+    # print(target_generators)
+
+    # for each_generator in target_generators:
+    
+    if network.model.variables['Generator-p'].sel(Generator=clean_generator) <= 0:
+
+        production_fossil_force_blend = 0
+        production_fossil = network.model.variables['Generator-p'].sel(Generator=fossil_generator)
+
+    else:
+
+        production_fossil = network.model.variables['Generator-p'].sel(Generator=fossil_generator)
+        production_fossil_force_blend = network.generators_t.p[clean_generator] / (network.generators.loc[clean_generator].share_carbon_free / (1 - network.generators.loc[clean_generator].share_carbon_free))
+                               
+
+    network.model.add_constraints(
+    lhs=production_fossil,
+    sign="==",
+    rhs = production_fossil_force_blend / model_frequency,
+    name=str(fossil_generator)
+            + "generation_from_fossil_component",
+            )
+        
+
+def constr_cofiring_ccs_generation_join_plant_clean(
+    network: pypsa.Network,
+    clean_generator : list = None,
+    fossil_generator: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of an interconnector
+        is at least a certain, must run, percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that interconnector x is operating at least y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: interconnector min utilisation rates ----- #
+
+
+    # for generator_year in network.investment_periods:
+    # target_generators = network.generators.loc[
+    #         (network.generators.is_carbon_free_share == True)
+    #         & (network.generators.build_year <= generator_year)
+    #     ].index.tolist()
+    # print(target_generators)
+
+    # for each_generator in target_generators:
+    
+
+    if network.model.variables['Generator-p'].sel(Generator=fossil_generator) <= 0:
+
+        production_clean_force_blend = 0
+
+    else:
+
+        production_clean_force_blend = network.model.variables['Generator-p'].sel(Generator=fossil_generator) / (network.generators.loc[fossil_generator].share_carbon_free) / (1 - network.generators.loc[fossil_generator].share_carbon_free)
+                               
+    network.model.add_constraints(
+    lhs=network.generators_t.p[clean_generator],
+    sign="==",
+    rhs = production_clean_force_blend / model_frequency,
+    name=str(clean_generator)
+        + "generation_from_clean_component",
+        )
+
             # network.model.add_constraints(
             #     lhs=target_generators_output_carbon,
             #     sign="<=",
             #     rhs= (target_capacity * 8760 * (1 - network.generators.share_carbon_free)) / model_frequency,
             #     name=str(generator_year)
             #     + str(each_generator)
-            #     + "generation_from_clean_component",
+            #     + "generation_from_fossil_component",
             # )
+
+# def constr_co2_emissions(
+#             network: pypsa.Network,
+#             buses: list = str,
+# ):       
+        
+#         emissions = network.carriers.co2_emissions[lambda ds: ds != 0]
+
+#         for generator_year in network.investment_periods:
+                    
+#                 target_generators = (
+#                 network
+#                 .generators
+#                 .loc[
+#                     (network.generators.carrier.isin(emissions.index)) &
+#                     (network.generators.build_year <= generator_year)
+#                    ]
+#                 )
+
+#                 generator_efficiency = network.generators.efficiency
+
+#                 emission_factor = (target_generators.carrier.map(emissions) / generator_efficiency).dropna()
+
+#                 target_generators_list = target_generators.index.to_list()
+#                 total_emissions = ((network.model.variables['Generator-p'].sel( 
+#                                                                 Generator=target_generators_list) 
+#                                     * emission_factor)
+#                                     .sum()
+#                                     )
+                
+#                 emissions_budget = network.buses.emissions_budget
+
+#                 # set constraint
+#                 network.model.add_constraints(
+#                     lhs = total_emissions,
+#                     sign = "<=",
+#                     rhs =  emissions_budget,
+#                     name=str(generator_year) + str(buses),
+#                 )

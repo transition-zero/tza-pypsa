@@ -355,6 +355,11 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+      
+    max_utilisation_rate:
+      SGPXX: 0.71
+      MYSPE: 0.6
+      MYSSK: 0.85  
     # ---
     # universal technology parameters
     extendable: false

@@ -332,7 +332,7 @@ def build_pypsa_network(
                         ramp_limit_start_up = technology['ramp_limit_start_up'], # 
                         ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
                         min_up_time = technology['min_up_time'], # 
-                        min_down_time = technology['min_down_time'], # 
+                        min_down_time = technology['min_down_time'], #
                     )
     
     # --- add storage units to network --- #
