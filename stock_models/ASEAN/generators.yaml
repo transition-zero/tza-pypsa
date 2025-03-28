@@ -49,8 +49,8 @@ generators:
         2024: 74
       PHLMI: 
         2024: 10
-      SGPXX:
-        2025: 20
+      # SGPXX:
+        # 2025: 20 # deactivate because planned_expansion + initial_capacity is higher than the maximum_capacity
     maximum_capacity:
       IDNJW: 1130
       IDNKA: 10590
