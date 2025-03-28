@@ -7,6 +7,8 @@ import xarray as xr
 from .constraints import (
     constr_cumulative_p_nom,
     constr_bus_self_sufficiency,
+    constr_policy_targets,
+    constr_max_annual_utilisation
 )
 
 from .helpers import (
@@ -158,15 +160,17 @@ def build_pypsa_network(
             if 'planned_expansion' in link.keys() and any( year >= int(y) for y in list( link['planned_expansion'].keys() ) ):
                 pe = link['planned_expansion']
                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                p_nom = link['initial_capacity'] + pe[closest_year]
-            else:
-                p_nom = link['initial_capacity']
-            
-            # get minimum capacity
-            if 'minimum_capacity' in link.keys():
-                p_nom_min = link['minimum_capacity']
+                p_nom_min = pe[closest_year]
+                # p_nom = link['initial_capacity'] + pe[closest_year]
             else:
                 p_nom_min = 0
+                # p_nom = link['initial_capacity']
+            
+            # # get minimum capacity
+            # if 'minimum_capacity' in link.keys():
+            #     p_nom_min = link['minimum_capacity']
+            # else:
+            #     p_nom_min = 0
 
             # get maximum capacity
             if 'maximum_capacity' in link.keys():
@@ -254,16 +258,18 @@ def build_pypsa_network(
                             pe = technology['planned_expansion'][bus]
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                                p_nom = technology['initial_capacity'][bus] + pe[closest_year]
-                    else:
-                        p_nom = technology['initial_capacity']
-                    
-                    # get minimum capacity
-                    if 'minimum_capacity' in technology.keys():
-                        if bus in technology['minimum_capacity'].keys():
-                            p_nom_min = technology['minimum_capacity'][bus]
+                                p_nom_min = pe[closest_year]
+                                # p_nom = technology['initial_capacity'][bus] + pe[closest_year]
                     else:
                         p_nom_min = 0
+                        # p_nom = technology['initial_capacity']
+                    
+                    # # get minimum capacity
+                    # if 'minimum_capacity' in technology.keys():
+                    #     if bus in technology['minimum_capacity'].keys():
+                    #         p_nom_min = technology['minimum_capacity'][bus]
+                    # else:
+                    #     p_nom_min = 0
                     
                     # get maximum capacity
                     if 'maximum_capacity' in technology.keys():
@@ -392,16 +398,18 @@ def build_pypsa_network(
                             pe = storage['planned_expansion'][bus]
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
-                                p_nom = storage['initial_capacity'][bus] + pe[closest_year]
+                                p_nom_min = pe[closest_year]
+                                # p_nom = storage['initial_capacity'][bus] + pe[closest_year]
                     else:
-                        p_nom = 0
+                        p_nom_min = 0
+                        #  p_nom = storage['initial_capacity'][bus]
                     
-                    # get minimum capacity
-                    if 'minimum_capacity' in storage.keys():
-                        if bus in storage['minimum_capacity'].keys():
-                            p_nom_min = storage['minimum_capacity'][bus]
-                        else:
-                            p_nom_min = np.inf
+                    # # get minimum capacity
+                    # if 'minimum_capacity' in storage.keys():
+                    #     if bus in storage['minimum_capacity'].keys():
+                    #         p_nom_min = storage['minimum_capacity'][bus]
+                    #     else:
+                    #         p_nom_min = 0
 
                     # get maximum capacity
                     if 'maximum_capacity' in storage.keys():
@@ -536,5 +544,29 @@ def build_pypsa_network(
                             constant=emissions.sum(axis=1).loc[year],
                         )
 
+            ### test new constraints here ###
+
+            # bus self-sufficiency
+            if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_bus_self_sufficiency(network,min_self_sufficiency=0.6)
+
+            # policy constraints
+            if cstr['id'] == 'policy_targets' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_policy_targets(network, stock_model = 'ASEAN')
+
+            # maximum annual generation constraint
+            if cstr['id'] == 'max_annual_utilisation' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_max_annual_utilisation(network, stock_model = 'ASEAN')
+
+            
 
     return network
