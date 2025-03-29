@@ -1,0 +1,2 @@
+name,bus,p_nom,p_nom_extendable,carrier,capital_cost,build_year,lifetime,cyclic_state_of_charge,max_hours,efficiency_store,efficiency_dispatch,standing_loss
+TWN-Batteries-2023,TWN,0,TRUE,Batteries,999,2023,15,TRUE,6,0.95,0.95,0.01
