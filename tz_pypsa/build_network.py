@@ -190,16 +190,6 @@ def build_pypsa_network(
                 marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
 
-            # df = pd.DataFrame(index=[name], 
-            #                           columns=['min_utilisation_rate'])
-            # network.add('Link', df.index, **df)
-            # network.links.min_utilisation_rate.loc[name] = link['min_utilisation_rate']
-
-            # df = pd.DataFrame(index=[name], 
-            #                           columns=['max_utilisation_rate'])
-            # network.add('Link', df.index, **df)
-            # network.links.max_utilisation_rate.loc[name] = link[bus0][bus1]['max_utilisation_rate']
-
             if link['bidirectional']:
                 # add reverse link
                 network.add(
