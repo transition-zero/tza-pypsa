@@ -121,3 +121,106 @@ def export_to_excel(
         p_by_carrier_monthly.to_excel(writer, sheet_name='Generation by carrier (m)')
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
+
+def split_and_assign(df, column, new_columns, indices, num_splits=2, delimiter="-"):
+    """
+    Splits the specified column in the DataFrame by a delimiter and assigns
+    selected parts to new columns.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The DataFrame containing the column to be split.
+    column : str
+        The name of the column to split.
+    new_columns : list of str
+        The list of new column names to be created.
+    indices : list of int
+        The indices corresponding to the split parts to assign to each new column.
+        For example, if you want to assign the first and second parts, use [0, 1].
+    num_splits : int, optional
+        The maximum number of splits to perform (default is 2).
+    delimiter : str, optional
+        The delimiter to use for splitting (default is "-").
+
+    Returns
+    -------
+    pandas.DataFrame
+        The DataFrame with the new columns added.
+    """
+    splits = df[column].str.split(delimiter, n=num_splits, expand=True)
+    for new_col, idx in zip(new_columns, indices):
+        df[new_col] = splits[idx]
+    df = df.drop(columns=[column])
+    return df
+
+def export_long_format(n, output_file, file_format):
+    """
+    Extracts hourly generation, storage, interconnector, and load data from a
+    PyPSA network object, converts them to a long (tidy) format, splits identifier
+    columns into node and tech where applicable, adds time columns (Hour, Month, Year),
+    sorts the data, and exports the merged DataFrame to Excel or CSV.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+        A PyPSA network object.
+    output_file : str, optional
+        The file path to export the data. Default is 'sampleoutput.xlsx'.
+    file_format : str, optional
+        The file format to export ('excel' or 'csv'). Default is 'excel'.
+
+    Returns
+    -------
+    pandas.DataFrame
+        The merged long format DataFrame.
+    """
+    # Extract hourly data and reset index
+    generation_hourly = n.generators_t.p.droplevel(0).reset_index()
+    storage_hourly = n.storage_units_t.p.droplevel(0).reset_index()
+    interconnector_hourly = n.links_t.p0.droplevel(0).reset_index()
+    loads_hourly = n.loads_t.p.droplevel(0).reset_index()
+
+    # Convert wide to long format
+    generation_long = pd.melt(generation_hourly, id_vars='timestep', 
+                              var_name='Generator', value_name='Value')
+    storage_long = pd.melt(storage_hourly, id_vars='timestep', 
+                           var_name='StorageUnit', value_name='Value')
+    interconnector_long = pd.melt(interconnector_hourly, id_vars='timestep', 
+                                  var_name='Link', value_name='Value')
+    loads_long = pd.melt(loads_hourly, id_vars='timestep', 
+                         var_name='Load', value_name='Value')
+
+    # Assign type column
+    generation_long['type'] = 'Generation'
+    storage_long['type'] = 'Storage'
+    interconnector_long['type'] = 'Interconnector'
+    loads_long['type'] = 'Demand'
+
+    # Split 'Generator' and 'StorageUnit' columns into 'node' and 'tech'
+    generation_long = split_and_assign(generation_long, "Generator", ["node", "tech"], [0, 1], num_splits=2, delimiter="-")
+    storage_long = split_and_assign(storage_long, "StorageUnit", ["node", "tech"], [0, 1], num_splits=2, delimiter="-")
+
+    # For loads, rename the column to 'node' since that's the identifier
+    loads_long.rename(columns={"Load": "node"}, inplace=True)
+
+    # Concatenate the long DataFrames (excluding interconnector if not needed; add as desired)
+    merged_df = pd.concat([generation_long, storage_long, loads_long], ignore_index=True)
+
+    # Add time columns
+    merged_df['Hour'] = merged_df['timestep'].dt.hour
+    merged_df['Month'] = merged_df['timestep'].dt.month
+    merged_df['Year'] = merged_df['timestep'].dt.year
+
+    # Sort the DataFrame
+    merged_df.sort_values(by=['timestep', 'type', 'node'], inplace=True)
+
+    # Export to Excel or CSV
+    if file_format.lower() == 'excel':
+        merged_df.to_excel(output_file, index=False)
+    elif file_format.lower() == 'csv':
+        merged_df.to_csv(output_file, index=False)
+    else:
+        raise ValueError("Unsupported file_format. Please use 'excel' or 'csv'.")
+
+    return merged_df
