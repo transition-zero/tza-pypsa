@@ -138,7 +138,8 @@ def build_pypsa_network(
             "Bus",  # PyPSA component
             node['id'], # bus name
             x = node['coords'][1], # longitude
-            y = node['coords'][0] # latitude
+            y = node['coords'][0], # latitude
+            min_self_sufficiency = node['min_self_sufficiency'] # define minimum nodal level self-sufficiency
         )
     
     # --- add links to network --- #

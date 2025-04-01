@@ -313,6 +313,7 @@ nodes:
     long_name: Malaysia Peninsular
     coords: [4.035, 102.179]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.0
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -553,6 +554,7 @@ nodes:
     long_name: Singapore 
     coords: [1.3521, 103.8198]
     load_rate_of_change: 0.01
+    min_self_sufficiency: 0.0
     co2_budget:
       2022: 9999999999
       2023: 9999999999
