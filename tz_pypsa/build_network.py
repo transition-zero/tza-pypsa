@@ -341,7 +341,12 @@ def build_pypsa_network(
                                       columns=['min_utilisation_rate'])
                     network.add('Generator', df.index, **df)
                     network.generators.min_utilisation_rate.loc[generator_name] = technology['min_utilisation_rate'][bus]
-    
+
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['max_utilisation_rate'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.max_utilisation_rate.loc[generator_name] = technology['max_utilisation_rate'][bus]
+
     # --- add storage units to network --- #
     for year in years:
         for storage in model['storages']:
