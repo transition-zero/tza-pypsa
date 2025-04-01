@@ -303,9 +303,11 @@ def build_pypsa_network(
                     else:
                         cf = 1
 
+                    generator_name = bus + '-' + technology['id'] + '-ext-' + str(year)
                     network.add(
                         'Generator', # PyPSA component
-                        bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                        #bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                        generator_name, # generator name
                         type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
                         bus = bus, # region/bus/balancing zone
                         # ---
@@ -334,6 +336,11 @@ def build_pypsa_network(
                         min_up_time = technology['min_up_time'], # 
                         min_down_time = technology['min_down_time'], # 
                     )
+                    
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['min_utilisation_rate'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.min_utilisation_rate.loc[generator_name] = technology['min_utilisation_rate'][bus]
     
     # --- add storage units to network --- #
     for year in years:
