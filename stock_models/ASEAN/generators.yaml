@@ -234,11 +234,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0.
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
-
+      MYSPE: 1.0
 
   - id: combined-cycle
     type: combined-cycle
@@ -382,10 +383,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:
       SGPXX: 0.99
       MYSSK: 0.99
       MYSSH: 0.99
+      MYSPE: 1.0
 
   - id: coal-subcritical
     type: coal-subcritical
@@ -532,10 +535,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: coal-supercritical
     type: coal-supercritical
@@ -674,11 +679,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
-
+      MYSPE: 1.0
 
   - id: coal-ultrasupercritical
     type: coal-ultrasupercritical
@@ -807,10 +813,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0.
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: oil-unspecified
     type: oil-unspecified # THIS IS DIESEL
@@ -952,10 +960,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: geothermal-unspecified
     type: geothermal-unspecified
@@ -1114,10 +1124,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: hydro-unspecified
     type: hydro-unspecified
@@ -1293,10 +1305,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: open-cycle-gas-turbine
     type: open-cycle-gas-turbine
@@ -1447,10 +1461,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
-      MYSSH: 1.0    
+      MYSSH: 1.0 
+      MYSPE: 1.0   
 
   - id: photovoltaic-unspecified
     type: photovoltaic-unspecified
@@ -1626,10 +1642,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: waste
     type: waste
@@ -1780,10 +1798,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: wind-offshore-unspecified
     type: wind-offshore-unspecified
@@ -1959,10 +1979,12 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: wind-onshore
     type: wind-onshore
@@ -2138,7 +2160,9 @@ generators:
       SGPXX: 0
       MYSSK: 0
       MYSSH: 0
+      MYSPE: 0
     max_utilisation_rate:  
       SGPXX: 1.0
       MYSSK: 1.0
       MYSSH: 1.0
+      MYSPE: 1.0
