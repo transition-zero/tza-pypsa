@@ -213,7 +213,7 @@ def export_long_format(n, output_file, file_format):
     merged_df['Year'] = merged_df['timestep'].dt.year
 
     # Sort the DataFrame
-    merged_df.sort_values(by=['timestep', 'type', 'node'], inplace=True)
+    merged_df.sort_values(by=['timestep', 'type', 'node'], inplace=True, ignore_index=True)
 
     # Export to Excel or CSV
     if file_format.lower() == 'excel':
