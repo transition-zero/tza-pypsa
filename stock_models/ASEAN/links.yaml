@@ -34,6 +34,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNJW-IDNKA # AIMS3 - Future
     from_node: IDNJW
@@ -46,6 +48,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNJW-IDNNU # Domestic - Existing
     from_node: IDNJW
@@ -60,6 +64,8 @@ links:
     reverse_capacity: 1600
     planned_expansion: 
       2025: 400
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNJW-IDNSM # AIMS3 - Future
     from_node: IDNJW
@@ -72,6 +78,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNKA-IDNSL # Domestic - Future
     from_node: IDNKA
@@ -84,7 +92,9 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
-    
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.    
+
   - id: IDNKA-MYSSH # AIMS3 - Future
     from_node: IDNKA
     to_node: MYSSH
@@ -96,6 +106,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNKA-MYSSK # AIMS3 - Existing
     from_node: IDNKA
@@ -108,6 +120,8 @@ links:
     bidirectional: true
     initial_capacity: 230
     reverse_capacity: 230
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNML-IDNPP # Domestic - Future
     from_node: IDNML
@@ -120,6 +134,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNML-IDNSL # Domestic - Future
     from_node: IDNML
@@ -132,6 +148,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNNU-IDNSL # Domestic - Future
     from_node: IDNNU
@@ -144,6 +162,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNSM-MYSPE # AIMS3 - Future
     from_node: IDNSM
@@ -156,6 +176,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: IDNSM-SGPXX # AIMS3 - Future
     from_node: IDNSM
@@ -170,6 +192,8 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2035: 2000
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
   
   - id: LAOXX-MMRXX # AIMS3 - Future
     from_node: LAOXX
@@ -184,6 +208,8 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2026 : 600
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: THANO-MMRXX # AIMS3 - Future
     from_node: THANO
@@ -196,7 +222,9 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: LAOXX-VNMNO # Cross-border - Future
     from_node: LAOXX
     to_node: VNMNO
@@ -210,7 +238,9 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2025 : 1032
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: LAOXX-VNMCE # AIMS3 - Existing
     from_node: LAOXX
     to_node: VNMCE
@@ -224,6 +254,8 @@ links:
     reverse_capacity: 538
     planned_expansion:
       2025 : 2036
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: MYSPE-MYSSK # AIMS3 - Future
     from_node: MYSPE
@@ -236,6 +268,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: MYSSH-MYSSK # AIMS3 - Existing
     from_node: MYSSH
@@ -250,6 +284,8 @@ links:
     reverse_capacity: 50
     planned_expansion:
       2024 : 50
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: MYSSH-PHLLU # AIMS3 - Future
     from_node: MYSSH
@@ -262,6 +298,8 @@ links:
     bidirectional: true
     initial_capacity: 0
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: MYSPE-SGPXX # AIMS3 - Existing
     from_node: MYSPE
@@ -274,6 +312,8 @@ links:
     bidirectional: false
     initial_capacity: 1000
     reverse_capacity: 0
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: KHMXX-LAOXX # AIMS3 - Existing
     from_node: KHMXX
@@ -286,7 +326,9 @@ links:
     bidirectional: true
     initial_capacity: 300
     reverse_capacity: 300
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.  
+
   - id: KHMXX-THACE # AIMS3 - Existing
     from_node: KHMXX
     to_node: THACE
@@ -298,7 +340,9 @@ links:
     bidirectional: true
     initial_capacity: 120
     reverse_capacity: 120
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.  
+
   - id: KHMXX-VNMSO # AIMS3 - Existing
     from_node: KHMXX
     to_node: VNMSO
@@ -310,6 +354,8 @@ links:
     bidirectional: true
     initial_capacity: 200
     reverse_capacity: 200
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: PHLLU-PHLVI # Domestic - Existing
     from_node: PHLLU
@@ -322,7 +368,9 @@ links:
     bidirectional: true
     initial_capacity: 440
     reverse_capacity: 440
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: PHLMI-PHLVI # Domestic - Existing 
     from_node: PHLMI
     to_node: PHLVI
@@ -334,7 +382,9 @@ links:
     bidirectional: true
     initial_capacity: 450 # Updated in 2024 from 0
     reverse_capacity: 450 # Updated in 2024 from 0
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: VNMCE-VNMNO # Domestic - Existing
     from_node: VNMCE
     to_node: VNMNO
@@ -346,6 +396,8 @@ links:
     bidirectional: true
     initial_capacity: 5000 # Updated from 2200
     reverse_capacity: 5000 # Updated from 2200
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: VNMCE-VNMSO # Domestic - Existing
     from_node: VNMCE
@@ -360,6 +412,8 @@ links:
     reverse_capacity: 12000
     planned_expansion:
       2025: 3500
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: THANO-THACE # Domestic - Existing
     from_node: THANO
@@ -372,6 +426,8 @@ links:
     bidirectional: true
     initial_capacity: 4400
     reverse_capacity: 4400
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: THACE-THASO # Domestic - Existing
     from_node: THACE
@@ -384,7 +440,9 @@ links:
     bidirectional: true
     initial_capacity: 4400
     reverse_capacity: 4400
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: THASO-MYSPE # AIMS3 - Existing
     from_node: THASO
     to_node: MYSPE
@@ -396,7 +454,9 @@ links:
     bidirectional: true
     initial_capacity: 380
     reverse_capacity: 380
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   - id: THANO-LAOXX # AIMS3 - Existing
     from_node: THANO
     to_node: LAOXX
@@ -408,7 +468,9 @@ links:
     bidirectional: true
     initial_capacity: 5427
     reverse_capacity: 5427
-  
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
+
   # - id: THACE-LAOXX 
   #   from_node: THACE
   #   to_node: LAOXX
@@ -434,6 +496,8 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2035: 1200
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.
 
   - id: KHMXX-SGPXX # SGP initiative
     from_node: KHMXX
@@ -448,3 +512,5 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2035: 1000
+    min_utilisation_rate: 0.
+    max_utilisation_rate: 1.      

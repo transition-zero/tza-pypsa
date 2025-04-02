@@ -138,7 +138,8 @@ def build_pypsa_network(
             "Bus",  # PyPSA component
             node['id'], # bus name
             x = node['coords'][1], # longitude
-            y = node['coords'][0] # latitude
+            y = node['coords'][0], # latitude
+            min_self_sufficiency = node['min_self_sufficiency'] # define minimum nodal level self-sufficiency
         )
     
     # --- add links to network --- #
@@ -168,9 +169,11 @@ def build_pypsa_network(
             else:
                 p_nom_max = np.inf
 
+            name=link['id'] + '-ext-' + str(year),
+            
             network.add(
                 "Link", 
-                name=link['id'] + '-ext-' + str(year),
+                name,
                 bus0=link['from_node'],
                 bus1=link['to_node'],
                 build_year=year,
@@ -182,6 +185,8 @@ def build_pypsa_network(
                 type=link['type'],
                 efficiency=link['efficiency'],
                 lifetime=link['lifetime'],
+                min_utilisation_rate=link['min_utilisation_rate'],
+                max_utilisation_rate=link['max_utilisation_rate'],
                 capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
                 marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
@@ -204,6 +209,7 @@ def build_pypsa_network(
                 capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
                 marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
+
     
     # --- add lengths to links --- #
     for link in network.links.index:
@@ -303,9 +309,11 @@ def build_pypsa_network(
                     else:
                         cf = 1
 
+                    generator_name = bus + '-' + technology['id'] + '-ext-' + str(year)
                     network.add(
                         'Generator', # PyPSA component
-                        bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                        #bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
+                        generator_name, # generator name
                         type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
                         bus = bus, # region/bus/balancing zone
                         # ---
@@ -334,7 +342,17 @@ def build_pypsa_network(
                         min_up_time = technology['min_up_time'], # 
                         min_down_time = technology['min_down_time'], # 
                     )
-    
+                    
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['min_utilisation_rate'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.min_utilisation_rate.loc[generator_name] = technology['min_utilisation_rate'][bus]
+
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['max_utilisation_rate'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.max_utilisation_rate.loc[generator_name] = technology['max_utilisation_rate'][bus]
+
     # --- add storage units to network --- #
     for year in years:
         for storage in model['storages']:

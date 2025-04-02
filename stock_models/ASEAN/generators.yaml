@@ -230,7 +230,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0.
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: combined-cycle
     type: combined-cycle
@@ -370,7 +379,16 @@ generators:
     ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:
+      SGPXX: 0.99
+      MYSSK: 0.99
+      MYSSH: 0.99
+      MYSPE: 1.0
 
   - id: coal-subcritical
     type: coal-subcritical
@@ -513,7 +531,16 @@ generators:
     ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: coal-supercritical
     type: coal-supercritical
@@ -648,7 +675,16 @@ generators:
     ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: coal-ultrasupercritical
     type: coal-ultrasupercritical
@@ -773,7 +809,16 @@ generators:
     ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0.
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: oil-unspecified
     type: oil-unspecified # THIS IS DIESEL
@@ -911,7 +956,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: geothermal-unspecified
     type: geothermal-unspecified
@@ -1066,7 +1120,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: hydro-unspecified
     type: hydro-unspecified
@@ -1238,7 +1301,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: open-cycle-gas-turbine
     type: open-cycle-gas-turbine
@@ -1385,7 +1457,16 @@ generators:
     ramp_limit_shut_down: 0.2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0 
+      MYSPE: 1.0   
 
   - id: photovoltaic-unspecified
     type: photovoltaic-unspecified
@@ -1557,7 +1638,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: waste
     type: waste
@@ -1704,7 +1794,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: wind-offshore-unspecified
     type: wind-offshore-unspecified
@@ -1876,7 +1975,16 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
 
   - id: wind-onshore
     type: wind-onshore
@@ -2048,3 +2156,13 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_utilisation_rate:
+      SGPXX: 0
+      MYSSK: 0
+      MYSSH: 0
+      MYSPE: 0
+    max_utilisation_rate:  
+      SGPXX: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      MYSPE: 1.0
