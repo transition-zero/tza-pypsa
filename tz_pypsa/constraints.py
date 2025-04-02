@@ -348,7 +348,7 @@ def constr_min_annual_generation(
 #         #name = name,
 #     )
 
-def constr_cofiring_ccs_generation_join_plant_fossil(
+def constr_cofiring_ccs_generation_join_plant(
     network: pypsa.Network,
     clean_generator : list = None,
     fossil_generator: list = None,
@@ -393,9 +393,15 @@ def constr_cofiring_ccs_generation_join_plant_fossil(
         None
 
     """
+    for generator_year in network.investment_periods:
+        target_generators = network.generators.loc[
+            (network.generators.is_blend_or_ccs == True)
+            & (network.generators.build_year <= generator_year)
+        ].index.tolist()
+        print(target_generators)
 
-    production_fossil_force_blend = network.model.variables['Generator-p'].sel(Generator=clean_generator) / ((network.generators.loc[clean_generator].generation_blend_share) / (1 - network.generators.loc[clean_generator].generation_blend_share))
-    production_fossil = network.model.variables['Generator-p'].sel(Generator=fossil_generator)
+        production_fossil_force_blend = network.model.variables['Generator-p'].sel(Generator=clean_generator) / ((network.generators.loc[clean_generator].generation_blend_share) / (1 - network.generators.loc[clean_generator].generation_blend_share))
+        production_fossil = network.model.variables['Generator-p'].sel(Generator=fossil_generator)
         
 
     network.model.add_constraints(

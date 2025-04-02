@@ -221,6 +221,8 @@ generators:
     # universal technology parameters
     extendable: false
     lifetime: 25 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -366,6 +368,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -509,6 +513,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.    
     # ---
     # unit commitment
     committable: false
@@ -644,6 +650,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.    
     # ---
     # unit commitment
     committable: false
@@ -769,6 +777,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.    
     # ---
     # unit commitment
     committable: false
@@ -907,6 +917,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.  
     # ---
     # unit commitment
     committable: false
@@ -1062,6 +1074,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -1234,6 +1248,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 50 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -1381,6 +1397,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -1553,6 +1571,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 25 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -1700,6 +1720,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 25 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -1872,6 +1894,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false
@@ -2044,6 +2068,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.      
     # ---
     # unit commitment
     committable: false

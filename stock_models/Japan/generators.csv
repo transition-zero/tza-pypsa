@@ -1,4 +1,4 @@
-name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,lifetime,efficiency,is_carbon_free_share,carbon_free_blend
+name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,lifetime,efficiency,is_carbon_free_share,generation_blend_share
 JPN02-Coal,JPN02,4784,TRUE,Coal,1,10,2030,25,0.4,FALSE,0
 JPN02-LNG,JPN02,5181,TRUE,LNG,1,10,2030,25,0.4,FALSE,0
 JPN02-Oil,JPN02,491,TRUE,Oil,1,10,2030,25,0.4,FALSE,0
