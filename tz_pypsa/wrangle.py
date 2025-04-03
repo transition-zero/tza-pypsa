@@ -122,26 +122,65 @@ def export_to_excel(
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
-def split_and_assign(df, column, new_columns, indices, num_splits=2, delimiter="-"):
+def add_hour_of_year_column(
+        df, 
+        datetime_col, 
+        new_col='hour_of_year'
+    ) -> pd.DataFrame:
+    """
+    Adds a column to the DataFrame indicating the hour of the year for each datetime.
+    
+    Parameters:
+    - df: pandas.DataFrame
+    - datetime_col: str, name of the column containing datetime values
+    - new_col: str, name of the new column to create (default: 'hour_of_year')
+    
+    Returns:
+    - pandas.DataFrame with the new column added
+    """
+    if datetime_col not in df.columns:
+        raise ValueError(f"Column '{datetime_col}' not found in DataFrame.")
+    
+    # Ensure datetime type
+    df = df.copy()
+    df[datetime_col] = pd.to_datetime(df[datetime_col])
+    
+    # Start of year for each row
+    year_start = df[datetime_col].dt.to_period('Y').dt.start_time
+    
+    # Calculate hours since year start
+    df[new_col] = ((df[datetime_col] - year_start).dt.total_seconds() // 3600).astype(int)
+    
+    return df
+
+def split_and_assign(
+        df, 
+        column, 
+        new_columns, 
+        indices, 
+        num_splits, 
+        delimiter
+    ) -> pd.DataFrame:
+
     """
     Splits the specified column in the DataFrame by a delimiter and assigns
-    selected parts to new columns.
+    selected parts To new columns.
 
     Parameters
     ----------
     df : pandas.DataFrame
-        The DataFrame containing the column to be split.
+        The DataFrame containing the column To be split.
     column : str
-        The name of the column to split.
+        The name of the column To split.
     new_columns : list of str
-        The list of new column names to be created.
+        The list of new column names To be created.
     indices : list of int
-        The indices corresponding to the split parts to assign to each new column.
-        For example, if you want to assign the first and second parts, use [0, 1].
+        The indices corresponding To the split parts To assign To each new column.
+        For example, if you want To assign the first and second parts, use [0, 1].
     num_splits : int, optional
-        The maximum number of splits to perform (default is 2).
+        The maximum number of splits To perform (default is 2).
     delimiter : str, optional
-        The delimiter to use for splitting (default is "-").
+        The delimiter To use for splitting (default is "-").
 
     Returns
     -------
@@ -152,75 +191,253 @@ def split_and_assign(df, column, new_columns, indices, num_splits=2, delimiter="
     for new_col, idx in zip(new_columns, indices):
         df[new_col] = splits[idx]
     df = df.drop(columns=[column])
+    
     return df
 
-def export_long_format(n, output_file, file_format):
+def interconnector_by_nodes(
+        interconnector_p0: pd.DataFrame, # Export
+        interconnector_p1: pd.DataFrame # Import
+    )   -> pd.DataFrame:
+        
     """
-    Extracts hourly generation, storage, interconnector, and load data from a
-    PyPSA network object, converts them to a long (tidy) format, splits identifier
-    columns into node and tech where applicable, adds time columns (Hour, Month, Year),
-    sorts the data, and exports the merged DataFrame to Excel or CSV.
+    Concatenate two DataFrames by 'timestep' and 'Link' columns.
 
     Parameters
-    ----------
-    n : pypsa.Network
-        A PyPSA network object.
-    output_file : str, optional
-        The file path to export the data. Default is 'sampleoutput.xlsx'.
-    file_format : str, optional
-        The file format to export ('excel' or 'csv'). Default is 'excel'.
+     ----------
+    interconnector_p0 : pd.DataFrame
+        DataFrame containing the export data.
+    interconnector_p1 : pd.DataFrame
+        DataFrame containing the import data.
 
     Returns
     -------
-    pandas.DataFrame
-        The merged long format DataFrame.
+    pd.DataFrame
+        Concatenated DataFrame with 'timestep', 'Link', and 'Value' columns.
+     """
+    interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
+        
+    return interconnector.groupby(['timestep', 'Node']).agg({'Value': 'sum'}).reset_index()
+
+def export_csv_consolidated(
+        network: pypsa.Network, 
+        filename: str   
+    ):
     """
-    # Extract hourly data and reset index
-    generation_hourly = n.generators_t.p.droplevel(0).reset_index()
-    storage_hourly = n.storage_units_t.p.droplevel(0).reset_index()
-    interconnector_hourly = n.links_t.p0.droplevel(0).reset_index()
-    loads_hourly = n.loads_t.p.droplevel(0).reset_index()
+    Extracts hourly generation, storage, interconnector, and load data from a
+    PyPSA network object, converts them to a long (tidy) format, splits identifier
+    columns into Node, Type and Tech where applicable, adds time columns (Hour8760, day, Month, Year),
+    sorts the data, and exports the merged DataFrame to CSV.
+    
+    Parameters
+    ----------
+    network : pypsa.Network
+        A PyPSA network object.
+    filename : str
+        The name of the file to save the merged DataFrame; must end with .csv.
+    
+    Returns
+    -------
+    csv file
+        The merged long format DataFrame saved as a CSV file.
+    """
+    # --- Extract hourly data and reset index ---
+    # Hourly generation (required)
+    generation = (
+        network
+        .generators_t
+        .p
+        .droplevel(0)
+        .reset_index()
+    )
 
-    # Convert wide to long format
-    generation_long = pd.melt(generation_hourly, id_vars='timestep', 
-                              var_name='Generator', value_name='Value')
-    storage_long = pd.melt(storage_hourly, id_vars='timestep', 
-                           var_name='StorageUnit', value_name='Value')
-    interconnector_long = pd.melt(interconnector_hourly, id_vars='timestep', 
-                                  var_name='Link', value_name='Value')
-    loads_long = pd.melt(loads_hourly, id_vars='timestep', 
-                         var_name='Load', value_name='Value')
+    # Hourly loads (required)
+    loads = (
+        network
+        .loads_t
+        .p
+        .droplevel(0)
+        .reset_index()
+    )
 
-    # Assign type column
-    generation_long['type'] = 'Generation'
-    storage_long['type'] = 'Storage'
-    interconnector_long['type'] = 'Interconnector'
-    loads_long['type'] = 'Demand'
+    # Hourly prices (required)
+    prices = (
+        network
+        .buses_t
+        .marginal_price
+        .droplevel(0)
+        .reset_index()
+    )
 
-    # Split 'Generator' and 'StorageUnit' columns into 'node' and 'tech'
-    generation_long = split_and_assign(generation_long, "Generator", ["node", "tech"], [0, 1], num_splits=2, delimiter="-")
-    storage_long = split_and_assign(storage_long, "StorageUnit", ["node", "tech"], [0, 1], num_splits=2, delimiter="-")
+    # Hourly storage (optional)
+    try:
+        storage = (
+            network
+            .storage_units_t
+            .p
+            .droplevel(0)
+            .reset_index()
+        )
+    except Exception as e:
+        print(f"Storage component missing or failed to process: {e}")
+        storage = None
 
-    # For loads, rename the column to 'node' since that's the identifier
-    loads_long.rename(columns={"Load": "node"}, inplace=True)
+    # Hourly interconnector flow (optional)
+    try:
+        interconnector_p0 = (
+            network 
+            .links_t
+            .p0
+            .droplevel(0)
+            .reset_index()
+        )
+        interconnector_p1 = (
+            network
+            .links_t
+            .p1
+            .droplevel(0)
+            .reset_index()
+        )
+    except Exception as e:
+        print(f"Interconnector component missing or failed to process: {e}")
+        interconnector_p0 = None
+        interconnector_p1 = None
 
-    # Concatenate the long DataFrames (excluding interconnector if not needed; add as desired)
-    merged_df = pd.concat([generation_long, storage_long, loads_long], ignore_index=True)
+    # --- Convert wide to long format ---
+    generation = pd.melt(
+        generation,
+        id_vars='timestep',
+        var_name='Generator', 
+        value_name='Value'
+    )
 
-    # Add time columns
+    if storage is not None:
+        storage = pd.melt(
+            storage, 
+            id_vars='timestep', 
+            var_name='StorageUnit', 
+            value_name='Value'
+        )
+    
+    if interconnector_p0 is not None:
+        interconnector_p0 = pd.melt(
+            interconnector_p0, 
+            id_vars='timestep', 
+            var_name='Link', 
+            value_name='Value'
+        )
+    if interconnector_p1 is not None:
+        interconnector_p1 = pd.melt(
+            interconnector_p1, 
+            id_vars='timestep',
+            var_name='Link', 
+            value_name='Value'
+        )
+
+    loads = pd.melt(
+        loads, 
+        id_vars='timestep', 
+        var_name='Load', 
+        value_name='Value'
+    ).rename(columns={"Load": "Node"})
+
+    prices = pd.melt(
+        prices, 
+        id_vars='timestep', 
+        var_name='Bus', 
+        value_name='Value'
+    ).rename(columns={"Bus": "Node"})
+    
+    # --- Create identifier columns: Node, Tech, Type ---
+    generation = split_and_assign(
+        generation, 
+        "Generator", 
+        ["Node", "Tech"], 
+        [0, 1], 
+        2, 
+        "-"
+    )
+
+    if storage is not None:
+        storage = split_and_assign(
+            storage, 
+            "StorageUnit", 
+            ["Node", "Tech"], 
+            [0, 1], 
+            2, 
+            "-"
+        )
+    
+    # Process interconnector flows if available
+    if interconnector_p0 is not None:
+        try:
+            interconnector_p0 = split_and_assign(
+                interconnector_p0, 
+                'Link', 
+                ['Node', 'To'], 
+                [0, 1], 
+                2, 
+                "-"
+            ).drop(columns=['To'])
+        except Exception as e:
+            print(f"Skipping interconnector_p0: {e}")
+            interconnector_p0 = None
+
+    if interconnector_p1 is not None:
+        try:
+            interconnector_p1 = split_and_assign(
+                interconnector_p1, 
+                'Link', 
+                ['Node', 'To'], 
+                [1, 0], 
+                2, 
+                "-"
+            ).drop(columns=['To'])
+        except Exception as e:
+            print(f"Skipping interconnector_p1: {e}")
+            interconnector_p1 = None
+
+    # Concatenate interconnector DataFrames if at least one is available
+    if interconnector_p0 is not None or interconnector_p1 is not None:
+        interconnector = interconnector_by_nodes(interconnector_p0, interconnector_p1)
+    else:
+        interconnector = None
+
+    # --- Assign Type column for standardization ---
+    generation['Type'] = 'Generation'
+    if storage is not None:
+        storage['Type'] = 'Storage'
+    if interconnector is not None:
+        interconnector['Type'] = 'Interconnector'
+    loads['Type'] = 'Demand'
+    prices['Type'] = 'Price'
+
+    # --- Concatenate all DataFrames ---
+    dataframes = [generation, loads, prices]
+    if storage is not None:
+        dataframes.append(storage)
+    if interconnector is not None:
+        dataframes.append(interconnector)
+    
+    merged_df = pd.concat(dataframes, ignore_index=True)
+
+    # --- Add time columns ---
     merged_df['Hour'] = merged_df['timestep'].dt.hour
+    merged_df['Day'] = merged_df['timestep'].dt.day   
     merged_df['Month'] = merged_df['timestep'].dt.month
     merged_df['Year'] = merged_df['timestep'].dt.year
 
-    # Sort the DataFrame
-    merged_df.sort_values(by=['timestep', 'type', 'node'], inplace=True, ignore_index=True)
+    # --- Sort the DataFrame ---
+    merged_df.sort_values(
+        by=['timestep', 'Node', 'Type'], 
+        inplace=True, 
+        ignore_index=True
+    )
 
-    # Export to Excel or CSV
-    if file_format.lower() == 'excel':
-        merged_df.to_excel(output_file, index=False)
-    elif file_format.lower() == 'csv':
-        merged_df.to_csv(output_file, index=False)
-    else:
-        raise ValueError("Unsupported file_format. Please use 'excel' or 'csv'.")
+    # --- Add hour-of-year column (Hour8760) ---
+    merged_df = add_hour_of_year_column(
+        merged_df, 
+        'timestep', 
+        'Hour8760'
+    )
 
-    return merged_df
+    return merged_df.to_csv(filename)
