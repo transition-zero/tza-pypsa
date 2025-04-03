@@ -13,3 +13,4 @@ capacity,wind,INDSO,TRUE,295370,MW,<=,2030,only,[wind] max potential in INDSO <=
 capacity,wind,INDWE,TRUE,256533,MW,<=,2030,only,[wind] max potential in INDWE <= 256533 MW(by 2030),wind INDWE max potential,from TERI 2050 report
 capacity,pumped-hydro,IND,TRUE,8000,MW,<=,2030,only,[pumped-hydro] max potential in IND <= 8000 MW(by 2030),pumped-hydro IND max potential,from TERI 2050 report
 capacity,battery,IND,TRUE,4000,MW,<=,2030,only,[battery] max potential in IND <= 4000 MW(by 2030),battery IND max potential,from TERI 2050 report
+capacity,coal,IND,TRUE,251000,MW,<=,2030,only,[coal] max potential in IND <= 251000 MW(by 2030),coal IND max potental,from TERI 2050 report
