@@ -42,6 +42,15 @@ generators:
       BRNXX: 0
       LAOXX: 0
       KHMXX: 0
+    planned_expansion:
+      PHLLU: 
+        2024: 23.385
+      PHLVI: 
+        2024: 74
+      PHLMI: 
+        2024: 10
+      # SGPXX:
+        # 2025: 20 # deactivate because planned_expansion + initial_capacity is higher than the maximum_capacity
     maximum_capacity:
       IDNJW: 1130
       IDNKA: 10590
@@ -217,6 +226,31 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    p_max_pu: # (assumption based on the lowest number for wood-based bioenergy plants : https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Sep/IRENA_Renewable_power_generation_costs_in_2023.pdf)
+      IDNSM: 0.6 
+      IDNJW: 0.6
+      IDNNU: 0.6
+      IDNKA: 0.6
+      IDNSL: 0.6
+      IDNML: 0.6
+      IDNPP: 0.6
+      MYSPE: 0.6
+      MYSSK: 0.6
+      MYSSH: 0.6
+      PHLLU: 0.6
+      PHLVI: 0.6
+      PHLMI: 0.6
+      SGPXX: 0.6
+      BRNXX: 0.6
+      MMRXX: 0.6
+      THANO: 0.6
+      THASO: 0.6
+      THACE: 0.6
+      VNMNO: 0.6
+      VNMCE: 0.6
+      VNMSO: 0.6
+      KHMXX: 0.6
+      LAOXX: 0.6
     # ---
     # universal technology parameters
     extendable: false
@@ -257,6 +291,26 @@ generators:
       THASO: 2690
       SGPXX: 10645
       BRNXX: 268
+    planned_expansion:
+      IDNSM:
+        2024: 1600
+      IDNJW:
+        2024: 1760
+      IDNPP:
+        2029: 20
+      VNMSO:
+        2025: 2824
+      PHLLU:
+        2024: 1320
+      THANO:
+        2024: 31.2
+      THACE:
+        2024: 2054
+        2025: 780
+      SGPXX:
+        2026: 600
+      MMRXX:
+        2024: 388
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -333,41 +387,62 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
+      IDNSM: 0.3
+      IDNJW: 0.3
+      IDNNU: 0.3
+      IDNKA: 0.3
+      IDNSL: 0.3
+      IDNML: 0.3
+      IDNPP: 0.3
       MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 0.
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
-      
-    max_utilisation_rate:
-      SGPXX: 0.71
-      MYSPE: 0.6
-      MYSSK: 0.85  
+      MYSSK: 0.3 # CFE calibration: 0.7
+      MYSSH: 0.3 # CFE calibration: 0.7
+      PHLLU: 0.3
+      PHLVI: 0.3
+      PHLMI: 0.3
+      SGPXX: 0.5
+      BRNXX: 0.3
+      MMRXX: 0.3
+      THANO: 0.4
+      THASO: 0.4
+      THACE: 0.4
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
+      KHMXX: 0.3
+      LAOXX: 0.3
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9 # CFE calibration: 0.45
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9 # CFE calibration: 0.8
+      THASO: 0.9 # CFE calibration: 0.8
+      THACE: 0.9 # CFE calibration: 0.8
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    # capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
     # ---
@@ -407,6 +482,22 @@ generators:
       KHMXX: 755
       MMRXX: 138
       LAOXX: 1878
+    planned_expansion:
+      IDNSM:
+        2024: 600
+        2026: 300
+      IDNJW:
+        2024: 600
+        2025: 1000
+        2026: 1000
+      IDNSL:
+        2024: 200
+      IDNKA:
+        2025: 150
+      PHLLU:
+        2024: 450
+      KHMXX:
+        2025: 265
     efficiency:
       IDNSM: 0.35
       IDNJW: 0.35
@@ -490,23 +581,48 @@ generators:
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.4
+      MYSSK: 0.4 # CFE calibration: 0.6
+      MYSSH: 0.4 # CFE calibration: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
+      THANO: 0.4 # CFE calibration: 0.5
+      THASO: 0.4 # CFE calibration: 0.5
+      THACE: 0.4 # CFE calibration: 0.5
+      VNMNO: 0.4 # CFE calibration: 0.6
+      VNMCE: 0.4 # CFE calibration: 0.6
+      VNMSO: 0.4 # CFE calibration: 0.6
+      KHMXX: 0.4 # CFE calibration: 0.6
       LAOXX: 0.
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9 # CFE calibration: 0.75
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9 # CFE calibration: 0.75
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9 # CFE calibration: 0.75
+      THASO: 0.9 # CFE calibration: 0.75
+      THACE: 0.9 # CFE calibration: 0.75
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -514,10 +630,10 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.    
+    generation_blend_share: 0.
     # ---
     # unit commitment
-    committable: false
+    committable: false # calibration: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -532,18 +648,37 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      IDNSM: 224
-      IDNJW: 3655
-      IDNKA: 60
-      VNMNO: 4430
-      VNMCE: 5514
+      IDNSM: 0
+      IDNNU: 0
+      IDNJW: 3375
+      IDNSL: 0
+      IDNKA: 0
+      IDNML: 0
+      IDNPP: 0
+      VNMNO: 1200
+      VNMCE: 5484
       VNMSO: 4333
-      MYSSK: 624
-      PHLLU: 2714
-      PHLVI: 625
-      PHLMI: 765
+      MYSPE: 0
+      MYSSH: 0
+      MYSSK: 0
+      PHLLU: 1978
+      PHLVI: 0
+      PHLMI: 0
+      THANO: 0
       THACE: 660
+      THASO: 0
       KHMXX: 700
+      SGPXX: 0
+      BRNXX: 0
+      MMRXX: 0
+      LAOXX: 0
+    planned_extension:
+      VNMCE:
+        2024: 1432
+      VNMSO:
+        2026: 1200
+      LAOXX:
+        2025: 660
     efficiency:
       IDNSM: 0.38
       IDNJW: 0.38
@@ -627,23 +762,48 @@ generators:
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.4 # CFE calibration: 0.65
+      MYSSK: 0.4 # CFE calibration: 0.65
+      MYSSH: 0.4 # CFE calibration: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.4 # CFE calibration: 0.6
+      THASO: 0.4 # CFE calibration: 0.6
+      THACE: 0.4 # CFE calibration: 0.6
+      VNMNO: 0.4 # CFE calibration: 0.6
+      VNMCE: 0.4 # CFE calibration: 0.6
+      VNMSO: 0.4 # CFE calibration: 0.6
+      KHMXX: 0.4 # CFE calibration: 0.6
+      LAOXX: 0.4 # CFE calibration: 0.5
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -651,7 +811,7 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.    
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -671,6 +831,10 @@ generators:
     initial_capacity:
       IDNJW: 1900
       MYSPE: 4000
+    planned_expansion:
+      VNMCE:
+        2025: 1330
+        2026: 1403
     efficiency:
       IDNSM: 0.42
       IDNJW: 0.42
@@ -754,23 +918,48 @@ generators:
       IDNSL: 0.
       IDNML: 0.
       IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
+      MYSPE: 0.4 # CFE calibration: 0.65
+      MYSSK: 0.4 # CFE calibration: 0.65
+      MYSSH: 0.4 # CFE calibration: 0.6
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
       BRNXX: 0.
       MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      THANO: 0.4 # CFE calibration: 0.6
+      THASO: 0.4 # CFE calibration: 0.6
+      THACE: 0.4 # CFE calibration: 0.6
+      VNMNO: 0.4 # CFE calibration: 0.6
+      VNMCE: 0.4 # CFE calibration: 0.6
+      VNMSO: 0.4 # CFE calibration: 0.6
+      KHMXX: 0.4 # CFE calibration: 0.6
+      LAOXX: 0.4 # CFE calibration: 0.5
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
@@ -778,7 +967,187 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.    
+    generation_blend_share: 0.
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: circulating-fluidized-bed
+    type: circulating-fluidized-bed
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      IDNSM: 224
+      IDNNU: 0
+      IDNJW: 280
+      IDNSL: 0
+      IDNKA: 60
+      IDNML: 0
+      IDNPP: 0
+      VNMNO: 3230
+      VNMCE: 30
+      VNMSO: 0
+      MYSPE: 0
+      MYSSH: 0
+      MYSSK: 624
+      PHLLU: 736
+      PHLVI: 625
+      PHLMI: 765
+      THANO: 0
+      THACE: 0
+      THASO: 0
+      KHMXX: 0
+      SGPXX: 0
+      BRNXX: 0
+      MMRXX: 0
+      LAOXX: 0
+    planned_expansion:
+      VNMNO:
+        2026: 435
+        2027: 325
+      PHLVI:
+        2026: 135
+    efficiency:
+      IDNSM: 0.41
+      IDNJW: 0.41
+      IDNNU: 0.41
+      IDNKA: 0.41
+      IDNSL: 0.41
+      IDNML: 0.41
+      IDNPP: 0.41
+      MYSPE: 0.41
+      MYSSK: 0.41
+      MYSSH: 0.41
+      PHLLU: 0.41
+      PHLVI: 0.41
+      PHLMI: 0.41
+      SGPXX: 0.41
+      BRNXX: 0.41
+      MMRXX: 0.41
+      THANO: 0.41
+      THASO: 0.41
+      THACE: 0.41
+      VNMNO: 0.41
+      VNMCE: 0.41
+      VNMSO: 0.41
+      KHMXX: 0.41
+      LAOXX: 0.41
+    ramp_limit_up:
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
+    ramp_limit_down:
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
+    p_min_pu:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.4
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.4 # CFE calibration: 0.65
+      MYSSK: 0.4 # CFE calibration: 0.65
+      MYSSH: 0.4 # CFE calibration: 0.6
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.4 # CFE calibration: 0.6
+      THASO: 0.4 # CFE calibration: 0.6
+      THACE: 0.4 # CFE calibration: 0.6
+      VNMNO: 0.4 # CFE calibration: 0.6
+      VNMCE: 0.4 # CFE calibration: 0.6
+      VNMSO: 0.4 # CFE calibration: 0.6
+      KHMXX: 0.4 # CFE calibration: 0.6
+      LAOXX: 0.4 # CFE calibration: 0.5
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.9
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -811,6 +1180,11 @@ generators:
       PHLMI: 499
       KHMXX: 521.4
       MMRXX: 181
+    planned_expansion:
+      PHLVI: 
+        2024: 114.874
+      PHLMI:
+        2024: 55
     efficiency:
       IDNSM: 0.46
       IDNJW: 0.46
@@ -896,8 +1270,8 @@ generators:
       IDNPP: 0.
       MYSPE: 0.
       MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
+      MYSSH: 0.3 # CFE calibration: 0.7
+      PHLLU: 0
       PHLVI: 0.
       PHLMI: 0.
       SGPXX: 0.
@@ -906,9 +1280,9 @@ generators:
       THANO: 0.
       THASO: 0.
       THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
       KHMXX: 0.
       LAOXX: 0.
     # ---
@@ -918,7 +1292,7 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.  
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -943,6 +1317,16 @@ generators:
       PHLLU: 850
       PHLVI: 780
       PHLMI: 113
+    planned_expansion:
+      IDNSM:
+        2025: 55
+      IDNJW:
+        2024: 110
+        2025: 70
+      PHLLU:
+        2024: 89.073
+      PHLVI:
+        2024: 5.645
     maximum_capacity:
       BRNXX: 0
       IDNJW: 10270
@@ -1075,7 +1459,7 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1117,6 +1501,48 @@ generators:
       BRNXX: 0
       MMRXX: 3262
       LAOXX: 9312
+    planned_expansion:
+      IDNSM:
+        2024: 177
+        2025: 1370
+      IDNJW:
+        2024: 227
+      IDNSL:
+        2026: 58.1
+        2028: 21
+      VNMNO:
+        2024: 126
+        2025: 480
+      VNMCE:
+        2024: 546
+        2025: 945
+        2026: 120
+        2028: 1200
+      VNMSO:
+        2026: 240
+      MYSPE:
+        2027: 300
+      MYSSK:
+        2028: 1285
+      PHLLU: 
+        2024: 54.97
+        2025: 62.4
+        2030: 500
+      PHLVI:
+        2024: 20.1
+      PHLMI:
+        2024: 76.65
+      KHMXX:
+        2026: 230
+      MMRXX:
+        2024: 111
+        2026: 152
+      LAOXX:
+        2024: 129
+        2025: 1184
+        2026: 30
+        2028: 124
+        2030: 1527.5
     maximum_capacity:
       BRNXX: 0
       IDNJW: 4950
@@ -1217,7 +1643,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
-    p_min_pu:
+    p_min_pu: # CFE calibrated: deactivated to force hydro to generate based on MYSPE hourly CF
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
@@ -1247,12 +1673,12 @@ generators:
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
-    lifetime: 50 # years
+    lifetime: 80 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
-    committable: false
+    committable: false # CFE calibration: true
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     shut_down_cost: 0 # currency/MW
     ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1291,6 +1717,9 @@ generators:
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
+    planned_expansion:
+      SGPXX:
+        2025: 680
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -1367,38 +1796,64 @@ generators:
       KHMXX: 1.0
       LAOXX: 1.0
     p_min_pu:
-      IDNSM: 0.
-      IDNJW: 0.
-      IDNNU: 0.
-      IDNKA: 0.
-      IDNSL: 0.
-      IDNML: 0.
-      IDNPP: 0.
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      PHLLU: 0.
-      PHLVI: 0.
-      PHLMI: 0.
-      SGPXX: 0.
-      BRNXX: 0.
-      MMRXX: 0.
-      THANO: 0.
-      THASO: 0.
-      THACE: 0.
-      VNMNO: 0.
-      VNMCE: 0.
-      VNMSO: 0.
-      KHMXX: 0.
-      LAOXX: 0.
+      IDNSM: 0.3
+      IDNJW: 0.3
+      IDNNU: 0.3
+      IDNKA: 0.3
+      IDNSL: 0.3
+      IDNML: 0.3
+      IDNPP: 0.3
+      MYSPE: 0.3 # CFE calibration: 0.
+      MYSSK: 0.3 # CFE calibration: 0.7
+      MYSSH: 0.3 # CFE calibration: 0.7
+      PHLLU: 0.3
+      PHLVI: 0.3
+      PHLMI: 0.3
+      SGPXX: 0.3 # CFE calibration: 0.5
+      BRNXX: 0.3
+      MMRXX: 0.3
+      THANO: 0.3 # CFE calibration: 0.4
+      THASO: 0.3 # CFE calibration: 0.4
+      THACE: 0.3 # CFE calibration: 0.4
+      VNMNO: 0.3
+      VNMCE: 0.3
+      VNMSO: 0.3
+      KHMXX: 0.3
+      LAOXX: 0.3
+    p_max_pu:
+      IDNSM: 0.9
+      IDNJW: 0.9
+      IDNNU: 0.9
+      IDNKA: 0.9
+      IDNSL: 0.9
+      IDNML: 0.9
+      IDNPP: 0.9
+      MYSPE: 0.3 # CFE calibration: 0.6
+      MYSSK: 0.9
+      MYSSH: 0.9
+      PHLLU: 0.9
+      PHLVI: 0.9
+      PHLMI: 0.9
+      SGPXX: 0.9
+      BRNXX: 0.9
+      MMRXX: 0.9
+      THANO: 0.9
+      THASO: 0.9
+      THACE: 0.9
+      VNMNO: 0.9
+      VNMCE: 0.9
+      VNMSO: 0.9
+      KHMXX: 0.9
+      LAOXX: 0.9
     # ---
     # universal technology parameters
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    capacity_factor: 0.9
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1440,6 +1895,32 @@ generators:
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
+    planned_expansion:    
+      IDNSM:
+        2024: 33.6
+      IDNKA:
+        2024: 80
+      VNMCE:
+        2024: 120
+      MYSPE:
+        2024: 638
+        2025: 100
+      PHLLU:
+        2024: 761
+        2025: 565.856
+        2026: 93
+        2027: 6.9
+      PHLMI:
+        2024: 1
+      THANO:
+        2024: 127.8
+        2025: 477
+      THACE:
+        2024: 309
+      SGPXX:
+        2025: 34.4
+      LAOXX:
+        2025: 64
     maximum_capacity:
       IDNSM: 166398
       IDNNU: 116257
@@ -1570,9 +2051,9 @@ generators:
     extendable: false
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
-    lifetime: 25 # years
+    lifetime: 20 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1721,7 +2202,7 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 25 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1763,6 +2244,9 @@ generators:
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
+    planned_expansion:
+      VNMSO:
+        2025: 711.4
     maximum_capacity:
       IDNSM: 2891026
       IDNNU: 180272
@@ -1895,7 +2379,7 @@ generators:
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1937,6 +2421,18 @@ generators:
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
+    planned_expansion:
+      IDNJW:
+        2025: 250
+      VNMCE:
+        2024: 276.2
+        2025: 1289.7
+      VNMSO:
+        2025: 268
+      PHLLU:
+        2025: 240
+      LAOXX:
+        2025: 600
     maximum_capacity:
       IDNSM: 83905
       IDNNU: 30295
@@ -2069,7 +2565,7 @@ generators:
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
     is_blend_or_ccs: false
-    generation_blend_share: 0.      
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2079,3 +2575,184 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: combined-cycle-hydrogen-fossil
+    type: combined-cycle-hydrogen-fossil
+    carrier: gas-hydrogen-fossil
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      SGPXX: 0
+      MYSSK: 0
+      MYSPE: 0
+    planned_expansion:
+      SGPXX:
+        2027: 420 # 30% blending (70% for total planned capacity: 600*0.7)
+        2029: 420 # 30% blending (70% for total planned capacity: 600*0.7)
+      MYSSK:
+        2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
+      MYSPE:
+        2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
+    efficiency:
+      SGPXX: 0.6
+      MYSSK: 0.6
+      MYSPE: 0.6
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 40 # years
+    # capacity_factor: 0.9
+    is_blend_or_ccs: true
+    generation_blend_share: 0.3
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+
+  - id: combined-cycle-hydrogen-clean
+    type: combined-cycle-hydrogen-clean
+    carrier: gas-hydrogen-clean
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      SGPXX: 0
+      MYSSK: 0
+      MYSPE: 0
+    planned_expansion:
+      SGPXX:
+        2027: 180 # 30% blending (30% for total planned capacity: 600*0.3)
+        2029: 180 # 30% blending (70% for total planned capacity: 600*0.3)
+      MYSSK:
+        2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
+      MYSPE:
+        2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
+    efficiency:
+      SGPXX: 0.6
+      MYSSK: 0.6
+      MYSPE: 0.6
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 40 # years
+    # capacity_factor: 0.9
+    is_blend_or_ccs: true
+    generation_blend_share: 0.3
+    # ---
+    # unit commitment
+    committable: false
+    start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: coal-biomass-cofiring-fossil
+    type: coal-subcritical-biomass-cofiring-fossil
+    carrier: coal-biomass-fossil
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      MYSPE: 0
+    planned_expansion:
+      MYSPE:
+        2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
+    efficiency:
+      MYSPE: 0.38
+    ramp_limit_up:
+      MYSPE: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+    p_min_pu:
+      MYSPE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.15
+    # ---
+    # unit commitment
+    committable: false # calibration: true
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: coal-biomass-cofiring-clean
+    type: coal-subcritical-biomass-cofiring-clean
+    carrier: coal-biomass-clean
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      MYSPE: 0
+    planned_expansion:
+      MYSPE:
+        2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
+    efficiency:
+      MYSPE: 0.38
+    ramp_limit_up:
+      MYSPE: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+    p_min_pu:
+      MYSPE: 0.
+    # ---
+    # universal technology parameters
+    extendable: false
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.15
+    # ---
+    # unit commitment
+    committable: false # calibration: true
+    start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0.38 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 5 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 6 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
