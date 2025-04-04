@@ -90,6 +90,7 @@ ultrasupercritical-INDEA-coal-exo-2030,ultrasupercritical,INDEA,5840.0,False,coa
 ultrasupercritical-INDNO-coal-exo-2030,ultrasupercritical,INDNO,2780.0,False,coal,2030,ultrasupercritical,1894656.92,0.42,28.22,100,0.6,0.6
 ultrasupercritical-INDWE-coal-exo-2030,ultrasupercritical,INDWE,6400.0,False,coal,2030,ultrasupercritical,1894656.92,0.42,28.22,100,0.6,0.6
 pressurized-heavy-water-reactor-INDNO-uranium-exo-2030,pressurized-heavy-water-reactor,INDNO,1400.0,False,uranium,2030,pressurized-heavy-water-reactor,3482042.01,0.33,10.46,100,,
+pressurized-heavy-water-reactor-INDSO-uranium-exo-2030,pressurized-heavy-water-reactor,INDSO,4000.0,False,uranium,2030,pressurized-heavy-water-reactor,3482042.01,0.33,10.46,100,,
 solar-groundmounted-INDEA-solar-exo-2030,photovoltaic-unspecified,INDEA,0.0,True,solar,2030,photovoltaic-unspecified,655172.48,1.0,0.1,100,,
 solar-groundmounted-INDNE-solar-exo-2030,photovoltaic-unspecified,INDNE,0.0,True,solar,2030,photovoltaic-unspecified,655172.48,1.0,0.1,100,,
 solar-groundmounted-INDNO-solar-exo-2030,photovoltaic-unspecified,INDNO,0.0,True,solar,2030,photovoltaic-unspecified,655172.48,1.0,0.1,100,,
