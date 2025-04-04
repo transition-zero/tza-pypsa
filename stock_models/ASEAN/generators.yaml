@@ -2577,115 +2577,115 @@ generators:
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
 
-  - id: combined-cycle-hydrogen-fossil
-    type: combined-cycle-hydrogen-fossil
-    carrier: gas-hydrogen-fossil
-    # ---
-    # unique technology parameters by bus
-    initial_capacity:
-      SGPXX: 0
-      MYSSK: 0
-      MYSPE: 0
-    planned_expansion:
-      SGPXX:
-        2027: 420 # 30% blending (70% for total planned capacity: 600*0.7)
-        2029: 420 # 30% blending (70% for total planned capacity: 600*0.7)
-      MYSSK:
-        2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
-      MYSPE:
-        2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
-    efficiency:
-      SGPXX: 0.6
-      MYSSK: 0.6
-      MYSPE: 0.6
-    ramp_limit_up:
-      MYSPE: 1.
-      MYSSK: 1.
-      SGPXX: 1.
-    ramp_limit_down:
-      MYSPE: 1.
-      MYSSK: 1.
-      SGPXX: 1.
-    p_min_pu:
-      MYSPE: 0.
-      MYSSK: 0.
-      SGPXX: 0.
-    # ---
-    # universal technology parameters
-    extendable: false
-    capital_cost: 1 # currency/MW
-    marginal_cost: 1 # currency/MWh
-    lifetime: 40 # years
-    # capacity_factor: 0.9
-    is_blend_or_ccs: true
-    generation_blend_share: 0.3
-    # ---
-    # unit commitment
-    committable: false
-    start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    shut_down_cost: 0 # currency/MW
-    ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  # - id: combined-cycle-hydrogen-fossil
+  #   type: combined-cycle-hydrogen-fossil
+  #   carrier: gas-hydrogen-fossil
+  #   # ---
+  #   # unique technology parameters by bus
+  #   initial_capacity:
+  #     SGPXX: 0
+  #     MYSSK: 0
+  #     MYSPE: 0
+  #   planned_expansion:
+  #     SGPXX:
+  #       2027: 420 # 30% blending (70% for total planned capacity: 600*0.7)
+  #       2029: 420 # 30% blending (70% for total planned capacity: 600*0.7)
+  #     MYSSK:
+  #       2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
+  #     MYSPE:
+  #       2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
+  #   efficiency:
+  #     SGPXX: 0.6
+  #     MYSSK: 0.6
+  #     MYSPE: 0.6
+  #   ramp_limit_up:
+  #     MYSPE: 1.
+  #     MYSSK: 1.
+  #     SGPXX: 1.
+  #   ramp_limit_down:
+  #     MYSPE: 1.
+  #     MYSSK: 1.
+  #     SGPXX: 1.
+  #   p_min_pu:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     SGPXX: 0.
+  #   # ---
+  #   # universal technology parameters
+  #   extendable: false
+  #   capital_cost: 1 # currency/MW
+  #   marginal_cost: 1 # currency/MWh
+  #   lifetime: 40 # years
+  #   # capacity_factor: 0.9
+  #   is_blend_or_ccs: true
+  #   generation_blend_share: 0.7
+  #   # ---
+  #   # unit commitment
+  #   committable: false
+  #   start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   shut_down_cost: 0 # currency/MW
+  #   ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
 
 
-  - id: combined-cycle-hydrogen-clean
-    type: combined-cycle-hydrogen-clean
-    carrier: gas-hydrogen-clean
-    # ---
-    # unique technology parameters by bus
-    initial_capacity:
-      SGPXX: 0
-      MYSSK: 0
-      MYSPE: 0
-    planned_expansion:
-      SGPXX:
-        2027: 180 # 30% blending (30% for total planned capacity: 600*0.3)
-        2029: 180 # 30% blending (70% for total planned capacity: 600*0.3)
-      MYSSK:
-        2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
-      MYSPE:
-        2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
-    efficiency:
-      SGPXX: 0.6
-      MYSSK: 0.6
-      MYSPE: 0.6
-    ramp_limit_up:
-      MYSPE: 1.
-      MYSSK: 1.
-      SGPXX: 1.
-    ramp_limit_down:
-      MYSPE: 1.
-      MYSSK: 1.
-      SGPXX: 1.
-    p_min_pu:
-      MYSPE: 0.
-      MYSSK: 0.
-      SGPXX: 0.
-    # ---
-    # universal technology parameters
-    extendable: false
-    capital_cost: 1 # currency/MW
-    marginal_cost: 1 # currency/MWh
-    lifetime: 40 # years
-    # capacity_factor: 0.9
-    is_blend_or_ccs: true
-    generation_blend_share: 0.3
-    # ---
-    # unit commitment
-    committable: false
-    start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    shut_down_cost: 0 # currency/MW
-    ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
-    min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  # - id: combined-cycle-hydrogen-clean
+  #   type: combined-cycle-hydrogen-clean
+  #   carrier: gas-hydrogen-clean
+  #   # ---
+  #   # unique technology parameters by bus
+  #   initial_capacity:
+  #     SGPXX: 0
+  #     MYSSK: 0
+  #     MYSPE: 0
+  #   planned_expansion:
+  #     SGPXX:
+  #       2027: 180 # 30% blending (30% for total planned capacity: 600*0.3)
+  #       2029: 180 # 30% blending (70% for total planned capacity: 600*0.3)
+  #     MYSSK:
+  #       2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
+  #     MYSPE:
+  #       2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
+  #   efficiency:
+  #     SGPXX: 0.6
+  #     MYSSK: 0.6
+  #     MYSPE: 0.6
+  #   ramp_limit_up:
+  #     MYSPE: 1.
+  #     MYSSK: 1.
+  #     SGPXX: 1.
+  #   ramp_limit_down:
+  #     MYSPE: 1.
+  #     MYSSK: 1.
+  #     SGPXX: 1.
+  #   p_min_pu:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     SGPXX: 0.
+  #   # ---
+  #   # universal technology parameters
+  #   extendable: false
+  #   capital_cost: 1 # currency/MW
+  #   marginal_cost: 1 # currency/MWh
+  #   lifetime: 40 # years
+  #   # capacity_factor: 0.9
+  #   is_blend_or_ccs: true
+  #   generation_blend_share: 0.3
+  #   # ---
+  #   # unit commitment
+  #   committable: false
+  #   start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   shut_down_cost: 0 # currency/MW
+  #   ramp_limit_start_up: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   ramp_limit_shut_down: 0.45 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_up_time: 3 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_down_time: 2 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
 
   - id: coal-biomass-cofiring-fossil
-    type: coal-subcritical-biomass-cofiring-fossil
+    type: coal-biomass-cofiring-fossil
     carrier: coal-biomass-fossil
     # ---
     # unique technology parameters by bus
@@ -2709,7 +2709,7 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: true
-    generation_blend_share: 0.15
+    generation_blend_share: 0.85
     # ---
     # unit commitment
     committable: false # calibration: true
@@ -2722,7 +2722,7 @@ generators:
 
 
   - id: coal-biomass-cofiring-clean
-    type: coal-subcritical-biomass-cofiring-clean
+    type: coal-biomass-cofiring-clean
     carrier: coal-biomass-clean
     # ---
     # unique technology parameters by bus
