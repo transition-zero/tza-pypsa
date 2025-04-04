@@ -255,6 +255,8 @@ generators:
     # universal technology parameters
     extendable: false
     lifetime: 25 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -441,6 +443,8 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -625,6 +629,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false # calibration: true
@@ -804,6 +810,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -958,6 +966,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1136,6 +1146,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1279,6 +1291,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1444,6 +1458,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -1658,6 +1674,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 80 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false # CFE calibration: true
@@ -1834,6 +1852,8 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     capacity_factor: 0.9
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2032,6 +2052,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 20 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2179,6 +2201,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 25 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2354,6 +2378,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2538,6 +2564,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
+    is_carbon_free_share: false
+    generation_blend_share: 0.
     # ---
     # unit commitment
     committable: false
@@ -2589,6 +2617,8 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
+    is_carbon_free_share: true
+    generation_blend_share: 0.3
     # ---
     # unit commitment
     committable: false
@@ -2641,6 +2671,8 @@ generators:
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
+    is_carbon_free_share: true
+    generation_blend_share: 0.3
     # ---
     # unit commitment
     committable: false
@@ -2676,6 +2708,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: true
+    generation_blend_share: 0.15
     # ---
     # unit commitment
     committable: false # calibration: true
@@ -2711,6 +2745,8 @@ generators:
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
+    is_carbon_free_share: true
+    generation_blend_share: 0.15
     # ---
     # unit commitment
     committable: false # calibration: true
