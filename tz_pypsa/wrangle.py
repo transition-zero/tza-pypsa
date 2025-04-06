@@ -122,6 +122,39 @@ def export_to_excel(
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
+
+def prompt_market():
+    """
+    Prompts the user to enter a market/country/region for this Pypsa run.
+    Returns:
+        str: The user-entered market/country/region.
+    """
+    prompt_message = (
+        "Please enter the market/country/region for this Pypsa run.\n"
+        "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
+    )
+
+    print(prompt_message, end='')
+    market = input(prompt_message)
+    print(f"You entered: {market}")
+    return market
+
+def prompt_pypsa_run_identifier():
+    """
+    Prompts the user to enter a run identifier.
+    Returns:
+        str: The user-entered run number or any relevant comments.
+    """
+    prompt_message = (
+        "Please enter the run identifier.\n"
+        "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
+    )
+
+    print(prompt_message, end='')
+    run_identifier = input()
+    print(f"You entered: {run_identifier}")
+    return run_identifier
+
 def add_hour_of_year_column(
         df, 
         datetime_col, 
@@ -216,7 +249,7 @@ def interconnector_by_nodes(
      """
     interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
         
-    return interconnector.groupby(['timestep', 'Node']).agg({'Value': 'sum'}).reset_index()
+    return interconnector.groupby(['timestep', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
 def export_csv_consolidated(
         network: pypsa.Network, 
@@ -373,11 +406,11 @@ def export_csv_consolidated(
             interconnector_p0 = split_and_assign(
                 interconnector_p0, 
                 'Link', 
-                ['Node', 'To'], 
+                ['Node', 'Node_Destination'], 
                 [0, 1], 
                 2, 
                 "-"
-            ).drop(columns=['To'])
+            )
         except Exception as e:
             print(f"Skipping interconnector_p0: {e}")
             interconnector_p0 = None
@@ -387,11 +420,11 @@ def export_csv_consolidated(
             interconnector_p1 = split_and_assign(
                 interconnector_p1, 
                 'Link', 
-                ['Node', 'To'], 
+                ['Node', 'Node_Destination'], 
                 [1, 0], 
                 2, 
                 "-"
-            ).drop(columns=['To'])
+            )
         except Exception as e:
             print(f"Skipping interconnector_p1: {e}")
             interconnector_p1 = None
@@ -402,6 +435,10 @@ def export_csv_consolidated(
     else:
         interconnector = None
 
+    # Update interconnector sign convention such export is negative and import is positive
+    if interconnector is not None:
+        interconnector['Value'] = interconnector['Value']*-1
+
     # --- Assign Type column for standardization ---
     generation['Type'] = 'Generation'
     if storage is not None:
@@ -410,6 +447,13 @@ def export_csv_consolidated(
         interconnector['Type'] = 'Interconnector'
     loads['Type'] = 'Demand'
     prices['Type'] = 'Price'
+
+    # --- Assign Tech column for interconnector ---
+    if interconnector is not None:
+        interconnector['Tech'] = 'Interconnector'
+
+    # Assign demand to tech column for loads
+    loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
     dataframes = [generation, loads, prices]
@@ -421,10 +465,14 @@ def export_csv_consolidated(
     merged_df = pd.concat(dataframes, ignore_index=True)
 
     # --- Add time columns ---
-    merged_df['Hour'] = merged_df['timestep'].dt.hour
-    merged_df['Day'] = merged_df['timestep'].dt.day   
+    merged_df['Hour_of_the_Day'] = merged_df['timestep'].dt.hour
+    merged_df['Day_of_the_Month'] = merged_df['timestep'].dt.day   
     merged_df['Month'] = merged_df['timestep'].dt.month
     merged_df['Year'] = merged_df['timestep'].dt.year
+
+    # --- Add run identifier and market column ---
+    merged_df['Market'] = prompt_market()
+    merged_df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
 
     # --- Sort the DataFrame ---
     merged_df.sort_values(
@@ -438,6 +486,15 @@ def export_csv_consolidated(
         merged_df, 
         'timestep', 
         'Hour8760'
+    )
+
+    # --- Map bus long names to the DataFrame ---
+    buses_long_name = network.buses.long_name
+    merged_df = merged_df.merge(
+        buses_long_name, 
+        how='left', 
+        left_on='Node', 
+        right_index=True
     )
 
     return merged_df.to_csv(filename)
