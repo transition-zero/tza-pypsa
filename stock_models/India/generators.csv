@@ -82,10 +82,10 @@ supercritical-INDSO-coal-exo-2023,supercritical,INDSO,15640.0,False,coal,2023,su
 supercritical-INDWE-coal-exo-2023,supercritical,INDWE,29370.0,False,coal,2023,supercritical,1901234.29,0.4,29.63,100,0.6,0.6
 ultrasupercritical-INDWE-coal-exo-2023,ultrasupercritical,INDWE,1320.0,False,coal,2023,ultrasupercritical,1915479.94,0.4,29.63,100,0.6,0.6
 subcritical-INDEA-coal-exo-2030,subcritical,INDEA,350.0,False,coal,2030,subcritical,2228756.34,0.36,32.93,100,0.6,0.6
-supercritical-INDEA-coal-exo-2030,supercritical,INDEA,2780.0,False,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
-supercritical-INDNO-coal-exo-2030,supercritical,INDNO,4620.0,False,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
-supercritical-INDSO-coal-exo-2030,supercritical,INDSO,8240.0,False,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
-supercritical-INDWE-coal-exo-2030,supercritical,INDWE,660.0,False,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
+supercritical-INDEA-coal-exo-2030,supercritical,INDEA,2780.0,True,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
+supercritical-INDNO-coal-exo-2030,supercritical,INDNO,4620.0,True,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
+supercritical-INDSO-coal-exo-2030,supercritical,INDSO,8240.0,True,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
+supercritical-INDWE-coal-exo-2030,supercritical,INDWE,660.0,True,coal,2030,supercritical,1880485.79,0.4,29.63,100,0.6,0.6
 ultrasupercritical-INDEA-coal-exo-2030,ultrasupercritical,INDEA,5840.0,False,coal,2030,ultrasupercritical,1894656.92,0.42,28.22,100,0.6,0.6
 ultrasupercritical-INDNO-coal-exo-2030,ultrasupercritical,INDNO,2780.0,False,coal,2030,ultrasupercritical,1894656.92,0.42,28.22,100,0.6,0.6
 ultrasupercritical-INDWE-coal-exo-2030,ultrasupercritical,INDWE,6400.0,False,coal,2030,ultrasupercritical,1894656.92,0.42,28.22,100,0.6,0.6
@@ -104,3 +104,4 @@ hydro-reservoir-INDNE-water-exo-2030,hydro-reservoir,INDNE,0.0,True,water,2030,h
 hydro-reservoir-INDNO-water-exo-2030,hydro-reservoir,INDNO,0.0,True,water,2030,hydro-reservoir,6313869.45,1.0,0.1,100,,
 hydro-reservoir-INDSO-water-exo-2030,hydro-reservoir,INDSO,0.0,True,water,2030,hydro-reservoir,6313869.45,1.0,0.1,100,,
 hydro-reservoir-INDWE-water-exo-2030,hydro-reservoir,INDWE,0.0,True,water,2030,hydro-reservoir,6313869.45,1.0,0.1,100,,
+
