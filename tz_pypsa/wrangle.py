@@ -251,9 +251,8 @@ def interconnector_by_nodes(
         
     return interconnector.groupby(['timestep', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
-def export_csv_consolidated(
-        network: pypsa.Network, 
-        filename: str   
+def transform_visualiser_hourly_output(
+        network: pypsa.Network
     ):
     """
     Extracts hourly generation, storage, interconnector, and load data from a
@@ -465,8 +464,8 @@ def export_csv_consolidated(
     merged_df = pd.concat(dataframes, ignore_index=True)
 
     # --- Add time columns ---
-    merged_df['Hour_of_the_Day'] = merged_df['timestep'].dt.hour
-    merged_df['Day_of_the_Month'] = merged_df['timestep'].dt.day   
+    merged_df['HourOfDay'] = merged_df['timestep'].dt.hour
+    merged_df['DayOfMonth'] = merged_df['timestep'].dt.day   
     merged_df['Month'] = merged_df['timestep'].dt.month
     merged_df['Year'] = merged_df['timestep'].dt.year
 
@@ -497,4 +496,56 @@ def export_csv_consolidated(
         right_index=True
     )
 
-    return merged_df.to_csv(filename)
+    return merged_df
+
+def transform_visualiser_yearly_output(
+        network: pypsa.Network
+    ) -> pd.DataFrame:
+    """
+    Extracts yearly statistics from a PyPSA network object, converts them to a long format,
+    and adds run identifier and market columns.
+    
+    Parameters
+    ----------
+    network : pypsa.Network
+        A PyPSA network object.
+    
+    Returns
+    -------
+    pd.DataFrame
+        The merged long format DataFrame.
+    """
+    # Extract statistics output into a df
+    df = network.statistics(groupby=['bus', 'name', 'carrier'])
+
+    year = df.columns.get_level_values(1)[0]
+
+    # Drop the first level of the MultiIndex columns
+    df.columns = df.columns.droplevel(1)
+
+    # Reset the index to convert MultiIndex to columns
+    df = (df
+          .reset_index()
+          .rename(columns=
+                  {'level_0': 'Type',
+                   'level_1': 'Bus',
+                   'level_2': 'Bus_Tech_Vintage', # Non-standardised format across different market thus include it as full name for now
+                   'level_3': 'Tech',
+                   }
+                   )
+    )
+
+    # Convert the df from wide to long format
+    df = pd.melt(
+        df,
+        id_vars=['Type', 'Bus', 'Bus_Tech_Vintage', 'Tech'],
+        var_name='Metric',
+        value_name='Value'
+    )
+
+    # Add the run identifier and market column
+    df['Market'] = prompt_market()
+    df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
+    df['Year'] = year
+
+    return df
