@@ -20,4 +20,4 @@ capacity,coal,IND,TRUE,251000,MW,<=,2030,only,[coal] max potential in IND <= 251
 capacity,wind,INDNO,TRUE,13000,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDNO max buildout,INDNO wind grid level buildout rate
 capacity,wind,INDSO,TRUE,52250,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDSO max buildout,INDSO wind grid level buildout rate
 capacity,wind,INDWE,TRUE,49500,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDWE max buildout,INDWE wind grid level buildout rate
-emissions,CO2eq,IND,TRUE,1585000000,tCO2eq,<=,2030,only,[CO2eq] emissions in [IND] <= 1585MtCO2eq (2030 only), NDC 2030 emissions target,govt target
+emissions,CO2eq,IND,TRUE,1585000000,tCO2eq,<=,2030,only,[CO2eq] emissions in [IND] <= 1585MtCO2eq (2030 only),NDC 2030 emissions target,govt target
