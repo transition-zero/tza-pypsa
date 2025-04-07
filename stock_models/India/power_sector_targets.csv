@@ -1,5 +1,6 @@
 target_type,carrier,nodes,absolute,value,unit,sense,year,years_onwards,constraint,description,notes
-capacity,"solar,wind,water",IND,TRUE,476000,MW,>=,2030,only,"[solar, wind, water] capacity in IND >= 491GW (2030 onwards)",RE capacity target,govt target
+capacity,"solar,wind,water",IND,TRUE,476000,MW,>=,2030,only,"[solar, wind, water] capacity in IND >= 491GW (2030 onwards)",nonFF capacity target,govt target
+capacity,"solar,wind,water",IND,FALSE,50,%,>=,2030,only,"[solar, wind, water] capacity in IND >= 50% capacity (2030 onwards)",nonFF capacity share target,govt target
 capacity,wind,IND,TRUE,100000,MW,<=,2030,only,,wind IND build limit,stakeholder info
 capacity,solar,IND,TRUE,330000,MW,<=,2030,only,,solar IND build limit,historical build rate
 capacity,water,IND,TRUE,51363,MW,<=,2030,only,[water] additional capacity in IND <= 12 GW (by 2030),Hydro expansion potential,from TERI 2050 report
@@ -19,3 +20,4 @@ capacity,coal,IND,TRUE,251000,MW,<=,2030,only,[coal] max potential in IND <= 251
 capacity,wind,INDNO,TRUE,13000,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDNO max buildout,INDNO wind grid level buildout rate
 capacity,wind,INDSO,TRUE,52250,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDSO max buildout,INDSO wind grid level buildout rate
 capacity,wind,INDWE,TRUE,49500,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDWE max buildout,INDWE wind grid level buildout rate
+emissions,CO2eq,IND,TRUE,1585000000,tCO2eq,<=,2030,only,[CO2eq] emissions in [IND] <= 1585MtCO2eq (2030 only), NDC 2030 emissions target,govt target
