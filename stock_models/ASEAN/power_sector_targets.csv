@@ -1,0 +1,27 @@
+target_type,carrier,nodes,absolute,value,unit,sense,year,years_onwards,constraint,description
+capacity,"hydro, biomass, biogas, geothermal, solar",MYS,FALSE,40,%,>=,2035,onwards,"[hydro, biomass, biogas, geothermal, solar] capacity in [MYS] >= 40% (2035 onwards)",RE capacity share target
+generation,"hydro, solar, on-wind, off-wind, biomass, geothermal, ocean",PHL,FALSE,35,%,>=,2030,onwards,"[hydro, solar, on-wind, off-wind, biomass, geothermal, ocean] generation in [PHL] >= 35% (2030 onwards)",RE generation share target
+capacity,"hydro, biomass, biogas, solar, on-wind, off-wind",THA,FALSE,36,%,>=,2037,onwards,"[hydro, biomass, biogas, solar, on-wind, off-wind] capacity in [THA] >= 36% (2037 onwards)",RE capacity share target
+capacity,solar,BRN,FALSE,30,%,>=,2035,onwards,[solar] capacity in [BRN] >= 30% (2035 onwards),RE capacity share target
+capacity,hydro,KHM,TRUE,1558,MW,>=,2030,onwards,[hydro] capacity in [KHM] >= 1558MW (2030 onwards),Hydro capacity target
+capacity,hydro,KHM,TRUE,2973,MW,>=,2040,onwards,[hydro] capacity in [KHM] >= 2973MW (2040 onwards),Hydro capacity target
+capacity,solar,KHM,TRUE,1005,MW,>=,2030,onwards,[solar] capacity in [KHM] >= 1005MW (2030 onwards),Solar capacity target
+capacity,solar,KHM,TRUE,3155,MW,>=,2040,onwards,[solar] capacity in [KHM] >= 3155MW (2040 onwards),Solar capacity target
+capacity,coal,KHM,TRUE,2266,MW,<=,2030,onwards,[coal] capacity in [KHM] <= 2266MW (2030 onwards),Coal phase-out target
+capacity,gas,KHM,TRUE,900,MW,==,2040,only,[gas] capacity in [KHM] == 900MW (2040 only),Gas capacity target
+capacity,hydro,LAO,TRUE,13000,MW,>=,2030,onwards,[hydro] capacity in [LAO] >= 13000MW (2030 onwards),Hydro capacity target
+capacity,"solar, on-wind, off-wind",MMR,TRUE,2000,MW,>=,2030,onwards,"[solar, on-wind, off-wind] capacity in [MMR] >= 2000MW (2030 onwards)",RE capacity target
+capacity,coal,MMR,TRUE,3620,MW,==,2030,only,[coal] capacity in [MMR] == 3620MW (2030 only),Coal capacity target
+capacity,solar,SGP,TRUE,1600,MW,>=,2030,only,[solar] capacity in [SGP] >= 1600MW (2030 only),Solar capacity target
+emissions,CO2eq,SGP,TRUE,60000000,tCO2eq,<=,2030,only,[CO2eq] emissions in [SGP] <= 60MtCO2eq (2030 only),Emissions target
+emissions,CO2eq,SGP,TRUE,0,tCO2eq,<=,2050,only,[CO2eq] emissions in [SGP] <= 6MtCO2eq (2050 only),Emissions target
+capacity,coal,VNM,TRUE,30127,MW,<=,2030,onwards,[coal] capacity in [VNM] <= 30127MW (2030 onwards),Coal phase-out target
+capacity,on-wind,VNM,TRUE,21880,MW,>=,2030,onwards,[on-wind] capacity in [VNM] >= 21880MW (2030 onwards),Onshore wind capacity target
+capacity,off-wind,VNM,TRUE,6000,MW,>=,2030,onwards,[off-wind] capacity in [VNM] >= 6000MW (2030 onwards),Offshore wind capacity target
+capacity,on-wind,VNM,TRUE,60050,MW,>=,2050,onwards,[on-wind] capacity in [VNM] >= 60050MW (2050 onwards),Onshore wind capacity target
+capacity,off-wind,VNM,TRUE,70000,MW,>=,2050,onwards,[off-wind] capacity in [VNM] >= 70000MW (2050 onwards),Offshore wind capacity target
+capacity,solar,VNM,TRUE,155000,MW,>=,2050,onwards,[solar] capacity in [VNM] >= 155000MW (2050 onwards),Solar capacity target
+generation,"hydro, geothermal, bioenergy, solar, on-wind, off-wind",IDN,FALSE,31,%,>=,2030,onwards,"[hydro, geothermal, bioenergy, solar, on-wind, off-wind] generation in [IDN] >= 31% (2030 onwards)",RE generation share target
+generation,coal,IDN,FALSE,30,%,<=,2025,onwards,[coal] generation in [IDN] <= 30% (2025 onwards),Coal generation share target
+emissions,CO2eq,IDN,TRUE,290000000,tCO2eq,<=,2030,onwards,[CO2eq] emissions in [IDN] <= 290MtCO2eq (2030 onwards),Emissions peak target
+capacity,solar,MYS,TRUE,7000,MW,>=,2030,onwards,[solar] capacity in [MYS] >= 7000MW (2030 onwards),Solar capacity target
