@@ -6,7 +6,7 @@ import pandas as pd
 
 def constr_bus_self_sufficiency(
         network : pypsa.Network,
-        lp_model,
+        # lp_model,
         min_self_sufficiency : float = 0.5,
         buses : list = None,
 ):
@@ -62,7 +62,8 @@ def constr_bus_self_sufficiency(
         network.generators.query( f' bus == "{bus}" ').index
         # get total generation by bus
         total_gen_by_bus = ( 
-            lp_model
+            # lp_model
+            network.model
             .variables['Generator-p']
             .sel(
                 Generator=network.generators.query( f' bus == "{bus}" ').index
@@ -76,7 +77,7 @@ def constr_bus_self_sufficiency(
         # set expression
         constraint_expression = total_gen_by_bus >= total_demand_by_bus * min_self_sufficiency
         # set constraint
-        lp_model.add_constraints(
+        network.model.add_constraints(
             constraint_expression,
             name=f'min_gen_by_{bus}',
         )
@@ -84,7 +85,7 @@ def constr_bus_self_sufficiency(
 
 def constr_cumulative_p_nom(
         network : pypsa.Network,
-        lp_model
+        # lp_model
 ):
     '''
     ###################################
@@ -131,7 +132,7 @@ def constr_cumulative_p_nom(
 
         # get linopy var
         total_generation_capacity =( 
-            lp_model
+            network.model
             .variables['Generator-p_nom']
             .sel({'Generator-ext' : generators})
             .sum()
@@ -152,7 +153,7 @@ def constr_cumulative_p_nom(
         # set expression
         constraint_expression = total_generation_capacity <= max_capacity 
         # set constraint
-        lp_model.add_constraints(
+        network.model.add_constraints(
             constraint_expression,
             name=f'cumu_p_nom_{generators[0]}',
         )
@@ -201,15 +202,15 @@ def constr_min_annual_generation(
         None
     
     '''
-    lp_model = network.optimize.create_model()
+    # lp_model = network.optimize.create_model()
 
-    lhs_total_generation = lp_model['Generator-p'].sel(Generator=lhs_generator).sum()
+    lhs_total_generation = network.model.variables['Generator-p'].sel(Generator=lhs_generator).sum()
 
     rhs_total_theoretical_generation = (
-        lp_model['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
+        network.model.variables['Generator-p_nom'].sel({'Generator-ext' : lhs_generator}) * 8760 * rhs_min_generation
     )
 
-    lp_model.add_constraints(
+    network.model.add_constraints(
         lhs = lhs_total_generation,
         sign = sign,
         rhs = rhs_total_theoretical_generation,
@@ -219,7 +220,7 @@ def constr_min_annual_generation(
 
 def constr_policy_targets(
         network : pypsa.Network,
-        lp_model,
+        # lp_model,
         stock_model : str
 ):
     '''
@@ -300,7 +301,7 @@ def constr_policy_targets(
                 )
 
                 total_capacity_investment_years = (
-                    lp_model
+                    network.model
                     .variables['Generator-p_nom']
                     .sel(
                         {
@@ -323,7 +324,7 @@ def constr_policy_targets(
                     )
                 
                 # set constraint
-                lp_model.add_constraints(
+                network.model.add_constraints(
                     lhs = (total_capacity_investment_years 
                             + total_capacity_base_year
                             ),
@@ -399,15 +400,15 @@ def constr_policy_targets(
                     .sum()
                     )
         
-                target_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': target_generators}).sum()
+                target_capacity = (network.model.variables['Generator-p_nom'].sel({'Generator-ext': target_generators}).sum()
                                 + target_capacity_base_year
                                 )
-                total_capacity = (lp_model.variables['Generator-p_nom'].sel({'Generator-ext': all_generators}).sum()
+                total_capacity = (network.model.variables['Generator-p_nom'].sel({'Generator-ext': all_generators}).sum()
                                 + all_capacity_base_year
                                 )
 
                 # set constraint
-                lp_model.add_constraints(
+                network.model.add_constraints(
                     lhs = target_capacity - ((row['value']/100)*total_capacity),
                     sign = row['sense'],
                     rhs = 0,
@@ -459,17 +460,17 @@ def constr_policy_targets(
 
                 # single year investment problem
                 if network.investment_periods.empty:
-                    target_generation = lp_model.variables['Generator-p'].sel(Generator=target_generators).sum()
-                    total_generation = lp_model.variables['Generator-p'].sel(Generator=all_generators).sum()
+                    target_generation = network.model.variables['Generator-p'].sel(Generator=target_generators).sum()
+                    total_generation = network.model.variables['Generator-p'].sel(Generator=all_generators).sum()
                 # multi-year investment problem
                 else:
-                    target_generation = lp_model.variables['Generator-p'].sel(period=generator_year,
+                    target_generation = network.model.variables['Generator-p'].sel(period=generator_year,
                                                                                 Generator=target_generators).sum()
-                    total_generation = lp_model.variables['Generator-p'].sel(period=generator_year, 
+                    total_generation = network.model.variables['Generator-p'].sel(period=generator_year, 
                                                                                 Generator=all_generators).sum()
                 
                 # set constraint
-                lp_model.add_constraints(
+                network.model.add_constraints(
                     lhs = target_generation - ((row['value']/100)*total_generation),
                     sign = row['sense'],
                     rhs =  0,
@@ -515,20 +516,20 @@ def constr_policy_targets(
                 # single year investment problem
                 if network.investment_periods.empty: 
                     total_emissions = (
-                        (lp_model.variables['Generator-p'].sel(Generator=target_generators_list) 
+                        (network.model.variables['Generator-p'].sel(Generator=target_generators_list) 
                                     * emission_factor)
                                     .sum()
                                     )
                 # multi-year investment problem
                 else: 
                     total_emissions = (
-                        (lp_model.variables['Generator-p'].sel(period=generator_year,Generator=target_generators_list) 
+                        (network.model.variables['Generator-p'].sel(period=generator_year,Generator=target_generators_list) 
                                         * emission_factor)
                                         .sum()
                                         )
                 
                 # set constraint
-                lp_model.add_constraints(
+                network.model.add_constraints(
                     lhs = total_emissions,
                     sign = row['sense'],
                     rhs =  row['value'],
