@@ -3,7 +3,7 @@ capacity,"solar,wind,water",IND,TRUE,476000,MW,>=,2030,only,"[solar, wind, water
 capacity,"solar,wind,water",IND,FALSE,50,%,>=,2030,only,"[solar, wind, water] capacity in IND >= 50% capacity (2030 onwards)",nonFF capacity share target,govt target
 capacity,wind,IND,TRUE,100000,MW,<=,2030,only,,wind IND build limit,stakeholder info
 capacity,solar,IND,TRUE,330000,MW,<=,2030,only,,solar IND build limit,historical build rate
-capacity,water,IND,TRUE,51363,MW,<=,2030,only,[water] additional capacity in IND <= 12 GW (by 2030),Hydro expansion potential,from TERI 2050 report
+capacity,water,IND,TRUE,54000,MW,<=,2030,only,[water] additional capacity in IND <= 12.5 GW (by 2030),Hydro expansion potential,from CEA report
 capacity,solar,INDEA,TRUE,61420,MW,<=,2030,only,[solar] max potential in INDEA <= 61420 MW(by 2030),solar INDEA max potential,from TERI 2050 report
 capacity,solar,INDNE,TRUE,62300,MW,<=,2030,only,[solar] max potential in INDNE <= 62300 MW(by 2030),solar INDNE max potential,from TERI 2050 report
 capacity,solar,INDNO,TRUE,336250,MW,<=,2030,only,[solar] max potential in INDNO <= 336250 MW(by 2030),solar INDNO max potential,from TERI 2050 report
@@ -14,7 +14,7 @@ capacity,wind,INDNE,TRUE,521,MW,<=,2030,only,[wind] max potential in INDNE <= 52
 capacity,wind,INDNO,TRUE,128762,MW,<=,2030,only,[wind] max potential in INDNO <= 128762 MW(by 2030),wind INDNO max potential,from TERI 2050 report
 capacity,wind,INDSO,TRUE,295370,MW,<=,2030,only,[wind] max potential in INDSO <= 295370 MW(by 2030),wind INDSO max potential,from TERI 2050 report
 capacity,wind,INDWE,TRUE,256533,MW,<=,2030,only,[wind] max potential in INDWE <= 256533 MW(by 2030),wind INDWE max potential,from TERI 2050 report
-capacity,pumped-hydro,IND,TRUE,19000,MW,<=,2030,only,[pumped-hydro] max potential in IND <= 8000 MW(by 2030),pumped-hydro IND max potential,from TERI 2050 report
+capacity,pumped-hydro,IND,TRUE,17315,MW,<=,2030,only,[pumped-hydro] max potential in IND <= 17315 MW(by 2030),pumped-hydro IND max potential,https://cea.nic.in/wp-content/uploads/hpi/2025/02/Status_of_Pumped_Storage_Development_in_India-1.pdf
 capacity,battery,IND,TRUE,41000,MW,<=,2030,only,[battery] max potential in IND <= 4000 MW(by 2030),battery IND max potential,from TERI 2050 report
 capacity,coal,IND,TRUE,251000,MW,<=,2030,only,[coal] max potential in IND <= 251000 MW(by 2030),coal IND max potental,from TERI 2050 report
 capacity,wind,INDNO,TRUE,13000,MW,<=,2030,only,[wind] max potential in INDNO <= 10400 MW(by 2030),wind INDNO max buildout,INDNO wind grid level buildout rate
