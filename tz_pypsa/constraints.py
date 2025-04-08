@@ -557,7 +557,19 @@ def constr_min_annual_utilisation_generator(
 
         network : pypsa.Network
 
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
 
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+        
     # ----- constr: generator min utilisation rates ----- #
 
     for generator_year in network.investment_periods:
