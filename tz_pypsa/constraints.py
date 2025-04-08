@@ -427,10 +427,6 @@ def constr_bus_individual_self_sufficiency(
     
     '''
 
-    # get total renewable generation
-    #network.optimize.create_model()
-
-
     buses = network.buses.index
 
     for bus in buses:
@@ -459,6 +455,7 @@ def constr_bus_individual_self_sufficiency(
             name=f'min_gen_by_individual_{bus}',
         )
 
+        
 def constr_max_annual_utilisation_links(
     network: pypsa.Network,
     carriers: str = None,
@@ -514,6 +511,7 @@ def constr_max_annual_utilisation_links(
                 network.model.variables["Link-p"].sel(Link=each_link).sum()
             )
             
+            
             if network.links.p_nom_extendable[each_link] == True:
 
                 target_capacity = (
@@ -546,6 +544,7 @@ def constr_max_annual_utilisation_links(
                 + "_max_utilisation_rate",
             )
 
+            
 def constr_min_annual_utilisation_generator(
     network: pypsa.Network,
     carriers: str = None,
@@ -553,39 +552,13 @@ def constr_min_annual_utilisation_generator(
 ):
     """
 
-    ###################################
-    MAXIMUM ANNUAL UTILISATION CONSTRAINT
-    ###################################
-
-    Description:
-    -----------------------------------
-        This constraint ensures that the total annual utilisation rate of an interconnector
-        is at least a certain, must run, percentage value.
-
-    Example user story:
-    -----------------------------------
-        "I want to ensure that interconnector x is operating at least y% annually%"
-
     Inputs:
     -----------------------------------
 
         network : pypsa.Network
 
-        carriers : list
-            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
 
-        model_frequency : int
-            Integer representing the model frequency in hours. Default is 1.
-
-    Returns:
-    -----------------------------------
-
-        None
-
-    """
-
-    # ----- constr: interconnector min utilisation rates ----- #
-
+    # ----- constr: generator min utilisation rates ----- #
 
     for generator_year in network.investment_periods:
         target_generators = network.generators.loc[
@@ -596,7 +569,7 @@ def constr_min_annual_utilisation_generator(
 
         for each_generator in target_generators:
 
-            # The output by each interconnector in each year
+            # The output by each generator in each year
             target_generators_output = (
                 network.model.variables["Generator-p"].sel(Generator=each_generator).sum()
             )
@@ -633,6 +606,7 @@ def constr_min_annual_utilisation_generator(
                 + "_min_utilisation_rate",
             )
 
+
 def constr_max_annual_utilisation_generator(
     network: pypsa.Network,
     carriers: str = None,
@@ -646,12 +620,12 @@ def constr_max_annual_utilisation_generator(
 
     Description:
     -----------------------------------
-        This constraint ensures that the total annual utilisation rate of an interconnector
-        is at least a certain, must run, percentage value.
+        This constraint ensures that the total annual utilisation rate of a generator
+        is a maximum of a percentage value.
 
     Example user story:
     -----------------------------------
-        "I want to ensure that interconnector x is operating at least y% annually%"
+        "I want to ensure that generator x is operating at a maximum of y% annually%"
 
     Inputs:
     -----------------------------------
@@ -669,9 +643,8 @@ def constr_max_annual_utilisation_generator(
 
         None
 
-    """
 
-    # ----- constr: interconnector min utilisation rates ----- #
+    # ----- constr: generator max utilisation rates ----- #
 
 
     for generator_year in network.investment_periods:
@@ -719,3 +692,61 @@ def constr_max_annual_utilisation_generator(
                 + str(each_generator)
                 + "_max_utilisation_rate",
             )
+            
+            
+def constr_cofiring_ccs_generation_join_plant(
+    network: pypsa.Network,
+    clean_generator : list = None,
+    fossil_generator: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    COFIRING CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total output of two power plants (representing
+        a single cofiring/blended fuel plant) is equal to the share of generation from the clean and 
+        fossil components. For example, if in a gas-hydrogen blended plant the hydrogen (0 g CO2/kWh)
+        represents 10% of the total generation output, the clean component will be limited to 10% of output 
+        and the fossil share will be 90%.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that a blended or cofiring plant is constrained that if it is operating then 
+        the correct shares of clean and fossil components are output"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        clean_generator: List
+            List of clean generators
+
+        fossil_generators: List
+            List of fossil generators
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    production_fossil_force_blend = network.model.variables['Generator-p'].sel(Generator=clean_generator) / ((network.generators.loc[clean_generator].generation_blend_share) / (1 - network.generators.loc[clean_generator].generation_blend_share))
+    production_fossil = network.model.variables['Generator-p'].sel(Generator=fossil_generator)
+        
+
+    network.model.add_constraints(
+    lhs=production_fossil / model_frequency,
+    sign="==",
+    rhs = production_fossil_force_blend / model_frequency,
+    name = "cofiring_constrain_generation_from_fossil_component",
+            )            
