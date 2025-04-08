@@ -655,6 +655,7 @@ def constr_max_annual_utilisation_generator(
 
         None
 
+    """
 
     # ----- constr: generator max utilisation rates ----- #
 
