@@ -342,14 +342,12 @@ def constr_min_annual_utilisation_links(
     # ----- constr: interconnector min utilisation rates ----- #
 
 
-    for link_year in network.investment_periods:
-        target_links = network.links.loc[
+    target_links = network.links.loc[
             (network.links.carrier.str.contains(carriers))
-            & (network.links.build_year <= link_year)
         ].index.tolist()
-        print(target_links)
+    print(target_links)
 
-        for each_link in target_links:
+    for each_link in target_links:
 
             # The output by each interconnector in each year
             target_links_output = (
@@ -383,7 +381,7 @@ def constr_min_annual_utilisation_links(
                 lhs=target_links_output,
                 sign=">=",
                 rhs=min_utilisation_rate * target_capacity * 8760 / model_frequency,
-                name=str(link_year)
+                name=str(carriers)
                 + str(each_link)
                 + "_min_utilisation_rate",
             )
@@ -497,14 +495,12 @@ def constr_max_annual_utilisation_links(
     # ----- constr: interconnector max utilisation rates ----- #
 
 
-    for link_year in network.investment_periods:
-        target_links = network.links.loc[
+    target_links = network.links.loc[
             (network.links.carrier.str.contains(carriers))
-            & (network.links.build_year <= link_year)
         ].index.tolist()
-        print(target_links)
+    print(target_links)
 
-        for each_link in target_links:
+    for each_link in target_links:
 
             # The output by each interconnector in each year
             target_links_output = (
@@ -539,7 +535,7 @@ def constr_max_annual_utilisation_links(
                 lhs=target_links_output,
                 sign="<=",
                 rhs=max_utilisation_rate * target_capacity * 8760 / model_frequency,
-                name=str(link_year)
+                name=str(carriers)
                 + str(each_link)
                 + "_max_utilisation_rate",
             )
@@ -547,7 +543,7 @@ def constr_max_annual_utilisation_links(
             
 def constr_min_annual_utilisation_generator(
     network: pypsa.Network,
-    carriers: str = None,
+    carriers: list = None,
     model_frequency: int = 1,
 ):
     """
@@ -572,14 +568,12 @@ def constr_min_annual_utilisation_generator(
         
     # ----- constr: generator min utilisation rates ----- #
 
-    for generator_year in network.investment_periods:
-        target_generators = network.generators.loc[
+    target_generators = network.generators.loc[
             (network.generators.carrier.str.contains(carriers))
-            & (network.generators.build_year <= generator_year)
         ].index.tolist()
-        print(target_generators)
+    print(target_generators)
 
-        for each_generator in target_generators:
+    for each_generator in target_generators:
 
             # The output by each generator in each year
             target_generators_output = (
@@ -613,7 +607,7 @@ def constr_min_annual_utilisation_generator(
                 lhs=target_generators_output,
                 sign=">=",
                 rhs=min_utilisation_rate * target_capacity * 8760 / model_frequency,
-                name=str(generator_year)
+                name=str(carriers)
                 + str(each_generator)
                 + "_min_utilisation_rate",
             )
@@ -621,7 +615,7 @@ def constr_min_annual_utilisation_generator(
 
 def constr_max_annual_utilisation_generator(
     network: pypsa.Network,
-    carriers: str = None,
+    carriers: list = None,
     model_frequency: int = 1,
 ):
     """
@@ -660,14 +654,12 @@ def constr_max_annual_utilisation_generator(
     # ----- constr: generator max utilisation rates ----- #
 
 
-    for generator_year in network.investment_periods:
-        target_generators = network.generators.loc[
+    target_generators = network.generators.loc[
             (network.generators.carrier.str.contains(carriers))
-            & (network.generators.build_year <= generator_year)
         ].index.tolist()
-        print(target_generators)
+    print(target_generators)
 
-        for each_generator in target_generators:
+    for each_generator in target_generators:
 
             # The output by each interconnector in each year
             target_generators_output = (
@@ -701,7 +693,7 @@ def constr_max_annual_utilisation_generator(
                 lhs=target_generators_output,
                 sign="<=",
                 rhs=max_utilisation_rate * target_capacity * 8760 / model_frequency,
-                name=str(generator_year)
+                name=str(carriers)
                 + str(each_generator)
                 + "_max_utilisation_rate",
             )
