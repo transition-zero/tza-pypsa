@@ -126,7 +126,7 @@ class Model:
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'costs_capital_outlay_during_construction.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
-                branch=kwargs.get('branch', 'trial_data_for_blending'),
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
