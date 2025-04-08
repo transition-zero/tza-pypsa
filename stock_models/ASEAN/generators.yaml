@@ -445,7 +445,6 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    # ---
     # unit commitment
     committable: false
     start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2685,7 +2684,7 @@ generators:
 
 
   - id: coal-biomass-cofiring-fossil
-    type: coal-biomass-cofiring-fossil
+    type: coal-subcritical-biomass-cofiring-fossil
     carrier: coal-biomass-fossil
     # ---
     # unique technology parameters by bus
@@ -2722,6 +2721,7 @@ generators:
 
   - id: coal-biomass-cofiring-clean
     type: coal-biomass-cofiring-clean
+    type: coal-subcritical-biomass-cofiring-clean
     carrier: coal-biomass-clean
     # ---
     # unique technology parameters by bus
@@ -2755,3 +2755,4 @@ generators:
     ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+

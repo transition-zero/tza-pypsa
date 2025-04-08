@@ -266,14 +266,16 @@ links:
   - id: MYSPE-SGPXX # AIMS3 - Existing
     from_node: MYSPE
     to_node: SGPXX
-    extendable: true
+    extendable: false
     carrier: interconnector-MYSPE-SGP
     type: hvac
     lifetime: 99
     efficiency: 0.97
     bidirectional: false
-    initial_capacity: 1000
+    initial_capacity: 100
     reverse_capacity: 0
+    planned_expansion:
+      2024 : 900
 
   - id: KHMXX-LAOXX # AIMS3 - Existing
     from_node: KHMXX
