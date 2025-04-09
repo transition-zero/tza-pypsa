@@ -284,34 +284,38 @@ def constr_policy_targets(
         indices += targets_cap_abs.index.to_list()
 
     for _, row in targets_cap_abs.iterrows():
+        if any(carrier in network.generators.carrier.to_list() for carrier in row['carrier'].split(',')):
+            plant_type = "generators"
+            model_variable = 'Generator-p_nom'
+        elif any(carrier in network.storage_units.carrier.to_list() for carrier in row['carrier'].split(',')):
+            plant_type = "storage_units"
+            model_variable = 'StorageUnit-p_nom'
         for generator_year in years:
             if generator_year >= row['year']:
                 if network.investment_periods.empty:
                     generators_investment_years = ( 
-                        network
-                        .generators
+                        getattr(network, plant_type)
                         .loc[
-                            ( network.generators.bus.str.contains(row['nodes']) ) &
-                            ~( network.generators.bus.str.contains('C&I') ) &
-                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                            ( network.generators.build_year <= generator_year) # &
-                            # ( network.generators.build_year > years[0])
-                            #( network.generators.p_nom_extendable == True)
+                            ( getattr(network, plant_type).bus.str.contains(row['nodes']) ) &
+                            ~( getattr(network, plant_type).bus.str.contains('C&I') ) &
+                            ( getattr(network, plant_type).carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( getattr(network, plant_type).build_year <= generator_year) &
+                            # ( getattr(network, plant_type).build_year > years[0])
+                            ( getattr(network, plant_type).p_nom_extendable == True)
                             ]
                         .index
                         .tolist()
                     )
                 else:
                     generators_investment_years = ( 
-                        network
-                        .generators
+                        getattr(network, plant_type)
                         .loc[
-                            ( network.generators.bus.str.contains(row['nodes']) ) &
-                            ~( network.generators.bus.str.contains('C&I') ) &
-                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                            ( network.generators.build_year <= generator_year) &
-                            ( network.generators.build_year > years[0])
-                            #( network.generators.p_nom_extendable == True)
+                            ( getattr(network, plant_type).bus.str.contains(row['nodes']) ) &
+                            ~( getattr(network, plant_type).bus.str.contains('C&I') ) &
+                            ( getattr(network, plant_type).carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( getattr(network, plant_type).build_year <= generator_year) &
+                            ( getattr(network, plant_type).build_year > years[0]) &
+                            ( getattr(network, plant_type).p_nom_extendable == True)
                             ]
                         .index
                         .tolist()
@@ -319,10 +323,10 @@ def constr_policy_targets(
 
                 total_capacity_investment_years = (
                     network.model
-                    .variables['Generator-p_nom']
+                    .variables[model_variable]
                     .sel(
                         {
-                            "Generator-ext" : generators_investment_years
+                            model_variable.replace('-p_nom', '') + "-ext": generators_investment_years
                         }
                     )
                     .sum()
@@ -330,12 +334,12 @@ def constr_policy_targets(
                 )
                 
                 total_capacity_base_year = (
-                    network.generators
+                    getattr(network, plant_type)
                     .p_nom
                     .loc[
-                        (network.generators.bus.str.contains(row['nodes'])) &
-                        (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
-                        (network.generators.build_year == years[0])
+                        (getattr(network, plant_type).bus.str.contains(row['nodes'])) &
+                        (getattr(network, plant_type).carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        (getattr(network, plant_type).build_year <= years[0])
                         ]
                     .sum()
                     )
