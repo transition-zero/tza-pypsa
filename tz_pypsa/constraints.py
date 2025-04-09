@@ -286,19 +286,36 @@ def constr_policy_targets(
     for _, row in targets_cap_abs.iterrows():
         for generator_year in years:
             if generator_year >= row['year']:
-                generators_investment_years = ( 
-                    network
-                    .generators
-                    .loc[
-                        ( network.generators.bus.str.contains(row['nodes']) ) &
-                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                        ( network.generators.build_year <= generator_year) &
-                        ( network.generators.build_year > years[0])
-                        #( network.generators.p_nom_extendable == True)
-                        ]
-                    .index
-                    .tolist()
-                )
+                if network.investment_periods.empty:
+                    generators_investment_years = ( 
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains(row['nodes']) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.generators.build_year <= generator_year) # &
+                            # ( network.generators.build_year > years[0])
+                            #( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                    )
+                else:
+                    generators_investment_years = ( 
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains(row['nodes']) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.generators.build_year <= generator_year) &
+                            ( network.generators.build_year > years[0])
+                            #( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                    )
 
                 total_capacity_investment_years = (
                     network.model
@@ -352,32 +369,65 @@ def constr_policy_targets(
     for _, row in targets_cap_pct.iterrows():
         for generator_year in years:
             if generator_year >= row['year']:
-                target_generators = (
-                    network
-                    .generators
-                    .loc[
-                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
-                        ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                        ( network.generators.build_year <= generator_year) &
-                        ( network.generators.build_year > years[0])
-                        # ( network.generators.p_nom_extendable == True)
-                        ]
-                    .index
-                    .tolist()
+                if network.investment_periods.empty:
+                    target_generators = (
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.generators.build_year <= generator_year) #&
+                            # ( network.generators.build_year > years[0])
+                            # ( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                        )
+                else:
+                    target_generators = (
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
+                            ( network.generators.build_year <= generator_year) &
+                            ( network.generators.build_year > years[0])
+                            # ( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
                     )
         
-                all_generators = (
-                    network
-                    .generators
-                    .loc[
-                        ( network.generators.bus.str.contains( row['nodes'] ) ) &
-                        ( network.generators.build_year <= generator_year) &
-                        ( network.generators.build_year > years[0])
-                        # ( network.generators.p_nom_extendable == True)
-                    ]
-                    .index
-                    .tolist()
-                )
+                if network.investment_periods.empty:
+                    all_generators = (
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.build_year <= generator_year) #&
+                            # ( network.generators.build_year > years[0])
+                            # ( network.generators.p_nom_extendable == True)
+                            ]
+                        .index
+                        .tolist()
+                    )
+                else:
+                    all_generators = (
+                        network
+                        .generators
+                        .loc[
+                            ( network.generators.bus.str.contains( row['nodes'] ) ) &
+                            ~( network.generators.bus.str.contains('C&I') ) &
+                            ( network.generators.build_year <= generator_year) &
+                            ( network.generators.build_year > years[0])
+                            # ( network.generators.p_nom_extendable == True)
+                        ]
+                        .index
+                        .tolist()
+                    )
                 
                 target_capacity_base_year = (
                     network.generators
