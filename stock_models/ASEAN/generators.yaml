@@ -1675,7 +1675,6 @@ generators:
     lifetime: 80 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    # ---
     # unit commitment
     committable: false # CFE calibration: true
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1853,7 +1852,6 @@ generators:
     capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    # ---
     # unit commitment
     committable: false
     start_up_cost: 9.6 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2053,7 +2051,6 @@ generators:
     lifetime: 20 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    # ---
     # unit commitment
     committable: false
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
