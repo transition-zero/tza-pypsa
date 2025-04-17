@@ -1,6 +1,6 @@
 Carrier,color,co2_emissions,nice_name,max_growth
 Coal,#322f34,0.36,Coal,inf
-Gas,#bababa,0.198,Gas,inf
+LNG,#bababa,0.198,Gas,inf
 Oil,#5d407c,0.257,Oil,inf
 GasCCS,#d9d9d9,0.0198,Gas CCS,inf
 BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
