@@ -1,6 +1,6 @@
 Carrier,color,co2_emissions,nice_name,max_growth
 Coal,#322f34,0.36,Coal,inf
-LNG,#bababa,0.198,Gas,inf
+LNG,#bababa,0.198,LNG,inf
 Oil,#5d407c,0.257,Oil,inf
 GasCCS,#d9d9d9,0.0198,Gas CCS,inf
 BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
@@ -16,5 +16,5 @@ Wind,#66dad0,0,Wind,inf
 PumpedHydro,#a5d1f9,0,Pumped hydro,inf
 Batteries,#c3e0fb,0,Battery storage,inf
 Transmission,#ba63da,0,Transmission,inf
-Other,TBD,0,Other,inf
+Other,#999999,0,Other,inf
 GasDmy,#bababa,0.198,GasDmy,inf
