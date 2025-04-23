@@ -2,7 +2,7 @@ name,bus,p_nom,p_nom_extendable,carrier,marginal_cost,capital_cost,build_year,li
 TWN-Coal,TWN,13700,FALSE,Coal,41.80,0,2024,25,0.358
 TWN-LNG,TWN,20243,FALSE,LNG,83.80,0,2024,25,0.529
 TWN-Oil,TWN,1594,FALSE,Oil,138.36,0,2024,25,0.349
-TWN-Nuclear,TWN,951,FALSE,Nuclear,0,0,2024,25,1
+TWN-Nuclear,TWN,1902,FALSE,Nuclear,0,0,2024,25,1
 TWN-Hydro,TWN,2122,FALSE,Hydro,0,0,2024,25,1
 TWN-Wind,TWN,2874,FALSE,Wind,0,0,2024,25,1
 TWN-Solar,TWN,14281,FALSE,Solar,0,0,2024,25,1
