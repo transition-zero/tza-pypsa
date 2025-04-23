@@ -393,12 +393,11 @@ class Model:
                     capital_cost=1e9,
                     marginal_cost=1e9,
                 )
-        
-        # --- choose years to load in --- #
+
         if isinstance(years, list):
-            network.snapshots = network.snapshots[network.snapshots.get_level_values(0).isin(years)]
+            network.snapshots = network.snapshots[network.snapshots.year.isin(years)]
         else:
-            network.snapshots = network.snapshots[network.snapshots.get_level_values(0) == years]
+            network.snapshots = network.snapshots[network.snapshots.year == years]
 
         return network
 
