@@ -1,24 +1,24 @@
-Carrier,color,co2_emissions,nice_name,max_growth,
-Coal,#322f34,0.36,Coal,inf,0
-Gas,#bababa,0.198,Gas,inf,0
-Oil,#5d407c,0.2571,Oil,inf,0
-GasCCS,#d9d9d9,0.198,Gas CCS,inf,0
-BlueAmmonia,#d9a88b,0,Blue ammonia &  coal co-firing,inf,0
-BlueHydrogen,#f3f3f3,0,Blue hydrogen  & gas co-firing,inf,0
-GreenAmmonia,#d9a88b,0,Green ammonia &  coal co-firing,inf,0
-GreenHydrogen,#f3f3f3,0,Green hydrogen  & gas co-firing,inf,0
-Nuclear,#ee9dda,0.0396,Nuclear,inf,0
-Biomass,#e25329,0.0396,Biomass,inf,0
-Geothermal,#f75726,0,Geothermal,inf,0
-HydroConventional,#8292e8,0,Hydro conventional,inf,0
-SolarGrid,#ffe19b,0,Solar grid-scale,inf,0
-OffshoreWind,#66dad0,0,Offshore wind,inf,0
-OnshoreWind,#99e6df,0,Onshore wind,inf,0
-PumpedHydro,#a5d1f9,0.0396,Pumped hydro,inf,0
-Batteries,#c3e0fb,0.0396,Battery storage,inf,0
-Transmission,#ba63da,0.0396,Transmission,inf,0
-GasCCSSequestered,#d9d9d9,0,Gas CCS Sequestered Component,inf,0
-CoalBlendBlue,#322f34,0.36,Coal blend in co-firing with blue ammonia,inf,0
-GasBlendBlue,#bababa,0.198,Gas Blend in co-firing with blue hydrogen,inf,0
-CoalBlendGreen,#322f34,0.36,Coal blend in co-firing with green ammonia,inf,0
-GasBlendGreen,#bababa,0.198,Gas Blend in co-firing with green hydrogen,inf,0
+Carrier,color,co2_emissions,nice_name,max_growth
+Coal,#322f34,0.36,Coal,inf
+Gas,#bababa,0.198,Gas,inf
+Oil,#5d407c,0.257,Oil,inf
+GasCCS,#d9d9d9,0.198,Gas CCS,inf
+BlueAmmonia,#d9a88b,0,Co-firing coal-blue ammonia: non-fossil,inf
+BlueHydrogen,#f3f3f3,0,Co-firing gas-blue hydrogen: non-fossil,inf
+GreenAmmonia,#d9a88b,0,Co-firing coal-green ammonia: non-fossil,inf
+GreenHydrogen,#f3f3f3,0,Co-firing gas-green hydrogen: non-fossil,inf
+Nuclear,#ee9dda,0,Nuclear,inf
+Biomass,#e25329,0,Biomass,inf
+Geothermal,#f75726,0,Geothermal,inf
+HydroConventional,#8292e8,0,Hydro conventional,inf
+SolarGrid,#ffe19b,0,Solar grid-scale,inf
+OffshoreWind,#66dad0,0,Offshore wind,inf
+OnshoreWind,#99e6df,0,Onshore wind,inf
+PumpedHydro,#a5d1f9,0,Pumped hydro,inf
+Batteries,#c3e0fb,0,Battery storage,inf
+Transmission,#ba63da,0,Transmission,inf
+GasCCSSequestered,#d9d9d9,0,Gas CCS Sequestered Component,inf
+CoalBlendBlue,#322f34,0.36,Co-firing coal-blue ammonia: fossil,inf
+GasBlendBlue,#bababa,0.198,Co-firing gas-blue hydrogen: fossil,inf
+CoalBlendGreen,#322f34,0.36,Co-firing coal-green ammonia: fossil,inf
+GasBlendGreen,#bababa,0.198,Co-firing gas-green hydrogen: fossil,inf
