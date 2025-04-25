@@ -257,6 +257,8 @@ generators:
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -445,6 +447,8 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # unit commitment
     committable: false
     start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -630,6 +634,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false # calibration: true
@@ -811,6 +817,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -967,6 +975,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1147,6 +1157,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1292,6 +1304,8 @@ generators:
     lifetime: 40 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1459,6 +1473,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1675,6 +1691,8 @@ generators:
     lifetime: 80 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # unit commitment
     committable: false # CFE calibration: true
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1852,6 +1870,8 @@ generators:
     capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 0.85
     # unit commitment
     committable: false
     start_up_cost: 9.6 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2051,6 +2071,8 @@ generators:
     lifetime: 20 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # unit commitment
     committable: false
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2199,6 +2221,8 @@ generators:
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2376,6 +2400,8 @@ generators:
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2562,6 +2588,8 @@ generators:
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2615,6 +2643,8 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.7
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2669,6 +2699,8 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.3
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2686,8 +2718,6 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      MYSPE: 0
-    planned_expansion:
       MYSPE:
         2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
     efficiency:
@@ -2706,6 +2736,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.85
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # unit commitment - using coal-subcritical values
     committable: false # calibration: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2722,8 +2754,6 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
-      MYSPE: 0
-    planned_expansion:
       MYSPE:
         2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
     efficiency:
@@ -2742,6 +2772,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.15
+    min_utilisation_rate: 0.000001
+    max_utilisation_rate: 1.
     # ---
     # unit commitment - using biomass values
     committable: false
