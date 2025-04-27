@@ -16,5 +16,5 @@ Wind,#66dad0,0,Wind,inf
 PumpedHydro,#a5d1f9,0,Pumped hydro,inf
 Batteries,#c3e0fb,0,Battery storage,inf
 Transmission,#ba63da,0,Transmission,inf
-Other,#999999,0,Other,inf
-GasDmy,#bababa,0.198,GasDmy,inf
+CoGencoal,#999999,0.36,CoGenCoal,inf
+CoGenbiomass,#bababa,0,CoGenBiomass,inf
