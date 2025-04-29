@@ -1,20 +1,20 @@
 Carrier,color,co2_emissions,nice_name,max_growth
 Coal,#322f34,0.36,Coal,inf
 LNG,#bababa,0.198,LNG,inf
-Oil,#5d407c,0.257,Oil,inf
+Oil,#5d407c,0.2571,Oil,inf
 GasCCS,#d9d9d9,0.0198,Gas CCS,inf
 BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
-BlueHydrogen,#f3f3f3,0.178,Blue hydrogen & gas co-firing,inf
+BlueHydrogen,#f3f3f3,0.1782,Blue hydrogen & gas co-firing,inf
 GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf
-GreenHydrogen,#f3f3f3,0.178,Green hydrogen & gas co-firing,inf
-Nuclear,#ee9dda,0,Nuclear,inf
-Biomass,#e25329,0,Biomass,inf
+GreenHydrogen,#f3f3f3,0.1782,Green hydrogen & gas co-firing,inf
+Nuclear,#ee9dda,0.0396,Nuclear,inf
+Biomass,#e25329,0.0396,Biomass,inf
 Geothermal,#f75726,0,Geothermal,inf
 Hydro,#8292e8,0,Hydro,inf
 Solar,#ffe19b,0,Solar,inf
 Wind,#66dad0,0,Wind,inf
-PumpedHydro,#a5d1f9,0,Pumped hydro,inf
-Batteries,#c3e0fb,0,Battery storage,inf
-Transmission,#ba63da,0,Transmission,inf
-CoGencoal,#999999,0.36,CoGenCoal,inf
-CoGenbiomass,#bababa,0,CoGenBiomass,inf
+PumpedHydro,#a5d1f9,0.0396,Pumped hydro,inf
+Batteries,#c3e0fb,0.0396,Battery storage,inf
+Transmission,#ba63da,0.0396,Transmission,inf
+CoGencoal,#3a3538,0.36,CoGenCoal,inf
+CoGenbiomass,#fdbc95,0.0396,CoGenBiomass,inf
