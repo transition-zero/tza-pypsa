@@ -54,12 +54,11 @@ def get_load_by_bus(
         network
         .loads_t
         .p_set
-        .loc[period]
-        .droplevel(0).resample(resample)
+        .loc[period].resample(resample)
         .sum()
         .div(mul)
         .reset_index()
-        .melt(id_vars='timestep', var_name='bus', value_name='load')
+        .melt(id_vars='snapshot', var_name='bus', value_name='load')
     )
 
 
@@ -85,13 +84,13 @@ def export_to_excel(
     generators = network.generators
     links = network.links
     generation_hourly = network.generators_t.p
-    generation_monthly = network.generators_t.p.droplevel(0).resample('ME').sum()
+    generation_monthly = network.generators_.resample('ME').sum()
     p_by_carrier = network.generators_t.p.groupby(network.generators.type, axis=1).sum()
-    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).sum().droplevel(0).resample('ME').sum()
+    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).su.resample('ME').sum()
     interconnector_hourly = network.links_t.p0
-    interconnector_monthly = network.links_t.p0.droplevel(0).resample('ME').sum()
+    interconnector_monthly = network.links_t.resample('ME').sum()
     statistics = network.statistics()
-    loads = network.loads_t.p.droplevel(0).resample('ME').sum()
+    loads = network.loads_.resample('ME').sum()
     energy_balance = (network.statistics.energy_balance() / 1e6).round(2)
     curtailment = network.statistics.curtailment()
     installed_capacity = network.statistics.installed_capacity()
@@ -233,7 +232,7 @@ def interconnector_by_nodes(
     )   -> pd.DataFrame:
         
     """
-    Concatenate two DataFrames by 'timestep' and 'Link' columns.
+    Concatenate two DataFrames by 'snapshot' and 'Link' columns.
 
     Parameters
      ----------
@@ -245,11 +244,11 @@ def interconnector_by_nodes(
     Returns
     -------
     pd.DataFrame
-        Concatenated DataFrame with 'timestep', 'Link', and 'Value' columns.
+        Concatenated DataFrame with 'snapshot', 'Link', and 'Value' columns.
      """
     interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
         
-    return interconnector.groupby(['timestep', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
+    return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
 def transform_visualiser_hourly_output(
         network: pypsa.Network
@@ -278,7 +277,6 @@ def transform_visualiser_hourly_output(
         network
         .generators_t
         .p
-        .droplevel(0)
         .reset_index()
     )
 
@@ -287,7 +285,6 @@ def transform_visualiser_hourly_output(
         network
         .loads_t
         .p
-        .droplevel(0)
         .reset_index()
     )
 
@@ -296,7 +293,6 @@ def transform_visualiser_hourly_output(
         network
         .buses_t
         .marginal_price
-        .droplevel(0)
         .reset_index()
     )
 
@@ -306,7 +302,6 @@ def transform_visualiser_hourly_output(
             network
             .storage_units_t
             .p
-            .droplevel(0)
             .reset_index()
         )
     except Exception as e:
@@ -319,14 +314,12 @@ def transform_visualiser_hourly_output(
             network 
             .links_t
             .p0
-            .droplevel(0)
             .reset_index()
         )
         interconnector_p1 = (
             network
             .links_t
             .p1
-            .droplevel(0)
             .reset_index()
         )
     except Exception as e:
@@ -337,7 +330,7 @@ def transform_visualiser_hourly_output(
     # --- Convert wide to long format ---
     generation = pd.melt(
         generation,
-        id_vars='timestep',
+        id_vars='snapshot',
         var_name='Generator', 
         value_name='Value'
     )
@@ -345,7 +338,7 @@ def transform_visualiser_hourly_output(
     if storage is not None:
         storage = pd.melt(
             storage, 
-            id_vars='timestep', 
+            id_vars='snapshot', 
             var_name='StorageUnit', 
             value_name='Value'
         )
@@ -353,28 +346,28 @@ def transform_visualiser_hourly_output(
     if interconnector_p0 is not None:
         interconnector_p0 = pd.melt(
             interconnector_p0, 
-            id_vars='timestep', 
+            id_vars='snapshot', 
             var_name='Link', 
             value_name='Value'
         )
     if interconnector_p1 is not None:
         interconnector_p1 = pd.melt(
             interconnector_p1, 
-            id_vars='timestep',
+            id_vars='snapshot',
             var_name='Link', 
             value_name='Value'
         )
 
     loads = pd.melt(
         loads, 
-        id_vars='timestep', 
+        id_vars='snapshot', 
         var_name='Load', 
         value_name='Value'
     ).rename(columns={"Load": "Node"})
 
     prices = pd.melt(
         prices, 
-        id_vars='timestep', 
+        id_vars='snapshot', 
         var_name='Bus', 
         value_name='Value'
     ).rename(columns={"Bus": "Node"})
@@ -464,10 +457,10 @@ def transform_visualiser_hourly_output(
     merged_df = pd.concat(dataframes, ignore_index=True)
 
     # --- Add time columns ---
-    merged_df['HourOfDay'] = merged_df['timestep'].dt.hour
-    merged_df['DayOfMonth'] = merged_df['timestep'].dt.day   
-    merged_df['Month'] = merged_df['timestep'].dt.month
-    merged_df['Year'] = merged_df['timestep'].dt.year
+    merged_df['HourOfDay'] = merged_df['snapshot'].dt.hour
+    merged_df['DayOfMonth'] = merged_df['snapshot'].dt.day   
+    merged_df['Month'] = merged_df['snapshot'].dt.month
+    merged_df['Year'] = merged_df['snapshot'].dt.year
 
     # --- Add run identifier and market column ---
     merged_df['Market'] = prompt_market()
@@ -475,7 +468,7 @@ def transform_visualiser_hourly_output(
 
     # --- Sort the DataFrame ---
     merged_df.sort_values(
-        by=['timestep', 'Node', 'Type'], 
+        by=['snapshot', 'Node', 'Type'], 
         inplace=True, 
         ignore_index=True
     )
@@ -483,7 +476,7 @@ def transform_visualiser_hourly_output(
     # --- Add hour-of-year column (Hour8760) ---
     merged_df = add_hour_of_year_column(
         merged_df, 
-        'timestep', 
+        'snapshot', 
         'Hour8760'
     )
 
@@ -518,10 +511,7 @@ def transform_visualiser_yearly_output(
     # Extract statistics output into a df
     df = network.statistics(groupby=['bus', 'name', 'carrier'])
 
-    year = df.columns.get_level_values(1)[0]
-
-    # Drop the first level of the MultiIndex columns
-    df.columns = df.columns.droplevel(1)
+    year = network.snapshots.year[0]
 
     # Reset the index to convert MultiIndex to columns
     df = (df

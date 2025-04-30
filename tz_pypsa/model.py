@@ -396,9 +396,9 @@ class Model:
         
         # --- choose years to load in --- #
         if isinstance(year, list):
-            network.snapshots = network.snapshots[network.snapshots.get_level_values(0).isin(year)]
+            network.snapshots = network.snapshots[network.snapshots.year.isin(year)]
         else:
-            network.snapshots = network.snapshots[network.snapshots.get_level_values(0) == year]
+            network.snapshots = network.snapshots[network.snapshots.year == year]
 
         return network
     
