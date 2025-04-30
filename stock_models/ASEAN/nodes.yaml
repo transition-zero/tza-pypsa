@@ -33,6 +33,7 @@ nodes:
     long_name: Indonesia Sumatra
     coords: [-0.456, 101.521]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -73,6 +74,7 @@ nodes:
     long_name: Indonesia Java
     coords: [-7.299, 109.941]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -113,6 +115,7 @@ nodes:
     long_name: Indonesia Nusa Tenggara
     coords: [-8.631, 117.858]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -153,6 +156,7 @@ nodes:
     long_name: Indonesia Kalimantan
     coords: [-0.211, 113.995]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -193,6 +197,7 @@ nodes:
     long_name: Indonesia Sulawesi
     coords: [-2.014, 121.112]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -233,6 +238,7 @@ nodes:
     long_name: Indonesia Maluku
     coords: [0.869, 128.016]
     load_rate_of_change: 0.05
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -273,6 +279,7 @@ nodes:
     long_name: Indonesia Papua
     coords: [-4.017, 137.464]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -313,6 +320,7 @@ nodes:
     long_name: Malaysia Peninsular
     coords: [4.035, 102.179]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -353,6 +361,7 @@ nodes:
     long_name: Malaysia Serawak
     coords: [2.599, 113.336]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -393,6 +402,7 @@ nodes:
     long_name: Malaysia Sabah
     coords: [5.336, 117.116]
     load_rate_of_change: 0.02
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -433,6 +443,7 @@ nodes:
     long_name: Philippines Luzon
     coords: [15.949, 121.421]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -473,6 +484,7 @@ nodes:
     long_name: Philippines Visayas
     coords: [10.028, 123.004]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -513,6 +525,7 @@ nodes:
     long_name: Philippines Mindanau
     coords: [7.658, 124.829]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -553,6 +566,7 @@ nodes:
     long_name: Singapore 
     coords: [1.3521, 103.8198]
     load_rate_of_change: 0.01
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -593,6 +607,7 @@ nodes:
     long_name: Brunei 
     coords: [4.5353, 114.7277]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -633,6 +648,7 @@ nodes:
     long_name: Myanmar 
     coords: [21.9162, 95.9560]
     load_rate_of_change: 0.04
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -673,6 +689,7 @@ nodes:
     long_name: Thailand North
     coords: [16.921, 101.420]
     load_rate_of_change: 0.01
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -713,6 +730,7 @@ nodes:
     long_name: Thailand South
     coords: [8.101, 99.775]
     load_rate_of_change: 0.01
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -753,6 +771,7 @@ nodes:
     long_name: Thailand Center
     coords: [13.842, 100.5136]
     load_rate_of_change: 0.01
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -793,6 +812,7 @@ nodes:
     long_name: Vietnam North
     coords: [21.717, 105.066]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -833,6 +853,7 @@ nodes:
     long_name: Vietnam Central
     coords: [15.160, 107.395]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -873,6 +894,7 @@ nodes:
     long_name: Vietnam
     coords: [10.467, 106.088]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -913,6 +935,7 @@ nodes:
     long_name: Cambodia
     coords: [12.5657, 104.9910]
     load_rate_of_change: 0.04
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
@@ -953,6 +976,7 @@ nodes:
     long_name: Laos
     coords: [19.8563, 102.4955]
     load_rate_of_change: 0.03
+    min_self_sufficiency: 0.6
     co2_budget:
       2022: 9999999999
       2023: 9999999999
