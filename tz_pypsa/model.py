@@ -394,6 +394,7 @@ class Model:
                     marginal_cost=1e9,
                 )
 
+        # --- choose years to load in --- #
         if isinstance(years, list):
             network.snapshots = network.snapshots[network.snapshots.year.isin(years)]
         else:
