@@ -5,13 +5,14 @@ battery,0.0,plum,Battery
 biomass,0.0,teal,Biomass
 bioenergy,0.0,teal,Bioenergy
 bituminous,0.34,black,Bituminous Coal
-coal,0.34,black,Coal
+coal,0.316,black,Coal
 coal-unspecified,0.34,black,Coal Unspecified
 diesel,0.26,darkgray,Diesel
 gas,0.2,grey,Gas
 gas-unspecified,0.2,grey,Gas Unspecified
 geothermal,0.0,brown,Geothermal
 hydro,0.0,deepskyblue,Hydro
+laes,0.0,#4B7BAB,Liquid Air Energy Storage
 lignite,0.34,black,Lignite Coal
 liquified-natural-gas,0.2,grey,Liquefied Natural Gas
 natural-gas,0.2,grey,Natural Gas

@@ -1,0 +1,59 @@
+
+Pinned packages:
+
+  - python=3.12
+
+
+Transaction
+
+  Prefix: /home/irfanm/.local/share/mamba/envs/tza-cfe
+
+  Updating specs:
+
+   - nbformat
+
+
+  Package                        Version  Build            Channel           Size
+───────────────────────────────────────────────────────────────────────────────────
+  Install:
+───────────────────────────────────────────────────────────────────────────────────
+
+  + attrs                         25.3.0  pyh71513ae_0     conda-forge       57kB
+  + importlib_resources            6.5.2  pyhd8ed1ab_0     conda-forge     Cached
+  + jsonschema                    4.23.0  pyhd8ed1ab_1     conda-forge     Cached
+  + jsonschema-specifications  2024.10.1  pyhd8ed1ab_1     conda-forge     Cached
+  + jupyter_core                   5.7.2  pyh31011fe_1     conda-forge     Cached
+  + nbformat                      5.10.4  pyhd8ed1ab_1     conda-forge     Cached
+  + pkgutil-resolve-name          1.3.10  pyhd8ed1ab_2     conda-forge     Cached
+  + platformdirs                   4.3.7  pyh29332c3_0     conda-forge       23kB
+  + python-fastjsonschema         2.21.1  pyhd8ed1ab_0     conda-forge     Cached
+  + referencing                   0.36.2  pyh29332c3_0     conda-forge     Cached
+  + rpds-py                       0.24.0  py312h3b7be25_0  conda-forge      394kB
+  + traitlets                     5.14.3  pyhd8ed1ab_1     conda-forge     Cached
+
+  Summary:
+
+  Install: 12 packages
+
+  Total download: 474kB
+
+───────────────────────────────────────────────────────────────────────────────────
+
+
+Confirm changes: [Y/n] 
+Transaction starting
+Linking python-fastjsonschema-2.21.1-pyhd8ed1ab_0
+Linking traitlets-5.14.3-pyhd8ed1ab_1
+Linking platformdirs-4.3.7-pyh29332c3_0
+Linking importlib_resources-6.5.2-pyhd8ed1ab_0
+Linking attrs-25.3.0-pyh71513ae_0
+Linking pkgutil-resolve-name-1.3.10-pyhd8ed1ab_2
+Linking jupyter_core-5.7.2-pyh31011fe_1
+Linking rpds-py-0.24.0-py312h3b7be25_0
+Linking referencing-0.36.2-pyh29332c3_0
+Linking jsonschema-specifications-2024.10.1-pyhd8ed1ab_1
+Linking jsonschema-4.23.0-pyhd8ed1ab_1
+Linking nbformat-5.10.4-pyhd8ed1ab_1
+
+Transaction finished
+

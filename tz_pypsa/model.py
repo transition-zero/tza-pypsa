@@ -147,7 +147,7 @@ class Model:
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
-                branch=kwargs.get('branch', 'main'),
+                branch=kwargs.get('branch', 'trial_data_for_blending'),
             )
         )
 
@@ -164,7 +164,7 @@ class Model:
                 path_to_file = model['remote_data']['policies']['path_to_policy'] + 'power_sector_targets.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
-                branch=kwargs.get('branch', 'main'),
+                branch=kwargs.get('branch', 'trial_data_for_blending'),
             )
         )
 
@@ -200,7 +200,7 @@ class Model:
                 path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
                 personal_access_token=PERSONAL_ACCESS_TOKEN,
                 remote_data=model['remote_data'],
-                branch=kwargs.get('branch', 'main'),
+                branch=kwargs.get('branch', 'trial_data_for_blending'),
             )
 
             # open and resample
@@ -342,7 +342,7 @@ class Model:
     @staticmethod
     def load_csv_from_dir(
         path_to_dir,
-        year,
+        years,
         backstop : bool = False,
         **kwargs,
     ) -> pypsa.Network:
@@ -355,7 +355,7 @@ class Model:
 
             path_to_dir : str
                 Directory from which we load the model. This directory should contain csv files. File names are strictly enforced.
-            year: int or list
+            years: int or list
                 The year(s) to load in the model, which can be supplied as an integer or a list of integers.
             backstop : bool (optional)
                 If True, the model will include backstop technologies (default is False).
@@ -395,10 +395,10 @@ class Model:
                 )
         
         # --- choose years to load in --- #
-        if isinstance(year, list):
-            network.snapshots = network.snapshots[network.snapshots.year.isin(year)]
+        if isinstance(years, list):
+            network.snapshots = network.snapshots[network.snapshots.year.isin(years)]
         else:
-            network.snapshots = network.snapshots[network.snapshots.year == year]
+            network.snapshots = network.snapshots[network.snapshots.year == years]
 
         return network
     

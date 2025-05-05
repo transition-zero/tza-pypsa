@@ -7,6 +7,8 @@ import xarray as xr
 from .constraints import (
     constr_cumulative_p_nom,
     constr_bus_self_sufficiency,
+    constr_policy_targets,
+    constr_max_annual_utilisation
 )
 
 from .helpers import (
@@ -160,9 +162,17 @@ def build_pypsa_network(
                 pe = link['planned_expansion']
                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
                 p_nom_min = pe[closest_year]
+                # p_nom = link['initial_capacity'] + pe[closest_year]
             else:
                 p_nom_min = 0
+                # p_nom = link['initial_capacity']
             
+            # # get minimum capacity
+            # if 'minimum_capacity' in link.keys():
+            #     p_nom_min = link['minimum_capacity']
+            # else:
+            #     p_nom_min = 0
+
             # get maximum capacity
             if 'maximum_capacity' in link.keys():
                 p_nom_max = link['maximum_capacity']
@@ -255,8 +265,17 @@ def build_pypsa_network(
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
                                 p_nom_min = pe[closest_year]
+                                # p_nom = technology['initial_capacity'][bus] + pe[closest_year]
                     else:
                         p_nom_min = 0
+                        # p_nom = technology['initial_capacity']
+                    
+                    # # get minimum capacity
+                    # if 'minimum_capacity' in technology.keys():
+                    #     if bus in technology['minimum_capacity'].keys():
+                    #         p_nom_min = technology['minimum_capacity'][bus]
+                    # else:
+                    #     p_nom_min = 0
                     
                     # get maximum capacity
                     if 'maximum_capacity' in technology.keys():
@@ -265,9 +284,13 @@ def build_pypsa_network(
                     else:
                         p_nom_max = np.inf
                     
-                    # get capacity factors
-                    if technology['id'] == 'wind-onshore':
-                        cf = (
+                    # get capacity factors as p_max_pu
+                    if 'p_max_pu' in technology.keys():
+                        if bus in technology['p_max_pu'].keys():
+                            # cf = np.tile(technology['p_max_pu'][bus], len(timeseries.snapshot))
+                            cf_max = technology['p_max_pu'][bus]
+                    elif technology['id'] == 'wind-onshore':
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -277,7 +300,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'wind-offshore-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -287,7 +310,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'photovoltaic-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -297,7 +320,7 @@ def build_pypsa_network(
                             .values
                         )
                     elif technology['id'] == 'hydro-unspecified':
-                        cf = (
+                        cf_max = (
                             timeseries
                             .sel(
                                 node=bus, 
@@ -307,13 +330,34 @@ def build_pypsa_network(
                             .values
                         )
                     else:
-                        cf = 1
+                        cf_max = 1
 
-                    generator_name = bus + '-' + technology['id'] + '-ext-' + str(year)
+                    # get capacity factors as p_min_pu
+                    if 'p_min_pu' in technology.keys():
+                        if bus in technology['p_min_pu'].keys():
+                            # cf = np.tile(technology['p_max_pu'][bus], len(timeseries.snapshot))
+                            cf_min = technology['p_min_pu'][bus]
+
+                    # this is for calibrating hydro - forcing hydro to generate according to the official data
+                    # elif technology['id'] == 'hydro-unspecified':
+                    #     cf_min = (
+                    #         timeseries
+                    #         .sel(
+                    #             node=bus, 
+                    #         )
+                    #         .cf_hydro
+                    #         .to_pandas()
+                    #         .values
+                    #     )
+                    else:
+                        cf_min = 0.
+
+                    generator_name=bus + '-' + technology['id'] + '-ext-' + str(year)
                     network.add(
                         'Generator', # PyPSA component
                         #bus + '-' + technology['id'] + '-ext-' + str(year), # generator name
-                        generator_name, # generator name
+                        generator_name,
+
                         type = technology['type'], # technology type (e.g., solar, gas-ccgt etc.)
                         bus = bus, # region/bus/balancing zone
                         # ---
@@ -321,8 +365,8 @@ def build_pypsa_network(
                         p_nom = p_nom, # starting capacity (MW)
                         p_nom_min = p_nom_min, # minimum capacity (MW)
                         p_nom_max = p_nom_max, # maximum capacity (MW)
-                        p_max_pu = cf, # capacity factor
-                        p_min_pu = technology['p_min_pu'][bus], # minimum capacity factor
+                        p_max_pu = cf_max, # capacity factor
+                        p_min_pu = cf_min, # technology['p_min_pu'][bus], # minimum capacity factor
                         efficiency = technology['efficiency'][bus], # efficiency
                         ramp_limit_up = technology['ramp_limit_up'][bus], # per unit
                         ramp_limit_down = technology['ramp_limit_up'][bus], # per unit
@@ -340,8 +384,19 @@ def build_pypsa_network(
                         ramp_limit_start_up = technology['ramp_limit_start_up'], # 
                         ramp_limit_shut_down = technology['ramp_limit_shut_down'], # 
                         min_up_time = technology['min_up_time'], # 
-                        min_down_time = technology['min_down_time'], # 
+                        min_down_time = technology['min_down_time'], #
                     )
+
+
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['generation_blend_share'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.generation_blend_share.loc[generator_name] = technology['generation_blend_share']
+
+                    df = pd.DataFrame(index=[generator_name], 
+                                      columns=['is_blend_or_ccs'])
+                    network.add('Generator', df.index, **df)
+                    network.generators.is_blend_or_ccs.loc[generator_name] = technology['is_blend_or_ccs']
                     
                     df = pd.DataFrame(index=[generator_name], 
                                       columns=['min_utilisation_rate'])
@@ -352,6 +407,7 @@ def build_pypsa_network(
                                       columns=['max_utilisation_rate'])
                     network.add('Generator', df.index, **df)
                     network.generators.max_utilisation_rate.loc[generator_name] = technology['max_utilisation_rate'][bus]
+
 
     # --- add storage units to network --- #
     for year in years:
@@ -374,9 +430,18 @@ def build_pypsa_network(
                             if any( year >= int(y) for y in list( pe.keys() ) ):
                                 closest_year = min(pe.keys(), key=lambda d_year: abs(d_year - year))
                                 p_nom_min = pe[closest_year]
+                                # p_nom = storage['initial_capacity'][bus] + pe[closest_year]
                     else:
                         p_nom_min = 0
+                        #  p_nom = storage['initial_capacity'][bus]
                     
+                    # # get minimum capacity
+                    # if 'minimum_capacity' in storage.keys():
+                    #     if bus in storage['minimum_capacity'].keys():
+                    #         p_nom_min = storage['minimum_capacity'][bus]
+                    #     else:
+                    #         p_nom_min = 0
+
                     # get maximum capacity
                     if 'maximum_capacity' in storage.keys():
                         if bus in storage['maximum_capacity'].keys():
@@ -510,5 +575,29 @@ def build_pypsa_network(
                             constant=emissions.sum(axis=1).loc[year],
                         )
 
+            ### test new constraints here ###
+
+            # bus self-sufficiency
+            if cstr['id'] == 'bus_self_sufficiency' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_bus_self_sufficiency(network,min_self_sufficiency=0.6)
+
+            # policy constraints
+            if cstr['id'] == 'policy_targets' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_policy_targets(network, stock_model = 'ASEAN')
+
+            # maximum annual generation constraint
+            if cstr['id'] == 'max_annual_utilisation' and cstr['enabled'] == True:
+
+                print( 'GlobalConstraints: ' + cstr['id'])
+
+                constr_max_annual_utilisation(network, stock_model = 'ASEAN')
+
+            
 
     return network

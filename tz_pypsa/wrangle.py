@@ -54,7 +54,9 @@ def get_load_by_bus(
         network
         .loads_t
         .p_set
-        .loc[period].resample(resample)
+        .loc[period]
+        # .droplevel(0)
+        .resample(resample)
         .sum()
         .div(mul)
         .reset_index()
@@ -84,13 +86,15 @@ def export_to_excel(
     generators = network.generators
     links = network.links
     generation_hourly = network.generators_t.p
-    generation_monthly = network.generators_.resample('ME').sum()
+    generation_monthly = network.generators_t.p.resample('ME').sum()
+    storage_hourly = network.storage_units_t.p_dispatch
+    storage_monthly = network.storage_units_t.p_dispatch.resample('ME').sum()
     p_by_carrier = network.generators_t.p.groupby(network.generators.type, axis=1).sum()
-    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).su.resample('ME').sum()
+    p_by_carrier_monthly = network.generators_t.p.groupby(network.generators.type, axis=1).sum().resample('ME').sum()
     interconnector_hourly = network.links_t.p0
-    interconnector_monthly = network.links_t.resample('ME').sum()
+    interconnector_monthly = network.links_t.p0.resample('ME').sum()
     statistics = network.statistics()
-    loads = network.loads_.resample('ME').sum()
+    loads = network.loads_t.p.resample('ME').sum()
     energy_balance = (network.statistics.energy_balance() / 1e6).round(2)
     curtailment = network.statistics.curtailment()
     installed_capacity = network.statistics.installed_capacity()
@@ -116,6 +120,8 @@ def export_to_excel(
         pd.DataFrame({}).to_excel(writer, sheet_name='Results >>>')
         generation_hourly.to_excel(writer, sheet_name='Generation by node (hr)')
         generation_monthly.to_excel(writer, sheet_name='Generation by node (m)')
+        storage_hourly.to_excel(writer, sheet_name='Storage dispatch by node (hr)')
+        storage_monthly.to_excel(writer, sheet_name='Storage dispatch by node (m)')
         p_by_carrier.to_excel(writer, sheet_name='Generation by carrier (hr)')
         p_by_carrier_monthly.to_excel(writer, sheet_name='Generation by carrier (m)')
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
