@@ -127,7 +127,6 @@ def export_to_excel(
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
-
 def prompt_market():
     """
     Prompts the user to enter a market/country/region for this Pypsa run.
@@ -160,6 +159,30 @@ def prompt_pypsa_run_identifier():
     print(f"You entered: {run_identifier}")
     return run_identifier
 
+def interconnector_by_nodes(
+        interconnector_p0: pd.DataFrame, # Export
+        interconnector_p1: pd.DataFrame # Import
+    )   -> pd.DataFrame:
+        
+    """
+    Concatenate two DataFrames by 'snapshot' and 'Link' columns.
+
+    Parameters
+     ----------
+    interconnector_p0 : pd.DataFrame
+        DataFrame containing the export data.
+    interconnector_p1 : pd.DataFrame
+        DataFrame containing the import data.
+
+    Returns
+    -------
+    pd.DataFrame
+        Concatenated DataFrame with 'snapshot', 'Link', and 'Value' columns.
+     """
+    interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
+        
+    return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
+
 def add_hour_of_year_column(
         df, 
         datetime_col, 
@@ -191,71 +214,6 @@ def add_hour_of_year_column(
     
     return df
 
-def split_and_assign(
-        df, 
-        column, 
-        new_columns, 
-        indices, 
-        num_splits, 
-        delimiter
-    ) -> pd.DataFrame:
-
-    """
-    Splits the specified column in the DataFrame by a delimiter and assigns
-    selected parts To new columns.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        The DataFrame containing the column To be split.
-    column : str
-        The name of the column To split.
-    new_columns : list of str
-        The list of new column names To be created.
-    indices : list of int
-        The indices corresponding To the split parts To assign To each new column.
-        For example, if you want To assign the first and second parts, use [0, 1].
-    num_splits : int, optional
-        The maximum number of splits To perform (default is 2).
-    delimiter : str, optional
-        The delimiter To use for splitting (default is "-").
-
-    Returns
-    -------
-    pandas.DataFrame
-        The DataFrame with the new columns added.
-    """
-    splits = df[column].str.split(delimiter, n=num_splits, expand=True)
-    for new_col, idx in zip(new_columns, indices):
-        df[new_col] = splits[idx]
-    df = df.drop(columns=[column])
-    
-    return df
-
-def interconnector_by_nodes(
-        interconnector_p0: pd.DataFrame, # Export
-        interconnector_p1: pd.DataFrame # Import
-    )   -> pd.DataFrame:
-        
-    """
-    Concatenate two DataFrames by 'snapshot' and 'Link' columns.
-
-    Parameters
-     ----------
-    interconnector_p0 : pd.DataFrame
-        DataFrame containing the export data.
-    interconnector_p1 : pd.DataFrame
-        DataFrame containing the import data.
-
-    Returns
-    -------
-    pd.DataFrame
-        Concatenated DataFrame with 'snapshot', 'Link', and 'Value' columns.
-     """
-    interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
-        
-    return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
-
 def transform_visualiser_hourly_output(
         network: pypsa.Network
     ):
@@ -277,6 +235,28 @@ def transform_visualiser_hourly_output(
     csv file
         The merged long format DataFrame saved as a CSV file.
     """
+    generator_lookup = (network
+                        .generators
+                        .reset_index()[['Generator', 'bus', 'type']]
+                        .rename(
+                            columns={'bus': 'Node', 'type': 'Tech'})
+                        )
+    
+    storage_lookup = (network
+                      .storage_units
+                      .reset_index()[['StorageUnit', 'bus', 'type']]
+                      .rename(
+                          columns={'bus': 'Node', 'type': 'Tech'})
+                     )
+    
+    interconnector_lookup = (network
+                             .links
+                             .reset_index()[['Link', 'bus0', 'bus1']]
+                             .rename(
+                                 columns={'bus0': 'Node', 'bus1': 'Node_Destination'})
+                            )
+
+
     # --- Extract hourly data and reset index ---
     # Hourly generation (required)
     generation = (
@@ -379,35 +359,29 @@ def transform_visualiser_hourly_output(
     ).rename(columns={"Bus": "Node"})
     
     # --- Create identifier columns: Node, Tech, Type ---
-    generation = split_and_assign(
-        generation, 
-        "Generator", 
-        ["Node", "Tech"], 
-        [0, 1], 
-        2, 
-        "-"
-    )
+    generation = pd.merge(
+        generation,
+        generator_lookup,
+        on='Generator',
+        how='left'
+        ).drop(columns='Generator')
 
     if storage is not None:
-        storage = split_and_assign(
-            storage, 
-            "StorageUnit", 
-            ["Node", "Tech"], 
-            [0, 1], 
-            2, 
-            "-"
-        )
+        storage = pd.merge(
+            storage,
+            storage_lookup,
+            on='StorageUnit',
+            how='left'
+        ).drop(columns='StorageUnit')
     
     # Process interconnector flows if available
     if interconnector_p0 is not None:
         try:
-            interconnector_p0 = split_and_assign(
-                interconnector_p0, 
-                'Link', 
-                ['Node', 'Node_Destination'], 
-                [0, 1], 
-                2, 
-                "-"
+            interconnector_p0 = pd.merge(
+                interconnector_p0,
+                interconnector_lookup,
+                on='Link',
+                how='left'
             )
         except Exception as e:
             print(f"Skipping interconnector_p0: {e}")
@@ -415,14 +389,15 @@ def transform_visualiser_hourly_output(
 
     if interconnector_p1 is not None:
         try:
-            interconnector_p1 = split_and_assign(
-                interconnector_p1, 
-                'Link', 
-                ['Node', 'Node_Destination'], 
-                [1, 0], 
-                2, 
-                "-"
+            interconnector_p1 = pd.merge(
+                interconnector_p1,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            ).rename(
+                columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
             )
+
         except Exception as e:
             print(f"Skipping interconnector_p1: {e}")
             interconnector_p1 = None
