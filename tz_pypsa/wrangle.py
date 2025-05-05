@@ -60,7 +60,7 @@ def get_load_by_bus(
         .sum()
         .div(mul)
         .reset_index()
-        .melt(id_vars='snapshot', var_name='bus', value_name='load')
+        .melt(id_vars='timestep', var_name='bus', value_name='load')
     )
 
 
