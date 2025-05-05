@@ -190,47 +190,6 @@ def add_hour_of_year_column(
     
     return df
 
-def split_and_assign(
-        df, 
-        column, 
-        new_columns, 
-        indices, 
-        num_splits, 
-        delimiter
-    ) -> pd.DataFrame:
-
-    """
-    Splits the specified column in the DataFrame by a delimiter and assigns
-    selected parts To new columns.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        The DataFrame containing the column To be split.
-    column : str
-        The name of the column To split.
-    new_columns : list of str
-        The list of new column names To be created.
-    indices : list of int
-        The indices corresponding To the split parts To assign To each new column.
-        For example, if you want To assign the first and second parts, use [0, 1].
-    num_splits : int, optional
-        The maximum number of splits To perform (default is 2).
-    delimiter : str, optional
-        The delimiter To use for splitting (default is "-").
-
-    Returns
-    -------
-    pandas.DataFrame
-        The DataFrame with the new columns added.
-    """
-    splits = df[column].str.split(delimiter, n=num_splits, expand=True)
-    for new_col, idx in zip(new_columns, indices):
-        df[new_col] = splits[idx]
-    df = df.drop(columns=[column])
-    
-    return df
-
 def interconnector_by_nodes(
         interconnector_p0: pd.DataFrame, # Export
         interconnector_p1: pd.DataFrame # Import
@@ -276,6 +235,28 @@ def transform_visualiser_hourly_output(
     csv file
         The merged long format DataFrame saved as a CSV file.
     """
+    generator_lookup = (network
+                        .generators
+                        .reset_index()[['Generator', 'bus', 'type']]
+                        .rename(
+                            columns={'bus': 'Node', 'type': 'Tech'})
+                        )
+    
+    storage_lookup = (network
+                      .storage_units
+                      .reset_index()[['StorageUnit', 'bus', 'type']]
+                      .rename(
+                          columns={'bus': 'Node', 'type': 'Tech'})
+                     )
+    
+    interconnector_lookup = (network
+                             .links
+                             .reset_index()[['Link', 'bus0', 'bus1']]
+                             .rename(
+                                 columns={'bus0': 'Node', 'bus1': 'Node_Destination'})
+                            )
+
+
     # --- Extract hourly data and reset index ---
     # Hourly generation (required)
     generation = (
@@ -306,7 +287,7 @@ def transform_visualiser_hourly_output(
         storage = (
             network
             .storage_units_t
-            .p_dispatch
+            .p
             .reset_index()
         )
     except Exception as e:
@@ -378,35 +359,29 @@ def transform_visualiser_hourly_output(
     ).rename(columns={"Bus": "Node"})
     
     # --- Create identifier columns: Node, Tech, Type ---
-    generation = split_and_assign(
-        generation, 
-        "Generator", 
-        ["Node", "Tech"], 
-        [0, 1], 
-        2, 
-        "-"
-    )
+    generation = pd.merge(
+        generation,
+        generator_lookup,
+        on='Generator',
+        how='left'
+        ).drop(columns='Generator')
 
     if storage is not None:
-        storage = split_and_assign(
-            storage, 
-            "StorageUnit", 
-            ["Node", "Tech"], 
-            [0, 1], 
-            2, 
-            "-"
-        )
+        storage = pd.merge(
+            storage,
+            storage_lookup,
+            on='StorageUnit',
+            how='left'
+        ).drop(columns='StorageUnit')
     
     # Process interconnector flows if available
     if interconnector_p0 is not None:
         try:
-            interconnector_p0 = split_and_assign(
-                interconnector_p0, 
-                'Link', 
-                ['Node', 'Node_Destination'], 
-                [0, 1], 
-                2, 
-                "-"
+            interconnector_p0 = pd.merge(
+                interconnector_p0,
+                interconnector_lookup,
+                on='Link',
+                how='left'
             )
         except Exception as e:
             print(f"Skipping interconnector_p0: {e}")
@@ -414,14 +389,15 @@ def transform_visualiser_hourly_output(
 
     if interconnector_p1 is not None:
         try:
-            interconnector_p1 = split_and_assign(
-                interconnector_p1, 
-                'Link', 
-                ['Node', 'Node_Destination'], 
-                [1, 0], 
-                2, 
-                "-"
+            interconnector_p1 = pd.merge(
+                interconnector_p1,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            ).rename(
+                columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
             )
+
         except Exception as e:
             print(f"Skipping interconnector_p1: {e}")
             interconnector_p1 = None
@@ -516,10 +492,7 @@ def transform_visualiser_yearly_output(
     # Extract statistics output into a df
     df = network.statistics(groupby=['bus', 'name', 'carrier'])
 
-    year = df.columns.get_level_values(1)[0]
-
-    # Drop the first level of the MultiIndex columns
-    df.columns = df.columns.droplevel(1)
+    year = network.snapshots.year[0]
 
     # Reset the index to convert MultiIndex to columns
     df = (df
