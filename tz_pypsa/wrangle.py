@@ -462,13 +462,16 @@ def transform_visualiser_hourly_output(
     )
 
     # --- Map bus long names to the DataFrame ---
-    buses_long_name = network.buses.long_name
-    merged_df = merged_df.merge(
-        buses_long_name, 
-        how='left', 
-        left_on='Node', 
-        right_index=True
-    )
+    try:
+        buses_long_name = network.buses.long_name
+        merged_df = merged_df.merge(
+            buses_long_name, 
+            how='left', 
+            left_on='Node', 
+            right_index=True
+        )
+    except Exception as e:
+        print(f"Bus long names not found: {e}")
 
     return merged_df
 
