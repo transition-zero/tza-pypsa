@@ -12,8 +12,8 @@ battery-storage-INDNE-battery-2030,battery-storage,INDNE,0.0,True,battery,2030,4
 battery-storage-INDNO-battery-2030,battery-storage,INDNO,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
 battery-storage-INDSO-battery-2030,battery-storage,INDSO,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
 battery-storage-INDWE-battery-2030,battery-storage,INDWE,0.0,True,battery,2030,4,1,0.95,0.01,731534.99
-liquid-air-storage-INDEA-laes-2030,liquid-air-storage,INDEA,0.0,FALSE,laes,2030,168,1,0.575,0.008,6000000
-liquid-air-storage-INDNE-laes-2030,liquid-air-storage,INDNE,0.0,FALSE,laes,2030,168,1,0.575,0.008,6000000
-liquid-air-storage-INDNO-laes-2030,liquid-air-storage,INDNO,0.0,FALSE,laes,2030,168,1,0.575,0.008,6000000
-liquid-air-storage-INDSO-laes-2030,liquid-air-storage,INDSO,0.0,FALSE,laes,2030,168,1,0.575,0.008,6000000
-liquid-air-storage-INDWE-laes-2030,liquid-air-storage,INDWE,0.0,FALSE,laes,2030,168,1,0.575,0.008,6000000
+liquid-air-storage-INDEA-laes-2030,liquid-air-storage,INDEA,0.0001,FALSE,laes,2030,168,1,0.575,0.008,6000000
+liquid-air-storage-INDNE-laes-2030,liquid-air-storage,INDNE,0.0001,FALSE,laes,2030,168,1,0.575,0.008,6000000
+liquid-air-storage-INDNO-laes-2030,liquid-air-storage,INDNO,0.0001,FALSE,laes,2030,168,1,0.575,0.008,6000000
+liquid-air-storage-INDSO-laes-2030,liquid-air-storage,INDSO,0.0001,FALSE,laes,2030,168,1,0.575,0.008,6000000
+liquid-air-storage-INDWE-laes-2030,liquid-air-storage,INDWE,0.0001,FALSE,laes,2030,168,1,0.575,0.008,6000000
