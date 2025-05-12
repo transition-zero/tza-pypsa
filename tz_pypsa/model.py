@@ -399,6 +399,8 @@ class Model:
                 )
                 + network.storage_units.loc[storage_units, 'annual_fixed_costs']
             )
+                
+        network.generators['capital_cost'] = network.generators['capital_cost'].round(0)
         
         # --- add backstop --- #
         if backstop:
