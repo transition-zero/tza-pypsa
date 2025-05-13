@@ -18,7 +18,7 @@ JPN01-Biomass-2030_exo,JPN01,,biomass-unspecified,biomass-unspecified,360,0,FALS
 JPN01-Geothermal-2023active_exo,JPN01,,geothermal-unspecified,geothermal-unspecified,36.05,0,FALSE,0,36.05,0,1,,,,Geothermal,0,,2023,40,0,0,FALSE,,,,,,,,1,1,,,,,0,0.6,FALSE,0
 JPN01-Geothermal-2030_endo,JPN01,,geothermal-unspecified,geothermal-unspecified,0,0,TRUE,0,4.4,0,1,,,,Geothermal,0,,2030,40,6175057.172,0,FALSE,,,,,,,,1,1,,,,,0,0.6,FALSE,0
 JPN01-Geothermal-2030_exo,JPN01,,geothermal-unspecified,geothermal-unspecified,8.8,0,FALSE,0,8.8,0,1,,,,Geothermal,0,,2030,40,6175057.172,0,FALSE,,,,,,,,1,1,,,,,0,0.6,FALSE,0
-JPN01-SolarGrid-2023active_exo,JPN01,,solar-unspecified,solar-unspecified,2187.17,0,FALSE,0,2187.169811,0,1,,,,SolarGrid,0,,2023,20,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
+JPN01-SolarGrid-2023active_exo,JPN01,,solar-unspecified,solar-unspecified,2187.17,0,FALSE,0,2187.17,0,1,,,,SolarGrid,0,,2023,20,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN01-SolarGrid-2030_endo,JPN01,,solar-unspecified,solar-unspecified,0,0,TRUE,0,222,0,1,,,,SolarGrid,0,,2030,20,1238912.384,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN01-SolarGrid-2030_exo,JPN01,,solar-unspecified,solar-unspecified,444.9714286,0,FALSE,0,444.9714286,0,1,,,,SolarGrid,0,,2030,20,1238912.384,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN01-OffshoreWind-2023active_exo,JPN01,,offshorewind-unspecified,offshorewind-unspecified,0,0,FALSE,0,0,0,1,,,,OffshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
@@ -71,7 +71,7 @@ JPN02-SolarGrid-2030_endo,JPN02,,solar-unspecified,solar-unspecified,0,0,TRUE,0,
 JPN02-SolarGrid-2030_exo,JPN02,,solar-unspecified,solar-unspecified,2391.3,0,FALSE,0,2391.3,0,1,,,,SolarGrid,0,,2030,20,1238912.384,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN02-OffshoreWind-2023active_exo,JPN02,,offshorewind-unspecified,offshorewind-unspecified,0,0,FALSE,0,0,0,1,,,,OffshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN02-OffshoreWind-2030_endo,JPN02,,offshorewind-unspecified,offshorewind-unspecified,0,0,TRUE,0,0,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
-JPN02-OffshoreWind-2030_exo,JPN02,,offshorewind-unspecified,offshorewind-unspecified,1992,0,FALSE,0,118.8,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
+JPN02-OffshoreWind-2030_exo,JPN02,,offshorewind-unspecified,offshorewind-unspecified,1992,0,FALSE,0,1992,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN02-OnshoreWind-2023active_exo,JPN02,,onshorewind-unspecified,onshorewind-unspecified,1350,0,FALSE,0,1350,0,1,,,,OnshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN02-OnshoreWind-2030_endo,JPN02,,onshorewind-unspecified,onshorewind-unspecified,0,0,TRUE,0,669.0142857,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN02-OnshoreWind-2030_exo,JPN02,,onshorewind-unspecified,onshorewind-unspecified,1338.028571,0,FALSE,0,1338.028571,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
@@ -119,7 +119,7 @@ JPN03-SolarGrid-2030_endo,JPN03,,solar-unspecified,solar-unspecified,0,0,TRUE,0,
 JPN03-SolarGrid-2030_exo,JPN03,,solar-unspecified,solar-unspecified,4035.085714,0,FALSE,0,4035.085714,0,1,,,,SolarGrid,0,,2030,20,1238912.384,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN03-OffshoreWind-2023active_exo,JPN03,,offshorewind-unspecified,offshorewind-unspecified,0,0,FALSE,0,0,0,1,,,,OffshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN03-OffshoreWind-2030_endo,JPN03,,offshorewind-unspecified,offshorewind-unspecified,0,0,TRUE,0,0,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
-JPN03-OffshoreWind-2030_exo,JPN03,,offshorewind-unspecified,offshorewind-unspecified,823,0,FALSE,0,2.1,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
+JPN03-OffshoreWind-2030_exo,JPN03,,offshorewind-unspecified,offshorewind-unspecified,823,0,FALSE,0,823,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN03-OnshoreWind-2023active_exo,JPN03,,onshorewind-unspecified,onshorewind-unspecified,368.79,0,FALSE,0,368.79,0,1,,,,OnshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN03-OnshoreWind-2030_endo,JPN03,,onshorewind-unspecified,onshorewind-unspecified,0,0,TRUE,0,1.157142857,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN03-OnshoreWind-2030_exo,JPN03,,onshorewind-unspecified,onshorewind-unspecified,2.314285714,0,FALSE,0,2.314285714,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
@@ -407,7 +407,7 @@ JPN09-SolarGrid-2030_endo,JPN09,,solar-unspecified,solar-unspecified,0,0,TRUE,0,
 JPN09-SolarGrid-2030_exo,JPN09,,solar-unspecified,solar-unspecified,1781.185714,0,FALSE,0,1781.185714,0,1,,,,SolarGrid,0,,2030,20,1238912.384,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN09-OffshoreWind-2023active_exo,JPN09,,offshorewind-unspecified,offshorewind-unspecified,0,0,FALSE,0,0,0,1,,,,OffshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN09-OffshoreWind-2030_endo,JPN09,,offshorewind-unspecified,offshorewind-unspecified,0,0,TRUE,0,0,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
-JPN09-OffshoreWind-2030_exo,JPN09,,offshorewind-unspecified,offshorewind-unspecified,437,0,FALSE,0,0,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
+JPN09-OffshoreWind-2030_exo,JPN09,,offshorewind-unspecified,offshorewind-unspecified,437,0,FALSE,0,437,0,1,,,,OffshoreWind,0,,2030,25,3272598.749,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN09-OnshoreWind-2023active_exo,JPN09,,onshorewind-unspecified,onshorewind-unspecified,631.53,0,FALSE,0,631.53,0,1,,,,OnshoreWind,0,,2023,25,0,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN09-OnshoreWind-2030_endo,JPN09,,onshorewind-unspecified,onshorewind-unspecified,0,0,TRUE,0,115.4928571,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
 JPN09-OnshoreWind-2030_exo,JPN09,,onshorewind-unspecified,onshorewind-unspecified,230.9857143,0,FALSE,0,230.9857143,0,1,,,,OnshoreWind,0,,2030,25,2472766.418,0,FALSE,,,,,,,,1,1,,,,,0,1,FALSE,0
