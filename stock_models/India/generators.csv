@@ -96,6 +96,8 @@ solar-groundmounted-INDNE-solar-exo-2030,photovoltaic-unspecified,INDNE,0.0,True
 solar-groundmounted-INDNO-solar-exo-2030,photovoltaic-unspecified,INDNO,0.0,True,solar,2030,photovoltaic-unspecified,556697.29,4697.39,28.0,1.0,0.1,,
 solar-groundmounted-INDSO-solar-exo-2030,photovoltaic-unspecified,INDSO,0.0,True,solar,2030,photovoltaic-unspecified,556697.29,4697.39,28.0,1.0,0.1,,
 solar-groundmounted-INDWE-solar-exo-2030,photovoltaic-unspecified,INDWE,0.0,True,solar,2030,photovoltaic-unspecified,556697.29,4697.39,28.0,1.0,0.1,,
+wind-INDEA-wind-exo-2030,wind-onshore,INDEA,0.0,True,wind,2030,wind-onshore,889469.48,9606.35,30.0,1.0,0.1,,
+wind-INDNE-wind-exo-2030,wind-onshore,INDNE,0.0,True,wind,2030,wind-onshore,889469.48,9606.35,30.0,1.0,0.1,,
 wind-INDNO-wind-exo-2030,wind-onshore,INDNO,0.0,True,wind,2030,wind-onshore,889469.48,9606.35,30.0,1.0,0.1,,
 wind-INDSO-wind-exo-2030,wind-onshore,INDSO,0.0,True,wind,2030,wind-onshore,889469.48,9606.35,30.0,1.0,0.1,,
 wind-INDWE-wind-exo-2030,wind-onshore,INDWE,0.0,True,wind,2030,wind-onshore,889469.48,9606.35,30.0,1.0,0.1,,
