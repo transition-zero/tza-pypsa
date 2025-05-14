@@ -755,3 +755,4 @@ def constr_cofiring_ccs_generation_join_plant(
     rhs = production_fossil_force_blend / model_frequency,
     name = "cofiring_constrain_generation_from_fossil_component",
             )
+
