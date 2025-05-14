@@ -8,7 +8,7 @@ PyPSA-India is an hourly-resolution power sector model. It can be used for:
 - Power system capacity expansion planning.
 
 ## Overview
-The PyPSA-India model is comprised of 5 nodes and 6 inter grid-zone link. Here, each node represents a regional power grid in the India National Grid, while each link represents the aggregated transmissions capacity between grid zones.
+The PyPSA-India model is comprised of 5 nodes and 6 inter grid-zone links. Here, each node represents a regional power grid in the India National Grid, while each link represents the aggregated transmissions capacity between grid zones.
 
 The model is setup and calibrated to run a 2023 dispatch year. Policy targets have also been setup to allow the model to run a 2030 NDC-compliant year.
 
