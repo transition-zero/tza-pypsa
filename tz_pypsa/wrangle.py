@@ -1,5 +1,6 @@
 import pypsa
 import pandas as pd
+import numpy as np
 
 
 def get_backstop_generation_by_bus(
@@ -359,20 +360,28 @@ def transform_visualiser_hourly_output(
     ).rename(columns={"Bus": "Node"})
     
     # --- Create identifier columns: Node, Tech, Type ---
-    generation = pd.merge(
+    generation = (pd.merge(
         generation,
         generator_lookup,
         on='Generator',
-        how='left'
-        ).drop(columns='Generator')
+        how='left')
+        .drop(columns='Generator')
+        .groupby(['snapshot', 'Node', 'Tech'])
+        .sum()
+        .reset_index()
+    )
 
     if storage is not None:
-        storage = pd.merge(
+        storage = (pd.merge(
             storage,
             storage_lookup,
             on='StorageUnit',
-            how='left'
-        ).drop(columns='StorageUnit')
+            how='left')
+            .drop(columns='StorageUnit')
+            .groupby(['snapshot', 'Node', 'Tech'])
+            .sum()
+            .reset_index()
+        )
     
     # Process interconnector flows if available
     if interconnector_p0 is not None:
@@ -412,6 +421,62 @@ def transform_visualiser_hourly_output(
     if interconnector is not None:
         interconnector['Value'] = interconnector['Value']*-1
 
+    # --- Calculate capacity factor ---
+    optimal_capacity = (
+        network
+        .statistics
+        .optimal_capacity(groupby=['bus', 'type'])
+        .reset_index()
+        .rename(columns={'bus':'Node', 'type': 'Tech',  0: 'OptimalCapacity'})
+        .drop(columns='component')
+    )
+
+    capacity_factor_generator = pd.merge(
+        generation,
+        optimal_capacity,
+        on=['Node', 'Tech'],
+        how='left'
+    )
+
+    capacity_factor_storage = pd.merge(
+        storage,
+        optimal_capacity,
+        on=['Node', 'Tech'],
+        how='left'
+    )
+
+    capacity_factor_generator['Value']  = capacity_factor_generator['Value'] / capacity_factor_generator['OptimalCapacity']
+    capacity_factor_storage['Value']  = capacity_factor_storage['Value'] / capacity_factor_storage['OptimalCapacity']
+    capacity_factor_generator = capacity_factor_generator[['snapshot', 'Node', 'Tech', 'Value']]
+    capacity_factor_storage = capacity_factor_storage[['snapshot', 'Node', 'Tech', 'Value']]
+
+    # --- Calculate residual demand ---
+
+    # List of renewable technologies
+    renewables = [
+        'biomass-unspecified',
+        'geothermal-unspecified',
+        'hydro-unspecified',
+        'offshorewind-unspecified',
+        'onshorewind-unspecified',
+        'solar-unspecified'
+    ]
+
+    # Filter the generation dataframe to keep only renewable tech
+    renewable_generation = generation[generation['Tech'].isin(renewables)]
+
+    renewable_generation = renewable_generation.drop(columns='Tech').groupby(['snapshot', 'Node']).sum().reset_index()
+
+    residual_demand = pd.merge(
+    loads,
+    renewable_generation,
+    on=['snapshot', 'Node'],
+    how='left'
+    )
+
+    residual_demand['Value'] = residual_demand['Value_x'] - residual_demand['Value_y']
+    residual_demand = residual_demand.drop(columns=['Value_x', 'Value_y'])
+
     # --- Assign Type column for standardization ---
     generation['Type'] = 'Generation'
     if storage is not None:
@@ -420,6 +485,9 @@ def transform_visualiser_hourly_output(
         interconnector['Type'] = 'Interconnector'
     loads['Type'] = 'Demand'
     prices['Type'] = 'Price'
+    capacity_factor_generator['Type'] = 'CapacityFactor'
+    capacity_factor_storage['Type'] = 'CapacityFactor'
+    residual_demand['Type'] = 'ResidualDemand'
 
     # --- Assign Tech column for interconnector ---
     if interconnector is not None:
@@ -429,7 +497,7 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, loads, prices]
+    dataframes = [generation, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
@@ -493,7 +561,7 @@ def transform_visualiser_yearly_output(
         The merged long format DataFrame.
     """
     # Extract statistics output into a df
-    df = network.statistics(groupby=['bus', 'name', 'carrier'])
+    df = network.statistics(groupby=['bus', 'name', 'type'])
 
     year = network.snapshots.year[0]
 
@@ -503,19 +571,98 @@ def transform_visualiser_yearly_output(
           .rename(columns=
                   {'level_0': 'Type',
                    'level_1': 'Bus',
-                   'level_2': 'Bus_Tech_Vintage', # Non-standardised format across different market thus include it as full name for now
+                   'level_2': 'Name', # Non-standardised format across different market thus include it as full name for now
                    'level_3': 'Tech',
                    }
                    )
     )
 
+    df['Vintage'] = np.where(
+        df['Name'].str.contains('exo|endo', na=False),
+        df['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
     # Convert the df from wide to long format
     df = pd.melt(
         df,
-        id_vars=['Type', 'Bus', 'Bus_Tech_Vintage', 'Tech'],
+        id_vars=['Type', 'Bus', 'Name', 'Tech', 'Vintage'],
         var_name='Metric',
         value_name='Value'
     )
+
+    expanded_capacity = (network
+                        .statistics
+                        .expanded_capacity(groupby=['bus', 'name', 'type'])
+                        .reset_index()
+                        .rename(columns={'component': 'Type', 'bus': 'Bus', 'name': 'Name', 'type': 'Tech', 0: 'Value'})
+    )
+
+    expanded_capacity['Vintage'] = np.where(
+        expanded_capacity['Name'].str.contains('exo|endo', na=False),
+        expanded_capacity['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
+    expanded_capacity['Metric'] = 'Expanded Capacity'
+
+    generator_p_nom_max = (
+        network
+        .generators
+        .loc[network.generators['p_nom_extendable']]
+        .reset_index()
+        .rename(columns={'Generator': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+        [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+    storage_p_nom_max = (
+                network
+                .storage_units
+                .loc[network.storage_units['p_nom_extendable']]
+                .reset_index()
+                .rename(columns={'StorageUnit': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+
+    storage_p_nom_max = storage_p_nom_max.where(~storage_p_nom_max.isin([float('inf'), -float('inf')]), 0)
+
+    link_p_nom_max = (
+                network
+                .links
+                .loc[network.links['p_nom_extendable']]
+                .reset_index()
+                .rename(columns={'Link': 'Name', 'bus0': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+    link_p_nom_max = link_p_nom_max.where(~link_p_nom_max.isin([float('inf'), -float('inf')]), 0)
+
+    generator_p_nom_max['Type'] = 'Generator'
+    storage_p_nom_max['Type'] = 'StorageUnit'
+    link_p_nom_max['Type'] = 'Link'
+
+    p_nom_max = pd.concat([generator_p_nom_max, storage_p_nom_max, link_p_nom_max], ignore_index=True)
+
+    p_nom_max['Vintage'] = np.where(
+        p_nom_max['Name'].str.contains('exo|endo', na=False),
+        p_nom_max['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
+    p_nom_max['Metric'] = 'p_nom_max'
+
+    # Calculate ratio between expanded capacity and p_nom_max
+    agg_p_nom_max = p_nom_max[['Type','Bus', 'Tech', 'Value']].groupby(['Type','Bus', 'Tech']).sum().reset_index()
+    agg_expanded_capacity = expanded_capacity[['Type','Bus', 'Tech', 'Value']].groupby(['Type','Bus', 'Tech']).sum().reset_index()
+
+    newbuild_contraints_ratio = pd.merge(agg_expanded_capacity, agg_p_nom_max, on=['Type','Bus', 'Tech'], how='left', suffixes=('_expanded_capacity', '_p_nom_max'))
+    newbuild_contraints_ratio['Value'] = newbuild_contraints_ratio['Value_expanded_capacity'] / newbuild_contraints_ratio['Value_p_nom_max']
+    newbuild_contraints_ratio = newbuild_contraints_ratio[['Type', 'Bus', 'Tech', 'Value']]
+    
+    newbuild_contraints_ratio['Metric'] = 'Newbuild Constraints Ratio'
+
+    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio], ignore_index=True)
 
     # Add the run identifier and market column
     df['Market'] = prompt_market()

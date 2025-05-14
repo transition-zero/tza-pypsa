@@ -1,13 +1,13 @@
 DATA_FORMAT = "csv"  # CHANGE if your file is xlsx
 DELIMITER = ","  # CHANGE if delimiter of CSV is not a comma, keep as it is for xlsx
-LOCAL_FILE_PATH =  "G:/Shared drives/Analysis/01 Projects/2024/Google 24 7 CFE/04. Japan/02. Data & Results/Outputs/Brownfield/Tableau/JPN_brownfield_300425_tableau.csv"  # Eg:"/Users/galib.ktransitionzero.org/Downloads/IEMOP_mnm_data.csv"
-RAW_OBJECT_NAME = "Japan_Brownfield_001"  # Eg:"IEMOP_mnm_data"
+LOCAL_FILE_PATH =  "C:/Users/jy/OneDrive - TransitionZero/tza-pypsa/japan_brownfield_hourly_009.csv"  # Eg:"/Users/galib.ktransitionzero.org/Downloads/IEMOP_mnm_data.csv"
+RAW_OBJECT_NAME = "Japan_Brownfield_Hourly_009"  # Eg:"IEMOP_mnm_data"
 RAW_CONTENT_TYPE = "text/csv"  # CHANGE if your file is xlsx
-LANDING_OBJECT_NAME = "Japan_Brownfield_001"  # Eg: "IEMOP_mnm_data"
+LANDING_OBJECT_NAME = "Japan_Brownfield_Hourly_009"  # Eg: "IEMOP_mnm_data"
 DATASET_ID = (
     "japan_pypsa_outputs"  # Allowed values: "india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_outputs", "ASEAN_pysa_outputs"
 )
-BIGQUERY_TABLE_NAME = "Japan_Brownfield_001"  # Eg: "IEMOP_mnm_data"
+BIGQUERY_TABLE_NAME = "Japan_Brownfield_Hourly_009"  # Eg: "IEMOP_mnm_data"
 BIGQUERY_WRITE_METHOD = (
     "WRITE_APPEND"  # CHANGE to "WRITE_TRUNCATE" to overwrite, "WRITE_APPEND" to append to existing data
 )
