@@ -32,13 +32,13 @@ TWN-CoGen_biogas_waste-2030_exo,TWN,,biogas_waste-cogeneration,0,0,FALSE,0,0,0,1
 TWN-BlueH2-2030_exo,TWN,,blending-blueH2-gas-unspecified,0,0,FALSE,0,0,0,1,,,,BlueH2,161.1156745,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.1,,,76835.98741
 TWN-BlueH2_Gas-2030_exo,TWN,,blending-blueH2-gas-unspecified,0,0,FALSE,0,0,0,1,,,,BlueH2_Gas,63.35326065,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.9,,,76835.98741
 TWN-BlueNH3-2030_exo,TWN,,blending-blueNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,BlueNH3,0,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.2,,,0
-TWN-BlueNH3_coal-2030_exo,TWN,,blending-blueNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,BlueNH3_Coal,27.06573357,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.8,,,0
+TWN-BlueNH3_coal-2030_exo,TWN,,blending-blueNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,BlueNH3_coal,27.06573357,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.8,,,0
 TWN-GasCCSLeaked-2030_exo,TWN,,gas-CCS-unspecified,0,0,FALSE,0,0,0,1,,,,GasCCSLeaked,80.38391278,,2030,30,3081920,0.476324916,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.3,,,0
 TWN-GasCCSSequestered-2030_exo,TWN,,gas-CCS-unspecified,0,0,FALSE,0,0,0,1,,,,GasCCSSequestered,64.84340646,,2030,30,3081920,0.476324916,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.7,,,76835.98741
 TWN-GreenH2-2030_exo,TWN,,blending-greenH2-gas-unspecified,0,0,FALSE,0,0,0,1,,,,GreenH2,219.2314733,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.1,,,76835.98741
 TWN-GreenH2_Gas-2030_exo,TWN,,blending-greenH2-gas-unspecified,0,0,FALSE,0,0,0,1,,,,GreenH2_Gas,63.35326065,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.9,,,76835.98741
 TWN-GreenNH3-2030_exo,TWN,,blending-greenNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,GreenNH3,0,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.2,,,0
-TWN-GreenNH3_coal-2030_exo,TWN,,blending-greenNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,GreenNH3_Coal,27.06573357,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.8,,,0
+TWN-GreenNH3_coal-2030_exo,TWN,,blending-greenNH3-coal-unspecified,0,0,FALSE,0,0,0,1,,,,GreenNH3_coal,27.06573357,,2030,40,0,0.497262801,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.8,,,0
 TWN-BlueH2-2030_endo,TWN,,blending-blueH2-gas-unspecified,0,0,TRUE,0,0,0,1,,,,BlueH2,161.1156745,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.1,,,76835.98741
 TWN-BlueH2_Gas-2030_endo,TWN,,blending-blueH2-gas-unspecified,0,0,TRUE,0,0,0,1,,,,BlueH2_Gas,63.35326065,,2030,40,1327979,0.571589899,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.9,,,76835.98741
 TWN-GasCCSLeaked-2030_endo,TWN,,gas-CCS-unspecified,0,0,TRUE,0,0,0,1,,,,GasCCSLeaked,80.38391278,,2030,30,3081920,0.476324916,FALSE,0,0,0,0,0,1,0,,,1,1,1,0,TRUE,0.3,,,0
