@@ -6,8 +6,7 @@
 #   3. Move files between buckets
 #   4. Load data into BigQuery with an archive link
 # =============================================================================
-
-import datetime
+ 
 import logging
 import re
 from collections import defaultdict
