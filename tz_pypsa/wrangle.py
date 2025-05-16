@@ -529,17 +529,49 @@ def transform_visualiser_hourly_output(
         'Hour8760'
     )
 
-    # --- Map bus long names to the DataFrame ---
+    # --- Process C&I buses and map bus long names to the DataFrame ---
+    buses_df = network.buses
+    ci_buses = buses_df[buses_df.index.str.contains('C&I')].copy()
+
+    ci_buses['region_code'] = (
+        ci_buses
+        .index
+        .to_series()
+        .apply(
+            lambda x: x
+            .split('C&I')[0]
+            .strip() if 'C&I' in x else None
+        )
+    )
+
+    ci_buses = ci_buses[['region_code']].reset_index()
+    ci_buses = (
+        ci_buses
+        .merge(buses_df[['long_name']], left_on='region_code', right_on=buses_df.index, how='left')
+        .drop(columns=['region_code'])
+    )
+
+    buses_df['long_name'].update(
+        ci_buses.set_index('Bus')['long_name']
+    )
+
     try:
-        buses_long_name = network.buses.long_name
+        buses_long_name = buses_df.long_name
         merged_df = merged_df.merge(
             buses_long_name, 
             how='left', 
             left_on='Node', 
             right_index=True
         )
+
     except Exception as e:
         print(f"Bus long names not found: {e}")
+
+    merged_df['BusType'] = np.where(
+        merged_df['Node'].str.contains('C&I', na=False),
+        'Greenfield',
+        'Brownfield'
+    )
 
     return merged_df
 
@@ -663,6 +695,12 @@ def transform_visualiser_yearly_output(
     newbuild_contraints_ratio['Metric'] = 'Newbuild Constraints Ratio'
 
     df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio], ignore_index=True)
+
+    df['BusType'] = np.where(
+    df['Bus'].str.contains('C&I', na=False),
+    'Greenfield',
+    'Brownfield'
+    )
 
     # Add the run identifier and market column
     df['Market'] = prompt_market()
