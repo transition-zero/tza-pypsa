@@ -1,20 +1,26 @@
-Carrier,color,co2_emissions,nice_name,max_growth
-Coal,#322f34,0.36,Coal,inf
-LNG,#bababa,0.198,LNG,inf
-Oil,#5d407c,0.2571,Oil,inf
-GasCCS,#d9d9d9,0.0198,Gas CCS,inf
-BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
-BlueHydrogen,#f3f3f3,0.1782,Blue hydrogen & gas co-firing,inf
-GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf
-GreenHydrogen,#f3f3f3,0.1782,Green hydrogen & gas co-firing,inf
-Nuclear,#ee9dda,0.0396,Nuclear,inf
-Biomass,#e25329,0.0396,Biomass,inf
-Geothermal,#f75726,0,Geothermal,inf
-Hydro,#8292e8,0,Hydro,inf
-Solar,#ffe19b,0,Solar,inf
-Wind,#66dad0,0,Wind,inf
-PumpedHydro,#a5d1f9,0.0396,Pumped hydro,inf
-Batteries,#c3e0fb,0.0396,Battery storage,inf
-Transmission,#ba63da,0.0396,Transmission,inf
-CoGencoal,#3a3538,0.36,CoGenCoal,inf
-CoGenbiomass,#fdbc95,0.0396,CoGenBiomass,inf
+Carrier,color,co2_emissions,nice_name,max_growth,max_relative_growth
+Coal,#322f34,0.36,Coal,inf,0
+LNG,#bababa,0.198,Gas,inf,0
+Oil,#5d407c,0.2571,Oil,inf,0
+GasCCSLeaked,#d9d9d9,0.198,Gas CCS: Leaked Component,inf,0
+BlueNH3,#d9a88b,0,Coal & blue NH3: NH3,inf,0
+BlueH2,#f3f3f3,0,Gas & blue H2: H2,inf,0
+GreenNH3,#d9a88b,0,Coal & green NH3: NH3,inf,0
+GreenH2,#f3f3f3,0,Gas & green H2: H2,inf,0
+Nuclear,#ee9dda,0,Nuclear,inf,0
+Biomass,#e25329,0,Biomass,inf,0
+Geothermal,#f75726,0,Geothermal,inf,0
+Hydro,#8292e8,0,Hydro conventional,inf,0
+Solar,#ffe19b,0,Solar,inf,0
+OffshoreWind,#66dad0,0,Offshore wind,inf,0
+OnshoreWind,#99e6df,0,Onshore wind,inf,0
+PumpedHydro,#a5d1f9,0,Pumped hydro,inf,0
+Batteries,#c3e0fb,0,Battery storage,inf,0
+Transmission,#ba63da,0,Transmission,inf,0
+GasCCSSequestered,#d9d9d9,0,Gas CCS: Sequestered component,inf,0
+BlueNH3_Coal,#322f34,0.36,Coal & blue NH3: Coal,inf,0
+BlueH2_Gas,#bababa,0.198,Gas & blue H2: Gas,inf,0
+GreenNH3_Coal,#322f34,0.36,Coal & green NH3: Coal,inf,0
+GreenH2_Gas,#bababa,0.198,Gas & green H2: Gas,inf,0
+CoGen_coal,#3a3538,0.36,CoGen: Coal,inf,0
+CoGen_biogas_waste,#fdbc95,0,CoGen: Biogas & Waste,inf,0
