@@ -385,7 +385,7 @@ class Model:
                 network.generators.loc[generator, 'total_capital_cost'] * 
                 cost_model.calculate_annuity(
                     n = network.generators.loc[generator, 'lifetime'],
-                    r = 0.1,
+                    r = 0.03,
                 )
                 + network.generators.loc[generator, 'annual_fixed_costs']
             )
@@ -395,7 +395,7 @@ class Model:
                 network.storage_units.loc[storage_units, 'total_capital_cost'] * 
                 cost_model.calculate_annuity(
                     n = network.storage_units.loc[storage_units, 'lifetime'],
-                    r = 0.1,
+                    r = 0.03,
                 )
                 + network.storage_units.loc[storage_units, 'annual_fixed_costs']
             )
