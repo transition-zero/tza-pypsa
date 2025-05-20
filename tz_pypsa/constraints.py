@@ -338,6 +338,7 @@ def constr_policy_targets(
                     .p_nom
                     .loc[
                         (getattr(network, plant_type).bus.str.contains(row['nodes'])) &
+                        ~( getattr(network, plant_type).bus.str.contains('C&I') ) &
                         (getattr(network, plant_type).carrier.str.contains('|'.join(row['carrier'].split(',')))) &
                         (getattr(network, plant_type).build_year <= years[0])
                         ]
@@ -381,9 +382,9 @@ def constr_policy_targets(
                             ( network.generators.bus.str.contains( row['nodes'] ) ) &
                             ~( network.generators.bus.str.contains('C&I') ) &
                             ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
-                            ( network.generators.build_year <= generator_year) #&
+                            ( network.generators.build_year <= generator_year) &
                             # ( network.generators.build_year > years[0])
-                            # ( network.generators.p_nom_extendable == True)
+                            ( network.generators.p_nom_extendable == True)
                             ]
                         .index
                         .tolist()
@@ -397,8 +398,8 @@ def constr_policy_targets(
                             ~( network.generators.bus.str.contains('C&I') ) &
                             ( network.generators.carrier.str.contains('|'.join(row['carrier'].split(','))) ) &
                             ( network.generators.build_year <= generator_year) &
-                            ( network.generators.build_year > years[0])
-                            # ( network.generators.p_nom_extendable == True)
+                            ( network.generators.build_year > years[0]) &
+                            ( network.generators.p_nom_extendable == True)
                             ]
                         .index
                         .tolist()
@@ -411,9 +412,9 @@ def constr_policy_targets(
                         .loc[
                             ( network.generators.bus.str.contains( row['nodes'] ) ) &
                             ~( network.generators.bus.str.contains('C&I') ) &
-                            ( network.generators.build_year <= generator_year) #&
+                            ( network.generators.build_year <= generator_year) &
                             # ( network.generators.build_year > years[0])
-                            # ( network.generators.p_nom_extendable == True)
+                            ( network.generators.p_nom_extendable == True)
                             ]
                         .index
                         .tolist()
@@ -426,8 +427,8 @@ def constr_policy_targets(
                             ( network.generators.bus.str.contains( row['nodes'] ) ) &
                             ~( network.generators.bus.str.contains('C&I') ) &
                             ( network.generators.build_year <= generator_year) &
-                            ( network.generators.build_year > years[0])
-                            # ( network.generators.p_nom_extendable == True)
+                            ( network.generators.build_year > years[0]) &
+                            ( network.generators.p_nom_extendable == True)
                         ]
                         .index
                         .tolist()
@@ -438,6 +439,7 @@ def constr_policy_targets(
                     .p_nom
                     .loc[
                         (network.generators.bus.str.contains(row['nodes'])) &
+                        ~( network.generators.bus.str.contains('C&I') ) &
                         (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
                         (network.generators.build_year == years[0])
                         ]
@@ -449,6 +451,7 @@ def constr_policy_targets(
                     .p_nom
                     .loc[
                         (network.generators.bus.str.contains(row['nodes'])) &
+                        ~( network.generators.bus.str.contains('C&I') ) &
                         (network.generators.build_year == years[0])
                         ]
                     .sum()
@@ -494,6 +497,7 @@ def constr_policy_targets(
                     .generators
                     .loc[
                         (network.generators.carrier.str.contains('|'.join(row['carrier'].split(',')))) &
+                        ~( network.generators.bus.str.contains('C&I') ) &
                         (network.generators.bus.str.contains(row['nodes'])) &
                         (network.generators.build_year <= generator_year)
                     ]
@@ -506,6 +510,7 @@ def constr_policy_targets(
                     .generators
                     .loc[
                         (network.generators.bus.str.contains(row['nodes'])) & 
+                        ~( network.generators.bus.str.contains('C&I') ) &
                         (network.generators.build_year <= generator_year)
                     ]
                     .index
