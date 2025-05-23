@@ -1,5 +1,6 @@
 import pypsa
 import pandas as pd
+import numpy as np
 
 
 def get_backstop_generation_by_bus(
@@ -236,11 +237,12 @@ def transform_visualiser_hourly_output(
     """
     generator_lookup = (network
                         .generators
-                        .reset_index()[['Generator', 'bus', 'type']]
+                        .reset_index()[['Generator', 'bus', 'carrier']]
                         .rename(
-                            columns={'bus': 'Node', 'type': 'Tech'})
+                            columns={'bus': 'Node', 'carrier': 'Tech'})
                         )
-    
+    print(generator_lookup.head())
+
     storage_lookup = (network
                       .storage_units
                       .reset_index()[['StorageUnit', 'bus', 'type']]
@@ -423,9 +425,9 @@ def transform_visualiser_hourly_output(
     optimal_capacity = (
         network
         .statistics
-        .optimal_capacity(groupby=['bus', 'type'])
+        .optimal_capacity(groupby=['bus', 'carrier'])
         .reset_index()
-        .rename(columns={'bus':'Node', 'type': 'Tech',  0: 'OptimalCapacity'})
+        .rename(columns={'bus':'Node', 'carrier': 'Tech',  0: 'OptimalCapacity'})
         .drop(columns='component')
     )
 
