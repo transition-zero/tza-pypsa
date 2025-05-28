@@ -12,7 +12,7 @@ Biomass,#e25329,9,Biomass,inf
 Geothermal,#f75726,0,Geothermal,inf
 HydroConventional,#8292e8,0,Hydro conventional,inf
 SolarGrid,#ffe19b,0,Solar,inf
-OffshoreWind,#66dad0,0,Offshore Wind,nf
+OffshoreWind,#66dad0,0,Offshore Wind,inf
 OnshoreWind,#99e6df,0,Onshore Wind,inf
 PumpedHydro,#a5d1f9,0,Pumped hydro,inf
 Batteries,#c3e0fb,0,Batteries,inf
