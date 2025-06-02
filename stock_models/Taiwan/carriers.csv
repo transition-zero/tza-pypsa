@@ -1,23 +1,20 @@
-name,co2_emissions,color,nice_name
-AC,0.,red,AC
-Coal,0.5,#322f34,Coal
-Gas,0.5,#bababa,Gas
-LNG,0.5,#bababa,LNG
-Oil,0.5,#5d407c,Oil
-GasCCS,0.5,#d9d9d9,Gas CCS
-Ammonia,0.5,#d9a88b,Ammonia/coal
-Hydrogen,0.5,#f3f3f3,Hydrogen/gas
-Nuclear,0,#ee9dda,Nuclear
-Biomass,-999,#e25329,Biomass
-Geothermal,0,#f75726,Geothermal
-Hydro,0,#8292e8,Hydro conventional
-Solar,0,#ffe19b,Solar
-SolarGrid,0,#ffe19b,Solar grid-scale
-Wind,0,#66dad0,Wind
-OffshoreWind,0,#66dad0,Offshore wind
-OnshoreWind,0,#99e6df,Onshore wind
-PumpedHydro,-999,#a5d1f9,Pumped hydro
-battery,-999,#c3e0fb,Battery
-Batteries,-999,#c3e0fb,Battery storage
-Transmission,-999,#ba63da,Transmission
-Other,-999,#ba63da,Other
+Carrier,color,co2_emissions,nice_name,max_growth
+Coal,#322f34,0.36,Coal,inf
+LNG,#bababa,0.198,LNG,inf
+Oil,#5d407c,0.2571,Oil,inf
+GasCCS,#d9d9d9,0.0198,Gas CCS,inf
+BlueAmmonia,#d9a88b,0.288,Blue ammonia & coal co-firing,inf
+BlueHydrogen,#f3f3f3,0.1782,Blue hydrogen & gas co-firing,inf
+GreenAmmonia,#d9a88b,0.288,Green ammonia & coal co-firing,inf
+GreenHydrogen,#f3f3f3,0.1782,Green hydrogen & gas co-firing,inf
+Nuclear,#ee9dda,0.0396,Nuclear,inf
+Biomass,#e25329,0.0396,Biomass,inf
+Geothermal,#f75726,0,Geothermal,inf
+Hydro,#8292e8,0,Hydro,inf
+Solar,#ffe19b,0,Solar,inf
+Wind,#66dad0,0,Wind,inf
+PumpedHydro,#a5d1f9,0.0396,Pumped hydro,inf
+Batteries,#c3e0fb,0.0396,Battery storage,inf
+Transmission,#ba63da,0.0396,Transmission,inf
+CoGencoal,#3a3538,0.36,CoGenCoal,inf
+CoGenbiomass,#fdbc95,0.0396,CoGenBiomass,inf
