@@ -12,6 +12,7 @@ import logging
 import re
 from collections import defaultdict
 from io import BytesIO, StringIO
+import time
 
 import config
 import pandas as pd
@@ -57,9 +58,16 @@ def upload_raw_to_gcs(
     try:
         dated_object_name = f"{DATE_STR}/{object_name}"
         blob = blob_from_bucket(bucket_name=bucket_name, file_name=dated_object_name, client=client)
+        start_ts = time.perf_counter()
         with open(file_path, "rb") as file:
             blob.upload_from_file(file, content_type=content_type)
-        logger.info(f"Successfully uploaded {object_name} to GCS bucket {bucket_name}.")
+        end_ts = time.perf_counter()
+        elapsed = end_ts - start_ts
+        logger.info(
+            f"Successfully uploaded {object_name} to GCS bucket {bucket_name} "
+            f"Local CSV file to GCS upload took {elapsed:.2f} seconds"
+        )
+
     except Exception as e:
         raise RuntimeError(f"Failed to upload file to GCS: {str(e)}")
 
@@ -86,13 +94,18 @@ def gcs_to_pandas(
     """
     dated_object_name = f"{DATE_STR}/{object_name}"
     blob = blob_from_bucket(bucket_name, dated_object_name, client)
+    start_ts = time.perf_counter()
     data = blob.download_as_bytes()
     if data_format == "csv":
-        return pd.read_csv(BytesIO(data), delimiter=delimiter, **read_kwargs)
+        df = pd.read_csv(BytesIO(data), delimiter=delimiter, **read_kwargs)
     elif data_format == "xlsx":
-        return pd.read_excel(BytesIO(data), **read_kwargs)
+        df =  pd.read_excel(BytesIO(data), **read_kwargs)
     else:
         raise ValueError("data_format must be 'csv' or 'xlsx'")
+    end_ts = time.perf_counter()
+    elapsed = end_ts - start_ts
+    logger.info(f"GCS to pandas processing took {elapsed:.2f} seconds")
+    return df
 
 
 def pandas_to_gcs(
@@ -122,6 +135,7 @@ def pandas_to_gcs(
         # Add write_dt column with current timestamp
         df = df.copy()
         df["write_dt"] = pd.Timestamp.now()
+        start_ts = time.perf_counter()
 
         # Prepare the data
         if data_format == "csv":
@@ -139,6 +153,9 @@ def pandas_to_gcs(
         else:
             raise ValueError(f"Invalid data format: {data_format}")
 
+        end_ts = time.perf_counter()
+        elapsed = end_ts - start_ts
+        logger.info(f"Upload of DataFrame to GCS took {elapsed:.2f} seconds for '{object_name}'")
         logger.info(f"Successfully uploaded DataFrame to GCS: {bucket_name}/{object_name}")
     except Exception as e:
         raise RuntimeError(f"Failed to upload DataFrame to GCS: {str(e)}")
@@ -185,6 +202,7 @@ def clean_raw_data_for_bq(raw_data: pd.DataFrame, convert_to_str: bool = True) -
         new_name = new_name if new_name else "empty_header"
         return new_name
 
+    start_ts = time.perf_counter()
     df = raw_data.rename(columns=clean_col_name)
 
     # Rename columns with duplicate names by appending _n from 2nd occurrence (n starts at 1)
@@ -205,6 +223,10 @@ def clean_raw_data_for_bq(raw_data: pd.DataFrame, convert_to_str: bool = True) -
     df = df.where(pd.notnull(df), None)  # this doesnt always seem to work
     df = df.replace(r"(?i)^(n/a|none|nan|na|-)$", None, regex=True)
 
+    end_ts = time.perf_counter()
+    elapsed = end_ts - start_ts
+
+    logger.info(f"Data cleaning took {elapsed:.2f} seconds")
     # We are not dropping null columns at this stage -- log as warning
     logger.warning(f"{df.columns[df.isnull().all()]} column(s) entirely null in source")
 
@@ -278,9 +300,13 @@ def load_file_to_bigquery(
         logger.info("Character Map V2 is enabled.")
 
     # Load data from GCS to BigQuery table
+    start_ts = time.perf_counter()
     load_job = client.load_table_from_uri(gcs_uri, table_id, job_config=job_config)
     load_job.result()  # Wait for the job to complete
+    end_ts = time.perf_counter()
+    elapsed = end_ts - start_ts
 
+    logger.info(f"BigQuery load job took in {elapsed:.2f} seconds")
     logger.info(f"Loaded data from {gcs_uri} to BigQuery table {table_id}")
 
     # Add the archive_link column to the table (if not present)
