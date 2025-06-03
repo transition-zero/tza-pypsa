@@ -721,9 +721,6 @@ def process_solved_networks_directory(
         Two dictionaries containing the hourly and yearly DataFrames respectively,
         with directory names as keys
     """
-    import os
-    import glob
-    from pathlib import Path
 
     hourly_results = {}
     yearly_results = {}
