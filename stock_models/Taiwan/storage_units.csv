@@ -1,7 +1,0 @@
-name,bus,control,type,p_nom,p_nom_mod,p_nom_extendable,p_nom_min,p_nom_max,p_min_pu,p_max_pu,p_set,q_set,sign,carrier,spill_cost,marginal_cost,marginal_cost_storage,marginal_cost_quadratic,standing_loss,spill,inflow,state_of_charge,state_of_charge_initial,state_of_charge_initial_per_period,state_of_charge_set,cyclic_state_of_charge,cyclic_state_of_charge_per_period,max_hours,build_year,lifetime,efficiency_store,efficiency_dispatch,active,p,p_dispatch,p_store,q,p_nom_opt,mu_upper,mu_lower,mu_state_of_charge_set,mu_energy_balance,annual_fixed_costs,total_capital_cost
-TWN-PumpedHydro-2024active_exo,TWN,,PumpedHydro,2602,,FALSE,0,0,-1,,,,,PumpedHydro,,,,,,,,,,,,,,8,2024,50,1,0.95,,,,,,,,,,,20150,4019715.267
-TWN-PumpedHydro-2030_endo,TWN,,PumpedHydro,0,,TRUE,0,0,-1,,,,,PumpedHydro,,,,,,,,,,,,,,8,2030,50,1,0.95,,,,,,,,,,,20150,4019715.267
-TWN-PumpedHydro-2030_exo,TWN,,PumpedHydro,0,,FALSE,0,0,-1,,,,,PumpedHydro,,,,,,,,,,,,,,8,2030,50,1,0.95,,,,,,,,,,,20150,4019715.267
-TWN-Batteries-2024active_exo,TWN,,Batteries,432,,FALSE,0,0,-1,,,,,Batteries,,,,,,,,,,,,,,2,2024,15,1,0.97,,,,,,,,,,,32504,1791537
-TWN-Batteries-2030_endo,TWN,,Batteries,0,,TRUE,0,595.77,-1,,,,,Batteries,,,,,,,,,,,,,,6,2030,15,1,0.97,,,,,,,,,,,32504,1791537
-TWN-Batteries-2030_exo,TWN,,Batteries,1553.9,,FALSE,0,0,-1,,,,,Batteries,,,,,,,,,,,,,,6,2030,15,1,0.97,,,,,,,,,,,32504,1791537

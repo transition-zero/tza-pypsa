@@ -1,5 +1,6 @@
 import pypsa
 import pandas as pd
+import numpy as np
 
 
 def get_backstop_generation_by_bus(
@@ -125,3 +126,585 @@ def export_to_excel(
         p_by_carrier_monthly.to_excel(writer, sheet_name='Generation by carrier (m)')
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
+
+def prompt_market():
+    """
+    Prompts the user to enter a market/country/region for this Pypsa run.
+    Returns:
+        str: The user-entered market/country/region.
+    """
+    prompt_message = (
+        "Please enter the market/country/region for this Pypsa run.\n"
+        "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
+    )
+
+    print(prompt_message, end='')
+    market = input(prompt_message)
+    print(f"You entered: {market}")
+    return market
+
+def prompt_pypsa_run_identifier():
+    """
+    Prompts the user to enter a run identifier.
+    Returns:
+        str: The user-entered run number or any relevant comments.
+    """
+    prompt_message = (
+        "Please enter the run identifier.\n"
+        "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
+    )
+
+    print(prompt_message, end='')
+    run_identifier = input()
+    print(f"You entered: {run_identifier}")
+    return run_identifier
+
+def add_hour_of_year_column(
+        df, 
+        datetime_col, 
+        new_col='hour_of_year'
+    ) -> pd.DataFrame:
+    """
+    Adds a column to the DataFrame indicating the hour of the year for each datetime.
+    
+    Parameters:
+    - df: pandas.DataFrame
+    - datetime_col: str, name of the column containing datetime values
+    - new_col: str, name of the new column to create (default: 'hour_of_year')
+    
+    Returns:
+    - pandas.DataFrame with the new column added
+    """
+    if datetime_col not in df.columns:
+        raise ValueError(f"Column '{datetime_col}' not found in DataFrame.")
+    
+    # Ensure datetime type
+    df = df.copy()
+    df[datetime_col] = pd.to_datetime(df[datetime_col])
+    
+    # Start of year for each row
+    year_start = df[datetime_col].dt.to_period('Y').dt.start_time
+    
+    # Calculate hours since year start
+    df[new_col] = ((df[datetime_col] - year_start).dt.total_seconds() // 3600).astype(int)
+    
+    return df
+
+def interconnector_by_nodes(
+        interconnector_p0: pd.DataFrame, # Export
+        interconnector_p1: pd.DataFrame # Import
+    )   -> pd.DataFrame:
+        
+    """
+    Concatenate two DataFrames by 'snapshot' and 'Link' columns.
+
+    Parameters
+     ----------
+    interconnector_p0 : pd.DataFrame
+        DataFrame containing the export data.
+    interconnector_p1 : pd.DataFrame
+        DataFrame containing the import data.
+
+    Returns
+    -------
+    pd.DataFrame
+        Concatenated DataFrame with 'snapshot', 'Link', and 'Value' columns.
+     """
+    interconnector = pd.concat([interconnector_p0, interconnector_p1], ignore_index=True)
+        
+    return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
+
+def transform_visualiser_hourly_output(
+        network: pypsa.Network
+    ):
+    """
+    Extracts hourly generation, storage, interconnector, and load data from a
+    PyPSA network object, converts them to a long (tidy) format, splits identifier
+    columns into Node, Type and Tech where applicable, adds time columns (Hour8760, day, Month, Year),
+    sorts the data, and exports the merged DataFrame to CSV.
+    
+    Parameters
+    ----------
+    network : pypsa.Network
+        A PyPSA network object.
+    filename : str
+        The name of the file to save the merged DataFrame; must end with .csv.
+    
+    Returns
+    -------
+    csv file
+        The merged long format DataFrame saved as a CSV file.
+    """
+    generator_lookup = (network
+                        .generators
+                        .reset_index()[['Generator', 'bus', 'carrier']]
+                        .rename(
+                            columns={'bus': 'Node', 'carrier': 'Tech'})
+                        )
+    print(generator_lookup.head())
+
+    storage_lookup = (network
+                      .storage_units
+                      .reset_index()[['StorageUnit', 'bus', 'type']]
+                      .rename(
+                          columns={'bus': 'Node', 'type': 'Tech'})
+                     )
+    
+    interconnector_lookup = (network
+                             .links
+                             .reset_index()[['Link', 'bus0', 'bus1']]
+                             .rename(
+                                 columns={'bus0': 'Node', 'bus1': 'Node_Destination'})
+                            )
+
+
+    # --- Extract hourly data and reset index ---
+    # Hourly generation (required)
+    generation = (
+        network
+        .generators_t
+        .p
+        .reset_index()
+    )
+
+    # Hourly loads (required)
+    loads = (
+        network
+        .loads_t
+        .p
+        .reset_index()
+    )
+
+    # Hourly prices (required)
+    prices = (
+        network
+        .buses_t
+        .marginal_price
+        .reset_index()
+    )
+
+    # Hourly storage (optional)
+    try:
+        storage = (
+            network
+            .storage_units_t
+            .p
+            .reset_index()
+        )
+    except Exception as e:
+        print(f"Storage component missing or failed to process: {e}")
+        storage = None
+
+    # Hourly interconnector flow (optional)
+    try:
+        interconnector_p0 = (
+            network 
+            .links_t
+            .p0
+            .reset_index()
+        )
+        interconnector_p1 = (
+            network
+            .links_t
+            .p1
+            .reset_index()
+        )
+    except Exception as e:
+        print(f"Interconnector component missing or failed to process: {e}")
+        interconnector_p0 = None
+        interconnector_p1 = None
+
+    # --- Convert wide to long format ---
+    generation = pd.melt(
+        generation,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+
+    if storage is not None:
+        storage = pd.melt(
+            storage, 
+            id_vars='snapshot', 
+            var_name='StorageUnit', 
+            value_name='Value'
+        )
+    
+    if interconnector_p0 is not None:
+        interconnector_p0 = pd.melt(
+            interconnector_p0, 
+            id_vars='snapshot', 
+            var_name='Link', 
+            value_name='Value'
+        )
+    if interconnector_p1 is not None:
+        interconnector_p1 = pd.melt(
+            interconnector_p1, 
+            id_vars='snapshot',
+            var_name='Link', 
+            value_name='Value'
+        )
+
+    loads = pd.melt(
+        loads, 
+        id_vars='snapshot', 
+        var_name='Load', 
+        value_name='Value'
+    ).rename(columns={"Load": "Node"})
+
+    prices = pd.melt(
+        prices, 
+        id_vars='snapshot', 
+        var_name='Bus', 
+        value_name='Value'
+    ).rename(columns={"Bus": "Node"})
+    
+    # --- Create identifier columns: Node, Tech, Type ---
+    generation = (pd.merge(
+        generation,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
+        .groupby(['snapshot', 'Node', 'Tech'])
+        .sum()
+        .reset_index()
+    )
+
+    if storage is not None:
+        storage = (pd.merge(
+            storage,
+            storage_lookup,
+            on='StorageUnit',
+            how='left')
+            .drop(columns='StorageUnit')
+            .groupby(['snapshot', 'Node', 'Tech'])
+            .sum()
+            .reset_index()
+        )
+    
+    # Process interconnector flows if available
+    if interconnector_p0 is not None:
+        try:
+            interconnector_p0 = pd.merge(
+                interconnector_p0,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            )
+        except Exception as e:
+            print(f"Skipping interconnector_p0: {e}")
+            interconnector_p0 = None
+
+    if interconnector_p1 is not None:
+        try:
+            interconnector_p1 = pd.merge(
+                interconnector_p1,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            ).rename(
+                columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
+            )
+
+        except Exception as e:
+            print(f"Skipping interconnector_p1: {e}")
+            interconnector_p1 = None
+
+    # Concatenate interconnector DataFrames if at least one is available
+    if interconnector_p0 is not None or interconnector_p1 is not None:
+        interconnector = interconnector_by_nodes(interconnector_p0, interconnector_p1)
+    else:
+        interconnector = None
+
+    # Update interconnector sign convention such export is negative and import is positive
+    if interconnector is not None:
+        interconnector['Value'] = interconnector['Value']*-1
+
+    # --- Calculate capacity factor ---
+    optimal_capacity = (
+        network
+        .statistics
+        .optimal_capacity(groupby=['bus', 'carrier'])
+        .reset_index()
+        .rename(columns={'bus':'Node', 'carrier': 'Tech',  0: 'OptimalCapacity'})
+        .drop(columns='component')
+    )
+
+    capacity_factor_generator = pd.merge(
+        generation,
+        optimal_capacity,
+        on=['Node', 'Tech'],
+        how='left'
+    )
+
+    capacity_factor_storage = pd.merge(
+        storage,
+        optimal_capacity,
+        on=['Node', 'Tech'],
+        how='left'
+    )
+
+    capacity_factor_generator['Value']  = capacity_factor_generator['Value'] / capacity_factor_generator['OptimalCapacity']
+    capacity_factor_storage['Value']  = capacity_factor_storage['Value'] / capacity_factor_storage['OptimalCapacity']
+    capacity_factor_generator = capacity_factor_generator[['snapshot', 'Node', 'Tech', 'Value']]
+    capacity_factor_storage = capacity_factor_storage[['snapshot', 'Node', 'Tech', 'Value']]
+
+    # --- Calculate residual demand ---
+
+    # List of renewable technologies
+    renewables = [
+        'biomass-unspecified',
+        'geothermal-unspecified',
+        'hydro-unspecified',
+        'offshorewind-unspecified',
+        'onshorewind-unspecified',
+        'solar-unspecified'
+    ]
+
+    # Filter the generation dataframe to keep only renewable tech
+    renewable_generation = generation[generation['Tech'].isin(renewables)]
+
+    renewable_generation = renewable_generation.drop(columns='Tech').groupby(['snapshot', 'Node']).sum().reset_index()
+
+    residual_demand = pd.merge(
+    loads,
+    renewable_generation,
+    on=['snapshot', 'Node'],
+    how='left'
+    )
+
+    residual_demand['Value'] = residual_demand['Value_x'] - residual_demand['Value_y']
+    residual_demand = residual_demand.drop(columns=['Value_x', 'Value_y'])
+
+    # --- Assign Type column for standardization ---
+    generation['Type'] = 'Generation'
+    if storage is not None:
+        storage['Type'] = 'Storage'
+    if interconnector is not None:
+        interconnector['Type'] = 'Interconnector'
+    loads['Type'] = 'Demand'
+    prices['Type'] = 'Price'
+    capacity_factor_generator['Type'] = 'CapacityFactor'
+    capacity_factor_storage['Type'] = 'CapacityFactor'
+    residual_demand['Type'] = 'ResidualDemand'
+
+    # --- Assign Tech column for interconnector ---
+    if interconnector is not None:
+        interconnector['Tech'] = 'Interconnector'
+
+    # Assign demand to tech column for loads
+    loads['Tech'] = 'Demand'
+
+    # --- Concatenate all DataFrames ---
+    dataframes = [generation, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    if storage is not None:
+        dataframes.append(storage)
+    if interconnector is not None:
+        dataframes.append(interconnector)
+    
+    merged_df = pd.concat(dataframes, ignore_index=True)
+
+    # --- Add time columns ---
+    merged_df['HourOfDay'] = merged_df['snapshot'].dt.hour
+    merged_df['DayOfMonth'] = merged_df['snapshot'].dt.day   
+    merged_df['Month'] = merged_df['snapshot'].dt.month
+    merged_df['Year'] = merged_df['snapshot'].dt.year
+
+    # --- Add run identifier and market column ---
+    merged_df['Market'] = prompt_market()
+    merged_df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
+
+    # --- Sort the DataFrame ---
+    merged_df.sort_values(
+        by=['snapshot', 'Node', 'Type'], 
+        inplace=True, 
+        ignore_index=True
+    )
+
+    # --- Add hour-of-year column (Hour8760) ---
+    merged_df = add_hour_of_year_column(
+        merged_df, 
+        'snapshot', 
+        'Hour8760'
+    )
+
+    # --- Process C&I buses and map bus long names to the DataFrame ---
+    buses_df = network.buses
+    ci_buses = buses_df[buses_df.index.str.contains('C&I')].copy()
+
+    ci_buses['region_code'] = (
+        ci_buses
+        .index
+        .to_series()
+        .apply(
+            lambda x: x
+            .split('C&I')[0]
+            .strip() if 'C&I' in x else None
+        )
+    )
+
+    ci_buses = ci_buses[['region_code']].reset_index()
+    ci_buses = (
+        ci_buses
+        .merge(buses_df[['long_name']], left_on='region_code', right_on=buses_df.index, how='left')
+        .drop(columns=['region_code'])
+    )
+
+    buses_df['long_name'].update(
+        ci_buses.set_index('Bus')['long_name']
+    )
+
+    try:
+        buses_long_name = buses_df.long_name
+        merged_df = merged_df.merge(
+            buses_long_name, 
+            how='left', 
+            left_on='Node', 
+            right_index=True
+        )
+
+    except Exception as e:
+        print(f"Bus long names not found: {e}")
+
+    merged_df['BusType'] = np.where(
+        merged_df['Node'].str.contains('C&I', na=False),
+        'Greenfield',
+        'Brownfield'
+    )
+
+    return merged_df
+
+def transform_visualiser_yearly_output(
+        network: pypsa.Network
+    ) -> pd.DataFrame:
+    """
+    Extracts yearly statistics from a PyPSA network object, converts them to a long format,
+    and adds run identifier and market columns.
+    
+    Parameters
+    ----------
+    network : pypsa.Network
+        A PyPSA network object.
+    
+    Returns
+    -------
+    pd.DataFrame
+        The merged long format DataFrame.
+    """
+    # Extract statistics output into a df
+    df = network.statistics(groupby=['bus', 'name', 'type'])
+
+    year = network.snapshots.year[0]
+
+    # Reset the index to convert MultiIndex to columns
+    df = (df
+          .reset_index()
+          .rename(columns=
+                  {'level_0': 'Type',
+                   'level_1': 'Bus',
+                   'level_2': 'Name', # Non-standardised format across different market thus include it as full name for now
+                   'level_3': 'Tech',
+                   }
+                   )
+    )
+
+    df['Vintage'] = np.where(
+        df['Name'].str.contains('exo|endo', na=False),
+        df['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
+    # Convert the df from wide to long format
+    df = pd.melt(
+        df,
+        id_vars=['Type', 'Bus', 'Name', 'Tech', 'Vintage'],
+        var_name='Metric',
+        value_name='Value'
+    )
+
+    expanded_capacity = (network
+                        .statistics
+                        .expanded_capacity(groupby=['bus', 'name', 'type'])
+                        .reset_index()
+                        .rename(columns={'component': 'Type', 'bus': 'Bus', 'name': 'Name', 'type': 'Tech', 0: 'Value'})
+    )
+
+    expanded_capacity['Vintage'] = np.where(
+        expanded_capacity['Name'].str.contains('exo|endo', na=False),
+        expanded_capacity['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
+    expanded_capacity['Metric'] = 'Expanded Capacity'
+
+    generator_p_nom_max = (
+        network
+        .generators
+        .loc[network.generators['p_nom_extendable']]
+        .reset_index()
+        .rename(columns={'Generator': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+        [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+    storage_p_nom_max = (
+                network
+                .storage_units
+                .loc[network.storage_units['p_nom_extendable']]
+                .reset_index()
+                .rename(columns={'StorageUnit': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+
+    storage_p_nom_max = storage_p_nom_max.where(~storage_p_nom_max.isin([float('inf'), -float('inf')]), 0)
+
+    link_p_nom_max = (
+                network
+                .links
+                .loc[network.links['p_nom_extendable']]
+                .reset_index()
+                .rename(columns={'Link': 'Name', 'bus0': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                [['Name', 'Bus', 'Tech', 'Value']]
+    )
+
+    link_p_nom_max = link_p_nom_max.where(~link_p_nom_max.isin([float('inf'), -float('inf')]), 0)
+
+    generator_p_nom_max['Type'] = 'Generator'
+    storage_p_nom_max['Type'] = 'StorageUnit'
+    link_p_nom_max['Type'] = 'Link'
+
+    p_nom_max = pd.concat([generator_p_nom_max, storage_p_nom_max, link_p_nom_max], ignore_index=True)
+
+    p_nom_max['Vintage'] = np.where(
+        p_nom_max['Name'].str.contains('exo|endo', na=False),
+        p_nom_max['Name'].str.split('-', n=2).str[-1],
+        np.nan
+    )
+
+    p_nom_max['Metric'] = 'p_nom_max'
+
+    # Calculate ratio between expanded capacity and p_nom_max
+    agg_p_nom_max = p_nom_max[['Type','Bus', 'Tech', 'Value']].groupby(['Type','Bus', 'Tech']).sum().reset_index()
+    agg_expanded_capacity = expanded_capacity[['Type','Bus', 'Tech', 'Value']].groupby(['Type','Bus', 'Tech']).sum().reset_index()
+
+    newbuild_contraints_ratio = pd.merge(agg_expanded_capacity, agg_p_nom_max, on=['Type','Bus', 'Tech'], how='left', suffixes=('_expanded_capacity', '_p_nom_max'))
+    newbuild_contraints_ratio['Value'] = newbuild_contraints_ratio['Value_expanded_capacity'] / newbuild_contraints_ratio['Value_p_nom_max']
+    newbuild_contraints_ratio = newbuild_contraints_ratio[['Type', 'Bus', 'Tech', 'Value']]
+    
+    newbuild_contraints_ratio['Metric'] = 'Newbuild Constraints Ratio'
+
+    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio], ignore_index=True)
+
+    df['BusType'] = np.where(
+    df['Bus'].str.contains('C&I', na=False),
+    'Greenfield',
+    'Brownfield'
+    )
+
+    # Add the run identifier and market column
+    df['Market'] = prompt_market()
+    df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
+    df['Year'] = year
+
+    return df
