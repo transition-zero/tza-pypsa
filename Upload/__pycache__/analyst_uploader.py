@@ -7,19 +7,24 @@
 #   4. Load data into BigQuery with an archive link
 # =============================================================================
 
+# =============================================================================
+#                          BIGQUERY LARGE DATA UPLOAD TEMPLATE (w/ NC support)
+# =============================================================================
+
 import datetime
 import logging
+import os
 import re
 from collections import defaultdict
-from io import BytesIO, StringIO
-import time
+from io import BytesIO
+from tempfile import NamedTemporaryFile
 
 import config
 import pandas as pd
+import pypsa
 from config import preprocess_dataframe
-
-# --- IMPORTS ---
 from google.cloud import bigquery, storage
+from transform_nc_for_visualisation import transform_visualiser_hourly_output, transform_visualiser_yearly_output
 
 # =============================================================================
 #                                CONFIGURATION
@@ -34,13 +39,14 @@ DATE_STR = datetime.date.today().isoformat()  # 'YYYY-MM-DD'
 STORAGE_CLIENT = storage.Client()
 CLIENT = bigquery.Client()
 
+ALLOWED_DATASETS = {"india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_outputs", "ASEAN_pypsa_outputs"}
+
 # =============================================================================
 #                               HELPER FUNCTIONS
 # =============================================================================
 
 
 def blob_from_bucket(bucket_name: str, file_name: str, client: storage.Client = STORAGE_CLIENT) -> storage.Blob:
-    """Helper function for GCS files."""
     bucket = client.get_bucket(bucket_name)
     return bucket.blob(file_name)
 
@@ -52,22 +58,12 @@ def upload_raw_to_gcs(
     bucket_name: str = "raw_analyst_uploads",
     client: storage.Client = STORAGE_CLIENT,
 ) -> None:
-    """
-    Upload a file to a Google Cloud Storage bucket.
-    """
     try:
         dated_object_name = f"{DATE_STR}/{object_name}"
         blob = blob_from_bucket(bucket_name=bucket_name, file_name=dated_object_name, client=client)
-        start_ts = time.perf_counter()
         with open(file_path, "rb") as file:
             blob.upload_from_file(file, content_type=content_type)
-        end_ts = time.perf_counter()
-        elapsed = end_ts - start_ts
-        logger.info(
-            f"Successfully uploaded {object_name} to GCS bucket {bucket_name} "
-            f"Local CSV file to GCS upload took {elapsed:.2f} seconds"
-        )
-
+        logger.info(f"Successfully uploaded {object_name} to GCS bucket {bucket_name}.")
     except Exception as e:
         raise RuntimeError(f"Failed to upload file to GCS: {str(e)}")
 
@@ -77,7 +73,7 @@ def gcs_to_pandas(
     bucket_name: str = "raw_analyst_uploads",
     client: storage.Client = STORAGE_CLIENT,
     data_format: str = "csv",
-    delimiter: str = ",",  # <-- Add delimiter here, default to comma
+    delimiter: str = ",",
     **read_kwargs,
 ) -> pd.DataFrame:
     """
@@ -94,18 +90,17 @@ def gcs_to_pandas(
     """
     dated_object_name = f"{DATE_STR}/{object_name}"
     blob = blob_from_bucket(bucket_name, dated_object_name, client)
-    start_ts = time.perf_counter()
     data = blob.download_as_bytes()
+
     if data_format == "csv":
-        df = pd.read_csv(BytesIO(data), delimiter=delimiter, **read_kwargs)
+        return pd.read_csv(BytesIO(data), delimiter=delimiter, **read_kwargs)
     elif data_format == "xlsx":
-        df =  pd.read_excel(BytesIO(data), **read_kwargs)
+        return pd.read_excel(BytesIO(data), **read_kwargs)
+    elif data_format == "nc":
+        # Handle .nc file format by calling the export function directly
+        return export_pypsa_outputs_to_df(data)
     else:
-        raise ValueError("data_format must be 'csv' or 'xlsx'")
-    end_ts = time.perf_counter()
-    elapsed = end_ts - start_ts
-    logger.info(f"GCS to pandas processing took {elapsed:.2f} seconds")
-    return df
+        raise ValueError(f"Unsupported data format: {data_format}. Only 'csv', 'xlsx', or 'nc' are supported.")
 
 
 def pandas_to_gcs(
@@ -117,13 +112,11 @@ def pandas_to_gcs(
 ) -> None:
     """
     Convert a pandas DataFrame to CSV or XLSX (with a write_dt column) and upload it to Google Cloud Storage.
-
     Args:
         df (pd.DataFrame): The DataFrame to be uploaded.
         bucket_name (str): The name of the GCS bucket.
         object_name (str): The name (including path) of the object in the bucket.
         data_format (str): The format to convert the DataFrame to. Either "csv" or "xlsx". Defaults to "csv".
-
     Raises:
         Exception: If there's an error during the upload process.
     """
@@ -132,30 +125,21 @@ def pandas_to_gcs(
         logger.info(f"Starting upload of DataFrame to GCS: {bucket_name}/{dated_object_name}")
         blob = blob_from_bucket(bucket_name=bucket_name, file_name=dated_object_name, client=client)
 
-        # Add write_dt column with current timestamp
         df = df.copy()
         df["write_dt"] = pd.Timestamp.now()
-        start_ts = time.perf_counter()
 
-        # Prepare the data
+        buffer = BytesIO()
         if data_format == "csv":
-            buffer = BytesIO()
             df.to_csv(buffer, index=False)
-            buffer.seek(0)
-            blob.upload_from_file(buffer, content_type="text/csv")
+            content_type = "text/csv"
         elif data_format == "xlsx":
-            buffer = BytesIO()
             df.to_excel(buffer, index=False)
-            buffer.seek(0)
-            blob.upload_from_file(
-                buffer, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+            content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         else:
             raise ValueError(f"Invalid data format: {data_format}")
 
-        end_ts = time.perf_counter()
-        elapsed = end_ts - start_ts
-        logger.info(f"Upload of DataFrame to GCS took {elapsed:.2f} seconds for '{object_name}'")
+        buffer.seek(0)
+        blob.upload_from_file(buffer, content_type=content_type)
         logger.info(f"Successfully uploaded DataFrame to GCS: {bucket_name}/{object_name}")
     except Exception as e:
         raise RuntimeError(f"Failed to upload DataFrame to GCS: {str(e)}")
@@ -202,7 +186,6 @@ def clean_raw_data_for_bq(raw_data: pd.DataFrame, convert_to_str: bool = True) -
         new_name = new_name if new_name else "empty_header"
         return new_name
 
-    start_ts = time.perf_counter()
     df = raw_data.rename(columns=clean_col_name)
 
     # Rename columns with duplicate names by appending _n from 2nd occurrence (n starts at 1)
@@ -223,10 +206,6 @@ def clean_raw_data_for_bq(raw_data: pd.DataFrame, convert_to_str: bool = True) -
     df = df.where(pd.notnull(df), None)  # this doesnt always seem to work
     df = df.replace(r"(?i)^(n/a|none|nan|na|-)$", None, regex=True)
 
-    end_ts = time.perf_counter()
-    elapsed = end_ts - start_ts
-
-    logger.info(f"Data cleaning took {elapsed:.2f} seconds")
     # We are not dropping null columns at this stage -- log as warning
     logger.warning(f"{df.columns[df.isnull().all()]} column(s) entirely null in source")
 
@@ -242,11 +221,11 @@ def clean_raw_data_for_bq(raw_data: pd.DataFrame, convert_to_str: bool = True) -
 def load_file_to_bigquery(
     table_name: str,
     skip_leading_rows: int,
-    write_disposition: str,  # "WRITE_TRUNCATE" or "WRITE_APPEND"
+    write_disposition: str,
     gcs_uri: str = f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}",
     dataset_id: str = DATASET_ID,
-    source_format: str = "CSV",  # "CSV" or "XLSX"
-    schema: list = None,  # List of bigquery.SchemaField
+    source_format: str = "CSV",
+    schema: list = None,
     enable_character_map_v2: bool = False,
     client: bigquery.Client = CLIENT,
     project_id: str = "tz-data-dev",
@@ -254,7 +233,6 @@ def load_file_to_bigquery(
     """
     Helper function to load CSV or XLSX data into BigQuery with an archive_link column.
     Allows specifying a custom schema.
-
     Parameters:
         client (bigquery.Client): BigQuery client instance.
         project_id (str): The GCP project ID.
@@ -266,109 +244,155 @@ def load_file_to_bigquery(
         source_format (str): "CSV" or "XLSX".
         schema (list): Optional; list of bigquery.SchemaField to specify schema and types.
         enable_character_map_v2 (bool, optional): Flag to enable character map V2.
-
     Returns:
         None
     """
 
     table_id = f"{project_id}.{dataset_id}.{table_name}"
-
-    # Set source format for BigQuery
-    if source_format.upper() == "CSV":
-        bq_source_format = bigquery.SourceFormat.CSV
-    elif source_format.upper() == "XLSX":
-        bq_source_format = bigquery.SourceFormat.EXCEL
-    else:
+    bq_source_format = {"CSV": bigquery.SourceFormat.CSV}.get(source_format.upper())
+    if not bq_source_format:
         raise ValueError("source_format must be either 'CSV' or 'XLSX'")
 
-    # Only use schema if it's not None and not empty
-    autodetect = not (schema and len(schema) > 0)
-
-    # Configure job config
     job_config = bigquery.LoadJobConfig(
         source_format=bq_source_format,
-        skip_leading_rows=skip_leading_rows if bq_source_format == bigquery.SourceFormat.CSV else 0,
+        skip_leading_rows=skip_leading_rows if source_format.upper() == "CSV" else 0,
         write_disposition=write_disposition,
-        autodetect=autodetect,
-        schema=schema if schema else None,
-        field_delimiter=",",  # Explicit for CSV; ignored for XLSX
+        autodetect=not schema,
+        schema=schema,
+        field_delimiter=",",
     )
 
-    # Enable Character Map V2 if specified
     if enable_character_map_v2:
         job_config.column_name_character_map = "V2"
-        logger.info("Character Map V2 is enabled.")
 
-    # Load data from GCS to BigQuery table
-    start_ts = time.perf_counter()
     load_job = client.load_table_from_uri(gcs_uri, table_id, job_config=job_config)
-    load_job.result()  # Wait for the job to complete
-    end_ts = time.perf_counter()
-    elapsed = end_ts - start_ts
+    load_job.result()
 
-    logger.info(f"BigQuery load job took in {elapsed:.2f} seconds")
     logger.info(f"Loaded data from {gcs_uri} to BigQuery table {table_id}")
 
-    # Add the archive_link column to the table (if not present)
-    add_archive_link_column = f"""
-    ALTER TABLE {table_id}
-    ADD COLUMN IF NOT EXISTS archive_link STRING
+    client.query(f"ALTER TABLE {table_id} ADD COLUMN IF NOT EXISTS archive_link STRING").result()
+    client.query(
+        f"""
+        UPDATE {table_id}
+        SET archive_link = '{gcs_uri}'
+        WHERE write_dt = (SELECT MAX(write_dt) FROM {table_id})
     """
-    add_archive_column_data = f"""
-    UPDATE {table_id}
-    SET archive_link = '{gcs_uri}'
-    WHERE write_dt = (SELECT MAX(write_dt) FROM {table_id})
-    """
-    client.query(add_archive_link_column).result()
-    client.query(add_archive_column_data).result()
+    ).result()
+    logger.info(f"Added archive_link to {table_id}")
 
-    logger.info(f"Added archive_link column to table {table_id} with value {gcs_uri}")
+
+# =============================================================================
+#                 NEW: .NC CONVERSION FUNCTION (for PyPSA)
+# =============================================================================
+
+
+def export_pypsa_outputs_to_df(data) -> pd.DataFrame:
+    """Download .nc file from GCS, load with PyPSA, and apply both hourly + yearly transforms."""
+
+    with NamedTemporaryFile(delete=False, suffix=".nc") as tmp_file:
+        tmp_file.write(data)
+        tmp_file.close()
+
+    network = pypsa.Network(tmp_file.name)
+
+    # Apply visualiser transforms
+    df_hourly = transform_visualiser_hourly_output(network)
+    df_yearly = transform_visualiser_yearly_output(network)
+    df_combined = pd.concat([df_hourly, df_yearly], ignore_index=True)
+
+    os.remove(tmp_file.name)
+    return df_combined
+
+
+def get_raw_content_type(file_type: str) -> str:
+    """
+    Returns the appropriate raw content type based on file type string.
+
+    Args:
+        file_type (str): Type of the file (e.g., 'csv', 'nc', 'xlsx')
+
+    Returns:
+        str: Corresponding MIME type for the file
+    """
+    file_type = file_type.lower()
+
+    mime_types = {
+        "csv": "text/csv",
+        "nc": "application/x-netcdf",
+        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    }
+
+    if file_type in mime_types:
+        return mime_types[file_type]
+    else:
+        raise ValueError(f"Unsupported file type: {file_type}")
 
 
 # =============================================================================
 #                                  USAGE
 # =============================================================================
+
+
 def main():
-    # --- STEP 1: Upload raw file from local to GCS ---
-    upload_raw_to_gcs(config.LOCAL_FILE_PATH, config.RAW_OBJECT_NAME, config.RAW_CONTENT_TYPE)
-
-    # --- STEP 2: Load the file from GCS into a pandas DataFrame ---
-    df = gcs_to_pandas(
-        object_name=config.RAW_OBJECT_NAME,
-        data_format=config.DATA_FORMAT,
-        delimiter=config.DELIMITER,
-    )
-    # --- STEP 3: Clean and process the DataFrame for BigQuery compatibility ---
-    df = clean_raw_data_for_bq(df, convert_to_str=False)
-
-    df = preprocess_dataframe(df)
-
-    # --- STEP 4: Upload cleaned and processed data to a landing bucket in GCS ---
-    pandas_to_gcs(
-        df,
-        object_name=config.LANDING_OBJECT_NAME,
-        data_format=config.DATA_FORMAT,
-    )
-
-    # Validate dataset id
-    ALLOWED_DATASETS = {"india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_outputs", "ASEAN_pypsa_outputs"}
-
     if config.DATASET_ID not in ALLOWED_DATASETS:
         raise PermissionError(
-            f"Unauthorized DATASET_ID '{config.DATASET_ID}'. " f"Allowed values are only: {', '.join(ALLOWED_DATASETS)}"
+            f"Unauthorized DATASET_ID '{config.DATASET_ID}'. " f"Allowed values are: {', '.join(ALLOWED_DATASETS)}"
         )
+    data_format = config.DATA_FORMAT.lower()
 
-    load_file_to_bigquery(
-        table_name=config.BIGQUERY_TABLE_NAME,
-        skip_leading_rows=config.SKIP_ROWS,
-        write_disposition=config.BIGQUERY_WRITE_METHOD,
-        source_format=config.DATA_FORMAT,
-        schema=config.CUSTOM_SCHEMA,
+    assert data_format in [
+        "csv",
+        "xlsx",
+        "nc",
+    ], f"Unsupported data format: {data_format}. Only 'csv', 'xlsx', or 'nc' are supported."
+    assert (
+        data_format in config.LOCAL_FILE_PATH
+    ), f"Local file path {config.LOCAL_FILE_PATH} does not match the expected data format: {data_format}."
+
+    raw_content_type = get_raw_content_type(data_format)
+
+    upload_raw_to_gcs(config.LOCAL_FILE_PATH, config.RAW_OBJECT_NAME, raw_content_type)
+
+    df = gcs_to_pandas(
+        object_name=config.RAW_OBJECT_NAME,  # The object name from your config (e.g., 'your_file_name.nc')
+        data_format=config.DATA_FORMAT.lower(),  # Automatically chooses 'csv', 'xlsx', or 'nc' from your config
+        delimiter=config.DELIMITER,  # Optional: delimiter for CSV (if needed)
     )
+
+    df = clean_raw_data_for_bq(df, convert_to_str=False)
+    df = preprocess_dataframe(df)
+
+    if data_format == "nc":
+        df_hourly = df[df["time_resolution"] == "hourly"].copy()
+        df_yearly = df[df["time_resolution"] == "yearly"].copy()
+        pandas_to_gcs(df_hourly, object_name=f"{config.LANDING_OBJECT_NAME}_hourly", data_format="csv")
+        pandas_to_gcs(df_yearly, object_name=f"{config.LANDING_OBJECT_NAME}_yearly", data_format="csv")
+        load_file_to_bigquery(
+            table_name=f"{config.BIGQUERY_TABLE_NAME}_hourly",
+            skip_leading_rows=config.SKIP_ROWS,
+            write_disposition=config.BIGQUERY_WRITE_METHOD,
+            source_format="CSV",  # Always CSV post-cleaning
+            schema=config.CUSTOM_SCHEMA,
+            gcs_uri=f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}_hourly",
+        )
+        load_file_to_bigquery(
+            table_name=f"{config.BIGQUERY_TABLE_NAME}_yearly",
+            skip_leading_rows=config.SKIP_ROWS,
+            write_disposition=config.BIGQUERY_WRITE_METHOD,
+            source_format="CSV",  # Always CSV post-cleaning
+            schema=config.CUSTOM_SCHEMA,
+            gcs_uri=f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}_yearly",
+        )
+    else:
+        pandas_to_gcs(df, object_name=config.LANDING_OBJECT_NAME, data_format=data_format)
+        load_file_to_bigquery(
+            table_name=config.BIGQUERY_TABLE_NAME,
+            skip_leading_rows=config.SKIP_ROWS,
+            write_disposition=config.BIGQUERY_WRITE_METHOD,
+            source_format=data_format.upper(),
+            schema=config.CUSTOM_SCHEMA,
+        )
 
 
 if __name__ == "__main__":
     main()
-# =============================================================================
-#                                  END
-# =============================================================================

@@ -5,6 +5,8 @@ import re
 import os
 import glob
 from pathlib import Path
+import gc
+
 
 
 def get_backstop_generation_by_bus(
@@ -721,9 +723,6 @@ def process_solved_networks_directory(
         Two dictionaries containing the hourly and yearly DataFrames respectively,
         with directory names as keys
     """
-    import os
-    import glob
-    from pathlib import Path
 
     hourly_results = {}
     yearly_results = {}
@@ -830,3 +829,108 @@ def save_processed_results(
         else:
             df.to_csv(f"{output_path}.csv", index=False)
         print(f"Saved yearly data for {name} to {output_path}.{file_format}")
+
+def process_and_save_networks_by_directory(
+        base_path: str,
+        output_base_path: str,
+        pattern: str = "JPN_P1_JPN*",
+        network_dir: str = "solved_networks"
+    ) -> None:
+    """
+    Process all .nc files in each solved_networks directory one at a time and
+    save results to CSV immediately after processing each directory.
+
+    Parameters
+    ----------
+    base_path : str
+        Base directory path containing the run folders
+    output_base_path : str
+        Base path where to save the output CSV files
+    pattern : str, optional
+        Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
+    network_dir : str, optional
+        Name of directory containing network files, defaults to "solved_networks"
+    """
+    import os
+    import glob
+    from pathlib import Path
+    import gc  # For garbage collection
+
+    # Create output directories
+    hourly_path = os.path.join(output_base_path, "hourly")
+    yearly_path = os.path.join(output_base_path, "yearly")
+    os.makedirs(hourly_path, exist_ok=True)
+    os.makedirs(yearly_path, exist_ok=True)
+    
+    # Process each directory one at a time
+    for dir_path in glob.glob(os.path.join(base_path, pattern)):
+        dir_name = os.path.basename(dir_path)
+        network_path = os.path.join(dir_path, network_dir)
+        
+        if not os.path.exists(network_path):
+            print(f"Skipping {dir_name}: {network_dir} directory not found")
+            continue
+            
+        # Find all .nc files in the solved_networks directory
+        nc_files = glob.glob(os.path.join(network_path, "*.nc"))
+        
+        if not nc_files:
+            print(f"No .nc files found in {network_path}")
+            continue
+            
+        print(f"Processing {len(nc_files)} files in {dir_name}")
+        
+        # Process each .nc file and collect DataFrames
+        hourly_dfs = []
+        yearly_dfs = []
+        
+        for nc_file in nc_files:
+            try:
+                # Load network
+                network = pypsa.Network()
+                network.import_from_netcdf(nc_file)
+                
+                # Get filename without extension for run_id
+                run_id = Path(nc_file).stem
+                
+                # Process hourly and yearly data
+                hourly_df = transform_visualiser_hourly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                yearly_df = transform_visualiser_yearly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                hourly_dfs.append(hourly_df)
+                yearly_dfs.append(yearly_df)
+                
+                # Clean up to free memory
+                del network
+                gc.collect()
+                
+            except Exception as e:
+                print(f"Error processing {nc_file}: {str(e)}")
+                continue
+        
+        if hourly_dfs:
+            # Concatenate and save results for this directory immediately
+            hourly_output = pd.concat(hourly_dfs, ignore_index=True)
+            yearly_output = pd.concat(yearly_dfs, ignore_index=True)
+            
+            # Save to CSV
+            hourly_output.to_csv(os.path.join(hourly_path, f"{dir_name}_hourly.csv"), index=False)
+            yearly_output.to_csv(os.path.join(yearly_path, f"{dir_name}_yearly.csv"), index=False)
+            
+            print(f"Successfully processed and saved results for {dir_name}")
+            
+            # Clean up to free memory
+            del hourly_dfs, yearly_dfs, hourly_output, yearly_output
+            gc.collect()
+        else:
+            print(f"No valid data processed for {dir_name}")
+
