@@ -134,37 +134,37 @@ def export_to_excel(
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
 
-def prompt_market():
-    """
-    Prompts the user to enter a market/country/region for this Pypsa run.
-    Returns:
-        str: The user-entered market/country/region.
-    """
-    prompt_message = (
-        "Please enter the market/country/region for this Pypsa run.\n"
-        "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
-    )
+# def prompt_market():
+#     """
+#     Prompts the user to enter a market/country/region for this Pypsa run.
+#     Returns:
+#         str: The user-entered market/country/region.
+#     """
+#     prompt_message = (
+#         "Please enter the market/country/region for this Pypsa run.\n"
+#         "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
+#     )
 
-    print(prompt_message, end='')
-    market = input(prompt_message)
-    print(f"You entered: {market}")
-    return market
+#     print(prompt_message, end='')
+#     market = input(prompt_message)
+#     print(f"You entered: {market}")
+#     return market
 
-def prompt_pypsa_run_identifier():
-    """
-    Prompts the user to enter a run identifier.
-    Returns:
-        str: The user-entered run number or any relevant comments.
-    """
-    prompt_message = (
-        "Please enter the run identifier.\n"
-        "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
-    )
+# def prompt_pypsa_run_identifier():
+#     """
+#     Prompts the user to enter a run identifier.
+#     Returns:
+#         str: The user-entered run number or any relevant comments.
+#     """
+#     prompt_message = (
+#         "Please enter the run identifier.\n"
+#         "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
+#     )
 
-    print(prompt_message, end='')
-    run_identifier = input()
-    print(f"You entered: {run_identifier}")
-    return run_identifier
+#     print(prompt_message, end='')
+#     run_identifier = input()
+#     print(f"You entered: {run_identifier}")
+#     return run_identifier
 
 def add_hour_of_year_column(
         df, 
@@ -560,6 +560,8 @@ def transform_visualiser_hourly_output(
         'Greenfield',
         'Brownfield'
     )
+    
+    merged_df = merged_df.dropna(subset=['Value'], ignore_index=True)
 
     return merged_df
 
@@ -696,6 +698,8 @@ def transform_visualiser_yearly_output(
     df['Market'] = market
     df['Pypsa_Run_Id'] = pypsa_run_id
     df['Year'] = year
+
+    df = df.dropna(subset=['Value'], ignore_index=True)
 
     return df
 
