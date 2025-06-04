@@ -277,6 +277,16 @@ def transform_visualiser_hourly_output(
         .reset_index()
     )
 
+    emissions = (
+        (
+            network.generators_t.p 
+            / network.generators.efficiency 
+            * network.generators.carrier.map(network.carriers.co2_emissions)
+        )
+        .dropna(axis=1, thresh=5)
+        .reset_index()
+    )
+
     # Hourly loads (required)
     loads = (
         network
@@ -332,6 +342,13 @@ def transform_visualiser_hourly_output(
         value_name='Value'
     )
 
+    emissions = pd.melt(
+        emissions,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+
     if storage is not None:
         storage = pd.melt(
             storage, 
@@ -379,6 +396,14 @@ def transform_visualiser_hourly_output(
         .groupby(['snapshot', 'Node', 'Tech'])
         .sum()
         .reset_index()
+    )
+
+    emissions = (pd.merge(
+        emissions,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
     )
 
     if storage is not None:
@@ -489,6 +514,7 @@ def transform_visualiser_hourly_output(
 
     # --- Assign Type column for standardization ---
     generation['Type'] = 'Generation'
+    emissions['Type'] = 'Emissions'
     if storage is not None:
         storage['Type'] = 'Storage'
     if interconnector is not None:
@@ -507,7 +533,7 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    dataframes = [generation, emissions, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
