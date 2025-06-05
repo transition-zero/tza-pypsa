@@ -30,8 +30,6 @@ from transform_nc_for_visualisation import transform_visualiser_hourly_output, t
 #                                CONFIGURATION
 # =============================================================================
 
-DATASET_ID = config.DATASET_ID
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -45,6 +43,23 @@ ALLOWED_DATASETS = {"india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_
 #                               HELPER FUNCTIONS
 # =============================================================================
 
+def validate_config():
+    """Validate that required config values are set."""
+    required_fields = ['LOCAL_FILE_PATH', 'RAW_OBJECT_NAME', 'LANDING_OBJECT_NAME', 'DATASET_ID', 'BIGQUERY_TABLE_NAME']
+    for field in required_fields:
+        value = getattr(config, field)
+        if value is None:
+            raise ValueError(f"Configuration error: {field} must be set before running")
+        if not isinstance(value, str):
+            raise ValueError(f"Configuration error: {field} must be a string")
+    
+    logger.info("Configuration validated successfully")
+    logger.info(f"Using configuration:")
+    logger.info(f"  LOCAL_FILE_PATH: {config.LOCAL_FILE_PATH}")
+    logger.info(f"  RAW_OBJECT_NAME: {config.RAW_OBJECT_NAME}")
+    logger.info(f"  LANDING_OBJECT_NAME: {config.LANDING_OBJECT_NAME}")
+    logger.info(f"  DATASET_ID: {config.DATASET_ID}")
+    logger.info(f"  BIGQUERY_TABLE_NAME: {config.BIGQUERY_TABLE_NAME}")
 
 def blob_from_bucket(bucket_name: str, file_name: str, client: storage.Client = STORAGE_CLIENT) -> storage.Blob:
     bucket = client.get_bucket(bucket_name)
@@ -223,7 +238,7 @@ def load_file_to_bigquery(
     skip_leading_rows: int,
     write_disposition: str,
     gcs_uri: str = f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}",
-    dataset_id: str = DATASET_ID,
+    dataset_id: str = config.DATASET_ID,
     source_format: str = "CSV",
     schema: list = None,
     enable_character_map_v2: bool = False,
@@ -334,6 +349,10 @@ def get_raw_content_type(file_type: str) -> str:
 
 
 def main():
+    """Main function to process and upload data."""
+    # Validate config values before proceeding
+    validate_config()
+    
     if config.DATASET_ID not in ALLOWED_DATASETS:
         raise PermissionError(
             f"Unauthorized DATASET_ID '{config.DATASET_ID}'. " f"Allowed values are: {', '.join(ALLOWED_DATASETS)}"
@@ -354,9 +373,9 @@ def main():
     upload_raw_to_gcs(config.LOCAL_FILE_PATH, config.RAW_OBJECT_NAME, raw_content_type)
 
     df = gcs_to_pandas(
-        object_name=config.RAW_OBJECT_NAME,  # The object name from your config (e.g., 'your_file_name.nc')
-        data_format=config.DATA_FORMAT.lower(),  # Automatically chooses 'csv', 'xlsx', or 'nc' from your config
-        delimiter=config.DELIMITER,  # Optional: delimiter for CSV (if needed)
+        object_name=config.RAW_OBJECT_NAME,
+        data_format=config.DATA_FORMAT.lower(),
+        delimiter=config.DELIMITER,
     )
 
     df = clean_raw_data_for_bq(df, convert_to_str=False)
@@ -371,7 +390,7 @@ def main():
             table_name=f"{config.BIGQUERY_TABLE_NAME}_hourly",
             skip_leading_rows=config.SKIP_ROWS,
             write_disposition=config.BIGQUERY_WRITE_METHOD,
-            source_format="CSV",  # Always CSV post-cleaning
+            source_format="CSV",
             schema=config.CUSTOM_SCHEMA,
             gcs_uri=f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}_hourly",
         )
@@ -379,7 +398,7 @@ def main():
             table_name=f"{config.BIGQUERY_TABLE_NAME}_yearly",
             skip_leading_rows=config.SKIP_ROWS,
             write_disposition=config.BIGQUERY_WRITE_METHOD,
-            source_format="CSV",  # Always CSV post-cleaning
+            source_format="CSV",
             schema=config.CUSTOM_SCHEMA,
             gcs_uri=f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}_yearly",
         )
@@ -391,6 +410,7 @@ def main():
             write_disposition=config.BIGQUERY_WRITE_METHOD,
             source_format=data_format.upper(),
             schema=config.CUSTOM_SCHEMA,
+            gcs_uri=f"gs://landing_analyst_uploads/{DATE_STR}/{config.LANDING_OBJECT_NAME}",
         )
 
 
