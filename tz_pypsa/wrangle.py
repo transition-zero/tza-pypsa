@@ -1,6 +1,12 @@
 import pypsa
 import pandas as pd
 import numpy as np
+import re
+import os
+import glob
+from pathlib import Path
+import gc
+
 
 
 def get_backstop_generation_by_bus(
@@ -60,7 +66,7 @@ def get_load_by_bus(
         .sum()
         .div(mul)
         .reset_index()
-        .melt(id_vars='timestep', var_name='bus', value_name='load')
+        .melt(id_vars='snapshot', var_name='bus', value_name='load')
     )
 
 
@@ -127,37 +133,38 @@ def export_to_excel(
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
-def prompt_market():
-    """
-    Prompts the user to enter a market/country/region for this Pypsa run.
-    Returns:
-        str: The user-entered market/country/region.
-    """
-    prompt_message = (
-        "Please enter the market/country/region for this Pypsa run.\n"
-        "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
-    )
 
-    print(prompt_message, end='')
-    market = input(prompt_message)
-    print(f"You entered: {market}")
-    return market
+# def prompt_market():
+#     """
+#     Prompts the user to enter a market/country/region for this Pypsa run.
+#     Returns:
+#         str: The user-entered market/country/region.
+#     """
+#     prompt_message = (
+#         "Please enter the market/country/region for this Pypsa run.\n"
+#         "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
+#     )
 
-def prompt_pypsa_run_identifier():
-    """
-    Prompts the user to enter a run identifier.
-    Returns:
-        str: The user-entered run number or any relevant comments.
-    """
-    prompt_message = (
-        "Please enter the run identifier.\n"
-        "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
-    )
+#     print(prompt_message, end='')
+#     market = input(prompt_message)
+#     print(f"You entered: {market}")
+#     return market
 
-    print(prompt_message, end='')
-    run_identifier = input()
-    print(f"You entered: {run_identifier}")
-    return run_identifier
+# def prompt_pypsa_run_identifier():
+#     """
+#     Prompts the user to enter a run identifier.
+#     Returns:
+#         str: The user-entered run number or any relevant comments.
+#     """
+#     prompt_message = (
+#         "Please enter the run identifier.\n"
+#         "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
+#     )
+
+#     print(prompt_message, end='')
+#     run_identifier = input()
+#     print(f"You entered: {run_identifier}")
+#     return run_identifier
 
 def add_hour_of_year_column(
         df, 
@@ -215,8 +222,10 @@ def interconnector_by_nodes(
     return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
 def transform_visualiser_hourly_output(
-        network: pypsa.Network
-    ):
+        network: pypsa.Network,
+        pypsa_run_id: str = 'Unspecified',
+        market: str = 'Unspecified'
+    ) -> pd.DataFrame:
     """
     Extracts hourly generation, storage, interconnector, and load data from a
     PyPSA network object, converts them to a long (tidy) format, splits identifier
@@ -227,22 +236,23 @@ def transform_visualiser_hourly_output(
     ----------
     network : pypsa.Network
         A PyPSA network object.
-    filename : str
-        The name of the file to save the merged DataFrame; must end with .csv.
+    pypsa_run_id : str, optional
+        Identifier for the PyPSA run. Defaults to 'Unspecified'.
+    market : str, optional
+        Market/region identifier. Defaults to 'Unspecified'.
     
     Returns
     -------
-    csv file
-        The merged long format DataFrame saved as a CSV file.
+    pd.DataFrame
+        The merged long format DataFrame with standardized columns.
     """
     generator_lookup = (network
                         .generators
-                        .reset_index()[['Generator', 'bus', 'carrier']]
+                        .reset_index()[['Generator', 'bus', 'type']]
                         .rename(
-                            columns={'bus': 'Node', 'carrier': 'Tech'})
+                            columns={'bus': 'Node', 'type': 'Tech'})
                         )
-    print(generator_lookup.head())
-
+    
     storage_lookup = (network
                       .storage_units
                       .reset_index()[['StorageUnit', 'bus', 'type']]
@@ -264,6 +274,16 @@ def transform_visualiser_hourly_output(
         network
         .generators_t
         .p
+        .reset_index()
+    )
+
+    emissions = (
+        (
+            network.generators_t.p 
+            / network.generators.efficiency 
+            * network.generators.carrier.map(network.carriers.co2_emissions)
+        )
+        .dropna(axis=1, thresh=5)
         .reset_index()
     )
 
@@ -322,6 +342,13 @@ def transform_visualiser_hourly_output(
         value_name='Value'
     )
 
+    emissions = pd.melt(
+        emissions,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+
     if storage is not None:
         storage = pd.melt(
             storage, 
@@ -369,6 +396,14 @@ def transform_visualiser_hourly_output(
         .groupby(['snapshot', 'Node', 'Tech'])
         .sum()
         .reset_index()
+    )
+
+    emissions = (pd.merge(
+        emissions,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
     )
 
     if storage is not None:
@@ -425,9 +460,9 @@ def transform_visualiser_hourly_output(
     optimal_capacity = (
         network
         .statistics
-        .optimal_capacity(groupby=['bus', 'carrier'])
+        .optimal_capacity(groupby=['bus', 'type'])
         .reset_index()
-        .rename(columns={'bus':'Node', 'carrier': 'Tech',  0: 'OptimalCapacity'})
+        .rename(columns={'bus':'Node', 'type': 'Tech',  0: 'OptimalCapacity'})
         .drop(columns='component')
     )
 
@@ -446,7 +481,7 @@ def transform_visualiser_hourly_output(
     )
 
     capacity_factor_generator['Value']  = capacity_factor_generator['Value'] / capacity_factor_generator['OptimalCapacity']
-    capacity_factor_storage['Value']  = capacity_factor_storage['Value'] / capacity_factor_storage['OptimalCapacity']
+    capacity_factor_storage['Value']  = abs(capacity_factor_storage['Value'] / capacity_factor_storage['OptimalCapacity'])
     capacity_factor_generator = capacity_factor_generator[['snapshot', 'Node', 'Tech', 'Value']]
     capacity_factor_storage = capacity_factor_storage[['snapshot', 'Node', 'Tech', 'Value']]
 
@@ -479,6 +514,7 @@ def transform_visualiser_hourly_output(
 
     # --- Assign Type column for standardization ---
     generation['Type'] = 'Generation'
+    emissions['Type'] = 'Emissions'
     if storage is not None:
         storage['Type'] = 'Storage'
     if interconnector is not None:
@@ -497,7 +533,7 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    dataframes = [generation, emissions, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
@@ -511,9 +547,9 @@ def transform_visualiser_hourly_output(
     merged_df['Month'] = merged_df['snapshot'].dt.month
     merged_df['Year'] = merged_df['snapshot'].dt.year
 
-    # --- Add run identifier and market column ---
-    merged_df['Market'] = prompt_market()
-    merged_df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
+    # # --- Add run identifier and market column ---
+    merged_df['Market'] = market
+    merged_df['Pypsa_Run_Id'] = pypsa_run_id
 
     # --- Sort the DataFrame ---
     merged_df.sort_values(
@@ -529,54 +565,36 @@ def transform_visualiser_hourly_output(
         'Hour8760'
     )
 
-    # --- Process C&I buses and map bus long names to the DataFrame ---
+    # --- Map bus long names to the DataFrame ---
     buses_df = network.buses
-    ci_buses = buses_df[buses_df.index.str.contains('C&I')].copy()
+    buses_df = buses_df.copy().dropna()[['long_name']].reset_index()
+    all_codes = buses_df["Bus"].tolist()
+    escaped_codes = [re.escape(code) for code in all_codes]
+    pattern = "(" + "|".join(escaped_codes) + ")"
+    merged_df['buscode'] = merged_df['Node'].str.extract(pattern, flags=re.IGNORECASE)
+    merged_df['buscode'] = merged_df['buscode'].str.upper()
 
-    ci_buses['region_code'] = (
-        ci_buses
-        .index
-        .to_series()
-        .apply(
-            lambda x: x
-            .split('C&I')[0]
-            .strip() if 'C&I' in x else None
-        )
-    )
-
-    ci_buses = ci_buses[['region_code']].reset_index()
-    ci_buses = (
-        ci_buses
-        .merge(buses_df[['long_name']], left_on='region_code', right_on=buses_df.index, how='left')
-        .drop(columns=['region_code'])
-    )
-
-    buses_df['long_name'].update(
-        ci_buses.set_index('Bus')['long_name']
-    )
-
-    try:
-        buses_long_name = buses_df.long_name
-        merged_df = merged_df.merge(
-            buses_long_name, 
-            how='left', 
-            left_on='Node', 
-            right_index=True
-        )
-
-    except Exception as e:
-        print(f"Bus long names not found: {e}")
+    merged_df = merged_df.merge(
+        buses_df, 
+        how='left', 
+        left_on='buscode',
+        right_on='Bus', 
+    ).drop(columns=['buscode', 'Bus'])
 
     merged_df['BusType'] = np.where(
         merged_df['Node'].str.contains('C&I', na=False),
         'Greenfield',
         'Brownfield'
     )
+    
+    merged_df = merged_df.dropna(subset=['Value'], ignore_index=True)
 
     return merged_df
 
 def transform_visualiser_yearly_output(
-        network: pypsa.Network
+        network: pypsa.Network,
+        pypsa_run_id: str = 'Unspecified',
+        market: str = 'Unspecified'
     ) -> pd.DataFrame:
     """
     Extracts yearly statistics from a PyPSA network object, converts them to a long format,
@@ -702,9 +720,247 @@ def transform_visualiser_yearly_output(
     'Brownfield'
     )
 
-    # Add the run identifier and market column
-    df['Market'] = prompt_market()
-    df['Pypsa_Run_Id'] = prompt_pypsa_run_identifier()
+    # # Add the run identifier and market column
+    df['Market'] = market
+    df['Pypsa_Run_Id'] = pypsa_run_id
     df['Year'] = year
 
+    df = df.dropna(subset=['Value'], ignore_index=True)
+
     return df
+
+def process_solved_networks_directory(
+        base_path: str,
+        pattern: str = "JPN_P1_JPN*",
+        network_dir: str = "solved_networks"
+    ) -> tuple[dict, dict]:
+    """
+    Process all .nc files in the solved_networks directories matching the pattern
+    and concatenate them into separate hourly and yearly dataframes per directory.
+
+    Parameters
+    ----------
+    base_path : str
+        Base directory path containing the run folders
+    pattern : str, optional
+        Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
+    network_dir : str, optional
+        Name of directory containing network files, defaults to "solved_networks"
+
+    Returns
+    -------
+    tuple[dict, dict]
+        Two dictionaries containing the hourly and yearly DataFrames respectively,
+        with directory names as keys
+    """
+
+    hourly_results = {}
+    yearly_results = {}
+    
+    # Find all matching directories
+    for dir_path in glob.glob(os.path.join(base_path, pattern)):
+        dir_name = os.path.basename(dir_path)
+        network_path = os.path.join(dir_path, network_dir)
+        
+        if not os.path.exists(network_path):
+            print(f"Skipping {dir_name}: {network_dir} directory not found")
+            continue
+            
+        # Find all .nc files in the solved_networks directory
+        nc_files = glob.glob(os.path.join(network_path, "*.nc"))
+        
+        if not nc_files:
+            print(f"No .nc files found in {network_path}")
+            continue
+            
+        print(f"Processing {len(nc_files)} files in {dir_name}")
+        
+        # Process each .nc file and collect DataFrames
+        hourly_dfs = []
+        yearly_dfs = []
+        
+        for nc_file in nc_files:
+            try:
+                # Load network
+                network = pypsa.Network()
+                network.import_from_netcdf(nc_file)
+                
+                # Get filename without extension for run_id
+                run_id = Path(nc_file).stem
+                
+                # Process hourly and yearly data
+                hourly_df = transform_visualiser_hourly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                yearly_df = transform_visualiser_yearly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                hourly_dfs.append(hourly_df)
+                yearly_dfs.append(yearly_df)
+                
+            except Exception as e:
+                print(f"Error processing {nc_file}: {str(e)}")
+                continue
+        
+        if hourly_dfs:
+            # Store concatenated DataFrames separately for hourly and yearly data
+            hourly_results[dir_name] = pd.concat(hourly_dfs, ignore_index=True)
+            yearly_results[dir_name] = pd.concat(yearly_dfs, ignore_index=True)
+            print(f"Successfully processed {dir_name}")
+        else:
+            print(f"No valid data processed for {dir_name}")
+    
+    return hourly_results, yearly_results
+
+def save_processed_results(
+        results: tuple[dict, dict],
+        output_base_path: str,
+        file_format: str = 'parquet'
+    ) -> None:
+    """
+    Save the processed hourly and yearly results to files.
+
+    Parameters
+    ----------
+    results : tuple[dict, dict]
+        Tuple containing two dictionaries with the hourly and yearly DataFrames
+    output_base_path : str
+        Base path where to save the output files
+    file_format : str, optional
+        Format to save the files in ('parquet' or 'csv'), defaults to 'parquet'
+    """
+    os.makedirs(output_base_path, exist_ok=True)
+    hourly_results, yearly_results = results
+    
+    # Save hourly results
+    hourly_path = os.path.join(output_base_path, "hourly")
+    os.makedirs(hourly_path, exist_ok=True)
+    for name, df in hourly_results.items():
+        output_path = os.path.join(hourly_path, name)
+        if file_format.lower() == 'parquet':
+            df.to_parquet(f"{output_path}.parquet")
+        else:
+            df.to_csv(f"{output_path}.csv", index=False)
+        print(f"Saved hourly data for {name} to {output_path}.{file_format}")
+    
+    # Save yearly results
+    yearly_path = os.path.join(output_base_path, "yearly")
+    os.makedirs(yearly_path, exist_ok=True)
+    for name, df in yearly_results.items():
+        output_path = os.path.join(yearly_path, name)
+        if file_format.lower() == 'parquet':
+            df.to_parquet(f"{output_path}.parquet")
+        else:
+            df.to_csv(f"{output_path}.csv", index=False)
+        print(f"Saved yearly data for {name} to {output_path}.{file_format}")
+
+def process_and_save_networks_by_directory(
+        base_path: str,
+        output_base_path: str,
+        pattern: str = "JPN_P1_JPN*",
+        network_dir: str = "solved_networks"
+    ) -> None:
+    """
+    Process all .nc files in each solved_networks directory one at a time and
+    save results to CSV immediately after processing each directory.
+
+    Parameters
+    ----------
+    base_path : str
+        Base directory path containing the run folders
+    output_base_path : str
+        Base path where to save the output CSV files
+    pattern : str, optional
+        Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
+    network_dir : str, optional
+        Name of directory containing network files, defaults to "solved_networks"
+    """
+    import os
+    import glob
+    from pathlib import Path
+    import gc  # For garbage collection
+
+    # Create output directories
+    hourly_path = os.path.join(output_base_path, "hourly")
+    yearly_path = os.path.join(output_base_path, "yearly")
+    os.makedirs(hourly_path, exist_ok=True)
+    os.makedirs(yearly_path, exist_ok=True)
+    
+    # Process each directory one at a time
+    for dir_path in glob.glob(os.path.join(base_path, pattern)):
+        dir_name = os.path.basename(dir_path)
+        network_path = os.path.join(dir_path, network_dir)
+        
+        if not os.path.exists(network_path):
+            print(f"Skipping {dir_name}: {network_dir} directory not found")
+            continue
+            
+        # Find all .nc files in the solved_networks directory
+        nc_files = glob.glob(os.path.join(network_path, "*.nc"))
+        
+        if not nc_files:
+            print(f"No .nc files found in {network_path}")
+            continue
+            
+        print(f"Processing {len(nc_files)} files in {dir_name}")
+        
+        # Process each .nc file and collect DataFrames
+        hourly_dfs = []
+        yearly_dfs = []
+        
+        for nc_file in nc_files:
+            try:
+                # Load network
+                network = pypsa.Network()
+                network.import_from_netcdf(nc_file)
+                
+                # Get filename without extension for run_id
+                run_id = Path(nc_file).stem
+                
+                # Process hourly and yearly data
+                hourly_df = transform_visualiser_hourly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                yearly_df = transform_visualiser_yearly_output(
+                    network=network,
+                    pypsa_run_id=run_id,
+                    market=dir_name
+                )
+                
+                hourly_dfs.append(hourly_df)
+                yearly_dfs.append(yearly_df)
+                
+                # Clean up to free memory
+                del network
+                gc.collect()
+                
+            except Exception as e:
+                print(f"Error processing {nc_file}: {str(e)}")
+                continue
+        
+        if hourly_dfs:
+            # Concatenate and save results for this directory immediately
+            hourly_output = pd.concat(hourly_dfs, ignore_index=True)
+            yearly_output = pd.concat(yearly_dfs, ignore_index=True)
+            
+            # Save to CSV
+            hourly_output.to_csv(os.path.join(hourly_path, f"{dir_name}_hourly.csv"), index=False)
+            yearly_output.to_csv(os.path.join(yearly_path, f"{dir_name}_yearly.csv"), index=False)
+            
+            print(f"Successfully processed and saved results for {dir_name}")
+            
+            # Clean up to free memory
+            del hourly_dfs, yearly_dfs, hourly_output, yearly_output
+            gc.collect()
+        else:
+            print(f"No valid data processed for {dir_name}")
+

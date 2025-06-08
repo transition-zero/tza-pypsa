@@ -1,4 +1,4 @@
-Carrier,color,co2_emissions,nice_name,max_growth,max_relative_growth
+carrier,color,co2_emissions,nice_name,max_growth,max_relative_growth
 Coal,#322f34,0.36,Coal,inf,0
 LNG,#bababa,0.198,Gas,inf,0
 Oil,#5d407c,0.2571,Oil,inf,0
@@ -18,9 +18,9 @@ PumpedHydro,#a5d1f9,0,Pumped hydro,inf,0
 Batteries,#c3e0fb,0,Battery storage,inf,0
 Transmission,#ba63da,0,Transmission,inf,0
 GasCCSSequestered,#d9d9d9,0,Gas CCS: Sequestered component,inf,0
-BlueNH3_Coal,#322f34,0.36,Coal & blue NH3: Coal,inf,0
+BlueNH3_coal,#322f34,0.36,Coal & blue NH3: Coal,inf,0
 BlueH2_Gas,#bababa,0.198,Gas & blue H2: Gas,inf,0
-GreenNH3_Coal,#322f34,0.36,Coal & green NH3: Coal,inf,0
+GreenNH3_coal,#322f34,0.36,Coal & green NH3: Coal,inf,0
 GreenH2_Gas,#bababa,0.198,Gas & green H2: Gas,inf,0
 CoGen_coal,#3a3538,0.36,CoGen: Coal,inf,0
 CoGen_biogas_waste,#fdbc95,0,CoGen: Biogas & Waste,inf,0
