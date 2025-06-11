@@ -224,6 +224,7 @@ def interconnector_by_nodes(
 def transform_visualiser_hourly_output(
         network: pypsa.Network,
         pypsa_run_id: str = 'Unspecified',
+        scenario: str = 'Unspecified',
         market: str = 'Unspecified'
     ) -> pd.DataFrame:
     """
@@ -550,6 +551,7 @@ def transform_visualiser_hourly_output(
     # # --- Add run identifier and market column ---
     merged_df['Market'] = market
     merged_df['Pypsa_Run_Id'] = pypsa_run_id
+    merged_df['Scenario'] = scenario
 
     # --- Sort the DataFrame ---
     merged_df.sort_values(
@@ -594,7 +596,8 @@ def transform_visualiser_hourly_output(
 def transform_visualiser_yearly_output(
         network: pypsa.Network,
         pypsa_run_id: str = 'Unspecified',
-        market: str = 'Unspecified'
+        market: str = 'Unspecified',
+        scenario: str = 'Unspecified'
     ) -> pd.DataFrame:
     """
     Extracts yearly statistics from a PyPSA network object, converts them to a long format,
@@ -723,6 +726,7 @@ def transform_visualiser_yearly_output(
     # # Add the run identifier and market column
     df['Market'] = market
     df['Pypsa_Run_Id'] = pypsa_run_id
+    df['Scenario'] = scenario
     df['Year'] = year
 
     df = df.dropna(subset=['Value'], ignore_index=True)
@@ -864,7 +868,8 @@ def process_and_save_networks_by_directory(
         base_path: str,
         output_base_path: str,
         pattern: str = "JPN_P1_JPN*",
-        network_dir: str = "solved_networks"
+        network_dir: str = "solved_networks",
+        pypsa_run_id: str = 'Unspecified'
     ) -> None:
     """
     Process all .nc files in each solved_networks directory one at a time and
@@ -881,10 +886,6 @@ def process_and_save_networks_by_directory(
     network_dir : str, optional
         Name of directory containing network files, defaults to "solved_networks"
     """
-    import os
-    import glob
-    from pathlib import Path
-    import gc  # For garbage collection
 
     # Create output directories
     hourly_path = os.path.join(output_base_path, "hourly")
@@ -921,18 +922,20 @@ def process_and_save_networks_by_directory(
                 network.import_from_netcdf(nc_file)
                 
                 # Get filename without extension for run_id
-                run_id = Path(nc_file).stem
+                scenario_id = Path(nc_file).stem
                 
                 # Process hourly and yearly data
                 hourly_df = transform_visualiser_hourly_output(
                     network=network,
-                    pypsa_run_id=run_id,
+                    pypsa_run_id=pypsa_run_id,
+                    scenario=scenario_id,
                     market=dir_name
                 )
                 
                 yearly_df = transform_visualiser_yearly_output(
                     network=network,
-                    pypsa_run_id=run_id,
+                    pypsa_run_id=pypsa_run_id,
+                    scenario=scenario_id,
                     market=dir_name
                 )
                 
