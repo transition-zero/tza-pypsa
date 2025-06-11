@@ -1,7 +1,7 @@
-name,bus,type,p_nom,p_nom_extendable,p_nom_min,p_nom_max,carrier,max_hours,build_year,lifetime,efficiency_store,efficiency_dispatch,annual_fixed_costs,total_capital_cost
-TWN-PumpedHydro-2024active_exo,TWN,PumpedHydro,2602,FALSE,0,,PumpedHydro,8,2024,50,0.8,0.8,20150,4019715.267
-TWN-PumpedHydro-2030_endo,TWN,PumpedHydro,0,TRUE,0,,PumpedHydro,8,2030,50,0.8,0.8,20150,4019715.267
-TWN-PumpedHydro-2030_exo,TWN,PumpedHydro,0,FALSE,0,,PumpedHydro,8,2030,50,0.8,0.8,20150,4019715.267
-TWN-Batteries-2024active_exo,TWN,Batteries,432,FALSE,0,,Batteries,2,2024,15,0.95,0.95,32504,1791537
-TWN-Batteries-2030_endo,TWN,Batteries,0,TRUE,0,595.77,Batteries,6,2030,15,0.95,0.95,32504,1791537
-TWN-Batteries-2030_exo,TWN,Batteries,1553.9,FALSE,0,,Batteries,6,2030,15,0.95,0.95,32504,1791537
+name,bus,type,p_nom,p_nom_extendable,p_nom_min,p_nom_max,p_min_pu,carrier,max_hours,build_year,lifetime,efficiency_store,efficiency_dispatch,annual_fixed_costs,total_capital_cost
+TWN-PumpedHydro-2024active_exo,TWN,PumpedHydro,2602,FALSE,0,,-1,PumpedHydro,8,2024,50,0.8,0.8,20150,4019715.267
+TWN-PumpedHydro-2030_endo,TWN,PumpedHydro,0,TRUE,0,,-1,PumpedHydro,8,2030,50,0.8,0.8,20150,4019715.267
+TWN-PumpedHydro-2030_exo,TWN,PumpedHydro,0,FALSE,0,,-1,PumpedHydro,8,2030,50,0.8,0.8,20150,4019715.267
+TWN-Batteries-2024active_exo,TWN,Batteries,432,FALSE,0,,-1,Batteries,2,2024,15,0.95,0.95,32504,1791537
+TWN-Batteries-2030_endo,TWN,Batteries,0,TRUE,0,595.77,-1,Batteries,6,2030,15,0.95,0.95,32504,1791537
+TWN-Batteries-2030_exo,TWN,Batteries,1553.9,FALSE,0,,-1,Batteries,6,2030,15,0.95,0.95,32504,1791537
