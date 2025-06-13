@@ -270,7 +270,7 @@ def transform_visualiser_hourly_output(
 
 
     # --- Extract hourly data and reset index ---
-    # Hourly generation (required)
+    # Hourly generation
     generation = (
         network
         .generators_t
@@ -278,6 +278,7 @@ def transform_visualiser_hourly_output(
         .reset_index()
     )
 
+    # Hourly emissions
     emissions = (
         (
             network.generators_t.p 
@@ -287,6 +288,50 @@ def transform_visualiser_hourly_output(
         .dropna(axis=1, thresh=5)
         .reset_index()
     )
+
+    # Hourly curtailment
+    curtailment = (
+        (
+            network.generators_t.p_max_pu 
+            * network.generators.p_nom_opt
+            - network.generators_t.p
+        )
+        .dropna(axis=1, thresh=5)
+        .reset_index()
+    )
+
+    # Hourly C&I import/export
+    # Get average grid price
+    grid_price = (
+        network
+        .buses_t
+        .marginal_price
+        .filter(regex='^(?!.*C&I)')
+        .mean(axis=1)
+                  )
+
+    # Import/Export volumes and costs
+    import_cost = (
+        network
+        .links_t
+        .p0
+        .filter(regex='C&I')
+        .filter(regex='Import')
+        .mul(grid_price, axis=0)
+        .reset_index()
+    )
+    
+    export_revenue = (
+        network
+        .links_t
+        .p0
+        .filter(regex='C&I')
+        .filter(regex='Export')
+        .mul(grid_price, axis=0)
+        .mul(-1) # Negative because exports generate revenue
+        .reset_index()
+    )
+    
 
     # Hourly loads (required)
     loads = (
@@ -301,6 +346,8 @@ def transform_visualiser_hourly_output(
         network
         .buses_t
         .marginal_price
+        .filter(regex='^(?!.*C&I)')
+        .assign(ci_grid_price = lambda df: df.iloc[:, 1:].mean(axis=1))  
         .reset_index()
     )
 
@@ -343,6 +390,13 @@ def transform_visualiser_hourly_output(
         value_name='Value'
     )
 
+    curtailment = pd.melt(
+        curtailment,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+    
     emissions = pd.melt(
         emissions,
         id_vars='snapshot',
@@ -386,6 +440,20 @@ def transform_visualiser_hourly_output(
         var_name='Bus', 
         value_name='Value'
     ).rename(columns={"Bus": "Node"})
+
+    import_cost = pd.melt(
+        import_cost,
+        id_vars='snapshot',
+        var_name='Link', 
+        value_name='Value'
+    )
+
+    export_revenue = pd.melt(
+        export_revenue,
+        id_vars='snapshot',
+        var_name='Link', 
+        value_name='Value'
+    )
     
     # --- Create identifier columns: Node, Tech, Type ---
     generation = (pd.merge(
@@ -407,6 +475,14 @@ def transform_visualiser_hourly_output(
         .drop(columns='Generator')
     )
 
+    curtailment = (pd.merge(
+        curtailment,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
+    )
+    
     if storage is not None:
         storage = (pd.merge(
             storage,
@@ -457,6 +533,36 @@ def transform_visualiser_hourly_output(
     if interconnector is not None:
         interconnector['Value'] = interconnector['Value']*-1
 
+    if import_cost is not None:
+        try:
+            import_cost = pd.merge(
+                import_cost,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            ).rename(
+                columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
+            )
+
+        except Exception as e:
+            print(f"Skipping import_cost: {e}")
+            import_cost = None
+
+
+    if export_revenue is not None:
+        try:
+            export_revenue = pd.merge(
+                export_revenue,
+                interconnector_lookup,
+                on='Link',
+                how='left'
+            ).rename(
+                columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
+            )
+        except Exception as e:
+            print(f"Skipping export_revenue: {e}")
+            export_revenue = None
+
     # --- Calculate capacity factor ---
     optimal_capacity = (
         network
@@ -482,7 +588,8 @@ def transform_visualiser_hourly_output(
     )
 
     capacity_factor_generator['Value']  = capacity_factor_generator['Value'] / capacity_factor_generator['OptimalCapacity']
-    capacity_factor_storage['Value']  = abs(capacity_factor_storage['Value'] / capacity_factor_storage['OptimalCapacity'])
+    # Only consider positive values (discharge) for storage capacity factor
+    capacity_factor_storage['Value']  = capacity_factor_storage['Value'].clip(lower=0) / capacity_factor_storage['OptimalCapacity']
     capacity_factor_generator = capacity_factor_generator[['snapshot', 'Node', 'Tech', 'Value']]
     capacity_factor_storage = capacity_factor_storage[['snapshot', 'Node', 'Tech', 'Value']]
 
@@ -516,6 +623,9 @@ def transform_visualiser_hourly_output(
     # --- Assign Type column for standardization ---
     generation['Type'] = 'Generation'
     emissions['Type'] = 'Emissions'
+    curtailment['Type'] = 'Curtailment'
+    import_cost['Type'] = 'ImportCost'
+    export_revenue['Type'] = 'ExportRevenue'
     if storage is not None:
         storage['Type'] = 'Storage'
     if interconnector is not None:
@@ -534,7 +644,7 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, emissions, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    dataframes = [generation, emissions, curtailment, import_cost, export_revenue, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
