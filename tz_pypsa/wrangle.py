@@ -221,6 +221,173 @@ def interconnector_by_nodes(
         
     return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
+def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
+    '''Returns a summary of the costs for C&I generators, storage units and links
+    '''
+    ci_generator_costs = (
+        n.generators.loc[
+            n.generators.index.str.contains('C&I')
+        ]
+        [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
+        #.reset_index()
+    )
+
+    ci_generator_p_max_pu = (
+        n.generators_t.p_max_pu.transpose().loc[
+            n.generators_t.p_max_pu.transpose().index.str.contains('C&I')
+        ]
+        .transpose()
+        # [['p_max_pu']]
+        #.reset_index()
+    )
+
+    ci_generator_costs['dispatch'] = n.generators_t.p[ ci_generator_costs.index ].sum()
+    ci_generator_costs['potential_dispatch'] = (
+        ci_generator_costs.p_nom_opt[ ci_generator_costs.index ] 
+        * ci_generator_p_max_pu[ ci_generator_costs.index ] 
+        ).sum()
+    ci_generator_costs['curtailment'] = ci_generator_costs['potential_dispatch'] - ci_generator_costs['dispatch']
+    ci_generator_costs['curtailment_perc'] = ci_generator_costs['curtailment']/ci_generator_costs['potential_dispatch']
+
+    # storage
+    ci_storage_costs = (
+        n.storage_units.loc[
+            n.storage_units.index.str.contains('C&I')
+        ]
+        [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
+        #.reset_index()
+    )
+
+    # ci_storage_costs['dispatch'] = n.storage_units_t.p_dispatch[ ci_storage_costs.index ].sum()
+
+    # links
+    ci_links_costs = (
+        n.links.loc[
+            n.links.index.str.contains('C&I')
+        ]
+        [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
+        #.reset_index()
+    )
+
+    # zero link costs because they are virtual
+    ci_links_costs['capital_cost'] = 0
+    ci_links_costs['marginal_cost'] = 0
+
+    ci_links_costs['dispatch'] = n.links_t.p0[ ci_links_costs.index ].sum()
+
+    df = pd.concat([ci_generator_costs, ci_storage_costs, ci_links_costs]).round(3)
+
+    df.loc[:, 'capex'] = df['p_nom_opt'] * df['capital_cost']
+    df.loc[:, 'opex'] = df['dispatch'] * df['marginal_cost']
+
+    # calculate import costs
+    import_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
+    import_link_p = n.buses_t.marginal_price.filter(regex='^(?!.*C&I)').mean(axis=1)
+    import_cost = ( import_links_t * import_link_p ).sum() 
+
+    # append to df
+    df.loc[ df.index.str.contains('Import'), 'import_cost' ] = import_cost
+
+    # calculate export revenues
+    export_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Export').sum(axis=1)
+    export_link_p = n.buses_t.marginal_price.filter(regex='^(?!.*C&I)').mean(axis=1)
+    export_revenue = -( export_links_t * export_link_p ).sum().sum()
+
+    # append to df
+    df.loc[ df.index.str.contains('Export'), 'export_revenue' ] = export_revenue
+
+    # fillna
+    df.fillna(0, inplace=True)
+
+    return df
+
+def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
+    """Calculate unit costs for C&I components in the network.
+    
+    Args:
+        n: PyPSA Network object
+        cost_summary: DataFrame containing cost summary from get_ci_cost_summary()
+        
+    Returns:
+        DataFrame containing unit costs broken down by component and node
+    """
+
+    cost_summary = get_ci_cost_summary(n)
+    unit_cost_denominator = (
+        cost_summary[cost_summary.index.str.contains('Grid Imports|Grid Exports')]
+        .assign(ci_load = n.loads_t.p.filter(regex='C&I').sum().sum())
+        .loc[:, ['dispatch', 'ci_load']]
+        .reset_index()
+        .assign(
+            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip(),  # Gets "JPN08"
+        )
+        .rename(columns={'index': 'flow'})
+        .pivot_table(index=['Node', 'ci_load'], columns='flow', values='dispatch')
+        .reset_index()
+        .rename(columns=lambda x: 'grid_exports' if 'Grid Exports' in str(x) else x)
+        .rename(columns=lambda x: 'grid_imports' if 'Grid Imports' in str(x) else x)
+        .rename_axis(columns=None)
+        .assign(ppa_weighting=lambda df: (df['ci_load'] - df['grid_imports'])/df['ci_load'])
+        .assign(import_weighting=lambda df: df['grid_imports'] / df['ci_load'])
+    )
+
+    unit_cost = (
+        cost_summary[~cost_summary.index.str.contains('Charge|Discharge')]
+        .assign(carrier=lambda df: df['carrier'].where(~df.index.str.contains('Grid Exports'), 'Grid Exports'))
+        .assign(carrier=lambda df: df['carrier'].where(~df.index.str.contains('Grid Imports'), 'Grid Imports'))
+        .assign(total_costs=lambda df: df[['capex', 'opex', 'import_cost', 'export_revenue']].sum(axis=1))
+        .reset_index()
+        .assign(
+            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip(),  # Gets "JPN08"
+        )
+        .merge(unit_cost_denominator, left_on = ['Node'], right_on = ['Node'])
+        .assign(
+            import_unit_cost=lambda df: np.where(
+                df['carrier'] == 'Grid Imports',
+                df['import_weighting'] * (1/df['grid_imports']) * df['import_cost'],
+                0
+            ),
+            ppa_unit_cost=lambda df: np.where(
+                df['carrier'] != 'Grid Imports',
+                (1/(df['ci_load'] - df['grid_imports'] + df['grid_exports'])) * df['ppa_weighting'] * df['total_costs'],
+                0
+            ),
+            export_unit_cost=lambda df: np.where(
+                df['carrier'] == 'Grid Exports',
+                (1/(df['ci_load'] - df['grid_imports'] + df['grid_exports'])) * df['ppa_weighting'] * df['export_revenue'],
+                0
+            )
+        )
+        .fillna(0)
+        .assign(unit_cost_a=lambda df: df['ppa_unit_cost'] + df['import_unit_cost'] + df['export_unit_cost'])
+    )
+
+    generator_helper = unit_cost[~unit_cost['index'].str.contains('Imports|Exports')][['Node', 'capex', 'opex', 'dispatch', 'curtailment']].groupby('Node').sum()
+    link_helper = unit_cost_denominator[['ci_load', 'grid_imports', 'grid_exports', 'Node']]
+    im_ex_helper = unit_cost[unit_cost['index'].str.contains('Imports|Exports')][['Node', 'import_cost', 'export_revenue']].groupby('Node').sum()
+
+    merged_helper = generator_helper.merge(link_helper, on='Node', how='left').merge(im_ex_helper, on='Node', how='left')
+
+    merged_helper['Unit Cost (All Energy)'] = ( 
+        merged_helper['capex'] 
+        + merged_helper['opex'] 
+        + merged_helper['import_cost'] 
+        + merged_helper['export_revenue']
+        )/(
+        merged_helper['ci_load'] + 
+        merged_helper['grid_exports'] + 
+        merged_helper['curtailment']
+    )
+
+    merged_helper['Unit Cost (C&I Energy only)'] = (
+        merged_helper['capex'] 
+        + merged_helper['opex'] 
+        + merged_helper['import_cost'] 
+        + merged_helper['export_revenue']
+        )/merged_helper['ci_load']
+        
+    return merged_helper
+
 def transform_visualiser_hourly_output(
         network: pypsa.Network,
         pypsa_run_id: str = 'Unspecified',
