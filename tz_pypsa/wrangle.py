@@ -133,39 +133,6 @@ def export_to_excel(
         interconnector_hourly.to_excel(writer, sheet_name='Interconnector flow (hr)')
         interconnector_monthly.to_excel(writer, sheet_name='Interconnector flow (m)')
 
-
-# def prompt_market():
-#     """
-#     Prompts the user to enter a market/country/region for this Pypsa run.
-#     Returns:
-#         str: The user-entered market/country/region.
-#     """
-#     prompt_message = (
-#         "Please enter the market/country/region for this Pypsa run.\n"
-#         "Examples: 'ASEAN, Japan, Taiwan, Indonesia, etc'\n"
-#     )
-
-#     print(prompt_message, end='')
-#     market = input(prompt_message)
-#     print(f"You entered: {market}")
-#     return market
-
-# def prompt_pypsa_run_identifier():
-#     """
-#     Prompts the user to enter a run identifier.
-#     Returns:
-#         str: The user-entered run number or any relevant comments.
-#     """
-#     prompt_message = (
-#         "Please enter the run identifier.\n"
-#         "Examples: '1, first-run, run-with-policy-constraint, etc'\n"
-#     )
-
-#     print(prompt_message, end='')
-#     run_identifier = input()
-#     print(f"You entered: {run_identifier}")
-#     return run_identifier
-
 def add_hour_of_year_column(
         df, 
         datetime_col, 
@@ -229,7 +196,6 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
             n.generators.index.str.contains('C&I')
         ]
         [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
-        #.reset_index()
     )
 
     ci_generator_p_max_pu = (
@@ -237,8 +203,6 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
             n.generators_t.p_max_pu.transpose().index.str.contains('C&I')
         ]
         .transpose()
-        # [['p_max_pu']]
-        #.reset_index()
     )
 
     ci_generator_costs['dispatch'] = n.generators_t.p[ ci_generator_costs.index ].sum()
@@ -255,10 +219,7 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
             n.storage_units.index.str.contains('C&I')
         ]
         [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
-        #.reset_index()
     )
-
-    # ci_storage_costs['dispatch'] = n.storage_units_t.p_dispatch[ ci_storage_costs.index ].sum()
 
     # links
     ci_links_costs = (
@@ -266,7 +227,6 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
             n.links.index.str.contains('C&I')
         ]
         [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
-        #.reset_index()
     )
 
     # zero link costs because they are virtual
@@ -280,9 +240,12 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
     df.loc[:, 'capex'] = df['p_nom_opt'] * df['capital_cost']
     df.loc[:, 'opex'] = df['dispatch'] * df['marginal_cost']
 
+    # marginal price of the brownfield bus
+    ci_brown_bus = n.buses[n.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
+
     # calculate import costs
     import_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
-    import_link_p = n.buses_t.marginal_price.filter(regex='^(?!.*C&I)').mean(axis=1)
+    import_link_p = n.buses_t.marginal_price[ci_brown_bus]
     import_cost = ( import_links_t * import_link_p ).sum() 
 
     # append to df
@@ -290,7 +253,7 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
 
     # calculate export revenues
     export_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Export').sum(axis=1)
-    export_link_p = n.buses_t.marginal_price.filter(regex='^(?!.*C&I)').mean(axis=1)
+    export_link_p = n.buses_t.marginal_price[ci_brown_bus]
     export_revenue = -( export_links_t * export_link_p ).sum().sum()
 
     # append to df
@@ -319,7 +282,7 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         .loc[:, ['dispatch', 'ci_load']]
         .reset_index()
         .assign(
-            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip(),  # Gets "JPN08"
+            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip() + ' C&I', 
         )
         .rename(columns={'index': 'flow'})
         .pivot_table(index=['Node', 'ci_load'], columns='flow', values='dispatch')
@@ -338,7 +301,7 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         .assign(total_costs=lambda df: df[['capex', 'opex', 'import_cost', 'export_revenue']].sum(axis=1))
         .reset_index()
         .assign(
-            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip(),  # Gets "JPN08"
+            Node=lambda df: df['index'].str.split('C&I').str[0].str.strip() + ' C&I',  # Gets "JPN08 C&I"
         )
         .merge(unit_cost_denominator, left_on = ['Node'], right_on = ['Node'])
         .assign(
@@ -362,9 +325,18 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         .assign(unit_cost_a=lambda df: df['ppa_unit_cost'] + df['import_unit_cost'] + df['export_unit_cost'])
     )
 
-    generator_helper = unit_cost[~unit_cost['index'].str.contains('Imports|Exports')][['Node', 'capex', 'opex', 'dispatch', 'curtailment']].groupby('Node').sum()
+    generator_helper = (
+        unit_cost[~unit_cost['index'].str.contains('Imports|Exports')]
+        [['Node', 'capex', 'opex', 'dispatch', 'curtailment']]
+        .groupby('Node').sum()
+    )
+
     link_helper = unit_cost_denominator[['ci_load', 'grid_imports', 'grid_exports', 'Node']]
-    im_ex_helper = unit_cost[unit_cost['index'].str.contains('Imports|Exports')][['Node', 'import_cost', 'export_revenue']].groupby('Node').sum()
+
+    im_ex_helper = (unit_cost[unit_cost['index'].str.contains('Imports|Exports')]
+                    [['Node', 'import_cost', 'export_revenue']]
+                    .groupby('Node').sum()
+                    )
 
     merged_helper = generator_helper.merge(link_helper, on='Node', how='left').merge(im_ex_helper, on='Node', how='left')
 
@@ -386,7 +358,7 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         + merged_helper['export_revenue']
         )/merged_helper['ci_load']
         
-    return merged_helper
+    return unit_cost, merged_helper
 
 def transform_visualiser_hourly_output(
         network: pypsa.Network,
@@ -414,6 +386,9 @@ def transform_visualiser_hourly_output(
     pd.DataFrame
         The merged long format DataFrame with standardized columns.
     """
+    # Get brownfield bus name
+    ci_bus = network.buses[network.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
+
     generator_lookup = (network
                         .generators
                         .reset_index()[['Generator', 'bus', 'type']]
@@ -473,8 +448,7 @@ def transform_visualiser_hourly_output(
         network
         .buses_t
         .marginal_price
-        .filter(regex='^(?!.*C&I)')
-        .mean(axis=1)
+        [ci_bus]
                   )
 
     # Import/Export volumes and costs
@@ -992,7 +966,16 @@ def transform_visualiser_yearly_output(
     
     newbuild_contraints_ratio['Metric'] = 'Newbuild Constraints Ratio'
 
-    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio], ignore_index=True)
+    unit_cost_breakdown, unit_cost_agg = get_ci_unit_cost(network)
+
+    unit_cost_agg = pd.melt(
+        unit_cost_agg,
+        id_vars=['Node'],
+        var_name='Metric',
+        value_name='Value'
+    ).rename(columns={'Node': 'Bus'})
+    
+    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio, unit_cost_agg], ignore_index=True)
 
     df['BusType'] = np.where(
     df['Bus'].str.contains('C&I', na=False),
@@ -1098,48 +1081,6 @@ def process_solved_networks_directory(
             print(f"No valid data processed for {dir_name}")
     
     return hourly_results, yearly_results
-
-def save_processed_results(
-        results: tuple[dict, dict],
-        output_base_path: str,
-        file_format: str = 'parquet'
-    ) -> None:
-    """
-    Save the processed hourly and yearly results to files.
-
-    Parameters
-    ----------
-    results : tuple[dict, dict]
-        Tuple containing two dictionaries with the hourly and yearly DataFrames
-    output_base_path : str
-        Base path where to save the output files
-    file_format : str, optional
-        Format to save the files in ('parquet' or 'csv'), defaults to 'parquet'
-    """
-    os.makedirs(output_base_path, exist_ok=True)
-    hourly_results, yearly_results = results
-    
-    # Save hourly results
-    hourly_path = os.path.join(output_base_path, "hourly")
-    os.makedirs(hourly_path, exist_ok=True)
-    for name, df in hourly_results.items():
-        output_path = os.path.join(hourly_path, name)
-        if file_format.lower() == 'parquet':
-            df.to_parquet(f"{output_path}.parquet")
-        else:
-            df.to_csv(f"{output_path}.csv", index=False)
-        print(f"Saved hourly data for {name} to {output_path}.{file_format}")
-    
-    # Save yearly results
-    yearly_path = os.path.join(output_base_path, "yearly")
-    os.makedirs(yearly_path, exist_ok=True)
-    for name, df in yearly_results.items():
-        output_path = os.path.join(yearly_path, name)
-        if file_format.lower() == 'parquet':
-            df.to_parquet(f"{output_path}.parquet")
-        else:
-            df.to_csv(f"{output_path}.csv", index=False)
-        print(f"Saved yearly data for {name} to {output_path}.{file_format}")
 
 def process_and_save_networks_by_directory(
         base_path: str,
