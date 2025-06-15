@@ -1,4 +1,4 @@
-name,bus,type,technology,p_nom,p_nom_mod,p_nom_extendable,p_nom_min,p_nom_max,p_min_pu,p_max_pu,carrier,marginal_cost,buildyear,lifetime,total_capital_cost,efficiency,committable,ramp_limit_up,ramp_limit_down,generation_blend_share,min_utilisation_rate,max_utilisation_rate,annual_fixed_costs,is_blend_or_ccs
+name,bus,type,technology,p_nom,p_nom_mod,p_nom_extendable,p_nom_min,p_nom_max,p_min_pu,p_max_pu,carrier,marginal_cost,build_year,lifetime,total_capital_cost,efficiency,committable,ramp_limit_up,ramp_limit_down,generation_blend_share,min_utilisation_rate,max_utilisation_rate,annual_fixed_costs,is_blend_or_ccs
 TWN-Coal-2024active_exo,TWN,coal-unspecified,coal-unspecified,9720,0,FALSE,0,,0.45,1,Coal,63.75826194,2024,40,0,0.416313042,FALSE,0.7,0.85,0,,0.674633283,0,0
 TWN-Coal-2030_exo,TWN,coal-unspecified,coal-unspecified,0,0,FALSE,0,,0.45,1,Coal,63.75826194,2030,40,0,0.416313042,FALSE,0.7,0.85,0,,0.674633283,0,0
 TWN-LNG-2024active_exo,TWN,gas-unspecified,gas-unspecified,20696,0,FALSE,0,,0,1,LNG,69.68858672,2024,40,0,0.519627181,FALSE,0.7,0.85,0,,0.905864799,76835.98741,0
