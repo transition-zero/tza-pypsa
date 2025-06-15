@@ -10,9 +10,9 @@ TWN-Nuclear-2024active_exo,TWN,nuclear-unspecified,nuclear-unspecified,0,0,FALSE
 TWN-Nuclear-2030_exo,TWN,nuclear-unspecified,nuclear-unspecified,0,0,FALSE,0,,0,1,Nuclear,11.98344,2030,40,0,0.351,FALSE,0.3,0.3,0,,,0,0
 TWN-Hydro-2024active_exo,TWN,hydro-unspecified,hydro-unspecified,2122.4,0,FALSE,0,,0,1,Hydro,0,2024,40,0,1,FALSE,1,1,0,,,75479.78067,0
 TWN-Hydro-2030_exo,TWN,hydro-unspecified,hydro-unspecified,17,0,FALSE,0,,0,1,Hydro,0,2030,40,5614696.679,1,FALSE,1,1,0,,,75479.78067,0
-TWN-Biomass-2024active_exo,TWN,biomass-unspecified,biomass-unspecified,61,0,FALSE,0,,0,1,Biomass,225.2233767,2024,40,0,0.17362446,FALSE,1,1,0,,0.357059,621222.5061,0
-TWN-Biomass-2030_endo,TWN,biomass-unspecified,biomass-unspecified,0,0,TRUE,0,219.274,0,1,Biomass,156.4171491,2030,40,3364695.62,0.25,FALSE,1,1,0,,0.357059,621222.5061,0
-TWN-Biomass-2030_exo,TWN,biomass-unspecified,biomass-unspecified,438.548,0,FALSE,0,,0,1,Biomass,156.4171491,2030,40,3364695.62,0.25,FALSE,1,1,0,,0.357059,621222.5061,0
+TWN-Biomass-2024active_exo,TWN,biomass-unspecified,biomass-unspecified,61,0,FALSE,0,,0,1,Biomass,225.2233767,2024,40,0,0.17362446,FALSE,1,1,0,0.357059,,621222.5061,0
+TWN-Biomass-2030_endo,TWN,biomass-unspecified,biomass-unspecified,0,0,TRUE,0,219.274,0,1,Biomass,156.4171491,2030,40,3364695.62,0.25,FALSE,1,1,0,0.357059,,621222.5061,0
+TWN-Biomass-2030_exo,TWN,biomass-unspecified,biomass-unspecified,438.548,0,FALSE,0,,0,1,Biomass,156.4171491,2030,40,3364695.62,0.25,FALSE,1,1,0,0.357059,,621222.5061,0
 TWN-Geothermal-2024active_exo,TWN,geothermal-unspecified,geothermal-unspecified,7.2,0,FALSE,0,,0,1,Geothermal,0,2024,40,0,1,FALSE,1,1,0,,0.315346,324973.5186,0
 TWN-Geothermal-2030_endo,TWN,geothermal-unspecified,geothermal-unspecified,0,0,TRUE,0,298.25,0,1,Geothermal,0,2030,40,9587824.787,1,FALSE,1,1,0,,0.315346,324973.5186,0
 TWN-Geothermal-2030_exo,TWN,geothermal-unspecified,geothermal-unspecified,596.5,0,FALSE,0,,0,1,Geothermal,0,2030,40,9587824.787,1,FALSE,1,1,0,,0.315346,324973.5186,0
