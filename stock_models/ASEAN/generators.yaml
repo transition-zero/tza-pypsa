@@ -62,9 +62,9 @@ generators:
       BRNXX: 0
       KHMXX: 0 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       LAOXX: 1200 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSPE: 1400 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSSK: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSSH: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
+      MYSPE: 2200 # New number from MyRER; previous number: 1400 
+      MYSSK: 600 # New number from MyRER; previous number: 9667 
+      MYSSH: 800 # New number from MyRER; previous number: 9667 
       MMRXX: 1000 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       PHLLU: 145 # Based on current installed capacity
       PHLVI: 310 # Based on current installed capacity
@@ -257,7 +257,7 @@ generators:
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -447,7 +447,7 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # unit commitment
     committable: false
@@ -634,7 +634,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -817,7 +817,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -975,7 +975,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -1157,7 +1157,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -1304,7 +1304,7 @@ generators:
     lifetime: 40 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -1352,8 +1352,8 @@ generators:
       KHMXX: 0
       LAOXX: 0
       MMRXX: 0
-      MYSPE: 0
-      MYSSH: 0
+      MYSPE: 162 # New number from MyRER; previous number: 0
+      MYSSH: 67 # New number from MyRER; previous number: 0
       MYSSK: 0
       PHLLU: 3790
       PHLMI: 5280
@@ -1366,30 +1366,30 @@ generators:
       VNMNO: 0
       VNMSO: 0
     efficiency:
-      IDNSM: 0.1
-      IDNJW: 0.1
-      IDNNU: 0.1
-      IDNKA: 0.1
-      IDNSL: 0.1
-      IDNML: 0.1
-      IDNPP: 0.1
-      MYSPE: 0.1
-      MYSSK: 0.1
-      MYSSH: 0.1
-      PHLLU: 0.1
-      PHLVI: 0.1
-      PHLMI: 0.1
-      SGPXX: 0.1
-      BRNXX: 0.1
-      MMRXX: 0.1
-      THANO: 0.1
-      THASO: 0.1
-      THACE: 0.1
-      VNMNO: 0.1
-      VNMCE: 0.1
-      VNMSO: 0.1
-      KHMXX: 0.1
-      LAOXX: 0.1
+      IDNSM: 0.13
+      IDNJW: 0.13
+      IDNNU: 0.13
+      IDNKA: 0.13
+      IDNSL: 0.13
+      IDNML: 0.13
+      IDNPP: 0.13
+      MYSPE: 0.13
+      MYSSK: 0.13
+      MYSSH: 0.13
+      PHLLU: 0.13
+      PHLVI: 0.13
+      PHLMI: 0.13
+      SGPXX: 0.13
+      BRNXX: 0.13
+      MMRXX: 0.13
+      THANO: 0.13
+      THASO: 0.13
+      THACE: 0.13
+      VNMNO: 0.13
+      VNMCE: 0.13
+      VNMSO: 0.13
+      KHMXX: 0.13
+      LAOXX: 0.13
     ramp_limit_up:
       IDNSM: 1.
       IDNJW: 1.
@@ -1473,7 +1473,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # ---
     # unit commitment
@@ -1502,9 +1502,9 @@ generators:
       VNMNO: 11810
       VNMCE: 9829
       VNMSO: 1556
-      MYSPE: 2536.1
-      MYSSH: 75
-      MYSSK: 3462.5
+      MYSPE: 4320 # New number from MyRER is 4800 MW, 10% is for PHES (480 MW) and 90% for hydropower (4320 MW); previous number: 2536.1
+      MYSSH: 1100 # New number from MyRER; previous number: 75
+      MYSSK: 8160 # New number from MyRER is 10200 MW, 20% is for PHES (2040 MW) and 80% for hydropower (8160 MW); previous number: 3462.5
       PHLLU: 2486
       PHLVI: 49.8
       PHLMI: 1083
@@ -1691,7 +1691,7 @@ generators:
     lifetime: 80 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # unit commitment
     committable: false # CFE calibration: true
@@ -1870,7 +1870,7 @@ generators:
     capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 0.85
     # unit commitment
     committable: false
@@ -1898,9 +1898,9 @@ generators:
       VNMNO: 0
       VNMCE: 5722.4
       VNMSO: 3350.6
-      MYSPE: 1445.42
-      MYSSH: 50
-      MYSSK: 0
+      MYSPE: 137500 # New number from MyRER; previous number: 1445.42
+      MYSSH: 99400 # New number from MyRER; previous number: 50
+      MYSSK: 32100 # New number from MyRER; previous number: 0
       PHLLU: 937.2
       PHLVI: 373.1
       PHLMI: 78
@@ -1912,6 +1912,7 @@ generators:
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
+      BATAM-SOLAR: 0
     planned_expansion:    
       IDNSM:
         2024: 33.6
@@ -1938,6 +1939,8 @@ generators:
         2025: 34.4
       LAOXX:
         2025: 64
+      BTMSOLAR:
+        2030: 4000
     maximum_capacity:
       IDNSM: 166398
       IDNNU: 116257
@@ -1963,6 +1966,7 @@ generators:
       BRNXX: 4800 # From Accenture study: floating (2323 MW) + utility (1500 MW) + rooftop (1000 MW)
       MMRXX: 722690
       LAOXX: 84603
+      BTMSOLAR: 4000 # planned expansion, not the potential
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -2071,7 +2075,7 @@ generators:
     lifetime: 20 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # unit commitment
     committable: false
@@ -2221,7 +2225,7 @@ generators:
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment
@@ -2400,7 +2404,7 @@ generators:
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment
@@ -2588,7 +2592,7 @@ generators:
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment
@@ -2618,6 +2622,10 @@ generators:
         2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
       MYSPE:
         2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   SGPXX: 840
+    #   MYSSK: 350
+    #   MYSPE: 980
     efficiency:
       SGPXX: 0.6
       MYSSK: 0.6
@@ -2643,7 +2651,7 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.7
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment
@@ -2674,6 +2682,10 @@ generators:
         2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
       MYSPE:
         2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   SGPXX: 360
+    #   MYSSK: 150
+    #   MYSPE: 420
     efficiency:
       SGPXX: 0.6
       MYSSK: 0.6
@@ -2699,7 +2711,7 @@ generators:
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.3
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment
@@ -2718,8 +2730,12 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
+      MYSPE: 0
+    planned_expansion:
       MYSPE:
         2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 1785
     efficiency:
       MYSPE: 0.38
     ramp_limit_up:
@@ -2736,7 +2752,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.85
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # unit commitment - using coal-subcritical values
     committable: false # calibration: true
@@ -2754,8 +2770,12 @@ generators:
     # ---
     # unique technology parameters by bus
     initial_capacity:
+      MYSPE: 0
+    planned_expansion:
       MYSPE:
         2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 315
     efficiency:
       MYSPE: 0.38
     ramp_limit_up:
@@ -2772,7 +2792,7 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.15
-    min_utilisation_rate: 0.000001
+    min_utilisation_rate: 0.
     max_utilisation_rate: 1.
     # ---
     # unit commitment - using biomass values
@@ -2784,3 +2804,71 @@ generators:
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
+  # - id: backstop
+  #   type: backstop
+  #   carrier: backstop
+  #   # ---
+  #   # unique technology parameters by bus
+  #   initial_capacity:
+  #     SGPXX: 1000000000
+  #     MYSPE: 1000000000
+  #     MYSSK: 1000000000
+  #     MYSSH: 1000000000
+  #     IDNKA: 1000000000
+  #     THASO: 1000000000
+  #     THACE: 1000000000
+  #     THANO: 1000000000
+  #   efficiency:
+  #     SGPXX: 1
+  #     MYSPE: 1
+  #     MYSSK: 1
+  #     MYSSH: 1
+  #     IDNKA: 1
+  #     THASO: 1
+  #     THACE: 1
+  #     THANO: 1
+  #   p_min_pu:
+  #     SGPXX: 0
+  #     MYSPE: 0
+  #     MYSSK: 0
+  #     MYSSH: 0
+  #     IDNKA: 0
+  #     THASO: 0
+  #     THACE: 0
+  #     THANO: 0
+  #   ramp_limit_up:
+  #     SGPXX: 1
+  #     MYSPE: 1
+  #     MYSSK: 1
+  #     MYSSH: 1
+  #     IDNKA: 1
+  #     THASO: 1
+  #     THACE: 1
+  #     THANO: 1
+  #   ramp_limit_down:
+  #     SGPXX: 1
+  #     MYSPE: 1
+  #     MYSSK: 1
+  #     MYSSH: 1
+  #     IDNKA: 1
+  #     THASO: 1
+  #     THACE: 1
+  #     THANO: 1
+  #   # ---
+  #   # universal technology parameters
+  #   extendable: true
+  #   capital_cost: 1e9 # currency/MW
+  #   marginal_cost: 1e9 # currency/MWh
+  #   lifetime: 100 # years
+  #   is_blend_or_ccs: false
+  #   generation_blend_share: 0.
+  #   min_utilisation_rate: 0.
+  #   max_utilisation_rate: 1.
+  #   # unit commitment
+  #   committable: false
+  #   start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   shut_down_cost: 0 # currency/MW
+  #   ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+  #   min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
