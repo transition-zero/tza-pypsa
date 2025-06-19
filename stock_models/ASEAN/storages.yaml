@@ -50,14 +50,16 @@ storages:
       # VNMSO: 0.
       # KHMXX: 0.
       # LAOXX: 0.
+      BTMSOLAR: 0.
     planned_expansion:
       SGPXX: 
         2024: 7.5      
 
+
   - id: hydro-pumped-storage
     type: hydro-pumped-storage
     carrier: hydro # should be: hydro-storage but we follow THA for now
-    extendable: false
+    extendable: true
     lifetime: 60
     state_of_charge_initial: 0
     max_hours: 10
@@ -69,20 +71,53 @@ storages:
       PHLLU: 736
       THANO: 1171
       THACE: 360
+      MYSPE: 0
+      MYSSK: 0
     planned_expansion:
       VNMCE: 
         2028: 1200
       PHLLU:
         2030: 500
-    maximum_capacity: # Chose only the green dots from here: https://www.google.com/maps/d/viewer?mid=1O9aK_dTL3mDOgLgY2G0BSgmlHqRNSlHA&ll=-5.940230107153618%2C118.98343250532182&z=5
-      # IDNSM: 1000
-      # IDNKA: 1000
-      # IDNPP: 2000
-      PHLLU: 2000
-      VNMCE: 2000
-      # VNMMO: 17000
-      # LAOXX: 12000
-      # MMRXX: 52000
-      THANO: 2000
-      THACE: 1000
+    maximum_capacity: 
+      PHLLU: 1236 # similar as planned and installed capacity in 2023
+      VNMCE: 1200 # similar as planned capacity
+      THANO: 1171 # similar as installed capacity in 2023
+      THACE: 360 # similar as installed capacity in 2023
+      MYSPE: 480 # 10% of MYSPE's hydro potential capacity
+      MYSSK: 2040 # 20% of MYSPE's hydro potential capacity
 
+
+  # - id: liquid-air
+  #   type: liquid-air
+  #   carrier: long-duration-storage
+  #   extendable: true
+  #   lifetime: 30
+  #   state_of_charge_initial: 0
+  #   max_hours: 168
+  #   efficiency_store: 1.00
+  #   efficiency_dispatch: 0.575
+  #   standing_loss: 0.008 
+  #   cyclic_state_of_charge: true
+  #   initial_capacity:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     MYSSH: 0.
+  #     SGPXX: 0. 
+
+
+  - id: redox-flow
+    type: redox-flow
+    carrier: long-duration-storage
+    extendable: true
+    lifetime: 12
+    state_of_charge_initial: 0
+    max_hours: 10
+    efficiency_store: 1.00
+    efficiency_dispatch: 0.65
+    standing_loss: 0.004
+    cyclic_state_of_charge: true
+    initial_capacity:
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      SGPXX: 0.
