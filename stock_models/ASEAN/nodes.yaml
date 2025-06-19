@@ -1013,3 +1013,8 @@ nodes:
       2054: 9999999999
       2055: 9999999999
   
+  - id: BTMSOLAR
+    long_name: Batam Solar for Singapore
+    coords: [1.084409, 104.025551]
+    load_rate_of_change: 0.03
+    min_self_sufficiency: 1.0
