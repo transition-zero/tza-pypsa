@@ -431,16 +431,22 @@ def transform_visualiser_hourly_output(
         .reset_index()
     )
 
-    # Hourly curtailment
-    curtailment = (
+    # Hourly potential dispatch
+    potential_dispatch = (
         (
             network.generators_t.p_max_pu 
             * network.generators.p_nom_opt
-            - network.generators_t.p
         )
         .dropna(axis=1, thresh=5)
         .reset_index()
     )
+
+    # Hourly curtailment
+    curtailment = potential_dispatch - network.generators_t.p
+
+    # Hourly curtailment percentage
+    curtailment_percent = curtailment / potential_dispatch
+
 
     # Hourly C&I import/export
     # Get average grid price
@@ -531,6 +537,13 @@ def transform_visualiser_hourly_output(
         value_name='Value'
     )
 
+    potential_dispatch = pd.melt(
+        potential_dispatch,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+
     curtailment = pd.melt(
         curtailment,
         id_vars='snapshot',
@@ -538,6 +551,13 @@ def transform_visualiser_hourly_output(
         value_name='Value'
     )
     
+    curtailment_percent = pd.melt(
+        curtailment_percent,
+        id_vars='snapshot',
+        var_name='Generator', 
+        value_name='Value'
+    )
+
     emissions = pd.melt(
         emissions,
         id_vars='snapshot',
@@ -616,8 +636,24 @@ def transform_visualiser_hourly_output(
         .drop(columns='Generator')
     )
 
+    potential_dispatch = (pd.merge(
+        potential_dispatch,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
+    )
+
     curtailment = (pd.merge(
         curtailment,
+        generator_lookup,
+        on='Generator',
+        how='left')
+        .drop(columns='Generator')
+    )
+
+    curtailment_percent = (pd.merge(
+        curtailment_percent,
         generator_lookup,
         on='Generator',
         how='left')
@@ -765,6 +801,8 @@ def transform_visualiser_hourly_output(
     generation['Type'] = 'Generation'
     emissions['Type'] = 'Emissions'
     curtailment['Type'] = 'Curtailment'
+    curtailment_percent['Type'] = 'CurtailmentPercent'
+    potential_dispatch['Type'] = 'PotentialDispatch'
     import_cost['Type'] = 'ImportCost'
     export_revenue['Type'] = 'ExportRevenue'
     if storage is not None:
@@ -785,7 +823,7 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, emissions, curtailment, import_cost, export_revenue, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    dataframes = [generation, emissions, curtailment, curtailment_percent, potential_dispatch, import_cost, export_revenue, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
