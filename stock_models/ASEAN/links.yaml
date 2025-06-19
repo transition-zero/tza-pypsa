@@ -516,3 +516,19 @@ links:
       2035: 1000
     min_utilisation_rate: 0.
     max_utilisation_rate: 1.
+
+  - id: BTMSOLAR-SGPXX # from EMA doc https://www.ema.gov.sg/content/dam/corporate/partnerships/proposals/second-rfp2-to-appoint-licensed-electricity-imports/RFP2-Document-1-Aug-2023.pdf.coredownload.pdf
+    from_node: BTMSOLAR
+    to_node: SGPXX
+    extendable: false
+    carrier: interconnector-BTMSOLAR-SGP
+    type: subsea
+    lifetime: 99
+    efficiency: 0.97
+    bidirectional: true
+    initial_capacity: 0
+    reverse_capacity: 0
+    planned_expansion:
+      2030: 1000
+    min_utilisation_rate: 0.75 
+    max_utilisation_rate: 1.
