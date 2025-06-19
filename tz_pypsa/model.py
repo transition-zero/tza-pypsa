@@ -418,6 +418,7 @@ class Model:
                 )
         
         
+
         # --- choose years to load in --- #
         if isinstance(years, list):
             network.snapshots = network.snapshots[network.snapshots.year.isin(years)]
