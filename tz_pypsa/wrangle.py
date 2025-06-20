@@ -398,9 +398,9 @@ def transform_visualiser_hourly_output(
     
     storage_lookup = (network
                       .storage_units
-                      .reset_index()[['StorageUnit', 'bus', 'type']]
+                      .reset_index()[['StorageUnit', 'bus', 'carrier']]
                       .rename(
-                          columns={'bus': 'Node', 'type': 'Tech'})
+                          columns={'bus': 'Node', 'carrier': 'Tech'})
                      )
     
     interconnector_lookup = (network
@@ -431,14 +431,11 @@ def transform_visualiser_hourly_output(
         .reset_index()
     )
 
-    # Hourly potential dispatch
     potential_dispatch = (
         (
             network.generators_t.p_max_pu 
             * network.generators.p_nom_opt
         )
-        .dropna(axis=1, thresh=5)
-        .reset_index()
     )
 
     # Hourly curtailment
@@ -447,6 +444,9 @@ def transform_visualiser_hourly_output(
     # Hourly curtailment percentage
     curtailment_percent = curtailment / potential_dispatch
 
+    potential_dispatch = potential_dispatch.dropna(axis=1, thresh=5).reset_index().fillna(0)
+    curtailment = curtailment.dropna(axis=1, thresh=5).reset_index().fillna(0)
+    curtailment_percent = curtailment_percent.dropna(axis=1, thresh=5).reset_index().fillna(0)
 
     # Hourly C&I import/export
     # Get average grid price
