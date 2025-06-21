@@ -322,43 +322,11 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
             )
         )
         .fillna(0)
-        .assign(unit_cost_a=lambda df: df['ppa_unit_cost'] + df['import_unit_cost'] + df['export_unit_cost'])
+        .assign(unit_cost_all_energy=lambda df: (df['capex'] + df['opex'] + df['import_cost'] + df['export_revenue'])/(df['ci_load'] + df['grid_exports'] + df['curtailment']))
+        .assign(unit_cost_ci_energy=lambda df: (df['capex'] + df['opex'] + df['import_cost'] + df['export_revenue'])/df['ci_load'])
     )
-
-    generator_helper = (
-        unit_cost[~unit_cost['index'].str.contains('Imports|Exports')]
-        [['Node', 'capex', 'opex', 'dispatch', 'curtailment']]
-        .groupby('Node').sum()
-    )
-
-    link_helper = unit_cost_denominator[['ci_load', 'grid_imports', 'grid_exports', 'Node']]
-
-    im_ex_helper = (unit_cost[unit_cost['index'].str.contains('Imports|Exports')]
-                    [['Node', 'import_cost', 'export_revenue']]
-                    .groupby('Node').sum()
-                    )
-
-    merged_helper = generator_helper.merge(link_helper, on='Node', how='left').merge(im_ex_helper, on='Node', how='left')
-
-    merged_helper['Unit Cost (All Energy)'] = ( 
-        merged_helper['capex'] 
-        + merged_helper['opex'] 
-        + merged_helper['import_cost'] 
-        + merged_helper['export_revenue']
-        )/(
-        merged_helper['ci_load'] + 
-        merged_helper['grid_exports'] + 
-        merged_helper['curtailment']
-    )
-
-    merged_helper['Unit Cost (C&I Energy only)'] = (
-        merged_helper['capex'] 
-        + merged_helper['opex'] 
-        + merged_helper['import_cost'] 
-        + merged_helper['export_revenue']
-        )/merged_helper['ci_load']
         
-    return unit_cost, merged_helper
+    return unit_cost[['Node', 'carrier', 'capex', 'opex', 'import_cost', 'export_revenue', 'ppa_unit_cost', 'import_unit_cost', 'export_unit_cost', 'unit_cost_all_energy', 'unit_cost_ci_energy']]
 
 def transform_visualiser_hourly_output(
         network: pypsa.Network,
@@ -1004,16 +972,16 @@ def transform_visualiser_yearly_output(
     
     newbuild_contraints_ratio['Metric'] = 'Newbuild Constraints Ratio'
 
-    unit_cost_breakdown, unit_cost_agg = get_ci_unit_cost(network)
+    cost_breakdown = get_ci_unit_cost(network)
 
-    unit_cost_agg = pd.melt(
-        unit_cost_agg,
-        id_vars=['Node'],
+    cost_breakdown = pd.melt(
+        cost_breakdown,
+        id_vars=['Node', 'carrier'],
         var_name='Metric',
         value_name='Value'
-    ).rename(columns={'Node': 'Bus'})
+    ).rename(columns={'Node': 'Bus', 'carrier': 'Tech'})
     
-    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio, unit_cost_agg], ignore_index=True)
+    df = pd.concat([df, expanded_capacity, p_nom_max, newbuild_contraints_ratio, cost_breakdown], ignore_index=True)
 
     df['BusType'] = np.where(
     df['Bus'].str.contains('C&I', na=False),
