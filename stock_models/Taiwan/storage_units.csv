@@ -5,3 +5,4 @@ TWN-PumpedHydro-2030_exo,TWN,PumpedHydro,0,FALSE,0,,-1,PumpedHydro,8,2030,50,0.8
 TWN-Batteries-2024active_exo,TWN,Batteries,432,FALSE,0,,-1,Batteries,2,2024,15,0.95,0.95,32504,1791537
 TWN-Batteries-2030_endo,TWN,Batteries,0,TRUE,0,595.77,-1,Batteries,6,2030,15,0.95,0.95,32504,1791537
 TWN-Batteries-2030_exo,TWN,Batteries,1553.9,FALSE,0,,-1,Batteries,6,2030,15,0.95,0.95,32504,1791537
+TWN-LAES-2030_endo,TWN,LAES,0,TRUE,0,,-1,LAES,168,2030,40,0.85,0.85,108858,6000000
