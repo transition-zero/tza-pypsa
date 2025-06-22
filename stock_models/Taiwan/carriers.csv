@@ -16,6 +16,7 @@ OffshoreWind,#66dad0,0,Offshore wind,inf,0
 OnshoreWind,#99e6df,0,Onshore wind,inf,0
 PumpedHydro,#a5d1f9,0,Pumped hydro,inf,0
 Batteries,#c3e0fb,0,Battery storage,inf,0
+LAES,#69b2f5,0,LAES,inf,0
 Transmission,#ba63da,0,Transmission,inf,0
 GasCCSSequestered,#d9d9d9,0,Gas CCS: Sequestered component,inf,0
 BlueNH3_coal,#322f34,0.36,Coal & blue NH3: Coal,inf,0
