@@ -1009,6 +1009,49 @@ def transform_visualiser_yearly_output(
 
     return df
 
+def compute_relative_costs(
+        yearly_df: pd.DataFrame, 
+        market: str, 
+        pypsa_run_id: str,
+    ) -> pd.DataFrame:
+    """
+    Compute relative CAPEX and OPEX values for each scenario and technology,
+    using 'brownfield_2030' as baseline. Returns a DataFrame with columns:
+    [Metric, Scenario, Tech, Value, Market, Pypsa_Run_Id], where Metric is
+    renamed to RelativeSystemCapex/Opex.
+    """
+    # Filter and group
+    sys_cost = (
+        yearly_df[
+            yearly_df['Metric'].isin(['Capital Expenditure', 'Operational Expenditure'])
+        ]
+        .groupby(['Metric', 'Scenario', 'Tech'])
+        .sum()[['Value']]
+    )
+
+    # Extract baseline series for 'brownfield_2030'
+    baseline = sys_cost.xs('brownfield_2030', level='Scenario')['Value']
+
+    # Map baseline to each row and adjust
+    metrics = sys_cost.index.get_level_values('Metric')
+    techs   = sys_cost.index.get_level_values('Tech')
+    adjusted = [baseline.loc[(m, t)] for m, t in zip(metrics, techs)]
+    sys_cost['Value'] = sys_cost['Value'] - adjusted
+
+    # Reset index, rename, and add metadata columns
+    sys_cost = sys_cost.reset_index()
+    sys_cost['Metric'] = sys_cost['Metric'].map({
+        'Capital Expenditure': 'RelativeSystemCapex',
+        'Operational Expenditure': 'RelativeSystemOpex'
+    })
+    sys_cost['Market'] = market
+    sys_cost['Pypsa_Run_Id'] = pypsa_run_id
+
+    yearly_df = pd.concat([yearly_df, sys_cost], ignore_index=True)
+
+    return yearly_df
+
+
 def process_solved_networks_directory(
         base_path: str,
         pattern: str = "JPN_P1_JPN*",
@@ -1188,7 +1231,10 @@ def process_and_save_networks_by_directory(
             # Concatenate and save results for this directory immediately
             hourly_output = pd.concat(hourly_dfs, ignore_index=True)
             yearly_output = pd.concat(yearly_dfs, ignore_index=True)
-            
+
+            # Compute relative costs and add to yearly output
+            yearly_output = compute_relative_costs(yearly_output, market=dir_name, pypsa_run_id=pypsa_run_id)
+
             # Save to CSV
             hourly_output.to_csv(os.path.join(hourly_path, f"{dir_name}_hourly.csv"), index=False)
             yearly_output.to_csv(os.path.join(yearly_path, f"{dir_name}_yearly.csv"), index=False)
