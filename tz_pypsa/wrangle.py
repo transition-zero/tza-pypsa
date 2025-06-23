@@ -384,16 +384,21 @@ def transform_visualiser_hourly_output(
     generation = (
         network
         .generators_t
-        .p
+        .p[network.generators[network.generators.p_nom_opt > 1e-2].index]
         .reset_index()
     )
 
-    # Hourly emissions
+    # Get a mask for carriers with nonzero and non-null CO2 emissions
+    emitting_carriers = network.carriers.co2_emissions[network.carriers.co2_emissions != 0].dropna().index
+
+    emitting_generators = network.generators[(network.generators.carrier.isin(emitting_carriers))
+                                    & (network.generators.p_nom_opt > 1e-2)]
+
     emissions = (
         (
-            network.generators_t.p 
-            / network.generators.efficiency 
-            * network.generators.carrier.map(network.carriers.co2_emissions)
+            network.generators_t.p[emitting_generators.index]
+            / emitting_generators.efficiency
+            * emitting_generators.carrier.map(network.carriers.co2_emissions)
         )
         .dropna(axis=1, thresh=5)
         .reset_index()
@@ -401,20 +406,20 @@ def transform_visualiser_hourly_output(
 
     potential_dispatch = (
         (
-            network.generators_t.p_max_pu 
-            * network.generators.p_nom_opt
+            network.generators_t.p_max_pu
+            * network.generators.p_nom_opt[network.generators[network.generators.p_nom_opt > 1e-2].index]
         )
     )
 
     # Hourly curtailment
-    curtailment = potential_dispatch - network.generators_t.p
+    curtailment = potential_dispatch - network.generators_t.p[network.generators[network.generators.p_nom_opt > 1e-2].index]
 
     # Hourly curtailment percentage
     curtailment_percent = curtailment / potential_dispatch
 
-    potential_dispatch = potential_dispatch.dropna(axis=1, thresh=5).reset_index().fillna(0)
-    curtailment = curtailment.dropna(axis=1, thresh=5).reset_index().fillna(0)
-    curtailment_percent = curtailment_percent.dropna(axis=1, thresh=5).reset_index().fillna(0)
+    potential_dispatch = potential_dispatch.dropna(axis=1, thresh=1000).reset_index().fillna(0)
+    curtailment = curtailment.dropna(axis=1, thresh=1000).reset_index().fillna(0)
+    curtailment_percent = curtailment_percent.dropna(axis=1, thresh=1000).reset_index().fillna(0)
 
     # Hourly C&I import/export
     # Get average grid price
@@ -447,7 +452,6 @@ def transform_visualiser_hourly_output(
         .reset_index()
     )
     
-
     # Hourly loads (required)
     loads = (
         network
@@ -471,7 +475,7 @@ def transform_visualiser_hourly_output(
         storage = (
             network
             .storage_units_t
-            .p
+            .p[network.storage_units[network.storage_units.p_nom_opt > 1e-2].index]
             .reset_index()
         )
     except Exception as e:
@@ -532,6 +536,7 @@ def transform_visualiser_hourly_output(
         var_name='Generator', 
         value_name='Value'
     )
+
 
     if storage is not None:
         storage = pd.melt(
@@ -687,7 +692,7 @@ def transform_visualiser_hourly_output(
                 how='left'
             ).rename(
                 columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
-            )
+            ).drop(columns='Link')
 
         except Exception as e:
             print(f"Skipping import_cost: {e}")
@@ -703,7 +708,8 @@ def transform_visualiser_hourly_output(
                 how='left'
             ).rename(
                 columns={'Node': 'Node_Destination', 'Node_Destination': 'Node'}
-            )
+            ).drop(columns='Link')
+
         except Exception as e:
             print(f"Skipping export_revenue: {e}")
             export_revenue = None
@@ -756,10 +762,10 @@ def transform_visualiser_hourly_output(
     renewable_generation = renewable_generation.drop(columns='Tech').groupby(['snapshot', 'Node']).sum().reset_index()
 
     residual_demand = pd.merge(
-    loads,
-    renewable_generation,
-    on=['snapshot', 'Node'],
-    how='left'
+            loads,
+            renewable_generation,
+            on=['snapshot', 'Node'],
+            how='left'
     )
 
     residual_demand['Value'] = residual_demand['Value_x'] - residual_demand['Value_y']
@@ -791,7 +797,8 @@ def transform_visualiser_hourly_output(
     loads['Tech'] = 'Demand'
 
     # --- Concatenate all DataFrames ---
-    dataframes = [generation, emissions, curtailment, curtailment_percent, potential_dispatch, import_cost, export_revenue, loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
+    dataframes = [generation, emissions, curtailment, curtailment_percent, potential_dispatch, import_cost, export_revenue,
+                   loads, prices, capacity_factor_generator, capacity_factor_storage, residual_demand]
     if storage is not None:
         dataframes.append(storage)
     if interconnector is not None:
@@ -921,6 +928,7 @@ def transform_visualiser_yearly_output(
         .generators
         .loc[network.generators['p_nom_extendable']]
         .reset_index()
+        .replace(float('inf'), np.nan)
         .rename(columns={'Generator': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
         [['Name', 'Bus', 'Tech', 'Value']]
     )
@@ -930,6 +938,7 @@ def transform_visualiser_yearly_output(
                 .storage_units
                 .loc[network.storage_units['p_nom_extendable']]
                 .reset_index()
+                .replace(float('inf'), np.nan)
                 .rename(columns={'StorageUnit': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
                 [['Name', 'Bus', 'Tech', 'Value']]
     )
@@ -942,6 +951,7 @@ def transform_visualiser_yearly_output(
                 .links
                 .loc[network.links['p_nom_extendable']]
                 .reset_index()
+                .replace(float('inf'), np.nan)
                 .rename(columns={'Link': 'Name', 'bus0': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
                 [['Name', 'Bus', 'Tech', 'Value']]
     )
