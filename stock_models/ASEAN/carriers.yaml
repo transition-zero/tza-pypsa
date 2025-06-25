@@ -89,25 +89,35 @@ carriers:
     color: orchid
     co2_emissions: 0.
 
-  - id: gas-hydrogen-clean
-    nice_name: Clean part of CCGT blended with hydrogen
+  - id: hydrogen
+    nice_name: hydrogen
     color: mediumorchid
     co2_emissions: 0.
 
-  - id: gas-hydrogen-fossil
-    nice_name: Fossil part of CCGT blended with hydrogen
-    color: grey
-    co2_emissions: 0.20 # kgCO2/kWh -> tCO2/MWh
+  - id: ammonia
+    nice_name: Ammonia
+    color: darkorchid
+    co2_emissions: 0.
 
-  - id: coal-biomass-clean
-    nice_name: Clean part of coal cofired with biomass
-    color: teal
-    co2_emissions: 0.002 # kgCO2/kWh -> tCO2/MWh (https://www.sciencedirect.com/science/article/abs/pii/S1352231018308811)
+  # - id: gas-hydrogen-clean
+  #   nice_name: Clean part of CCGT blended with hydrogen
+  #   color: mediumorchid
+  #   co2_emissions: 0.
 
-  - id: coal-biomass-fossil
-    nice_name: Fossil part of coal cofired with biomass
-    color: black
-    co2_emissions: 0.34 # kgCO2/kWh -> tCO2/MWh
+  # - id: gas-hydrogen-fossil
+  #   nice_name: Fossil part of CCGT blended with hydrogen
+  #   color: grey
+  #   co2_emissions: 0.20 # kgCO2/kWh -> tCO2/MWh
+
+  # - id: coal-biomass-clean
+  #   nice_name: Clean part of coal cofired with biomass
+  #   color: teal
+  #   co2_emissions: 0.002 # kgCO2/kWh -> tCO2/MWh (https://www.sciencedirect.com/science/article/abs/pii/S1352231018308811)
+
+  # - id: coal-biomass-fossil
+  #   nice_name: Fossil part of coal cofired with biomass
+  #   color: black
+  #   co2_emissions: 0.34 # kgCO2/kWh -> tCO2/MWh
   
   - id: backstop
     nice_name: Backstop
@@ -289,7 +299,7 @@ carriers:
     color: red
     co2_emissions: 0.
 
-  - id: interconnector-BTMSOLAR-SGP
+  - id: interconnector-BTMSL-SGP
     nice_name: 'Transmission'
     color: red
     co2_emissions: 0.
