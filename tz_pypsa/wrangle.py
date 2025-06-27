@@ -328,6 +328,57 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         
     return unit_cost[['Node', 'carrier', 'capex', 'opex', 'import_cost', 'export_revenue', 'ppa_unit_cost', 'import_unit_cost', 'export_unit_cost', 'unit_cost_all_energy', 'unit_cost_ci_energy']]
 
+def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh') -> float:
+    """
+    Calculate the overall emission intensity for a C&I scenario.
+    
+    Parameters:
+    -----------
+    n : pypsa.Network
+        Solved PyPSA network
+    bus : str
+        Bus identifier (e.g., 'JPN01')
+    units : str
+        Units for emission intensity ('gCO2/kWh' or 'tCO2/MWh')
+        
+    Returns:
+    --------
+    float
+        Emission intensity value
+    """
+    # Get grid emission intensity for each hour
+    ci_parent_generators = n.generators[n.generators.index.str.contains(bus)]
+    ci_parent_generators_t = n.generators_t.p[ci_parent_generators.index]
+    ci_parent_load = 1/(n.loads_t.p.filter(regex=bus).filter(regex='^(?!.*C&I)'))
+    
+    # Calculate hourly grid emissions intensity (tCO2/MWh)
+    grid_emissions = (
+        (
+            ci_parent_generators_t
+            / ci_parent_generators.efficiency 
+            * ci_parent_generators.carrier.map(n.carriers.co2_emissions)
+        )
+        .sum(axis=1)
+    )
+    grid_emissions_intensity = grid_emissions * ci_parent_load.squeeze()
+    
+    # Get C&I imports and calculate total emissions
+    ci_imports = n.links_t.p0.filter(regex='C&I').filter(regex='Import').values.flatten()
+    total_ci_emissions = (grid_emissions_intensity.values * ci_imports).sum()
+    
+    # Get total C&I load
+    total_ci_load = n.loads_t.p.filter(regex='C&I').sum().sum()
+    
+    # Calculate emission intensity
+    emission_intensity = total_ci_emissions / total_ci_load
+    
+    # Convert units if needed
+    if units == 'gCO2/kWh':
+        emission_intensity *= 1000  # tCO2/MWh -> gCO2/kWh
+    
+    return emission_intensity
+
+
 def transform_visualiser_hourly_output(
         network: pypsa.Network,
         pypsa_run_id: str = 'Unspecified',
@@ -878,7 +929,7 @@ def transform_visualiser_yearly_output(
         The merged long format DataFrame.
     """
     # Extract statistics output into a df
-    df = network.statistics(groupby=['bus', 'name', 'type'])
+    df = network.statistics(groupby=['bus', 'name', 'carrier'])
 
     year = network.snapshots.year[0]
 
@@ -910,9 +961,9 @@ def transform_visualiser_yearly_output(
 
     expanded_capacity = (network
                         .statistics
-                        .expanded_capacity(groupby=['bus', 'name', 'type'])
+                        .expanded_capacity(groupby=['bus', 'name', 'carrier'])
                         .reset_index()
-                        .rename(columns={'component': 'Type', 'bus': 'Bus', 'name': 'Name', 'type': 'Tech', 0: 'Value'})
+                        .rename(columns={'component': 'Type', 'bus': 'Bus', 'name': 'Name', 'carrier': 'Tech', 0: 'Value'})
     )
 
     expanded_capacity['Vintage'] = np.where(
@@ -929,7 +980,7 @@ def transform_visualiser_yearly_output(
         .loc[network.generators['p_nom_extendable']]
         .reset_index()
         .replace(float('inf'), np.nan)
-        .rename(columns={'Generator': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+        .rename(columns={'Generator': 'Name', 'bus': 'Bus', 'carrier': 'Tech', 'p_nom_max': 'Value'})
         [['Name', 'Bus', 'Tech', 'Value']]
     )
 
@@ -939,7 +990,7 @@ def transform_visualiser_yearly_output(
                 .loc[network.storage_units['p_nom_extendable']]
                 .reset_index()
                 .replace(float('inf'), np.nan)
-                .rename(columns={'StorageUnit': 'Name', 'bus': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                .rename(columns={'StorageUnit': 'Name', 'bus': 'Bus', 'carrier': 'Tech', 'p_nom_max': 'Value'})
                 [['Name', 'Bus', 'Tech', 'Value']]
     )
 
@@ -952,7 +1003,7 @@ def transform_visualiser_yearly_output(
                 .loc[network.links['p_nom_extendable']]
                 .reset_index()
                 .replace(float('inf'), np.nan)
-                .rename(columns={'Link': 'Name', 'bus0': 'Bus', 'type': 'Tech', 'p_nom_max': 'Value'})
+                .rename(columns={'Link': 'Name', 'bus0': 'Bus', 'carrier': 'Tech', 'p_nom_max': 'Value'})
                 [['Name', 'Bus', 'Tech', 'Value']]
     )
 
@@ -1006,6 +1057,39 @@ def transform_visualiser_yearly_output(
     df['Year'] = year
 
     df = df.dropna(subset=['Value'], ignore_index=True)
+
+    # Add emission intensity rows for buses with C&I loads
+    ci_buses = network.loads.loc[network.loads.index.str.contains('C&I', na=False), 'bus'].unique()
+    
+    emission_intensity_rows = []
+    for bus in ci_buses:
+        # Extract the base bus name (e.g., 'JPN01' from 'JPN01 C&I Grid')
+        base_bus = bus.replace(' C&I Grid', '').replace(' C&I', '')
+        
+        try:
+            emission_intensity = get_scenario_emission_intensity(network, base_bus, units='gCO2/kWh')
+            
+            emission_intensity_rows.append({
+                'Type': np.nan,
+                'Bus': f'{base_bus} C&I',
+                'Name': np.nan,
+                'Tech': np.nan,
+                'Vintage': np.nan,
+                'Metric': 'EmissionIntensity',
+                'Value': emission_intensity,
+                'BusType': 'Greenfield',  # Since this relates to C&I
+                'Market': market,
+                'Pypsa_Run_Id': pypsa_run_id,
+                'Scenario': scenario,
+                'Year': year
+            })
+        except Exception as e:
+            print(f"Warning: Could not calculate emission intensity for bus {base_bus}: {e}")
+    
+    # Add emission intensity rows to the dataframe
+    if emission_intensity_rows:
+        emission_intensity_df = pd.DataFrame(emission_intensity_rows)
+        df = pd.concat([df, emission_intensity_df], ignore_index=True)
 
     return df
 
@@ -1246,4 +1330,96 @@ def process_and_save_networks_by_directory(
             gc.collect()
         else:
             print(f"No valid data processed for {dir_name}")
+
+
+# def process_and_save_networks_by_directory_emission_intensity(
+#         base_path: str,
+#         output_base_path: str,
+#         pattern: str = "JPN_P1_JPN*",
+#         network_dir: str = "solved_networks",
+#     ) -> None:
+#     """
+#     Process all .nc files in each solved_networks directory one at a time and
+#     save results to CSV immediately after processing each directory.
+
+#     Parameters
+#     ----------
+#     base_path : str
+#         Base directory path containing the run folders
+#     output_base_path : str
+#         Base path where to save the output CSV files
+#     pattern : str, optional
+#         Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
+#     network_dir : str, optional
+#         Name of directory containing network files, defaults to "solved_networks"
+#     """
+
+#     # Create output directories
+#     hourly_path = os.path.join(output_base_path, "hourly")
+#     os.makedirs(hourly_path, exist_ok=True)
+    
+#     # Process each directory one at a time
+#     for dir_path in glob.glob(os.path.join(base_path, pattern)):
+#         dir_name = os.path.basename(dir_path)
+#         network_path = os.path.join(dir_path, network_dir)
+        
+#         if not os.path.exists(network_path):
+#             print(f"Skipping {dir_name}: {network_dir} directory not found")
+#             continue
+            
+#         # Find all .nc files in the solved_networks directory
+#         nc_files = glob.glob(os.path.join(network_path, "*.nc"))
+        
+#         if not nc_files:
+#             print(f"No .nc files found in {network_path}")
+#             continue
+            
+#         print(f"Processing {len(nc_files)} files in {dir_name}")
+        
+#         # Process each .nc file and collect DataFrames
+#         emission_dfs = []
+        
+#         for nc_file in nc_files:
+#             try:
+#                 # Load network
+#                 network = pypsa.Network()
+#                 network.import_from_netcdf(nc_file)
+                
+#                 # Get filename without extension for run_id
+#                 scenario_id = Path(nc_file).stem
+                
+#                 # Compute emissions intensity (hourly)
+#                 # You may want to loop over all relevant CI nodes; here we use the last 5 chars as bus name
+#                 bus_name = dir_name[-5:]  # e.g., 'JPN01'
+#                 ci_emissions_intensity = get_scenario_emission_intensity(network, bus_name, units='tCO2/MWh')
+#                 # If ci_emissions_intensity is a Series, convert to DataFrame
+#                 import_series = network.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
+#                 ci_load_series = network.loads_t.p.filter(regex='C&I').sum(axis=1)
+#                 # Build DataFrame with aligned time series
+#                 df = pd.DataFrame({
+#                     'snapshot': ci_emissions_intensity.index,
+#                     'emissions_intensity': ci_emissions_intensity.values,
+#                     'import': import_series.values,
+#                     'ci_load': ci_load_series.values,
+#                     'scenario': scenario_id,
+#                 })
+#                 emission_dfs.append(df)
+                
+#                 # Clean up
+#                 del network
+#                 gc.collect()
+                
+#             except Exception as e:
+#                 print(f"Error processing {nc_file}: {str(e)}")
+#                 continue
+        
+#         if emission_dfs:
+#             # Concatenate and save results for this directory immediately
+#             emission_output = pd.concat(emission_dfs, ignore_index=True)
+#             emission_output.to_csv(os.path.join(hourly_path, f"{dir_name}_ci_emission_intensity.csv"), index=False)
+#             print(f"Successfully processed and saved CI emission intensity for {dir_name}")
+#             del emission_dfs, emission_output
+#             gc.collect()
+#         else:
+#             print(f"No valid data processed for {dir_name}")
 
