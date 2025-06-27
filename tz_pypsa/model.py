@@ -380,17 +380,24 @@ class Model:
         network.import_from_csv_folder(path_to_dir)
 
         # --- calculate annualised costs --- #
+        # Fill NaN values in annual_fixed_costs with 0 to prevent NaN in capital_cost calculation
+        network.generators['annual_fixed_costs'] = network.generators['annual_fixed_costs'].fillna(0)
+        network.storage_units['annual_fixed_costs'] = network.storage_units['annual_fixed_costs'].fillna(0)
+        
         for generator in network.generators.index:
+            r = network.generators.get('discount_rate', pd.Series(0.1, index=network.generators.index)).loc[generator]
+
             network.generators.loc[generator, 'capital_cost'] = (
                 network.generators.loc[generator, 'total_capital_cost'] * 
                 cost_model.calculate_annuity(
                     n = network.generators.loc[generator, 'lifetime'],
-                    r = 0.1,
+                    r = r,
                 )
                 + network.generators.loc[generator, 'annual_fixed_costs']
             )
         
         for storage_units in network.storage_units.index:
+            r = network.storage_units.get('discount_rate', pd.Series(0.1, index=network.storage_units.index)).loc[storage_units]
             network.storage_units.loc[storage_units, 'capital_cost'] = (
                 network.storage_units.loc[storage_units, 'total_capital_cost'] * 
                 cost_model.calculate_annuity(
