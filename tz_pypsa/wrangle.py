@@ -195,7 +195,7 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
         n.generators.loc[
             n.generators.index.str.contains('C&I')
         ]
-        [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost']]
+        [['carrier','p_nom','p_nom_opt','capital_cost','marginal_cost', 'p_max_pu']]
     )
 
     ci_generator_p_max_pu = (
@@ -206,10 +206,19 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
     )
 
     ci_generator_costs['dispatch'] = n.generators_t.p[ ci_generator_costs.index ].sum()
-    ci_generator_costs['potential_dispatch'] = (
-        ci_generator_costs.p_nom_opt[ ci_generator_costs.index ] 
-        * ci_generator_p_max_pu[ ci_generator_costs.index ] 
-        ).sum()
+    
+    # Calculate potential dispatch accounting for both time-varying and static p_max_pu
+    potential_dispatch = []
+    for gen_id in ci_generator_costs.index:
+        if gen_id in ci_generator_p_max_pu.columns:
+            # Time-varying p_max_pu
+            potential = (ci_generator_costs.loc[gen_id, 'p_nom_opt'] * ci_generator_p_max_pu[gen_id]).sum()
+        else:
+            # Static p_max_pu
+            potential = (ci_generator_costs.loc[gen_id, 'p_nom_opt'] * ci_generator_costs.loc[gen_id, 'p_max_pu'] * len(ci_generator_p_max_pu))
+        potential_dispatch.append(potential)
+    
+    ci_generator_costs['potential_dispatch'] = potential_dispatch
     ci_generator_costs['curtailment'] = ci_generator_costs['potential_dispatch'] - ci_generator_costs['dispatch']
     ci_generator_costs['curtailment_perc'] = ci_generator_costs['curtailment']/ci_generator_costs['potential_dispatch']
 
