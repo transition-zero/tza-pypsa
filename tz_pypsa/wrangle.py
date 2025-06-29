@@ -892,20 +892,32 @@ def transform_visualiser_hourly_output(
     )
 
     # --- Map bus long names to the DataFrame ---
-    buses_df = network.buses
-    buses_df = buses_df.copy().dropna()[['long_name']].reset_index()
-    all_codes = buses_df["Bus"].tolist()
-    escaped_codes = [re.escape(code) for code in all_codes]
-    pattern = "(" + "|".join(escaped_codes) + ")"
-    merged_df['buscode'] = merged_df['Node'].str.extract(pattern, flags=re.IGNORECASE)
-    merged_df['buscode'] = merged_df['buscode'].str.upper()
+    buses_df = None  # Initialize to None
+    if hasattr(network, 'long_name') and network.long_name is not None:
+        try:
+            buses_df = network.buses
+            buses_df = buses_df.copy().dropna()[['long_name']].reset_index()
+            all_codes = buses_df["Bus"].tolist()
+            escaped_codes = [re.escape(code) for code in all_codes]
+            pattern = "(" + "|".join(escaped_codes) + ")"
+            merged_df['buscode'] = merged_df['Node'].str.extract(pattern, flags=re.IGNORECASE)
+            merged_df['buscode'] = merged_df['buscode'].str.upper()
+        except Exception as e:
+            print(f"Skipping long_name: {e}")
+            buses_df = None  # Reset to None if processing failed
 
-    merged_df = merged_df.merge(
-        buses_df, 
-        how='left', 
-        left_on='buscode',
-        right_on='Bus', 
-    ).drop(columns=['buscode', 'Bus'])
+    # Only merge if buses_df was successfully created
+    if buses_df is not None:
+        merged_df = merged_df.merge(
+            buses_df, 
+            how='left', 
+            left_on='buscode',
+            right_on='Bus', 
+        ).drop(columns=['buscode', 'Bus'])
+    else:
+        # If no long_name data, just drop the buscode column if it exists
+        if 'buscode' in merged_df.columns:
+            merged_df = merged_df.drop(columns=['buscode'])
 
     merged_df['BusType'] = np.where(
         merged_df['Node'].str.contains('C&I', na=False),
