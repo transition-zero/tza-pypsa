@@ -398,11 +398,12 @@ class Model:
         
         for storage_units in network.storage_units.index:
             r = network.storage_units.get('discount_rate', pd.Series(0.1, index=network.storage_units.index)).loc[storage_units]
+            
             network.storage_units.loc[storage_units, 'capital_cost'] = (
                 network.storage_units.loc[storage_units, 'total_capital_cost'] * 
                 cost_model.calculate_annuity(
                     n = network.storage_units.loc[storage_units, 'lifetime'],
-                    r = 0.1,
+                    r = r,
                 )
                 + network.storage_units.loc[storage_units, 'annual_fixed_costs']
             )
