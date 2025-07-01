@@ -3,6 +3,7 @@ import sys
 import logging
 import time
 from pathlib import Path
+import threading
 
 # Add the Upload directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,6 +15,9 @@ from analyst_uploader import main as upload_single_file
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Thread lock for config modifications
+config_lock = threading.Lock()
 
 def is_file_stable(file_path: Path, stability_period: int = 5) -> bool:
     """
@@ -108,6 +112,9 @@ def batch_upload_from_directory(
     Upload all fully processed CSV files from a directory to GCS and BigQuery.
     Uses file stability detection to ensure files are completely written before upload.
     
+    Note: This function processes files sequentially. For concurrent uploads, 
+    use monitor_directory_continuously() instead.
+    
     Args:
         directory_path (str): Path to the directory containing CSV files
         file_pattern (str): Pattern to match files (default: "*.csv")
@@ -153,7 +160,7 @@ def batch_upload_from_directory(
     for file_path in ready_files:
         try:
             logger.info(f"\n--- Processing file: {file_path} ---")
-            update_config_for_file(file_path)
+            update_config_for_file(str(file_path))
             upload_single_file()
             logger.info(f"Successfully processed {file_path}")
             successful_uploads.append(file_path)
@@ -186,7 +193,6 @@ def start_background_monitoring(directory_path: str, check_interval: int = 10, m
     Returns:
         threading.Thread: The monitoring thread (for stopping if needed)
     """
-    import threading
     
     def run_monitoring():
         try:
@@ -202,6 +208,31 @@ def start_background_monitoring(directory_path: str, check_interval: int = 10, m
     monitoring_thread.start()
     logger.info(f"Started background monitoring of {directory_path}")
     return monitoring_thread
+
+def upload_single_csv_file_thread_safe(file_path: Path) -> bool:
+    """
+    Thread-safe upload of a single CSV file to GCS and BigQuery.
+    Uses a lock to prevent race conditions when modifying global config.
+    
+    Args:
+        file_path (Path): Path to the CSV file to upload
+        
+    Returns:
+        bool: True if upload successful, False otherwise
+    """
+    try:
+        logger.info(f"--- Uploading file: {file_path} ---")
+        
+        # Use lock to ensure thread-safe config updates
+        with config_lock:
+            update_config_for_file(str(file_path))
+            upload_single_file()
+            
+        logger.info(f"Successfully uploaded {file_path}")
+        return True
+    except Exception as e:
+        logger.error(f"Error uploading {file_path}: {str(e)}")
+        return False
 
 def upload_single_csv_file(file_path: Path) -> bool:
     """
@@ -239,7 +270,6 @@ def monitor_directory_continuously(
         file_pattern (str): Pattern to match files (default: "*.csv")
         max_parallel_uploads (int): Maximum number of files to upload concurrently
     """
-    import threading
     from concurrent.futures import ThreadPoolExecutor
     
     logger.info(f"Starting continuous monitoring of {directory_path}")
@@ -253,11 +283,14 @@ def monitor_directory_continuously(
     def handle_upload_completion(file_path: Path, future):
         """Callback when upload completes"""
         currently_uploading.discard(file_path)
-        if future.result():
-            processed_files.add(file_path)
-            logger.info(f"Completed upload: {file_path}")
-        else:
-            logger.error(f"Failed upload: {file_path}")
+        try:
+            if future.result():
+                processed_files.add(file_path)
+                logger.info(f"Completed upload: {file_path}")
+            else:
+                logger.error(f"Failed upload: {file_path}")
+        except Exception as e:
+            logger.error(f"Exception in upload completion for {file_path}: {e}")
     
     try:
         while True:
@@ -276,8 +309,8 @@ def monitor_directory_continuously(
                             logger.info(f"File ready for upload: {file_path}")
                             currently_uploading.add(file_path)
                             
-                            # Submit upload to thread pool
-                            future = upload_executor.submit(upload_single_csv_file, file_path)
+                            # Submit upload to thread pool - USE THREAD-SAFE VERSION
+                            future = upload_executor.submit(upload_single_csv_file_thread_safe, file_path)
                             future.add_done_callback(
                                 lambda f, fp=file_path: handle_upload_completion(fp, f)
                             )
