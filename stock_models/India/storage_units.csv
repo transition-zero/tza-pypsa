@@ -7,11 +7,11 @@ hydro-pumped-storage-INDSO-water-2030,hydro-pumped-storage,INDSO,0.0,TRUE,pumped
 hydro-pumped-storage-INDWE-water-2030,hydro-pumped-storage,INDWE,0.0,TRUE,pumped-hydro,2030,8,1,0.95,0.01,543944.18,13598.59,40.0
 hydro-pumped-storage-INDNE-water-2030,hydro-pumped-storage,INDNE,0.0,TRUE,pumped-hydro,2030,8,1,0.95,0.01,543944.18,13598.59,40.0
 hydro-pumped-storage-INDNO-water-2030,hydro-pumped-storage,INDNO,0.0,TRUE,pumped-hydro,2030,8,1,0.95,0.01,543944.18,13598.59,40.0
-battery-storage-INDEA-battery-2030,battery-storage,INDEA,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,25.0
-battery-storage-INDNE-battery-2030,battery-storage,INDNE,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,25.0
-battery-storage-INDNO-battery-2030,battery-storage,INDNO,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,25.0
-battery-storage-INDSO-battery-2030,battery-storage,INDSO,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,25.0
-battery-storage-INDWE-battery-2030,battery-storage,INDWE,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,25.0
+battery-storage-INDEA-battery-2030,battery-storage,INDEA,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,20.0
+battery-storage-INDNE-battery-2030,battery-storage,INDNE,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,20.0
+battery-storage-INDNO-battery-2030,battery-storage,INDNO,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,20.0
+battery-storage-INDSO-battery-2030,battery-storage,INDSO,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,20.0
+battery-storage-INDWE-battery-2030,battery-storage,INDWE,0.0,True,battery,2030,4,1,0.95,0.01,552651.15,7777.56,20.0
 liquid-air-storage-INDEA-laes-2030,liquid-air-storage,INDEA,0.0001,False,laes,2030,168,1,0.575,0.008,6000000,0,25.0
 liquid-air-storage-INDNE-laes-2030,liquid-air-storage,INDNE,0.0001,False,laes,2030,168,1,0.575,0.008,6000000,0,25.0
 liquid-air-storage-INDNO-laes-2030,liquid-air-storage,INDNO,0.0001,False,laes,2030,168,1,0.575,0.008,6000000,0,25.0
