@@ -21,7 +21,7 @@ source "$VENV_PATH/bin/activate"
 
 echo "Installing Google Cloud libraries..."
 pip install --upgrade pip
-pip install google-cloud-storage google-cloud-bigquery google-auth pandas pypsa
+pip install google-cloud-storage google-cloud-bigquery google-auth pandas pypsa pandas-gbq pyarrow
 
 echo "Setting project env var in activate script..."
 ENV_FILE="$VENV_PATH/bin/activate_project_env.sh"
