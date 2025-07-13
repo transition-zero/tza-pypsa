@@ -1255,7 +1255,7 @@ def process_and_save_networks_by_directory(
             yearly_output = pd.concat(yearly_dfs, ignore_index=True)
 
             # Compute relative costs and add to yearly output
-            yearly_output = compute_relative_costs(yearly_output, market=dir_name, pypsa_run_id=pypsa_run_id)
+            yearly_output = compute_relative_costs(yearly_output, pypsa_run_id=pypsa_run_id)
 
             # Save to CSV
             hourly_output.to_csv(os.path.join(hourly_path, f"{dir_name}_hourly.csv"), index=False)
