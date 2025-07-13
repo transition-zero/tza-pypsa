@@ -873,7 +873,11 @@ def transform_visualiser_hourly_output(
     merged_df['Year'] = merged_df['snapshot'].dt.year
 
     # # --- Add run identifier and market column ---
-    merged_df['Market'] = market
+    ci_brown_bus = network.buses[network.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
+    if ci_brown_bus is not None:
+        merged_df['Market'] = ci_brown_bus
+    else:
+        merged_df['Market'] = market
     merged_df['Pypsa_Run_Id'] = pypsa_run_id
     merged_df['Scenario'] = scenario
 
@@ -1072,7 +1076,11 @@ def transform_visualiser_yearly_output(
     )
 
     # # Add the run identifier and market column
-    df['Market'] = market
+    ci_brown_bus = network.buses[network.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
+    if ci_brown_bus is not None:
+        df['Market'] = ci_brown_bus
+    else:
+        df['Market'] = market
     df['Pypsa_Run_Id'] = pypsa_run_id
     df['Scenario'] = scenario
     df['Year'] = year
@@ -1099,7 +1107,7 @@ def transform_visualiser_yearly_output(
                 'Metric': 'EmissionIntensity',
                 'Value': emission_intensity,
                 'BusType': 'Greenfield',  # Since this relates to C&I
-                'Market': market,
+                'Market': ci_brown_bus,
                 'Pypsa_Run_Id': pypsa_run_id,
                 'Scenario': scenario,
                 'Year': year
@@ -1116,7 +1124,6 @@ def transform_visualiser_yearly_output(
 
 def compute_relative_costs(
         yearly_df: pd.DataFrame, 
-        market: str, 
         pypsa_run_id: str,
     ) -> pd.DataFrame:
     """
@@ -1149,102 +1156,14 @@ def compute_relative_costs(
         'Capital Expenditure': 'RelativeSystemCapex',
         'Operational Expenditure': 'RelativeSystemOpex'
     })
-    sys_cost['Market'] = market
+
+    sys_cost['Market'] = yearly_df['Market'].unique()[0]
     sys_cost['Pypsa_Run_Id'] = pypsa_run_id
 
     yearly_df = pd.concat([yearly_df, sys_cost], ignore_index=True)
 
     return yearly_df
 
-
-def process_solved_networks_directory(
-        base_path: str,
-        pattern: str = "JPN_P1_JPN*",
-        network_dir: str = "solved_networks"
-    ) -> tuple[dict, dict]:
-    """
-    Process all .nc files in the solved_networks directories matching the pattern
-    and concatenate them into separate hourly and yearly dataframes per directory.
-
-    Parameters
-    ----------
-    base_path : str
-        Base directory path containing the run folders
-    pattern : str, optional
-        Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
-    network_dir : str, optional
-        Name of directory containing network files, defaults to "solved_networks"
-
-    Returns
-    -------
-    tuple[dict, dict]
-        Two dictionaries containing the hourly and yearly DataFrames respectively,
-        with directory names as keys
-    """
-
-    hourly_results = {}
-    yearly_results = {}
-    
-    # Find all matching directories
-    for dir_path in glob.glob(os.path.join(base_path, pattern)):
-        dir_name = os.path.basename(dir_path)
-        network_path = os.path.join(dir_path, network_dir)
-        
-        if not os.path.exists(network_path):
-            print(f"Skipping {dir_name}: {network_dir} directory not found")
-            continue
-            
-        # Find all .nc files in the solved_networks directory
-        nc_files = glob.glob(os.path.join(network_path, "*.nc"))
-        
-        if not nc_files:
-            print(f"No .nc files found in {network_path}")
-            continue
-            
-        print(f"Processing {len(nc_files)} files in {dir_name}")
-        
-        # Process each .nc file and collect DataFrames
-        hourly_dfs = []
-        yearly_dfs = []
-        
-        for nc_file in nc_files:
-            try:
-                # Load network
-                network = pypsa.Network()
-                network.import_from_netcdf(nc_file)
-                
-                # Get filename without extension for run_id
-                run_id = Path(nc_file).stem
-                
-                # Process hourly and yearly data
-                hourly_df = transform_visualiser_hourly_output(
-                    network=network,
-                    pypsa_run_id=run_id,
-                    market=dir_name
-                )
-                
-                yearly_df = transform_visualiser_yearly_output(
-                    network=network,
-                    pypsa_run_id=run_id,
-                    market=dir_name
-                )
-                
-                hourly_dfs.append(hourly_df)
-                yearly_dfs.append(yearly_df)
-                
-            except Exception as e:
-                print(f"Error processing {nc_file}: {str(e)}")
-                continue
-        
-        if hourly_dfs:
-            # Store concatenated DataFrames separately for hourly and yearly data
-            hourly_results[dir_name] = pd.concat(hourly_dfs, ignore_index=True)
-            yearly_results[dir_name] = pd.concat(yearly_dfs, ignore_index=True)
-            print(f"Successfully processed {dir_name}")
-        else:
-            print(f"No valid data processed for {dir_name}")
-    
-    return hourly_results, yearly_results
 
 def process_and_save_networks_by_directory(
         base_path: str,
@@ -1311,14 +1230,12 @@ def process_and_save_networks_by_directory(
                     network=network,
                     pypsa_run_id=pypsa_run_id,
                     scenario=scenario_id,
-                    market=dir_name
                 )
                 
                 yearly_df = transform_visualiser_yearly_output(
                     network=network,
                     pypsa_run_id=pypsa_run_id,
                     scenario=scenario_id,
-                    market=dir_name
                 )
                 
                 hourly_dfs.append(hourly_df)
@@ -1351,96 +1268,3 @@ def process_and_save_networks_by_directory(
             gc.collect()
         else:
             print(f"No valid data processed for {dir_name}")
-
-
-# def process_and_save_networks_by_directory_emission_intensity(
-#         base_path: str,
-#         output_base_path: str,
-#         pattern: str = "JPN_P1_JPN*",
-#         network_dir: str = "solved_networks",
-#     ) -> None:
-#     """
-#     Process all .nc files in each solved_networks directory one at a time and
-#     save results to CSV immediately after processing each directory.
-
-#     Parameters
-#     ----------
-#     base_path : str
-#         Base directory path containing the run folders
-#     output_base_path : str
-#         Base path where to save the output CSV files
-#     pattern : str, optional
-#         Pattern to match subdirectories, defaults to "JPN_P1_JPN*"
-#     network_dir : str, optional
-#         Name of directory containing network files, defaults to "solved_networks"
-#     """
-
-#     # Create output directories
-#     hourly_path = os.path.join(output_base_path, "hourly")
-#     os.makedirs(hourly_path, exist_ok=True)
-    
-#     # Process each directory one at a time
-#     for dir_path in glob.glob(os.path.join(base_path, pattern)):
-#         dir_name = os.path.basename(dir_path)
-#         network_path = os.path.join(dir_path, network_dir)
-        
-#         if not os.path.exists(network_path):
-#             print(f"Skipping {dir_name}: {network_dir} directory not found")
-#             continue
-            
-#         # Find all .nc files in the solved_networks directory
-#         nc_files = glob.glob(os.path.join(network_path, "*.nc"))
-        
-#         if not nc_files:
-#             print(f"No .nc files found in {network_path}")
-#             continue
-            
-#         print(f"Processing {len(nc_files)} files in {dir_name}")
-        
-#         # Process each .nc file and collect DataFrames
-#         emission_dfs = []
-        
-#         for nc_file in nc_files:
-#             try:
-#                 # Load network
-#                 network = pypsa.Network()
-#                 network.import_from_netcdf(nc_file)
-                
-#                 # Get filename without extension for run_id
-#                 scenario_id = Path(nc_file).stem
-                
-#                 # Compute emissions intensity (hourly)
-#                 # You may want to loop over all relevant CI nodes; here we use the last 5 chars as bus name
-#                 bus_name = dir_name[-5:]  # e.g., 'JPN01'
-#                 ci_emissions_intensity = get_scenario_emission_intensity(network, bus_name, units='tCO2/MWh')
-#                 # If ci_emissions_intensity is a Series, convert to DataFrame
-#                 import_series = network.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
-#                 ci_load_series = network.loads_t.p.filter(regex='C&I').sum(axis=1)
-#                 # Build DataFrame with aligned time series
-#                 df = pd.DataFrame({
-#                     'snapshot': ci_emissions_intensity.index,
-#                     'emissions_intensity': ci_emissions_intensity.values,
-#                     'import': import_series.values,
-#                     'ci_load': ci_load_series.values,
-#                     'scenario': scenario_id,
-#                 })
-#                 emission_dfs.append(df)
-                
-#                 # Clean up
-#                 del network
-#                 gc.collect()
-                
-#             except Exception as e:
-#                 print(f"Error processing {nc_file}: {str(e)}")
-#                 continue
-        
-#         if emission_dfs:
-#             # Concatenate and save results for this directory immediately
-#             emission_output = pd.concat(emission_dfs, ignore_index=True)
-#             emission_output.to_csv(os.path.join(hourly_path, f"{dir_name}_ci_emission_intensity.csv"), index=False)
-#             print(f"Successfully processed and saved CI emission intensity for {dir_name}")
-#             del emission_dfs, emission_output
-#             gc.collect()
-#         else:
-#             print(f"No valid data processed for {dir_name}")
-
