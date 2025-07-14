@@ -373,7 +373,11 @@ def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh'
     
     # Get C&I imports and calculate total emissions
     ci_imports = n.links_t.p0.filter(regex='C&I').filter(regex='Import').values.flatten()
-    total_ci_emissions = (grid_emissions_intensity.values * ci_imports).sum()
+    ci_greenfield_emissions = (n.generators_t.p[n.generators[n.generators.index.str.contains("C&I")].index]            
+                                / n.generators[n.generators.index.str.contains("C&I")].efficiency
+                                * n.generators[n.generators.index.str.contains("C&I")].carrier.map(n.carriers.co2_emissions)
+                                ).fillna(0).values.flatten().sum()
+    total_ci_emissions = (grid_emissions_intensity.values * ci_imports).sum() + ci_greenfield_emissions
     
     # Get total C&I load
     total_ci_load = n.loads_t.p.filter(regex='C&I').sum().sum()
