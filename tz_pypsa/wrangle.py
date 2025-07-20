@@ -188,6 +188,32 @@ def interconnector_by_nodes(
         
     return interconnector.groupby(['snapshot', 'Node', 'Node_Destination']).agg({'Value': 'sum'}).reset_index()
 
+def calculate_weighted_feed_in_tariff(
+        n : pypsa.Network
+    ) -> pd.DataFrame:
+    
+    '''
+    Calculate the weighted feed-in tariff for a given network.
+    '''
+    ci_generator_feed_in_tariff = (
+        n.generators.loc[
+            n.generators.index.str.contains('C&I')
+        ]
+        [['feed_in_tariff']]
+    )
+
+    ci_generator_feed_in_tariff['dispatch'] = n.generators_t.p[ ci_generator_feed_in_tariff.index ].sum()
+    ci_generator_feed_in_tariff['generation_weighting'] = (ci_generator_feed_in_tariff['dispatch'] 
+                                                           / ci_generator_feed_in_tariff['dispatch'].sum()
+                                                           )
+
+    ci_generator_feed_in_tariff['weighted_feed_in_tariff'] = (ci_generator_feed_in_tariff['feed_in_tariff'] 
+                                                              * ci_generator_feed_in_tariff['generation_weighting']
+                                                              )
+
+    return ci_generator_feed_in_tariff['weighted_feed_in_tariff'].sum()
+    
+
 def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
     '''Returns a summary of the costs for C&I generators, storage units and links
     '''
@@ -249,21 +275,28 @@ def get_ci_cost_summary(n : pypsa.Network) -> pd.DataFrame:
     df.loc[:, 'capex'] = df['p_nom_opt'] * df['capital_cost']
     df.loc[:, 'opex'] = df['dispatch'] * df['marginal_cost']
 
+    import_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
     # marginal price of the brownfield bus
     ci_brown_bus = n.buses[n.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
-
-    # calculate import costs
-    import_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Import').sum(axis=1)
+    # calculate import costs using brownfield bus marginal price
     import_link_p = n.buses_t.marginal_price[ci_brown_bus]
-    import_cost = ( import_links_t * import_link_p ).sum() 
+    import_cost = ( import_links_t * import_link_p ).sum()
 
     # append to df
     df.loc[ df.index.str.contains('Import'), 'import_cost' ] = import_cost
 
     # calculate export revenues
     export_links_t = n.links_t.p0.filter(regex='C&I').filter(regex='Export').sum(axis=1)
-    export_link_p = n.buses_t.marginal_price[ci_brown_bus]
-    export_revenue = -( export_links_t * export_link_p ).sum().sum()
+
+    if 'feed_in_tariff' not in n.generators.columns:
+        # marginal price of the brownfield bus
+        ci_brown_bus = n.buses[n.buses.index.str.contains('C&I')].index.str.split('C&I').str[0].str.strip()[0]
+        # calculate export revenues using brownfield bus marginal price
+        export_link_p = n.buses_t.marginal_price[ci_brown_bus]
+        export_revenue = -( export_links_t * export_link_p ).sum().sum()
+    else:
+        # calculate export revenues using feed-in tariffs
+        export_revenue = -( export_links_t * calculate_weighted_feed_in_tariff(n)).sum()  
 
     # append to df
     df.loc[ df.index.str.contains('Export'), 'export_revenue' ] = export_revenue
@@ -377,7 +410,14 @@ def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh'
                                 / n.generators[n.generators.index.str.contains("C&I")].efficiency
                                 * n.generators[n.generators.index.str.contains("C&I")].carrier.map(n.carriers.co2_emissions)
                                 ).fillna(0).values.flatten().sum()
+    ci_greenfield_emissions_output = (n.generators_t.p[n.generators[n.generators.index.str.contains("C&I")].index]            
+                                / n.generators[n.generators.index.str.contains("C&I")].efficiency
+                                * n.generators[n.generators.index.str.contains("C&I")].carrier.map(n.carriers.co2_emissions)
+                                ).fillna(0).sum(axis=1)
     total_ci_emissions = (grid_emissions_intensity.values * ci_imports).sum() + ci_greenfield_emissions
+    grid_emissions_intensity.to_csv('grid_emissions_intensity.csv')
+    pd.Series(ci_imports).to_csv('ci_imports.csv')
+    ci_greenfield_emissions_output.to_csv('ci_greenfield_emissions.csv')
     
     # Get total C&I load
     total_ci_load = n.loads_t.p.filter(regex='C&I').sum().sum()
@@ -389,7 +429,7 @@ def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh'
     if units == 'gCO2/kWh':
         emission_intensity *= 1000  # tCO2/MWh -> gCO2/kWh
     
-    return emission_intensity
+    return emission_intensity, total_ci_load
 
 
 def transform_visualiser_hourly_output(
