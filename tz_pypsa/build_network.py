@@ -408,6 +408,7 @@ def build_pypsa_network(
                     network.add('Generator', df.index, **df)
                     network.generators.max_utilisation_rate.loc[generator_name] = technology['max_utilisation_rate'][bus]
 
+    network.generators = network.generators.fillna({"is_blend_or_ccs": False}).astype({"is_blend_or_ccs": bool})
 
     # --- add storage units to network --- #
     for year in years:
