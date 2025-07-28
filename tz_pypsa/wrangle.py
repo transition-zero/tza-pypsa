@@ -410,14 +410,8 @@ def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh'
                                 / n.generators[n.generators.index.str.contains("C&I")].efficiency
                                 * n.generators[n.generators.index.str.contains("C&I")].carrier.map(n.carriers.co2_emissions)
                                 ).fillna(0).values.flatten().sum()
-    ci_greenfield_emissions_output = (n.generators_t.p[n.generators[n.generators.index.str.contains("C&I")].index]            
-                                / n.generators[n.generators.index.str.contains("C&I")].efficiency
-                                * n.generators[n.generators.index.str.contains("C&I")].carrier.map(n.carriers.co2_emissions)
-                                ).fillna(0).sum(axis=1)
+    
     total_ci_emissions = (grid_emissions_intensity.values * ci_imports).sum() + ci_greenfield_emissions
-    grid_emissions_intensity.to_csv('grid_emissions_intensity.csv')
-    pd.Series(ci_imports).to_csv('ci_imports.csv')
-    ci_greenfield_emissions_output.to_csv('ci_greenfield_emissions.csv')
     
     # Get total C&I load
     total_ci_load = n.loads_t.p.filter(regex='C&I').sum().sum()
@@ -429,7 +423,7 @@ def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh'
     if units == 'gCO2/kWh':
         emission_intensity *= 1000  # tCO2/MWh -> gCO2/kWh
     
-    return emission_intensity, total_ci_load
+    return emission_intensity
 
 
 def transform_visualiser_hourly_output(
@@ -822,9 +816,9 @@ def transform_visualiser_hourly_output(
     optimal_capacity = (
         network
         .statistics
-        .optimal_capacity(groupby=['bus', 'type'])
+        .optimal_capacity(groupby=['bus', 'carrier'], nice_names=False)
         .reset_index()
-        .rename(columns={'bus':'Node', 'type': 'Tech',  0: 'OptimalCapacity'})
+        .rename(columns={'bus':'Node', 'carrier': 'Tech',  0: 'OptimalCapacity'})
         .drop(columns='component')
     )
 
