@@ -352,9 +352,14 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
                 df['import_weighting'] * (1/df['grid_imports']) * df['import_cost'],
                 0
             ),
-            ppa_unit_cost=lambda df: np.where(
+            ppa_unit_cost_capex=lambda df: np.where(
                 (df['carrier'] != 'Grid Imports') & (df['carrier'] != 'Grid Exports'),
-                (1/(df['ci_load'] - df['grid_imports'] + df['grid_exports'])) * df['ppa_weighting'] * df['total_costs'],
+                (1/(df['ci_load'] - df['grid_imports'] + df['grid_exports'])) * df['ppa_weighting'] * df['capex'],
+                0
+            ),
+            ppa_unit_cost_opex=lambda df: np.where(
+                (df['carrier'] != 'Grid Imports') & (df['carrier'] != 'Grid Exports'),
+                (1/(df['ci_load'] - df['grid_imports'] + df['grid_exports'])) * df['ppa_weighting'] * df['opex'],
                 0
             ),
             export_unit_cost=lambda df: np.where(
@@ -369,7 +374,7 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
     )
 
     # return unit_cost    
-    return unit_cost[['Node', 'carrier', 'capex', 'opex', 'import_cost', 'export_revenue', 'ppa_unit_cost', 'import_unit_cost', 'export_unit_cost', 'unit_cost_all_energy', 'unit_cost_ci_energy']]
+    return unit_cost[['Node', 'carrier', 'capex', 'opex', 'import_cost', 'export_revenue', 'ppa_unit_cost_capex', 'ppa_unit_cost_opex', 'import_unit_cost', 'export_unit_cost', 'unit_cost_all_energy', 'unit_cost_ci_energy']]
 
 def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh') -> float:
     """
