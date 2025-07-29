@@ -367,7 +367,8 @@ def get_ci_unit_cost(n: pypsa.Network) -> pd.DataFrame:
         .assign(unit_cost_all_energy=lambda df: (df['capex'] + df['opex'] + df['import_cost'] + df['export_revenue'])/(df['ci_load'] + df['grid_exports'] + df['curtailment']))
         .assign(unit_cost_ci_energy=lambda df: (df['capex'] + df['opex'] + df['import_cost'] + df['export_revenue'])/df['ci_load'])
     )
-        
+
+    # return unit_cost    
     return unit_cost[['Node', 'carrier', 'capex', 'opex', 'import_cost', 'export_revenue', 'ppa_unit_cost', 'import_unit_cost', 'export_unit_cost', 'unit_cost_all_energy', 'unit_cost_ci_energy']]
 
 def get_scenario_emission_intensity(n: pypsa.Network, bus: str, units='gCO2/kWh') -> float:
@@ -813,7 +814,17 @@ def transform_visualiser_hourly_output(
             export_revenue = None
 
     # --- Calculate capacity factor ---
-    optimal_capacity = (
+    # Creating two optimal capacity lookups for both generator and storage because of naming convention consistencies issue
+    optimal_capacity_generator = (
+        network
+        .statistics
+        .optimal_capacity(groupby=['bus', 'type'])
+        .reset_index()
+        .rename(columns={'bus':'Node', 'type': 'Tech',  0: 'OptimalCapacity'})
+        .drop(columns='component')
+    )
+
+    optimal_capacity_storage = (
         network
         .statistics
         .optimal_capacity(groupby=['bus', 'carrier'], nice_names=False)
@@ -824,14 +835,14 @@ def transform_visualiser_hourly_output(
 
     capacity_factor_generator = pd.merge(
         generation,
-        optimal_capacity,
+        optimal_capacity_generator,
         on=['Node', 'Tech'],
         how='left'
     )
 
     capacity_factor_storage = pd.merge(
         storage,
-        optimal_capacity,
+        optimal_capacity_storage,
         on=['Node', 'Tech'],
         how='left'
     )
