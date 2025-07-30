@@ -341,7 +341,7 @@ generators:
       THANO: 966
       THACE: 29900.55
       THASO: 2690
-      SGPXX: 9425 # w/o planned expansion: 9925; w/ planned expansion: 9425; v1 number: 10645
+      SGPXX: 9425 # w/o planned expansion: 9925; w/ planned expansion: 9925; v1 number: 10645
       BRNXX: 268
     planned_expansion:
       IDNSM:
@@ -2202,7 +2202,7 @@ generators:
       THACE: 2699
       THASO: 315
       KHMXX: 0
-      SGPXX: 960 # w/o planned expansion: 180; w/ planned expansion: 960;
+      SGPXX: 1710 # w/o planned expansion: 180; w/ planned expansion: 1710;
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
@@ -2484,7 +2484,7 @@ generators:
       VNMNO: 34462
       VNMCE: 59353
       VNMSO: 77260
-      MYSPE: 137500 # New number from MyRER 137500, modified into 25000 for avoiding a lot new built; previous number: 17335
+      MYSPE: 25000 # New number from MyRER 137500, modified into 25000 for avoiding a lot new built; previous number: 17335
       MYSSH: 99400 # New number from MyRER; previous number: 4645
       MYSSK: 32100 # New number from MyRER; previous number: 21768
       PHLLU: 86286
