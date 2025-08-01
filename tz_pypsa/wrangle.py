@@ -1201,7 +1201,17 @@ def compute_relative_costs(
     # Map baseline to each row and adjust
     metrics = sys_cost.index.get_level_values('Metric')
     techs   = sys_cost.index.get_level_values('Tech')
-    adjusted = [baseline.loc[(m, t)] for m, t in zip(metrics, techs)]
+    
+    # Handle missing technology combinations in baseline gracefully
+    adjusted = []
+    for m, t in zip(metrics, techs):
+        try:
+            adjusted.append(baseline.loc[(m, t)])
+        except KeyError:
+            # If technology doesn't exist in baseline, use 0 for relative calculation
+            print(f"Warning: Technology '{t}' not found in baseline scenario for metric '{m}'. Using 0 as baseline.")
+            adjusted.append(0)
+    
     sys_cost['Value'] = sys_cost['Value'] - adjusted
 
     # Reset index, rename, and add metadata columns
