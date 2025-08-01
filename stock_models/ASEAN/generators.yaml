@@ -2406,6 +2406,42 @@ generators:
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     
+  - id: solar-batam
+    type: solar-batam
+    carrier: solar-btmsl
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      SGPXX: 0
+    planned_expansion:
+      SGPXX: 
+        2030: 1000 
+    efficiency:
+      SGPXX: 1.
+    ramp_limit_up:
+      SGPXX: 1.
+    ramp_limit_down:
+      SGPXX: 1.
+    p_min_pu:
+      SGPXX: 0.
+    min_utilisation_rate:
+      SGPXX: 0.
+    max_utilisation_rate:
+      SGPXX: 1.
+    # universal technology parameters
+    extendable: false
+    marginal_cost: 0 # currency/MWh
+    lifetime: 20 # years
+    is_blend_or_ccs: false
+    generation_blend_share: 0.
+    # unit commitment
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
   - id: photovoltaic-unspecified
     type: photovoltaic-unspecified

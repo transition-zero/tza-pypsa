@@ -58,6 +58,11 @@ carriers:
     nice_name: Solar
     color: gold
     co2_emissions: 0.
+
+  - id: solar-btmsl
+    nice_name: Solar Batam
+    color: gold
+    co2_emissions: 0.
   
   - id: waste
     nice_name: Waste
