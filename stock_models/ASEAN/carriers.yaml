@@ -99,6 +99,16 @@ carriers:
     color: darkorchid
     co2_emissions: 0.
 
+  - id: gas-sequestered
+    nice_name: sequestered part of CCGT with CCS
+    color: mediumorchid
+    co2_emissions: 0.
+
+  - id: gas-leaked
+    nice_name: leaked part of CCGT with CCS
+    color: lightgrey
+    co2_emissions: 0.20 # kgCO2/kWh -> tCO2/MWh
+
   # - id: gas-hydrogen-clean
   #   nice_name: Clean part of CCGT blended with hydrogen
   #   color: mediumorchid
