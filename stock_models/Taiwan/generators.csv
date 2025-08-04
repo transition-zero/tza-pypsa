@@ -7,7 +7,7 @@ TWN-LNG-2030_exo,TWN,gas-unspecified,gas-unspecified,13696.6,0,FALSE,0,,,0,1,LNG
 TWN-Oil-2024active_exo,TWN,oil-unspecified,oil-unspecified,312,0,FALSE,0,,,0,1,Oil,180.62,2024,30,0,0.32,FALSE,1,1,0,0.22,,0,FALSE
 TWN-Oil-2030_exo,TWN,oil-unspecified,oil-unspecified,0,0,FALSE,0,,,0,1,Oil,180.62,2030,30,0,0.32,FALSE,1,1,0,0.22,,0,FALSE
 TWN-Nuclear-2024active_exo,TWN,nuclear-unspecified,nuclear-unspecified,0,0,FALSE,0,,,0,1,Nuclear,11.98,2024,40,0,0.35,FALSE,0.3,0.3,0,,,0,FALSE
-TWN-Nuclear-2030_exo,TWN,nuclear-unspecified,nuclear-unspecified,1902,0,FALSE,0,,,0,1.0,Nuclear,11.98,2030,40,0,0.35,FALSE,0.3,0.3,0,,,0,FALSE
+TWN-Nuclear-2030_exo,TWN,nuclear-unspecified,nuclear-unspecified,0,0,FALSE,0,,,0,1.0,Nuclear,11.98,2030,40,0,0.35,FALSE,0.3,0.3,0,,,0,FALSE
 TWN-Hydro-2024active_exo,TWN,hydro-unspecified,hydro-unspecified,2122.4,0,FALSE,0,,,0,1,Hydro,0,2024,40,0,1,FALSE,1,1,0,,,0,FALSE
 TWN-Hydro-2030_exo,TWN,hydro-unspecified,hydro-unspecified,17,0,FALSE,0,,,0,1,Hydro,0,2030,40,5294352,1,FALSE,1,1,0,,,77744.17,FALSE
 TWN-Biomass-2024active_exo,TWN,biomass-unspecified,biomass-unspecified,61,0,FALSE,0,,,0,1,Biomass,225.22,2024,40,0,0.17,FALSE,1,1,0,0.36,,0,FALSE
