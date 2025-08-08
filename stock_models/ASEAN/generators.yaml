@@ -334,14 +334,14 @@ generators:
       IDNML: 136
       IDNPP: 205
       VNMSO: 7076
-      MYSPE: 7998 # w/o planned expansion: 10189; w/ planned expansion: 7998; v1 number: 12669.2
-      MYSSH: 1098 # w/o planned expansion: 978; w/ planned expansion: 1098; prev number: 977
-      MYSSK: 1659 # w/o planned expansion: 1159; w/ planned expansion: 1659;
+      MYSPE: 10189 # w/o planned expansion 2030: 10189; w/ planned expansion 2030: 7998
+      MYSSH: 978 # w/o planned expansion 2030: 978; w/ planned expansion 2030: 1098
+      MYSSK: 1159 # w/o planned expansion 2030: 1159; w/ planned expansion 2030: 1659
       PHLLU: 2734.4
       THANO: 966
       THACE: 29900.55
       THASO: 2690
-      SGPXX: 9425 # w/o planned expansion: 9925; w/ planned expansion: 9925; v1 number: 10645
+      SGPXX: 9925 # w/o planned expansion 2030: 9925; w/ planned expansion 2030: 9925
       BRNXX: 268
     planned_expansion:
       IDNSM:
@@ -363,7 +363,7 @@ generators:
       #   2026: 1200
       #   2028: 600
       #   2029: 600
-      #   2030: -2900
+      #   2030: -2400
       MMRXX:
         2024: 388
       # MYSPE:
@@ -588,8 +588,8 @@ generators:
       VNMNO: 7327
       VNMCE: 1830
       VNMSO: 1245
-      MYSPE: 1400 # w/o planned expansion: 7170; w/ planned expansion: 1400; prev number: 8200
-      MYSSK: 270 # w/o planned expansion: 480; w/ planned expansion: 270;
+      MYSPE: 7170 # w/o planned expansion 2030: 7170; w/ planned expansion 2030: 1400;
+      MYSSK: 480 # w/o planned expansion 2030: 480; w/ planned expansion 2030: 270;
       PHLLU: 5898.6
       PHLVI: 786
       PHLMI: 1465
@@ -1055,7 +1055,7 @@ generators:
     # unique technology parameters by bus
     initial_capacity:
       IDNJW: 1900
-      MYSPE: 1000 # w/o planned expansion: 5010; w/ planned expansion: 1000; prev number: 4000
+      MYSPE: 5010 # w/o planned expansion 2030: 5010; w/ planned expansion 2030: 1000
     planned_expansion:
       VNMCE:
         2025: 1330
@@ -1922,9 +1922,9 @@ generators:
       VNMNO: 11810
       VNMCE: 9829
       VNMSO: 1556
-      MYSPE: 2520.1 # w/o planned expansion: 2536.1; w/ planned expansion: 2520.1;
-      MYSSH: 262.5 # w/o planned expansion: 75; w/ planned expansion: 262.5
-      MYSSK: 4747.5 # w/o planned expansion: 3462.5; w/ planned expansion: 4747.5;
+      MYSPE: 2536.1 # w/o planned expansion: 2536.1; w/ planned expansion: 2520.1;
+      MYSSH: 75 # w/o planned expansion: 75; w/ planned expansion: 262.5
+      MYSSK: 3462.5 # w/o planned expansion: 3462.5; w/ planned expansion: 4747.5;
       PHLLU: 2486
       PHLVI: 49.8
       PHLMI: 1083
@@ -2192,7 +2192,7 @@ generators:
       VNMNO: 0
       VNMCE: 0
       VNMSO: 375
-      MYSPE: 0 # w/o planned expansion: 250; w/ planned expansion: 0; prev number: 834
+      MYSPE: 250 # w/o planned expansion 2030: 250; w/ planned expansion 2030: 0
       MYSSH: 0
       MYSSK: 102
       PHLLU: 373
@@ -2202,15 +2202,15 @@ generators:
       THACE: 2699
       THASO: 315
       KHMXX: 0
-      SGPXX: 1710 # w/o planned expansion: 180; w/ planned expansion: 1710;
+      SGPXX: 250 # w/o planned expansion 2030: 250; w/ planned expansion 2030: 1710;
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
-    # planned_expansion:
-    #   SGPXX:
-    #     2025: 780 # prev number: 680
-    #   MYSPE:
-    #     2025: -250
+    planned_expansion:
+      SGPXX:
+        2025: 780
+      MYSPE:
+        2025: -250
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -2423,9 +2423,9 @@ generators:
       VNMNO: 0
       VNMCE: 5722.4
       VNMSO: 3350.6
-      MYSPE: 1575 # prev number: 1445.42
+      MYSPE: 1575 
       MYSSH: 50
-      MYSSK: 50 # prev number: 0
+      MYSSK: 50 
       PHLLU: 937.2
       PHLVI: 373.1
       PHLMI: 78
@@ -2437,7 +2437,7 @@ generators:
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
-      BTMSL: 4000 # seed number: 500
+      BTMSL: 0
     planned_expansion:    
       IDNSM:
         2024: 33.6
@@ -2446,8 +2446,8 @@ generators:
       VNMCE:
         2024: 120
       MYSPE:
-        2024: 550 # prev number: 638
-        2025: 110 # prev number: 100
+        2024: 550 
+        2025: 110 
         2026: 175
         2027: 385
         2028: 500
@@ -3340,21 +3340,21 @@ generators:
     carrier: gas
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   SGPXX: 0
-    #   MYSSK: 0
-    #   MYSPE: 0
-    # planned_expansion:
-    #   SGPXX:
-    #     2030: 1680 # 30% blending (70% for total planned capacity: 2400*0.7)
-    #   MYSSK:
-    #     2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
-    #   MYSPE:
-    #     2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      SGPXX: 1680
-      MYSSK: 350
-      MYSPE: 980
+    initial_capacity:
+      SGPXX: 0
+      MYSSK: 0
+      MYSPE: 0
+    planned_expansion:
+      SGPXX:
+        2030: 1680 # 30% blending (70% for total planned capacity: 2400*0.7)
+      MYSSK:
+        2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
+      MYSPE:
+        2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   SGPXX: 1680
+    #   MYSSK: 350
+    #   MYSPE: 980
     maximum_capacity:
       SGPXX: 1680
       MYSSK: 350
@@ -3415,21 +3415,21 @@ generators:
     carrier: hydrogen
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   SGPXX: 0
-    #   MYSSK: 0
-    #   MYSPE: 0
-    # planned_expansion:
-    #   SGPXX:
-    #     2030: 720 # 30% blending (30% for total planned capacity: 2400*0.3)
-    #   MYSSK:
-    #     2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
-    #   MYSPE:
-    #     2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      SGPXX: 720
-      MYSSK: 150
-      MYSPE: 420
+    initial_capacity:
+      SGPXX: 0
+      MYSSK: 0
+      MYSPE: 0
+    planned_expansion:
+      SGPXX:
+        2030: 720 # 30% blending (30% for total planned capacity: 2400*0.3)
+      MYSSK:
+        2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
+      MYSPE:
+        2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   SGPXX: 720
+    #   MYSSK: 150
+    #   MYSPE: 420
     maximum_capacity:
       SGPXX: 720
       MYSSK: 150
@@ -3487,19 +3487,17 @@ generators:
     carrier: coal
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   MYSPE: 0
-    #   MYSSK: 0
-    #   SGPXX: 0
-    # planned_expansion:
-    #   MYSPE:
-    #     2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
-    #   MYSSK: 0
-    #   SGPXX: 0
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      MYSPE: 1785
+    initial_capacity:
+      MYSPE: 0
       MYSSK: 0
       SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 1785
+    #   MYSSK: 0
+    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 1785
       MYSSK: 0
@@ -3553,19 +3551,17 @@ generators:
     carrier: biomass
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   MYSPE: 0
-    #   MYSSK: 0
-    #   SGPXX: 0
-    # planned_expansion:
-    #   MYSPE:
-    #     2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
-    #   MYSSK: 0
-    #   SGPXX: 0
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      MYSPE: 315
+    initial_capacity:
+      MYSPE: 0
       MYSSK: 0
       SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 315
+    #   MYSSK: 0
+    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 315
       MYSSK: 0
@@ -3623,19 +3619,17 @@ generators:
     carrier: coal
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   MYSPE: 0
-    #   MYSSK: 0
-    #   SGPXX: 0
-    # planned_expansion:
-    #   MYSPE:
-    #     2030: 3208 # 20% blending (80% for total planned capacity: 4010*0.80)
-    #   MYSSK: 0
-    #   SGPXX: 0    
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      MYSPE: 3208
+    initial_capacity:
+      MYSPE: 0
       MYSSK: 0
       SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2030: 3208 # 20% blending (80% for total planned capacity: 4010*0.80)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 3208
+    #   MYSSK: 0
+    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 3208
       MYSSK: 0
@@ -3693,19 +3687,17 @@ generators:
     carrier: ammonia
     # ---
     # unique technology parameters by bus
-    # initial_capacity:
-    #   MYSPE: 0
-    #   MYSSK: 0
-    #   SGPXX: 0
-    # planned_expansion:
-    #   MYSPE:
-    #     2030: 802 # 20% blending (20% for total planned capacity: 4010*0.20)
-    #   MYSSK: 0
-    #   SGPXX: 0
-    initial_capacity: # try to set this as initial capacity to get picked in 2030
-      MYSPE: 802
+    initial_capacity:
+      MYSPE: 0
       MYSSK: 0
       SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2030: 802 # 20% blending (20% for total planned capacity: 4010*0.20)
+    # initial_capacity: # try to set this as initial capacity to get picked in 2030
+    #   MYSPE: 802
+    #   MYSSK: 0
+    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 802
       MYSSK: 0
