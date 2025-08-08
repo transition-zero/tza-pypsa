@@ -197,8 +197,8 @@ def build_pypsa_network(
                 lifetime=link['lifetime'],
                 min_utilisation_rate=link['min_utilisation_rate'],
                 max_utilisation_rate=link['max_utilisation_rate'],
-                capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
-                marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
+                capital_cost = costs.loc[ link['from_node'] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                marginal_cost = costs.loc[ link['from_node'] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
 
             if link['bidirectional']:
@@ -216,8 +216,8 @@ def build_pypsa_network(
                 type=link['type'],
                 efficiency=link['efficiency'],
                 lifetime=link['lifetime'],
-                capital_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
-                marginal_cost = costs.loc[ link['from_node'][0:3] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
+                capital_cost = costs.loc[ link['from_node'] ].loc[ link['carrier'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                marginal_cost = costs.loc[ link['from_node'] ].loc[ link['carrier'] ].loc[ year ].MarginalCost, # currency/MWh
             )
 
     
@@ -373,8 +373,8 @@ def build_pypsa_network(
                         # ---
                         # universal technology parameters
                         p_nom_extendable = p_nom_extendable, # can the model build more?
-                        capital_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].AnnualCapitalCost, # currency/MW
-                        marginal_cost = costs.loc[ bus[0:3] ].loc[ technology['type'] ].loc[ year ].MarginalCost, # currency/MWh
+                        capital_cost = costs.loc[ bus ].loc[ technology['type'] ].loc[ year ].AnnualCapitalCost, # currency/MW
+                        marginal_cost = costs.loc[ bus ].loc[ technology['type'] ].loc[ year ].MarginalCost, # currency/MWh
                         carrier = technology['carrier'], # commodity/carrier
                         build_year = year, # year available from
                         lifetime = technology['lifetime'], # years
@@ -458,8 +458,8 @@ def build_pypsa_network(
                         p_nom=p_nom, # starting capacity (MW)
                         p_nom_min=p_nom_min, # minimum capacity (MW)
                         p_nom_extendable=p_nom_extendable,
-                        capital_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].AnnualCapitalCost,
-                        marginal_cost=costs.loc[ bus[0:3] ].loc[ storage['id'] ].loc[ year ].MarginalCost,
+                        capital_cost=costs.loc[ bus ].loc[ storage['id'] ].loc[ year ].AnnualCapitalCost,
+                        marginal_cost=costs.loc[ bus ].loc[ storage['id'] ].loc[ year ].MarginalCost,
                         build_year=year,
                         lifetime=storage['lifetime'],
                         state_of_charge_initial=storage['state_of_charge_initial'],
