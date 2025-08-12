@@ -106,3 +106,6 @@ hydro-reservoir-INDNE-water-exo-2030,hydro-reservoir,INDNE,0.0,True,water,2030,h
 hydro-reservoir-INDNO-water-exo-2030,hydro-reservoir,INDNO,0.0,True,water,2030,hydro-reservoir,1178727.59,129334.93,40.0,1.0,0.1,,
 hydro-reservoir-INDSO-water-exo-2030,hydro-reservoir,INDSO,0.0,True,water,2030,hydro-reservoir,1178727.59,129334.93,40.0,1.0,0.1,,
 hydro-reservoir-INDWE-water-exo-2030,hydro-reservoir,INDWE,0.0,True,water,2030,hydro-reservoir,1178727.59,129334.93,40.0,1.0,0.1,,
+combined-cycle-INDWE-h2-endo-2030,hydrogen-ccgt,INDWE,0.0,True,hydrogen,2030,hydrogen-ccgt,693708,57682,25.0,0.56,96.04,,
+combined-cycle-INDWE-h2-blend-h2-2030,hydrogen-blend-ccgt,INDWE,0.0,True,h2blend-h2,2030,hydrogen-blend-ccgt,693708,57682,25.0,0.56,90,,,TRUE,0.5,
+combined-cycle-INDWE-h2-blend-gas-2030,hydrogen-blend-ccgt,INDWE,0.0,True,h2blend-gas,2030,hydrogen-blend-ccgt,693708,57682,25.0,0.56,90,,,TRUE,0.5,
