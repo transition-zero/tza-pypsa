@@ -1,4 +1,4 @@
-name,type,bus,p_nom,p_nom_extendable,carrier,build_year,technology,total_capital_cost,annual_fixed_costs,lifetime,efficiency,marginal_cost,ramp_limit_up,ramp_limit_down
+name,type,bus,p_nom,p_nom_extendable,carrier,build_year,technology,total_capital_cost,annual_fixed_costs,lifetime,efficiency,marginal_cost,ramp_limit_up,ramp_limit_down,is_blend_or_ccs,generation_blend_share,min_utilisation_rate,max_utilisation_rate
 bio-power-bagasse-INDEA-agricultural-waste-solids-exo-2023,biomass,INDEA,463.0,False,agricultural-waste-solids,2023,biomass,713214.15,14264.28,20.0,0.35,1.0,,
 bio-power-bagasse-INDNE-agricultural-waste-solids-exo-2023,biomass,INDNE,0.0,False,agricultural-waste-solids,2023,biomass,713214.15,14264.28,20.0,0.35,1.0,,
 bio-power-bagasse-INDNO-agricultural-waste-solids-exo-2023,biomass,INDNO,2600.0,False,agricultural-waste-solids,2023,biomass,713214.15,14264.28,20.0,0.35,1.0,,
