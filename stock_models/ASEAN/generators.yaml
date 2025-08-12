@@ -271,7 +271,7 @@ generators:
 
 
   - id: biogas
-    type: biogas-unspecified 
+    type: biogas
     carrier: biogas
     # ---
     # unique technology parameters by bus

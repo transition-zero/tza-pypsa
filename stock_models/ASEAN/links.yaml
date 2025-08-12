@@ -112,7 +112,7 @@ links:
   - id: IDNKA-MYSSK # AIMS3 - Existing
     from_node: IDNKA
     to_node: MYSSK
-    extendable: true
+    extendable: false
     carrier: interconnector-IDNKA-MYSSK
     type: hvdc
     lifetime: 99
@@ -284,6 +284,7 @@ links:
     reverse_capacity: 50
     planned_expansion:
       2024 : 50
+    maximum_capacity: 50
     min_utilisation_rate: 0.
     max_utilisation_rate: 1.
 
@@ -304,16 +305,17 @@ links:
   - id: MYSPE-SGPXX # AIMS3 - Existing
     from_node: MYSPE
     to_node: SGPXX
-    extendable: false
+    extendable: true
     carrier: interconnector-MYSPE-SGP
     type: hvac
     lifetime: 99
     efficiency: 0.97
     bidirectional: false
-    initial_capacity: 1000
+    initial_capacity: 100
     reverse_capacity: 0
-    # planned_expansion:
-    #   2024 : 900
+    planned_expansion:
+      2024 : 900
+    maximum_capacity: 1000
     min_utilisation_rate: 0.
     max_utilisation_rate: 1.
 
@@ -530,5 +532,6 @@ links:
     reverse_capacity: 0
     planned_expansion:
       2030: 1000
+    maximum_capacity: 1000
     min_utilisation_rate: 0.75
     max_utilisation_rate: 1.
