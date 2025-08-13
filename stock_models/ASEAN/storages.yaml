@@ -34,12 +34,12 @@ storages:
       IDNML: 0.
       IDNPP: 0.
       MYSPE: 0.
-      MYSSK: 0.
+      MYSSK: 60
       MYSSH: 0.
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
-      SGPXX: 200
+      SGPXX: 207.5
       BRNXX: 0.
       MMRXX: 0.
       THANO: 0.
@@ -53,10 +53,10 @@ storages:
       BTMSL: 0.
     planned_expansion:
       SGPXX: 
-        2030: 7.5 
+        # 2030: 7.5 
         2040: -200
-      MYSSK: 
-        2030: 60     
+      # MYSSK: 
+      #   2030: 60     
 
 
   - id: hydro-pumped-storage
