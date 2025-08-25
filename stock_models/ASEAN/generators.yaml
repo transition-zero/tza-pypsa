@@ -2709,11 +2709,15 @@ generators:
       THACE: 0
       THASO: 0
       KHMXX: 0
-      SGPXX: 156
+      SGPXX: 178
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
+<<<<<<< HEAD
     # planned_expansion:
+=======
+    planned_expansion:
+>>>>>>> 2b12e46418437cc63e4ae1969b323a8eaffc2f65
       SGPXX:
     #     2030: 20
     #     2030: -136
