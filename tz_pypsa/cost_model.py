@@ -87,7 +87,7 @@ def compute_costs(
     costs['AnnualCapitalCost'] = (
         # annuity factor
         (
-            costs['Technology'].map( calculate_annuity(capital_outlay['useful_life'], r = 0.1).to_dict() )
+            costs['Technology'].map( calculate_annuity(capital_outlay['useful_life'], r = 0.08).to_dict() )
         )
         * costs['CapitalCost'] # multiply capital cost gives us annualised capex
         + costs['FixedCost'] # finally add annual fixed costs 
@@ -101,5 +101,7 @@ def compute_costs(
         )
         .fillna(0)   
     )
+
+    costs.to_csv('costs.csv')
 
     return costs#[ ~costs.Technology.isna() ].reset_index(drop=True)

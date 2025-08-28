@@ -34,7 +34,7 @@ generators:
       THANO: 277.9
       THACE: 444
       THASO: 73
-      SGPXX: 0 
+      SGPXX: 0 # the prev capacity is actually waste to energy, not biomass
       MYSPE: 247
       MYSSH: 131
       MYSSK: 58
@@ -277,34 +277,25 @@ generators:
     # unique technology parameters by bus
     initial_capacity:
       MYSPE: 115
-      MYSSH: 11
     planned_expansion:
       MYSPE: 
         2040: -115
     maximum_capacity:
       MYSPE: 115
-      MYSSH: 11
     efficiency:
       MYSPE: 0.32
-      MYSSH: 0.32
     ramp_limit_up:
       MYSPE: 1.0
-      MYSSH: 1.0
     ramp_limit_down:
       MYSPE: 1.0
-      MYSSH: 1.0
     p_min_pu:
       MYSPE: 0.
-      MYSSH: 0.
     p_max_pu: # (assumption based on the lowest number for wood-based bioenergy plants : https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Sep/IRENA_Renewable_power_generation_costs_in_2023.pdf)
       MYSPE: 0.6
-      MYSSH: 0.6
     min_utilisation_rate:
       MYSPE: 0.
-      MYSSH: 0.
     max_utilisation_rate: 
       MYSPE: 0.85
-      MYSSH: 0.85
     # ---
     # universal technology parameters
     extendable: true
@@ -338,14 +329,14 @@ generators:
       IDNML: 136
       IDNPP: 205
       VNMSO: 7076
-      MYSPE: 8329 
-      MYSSH: 908 
-      MYSSK: 1659 
+      MYSPE: 10767 # 10189 CCGT + 578 ST
+      MYSSH: 978 
+      MYSSK: 1159 
       PHLLU: 2734.4
-      THANO: 997.2
-      THACE: 32734.55
+      THANO: 966
+      THACE: 29900.55
       THASO: 2690
-      SGPXX: 12321 
+      SGPXX: 10671 # 9921 CCGT + 750 ST
       BRNXX: 268
     planned_expansion:
       IDNSM:
@@ -358,29 +349,29 @@ generators:
         2025: 2824
       PHLLU:
         2024: 1320
-      # THANO:
-      #   2024: 31.2
-      # THACE:
-      #   2024: 2054
-      #   2025: 780
+      THANO:
+        2024: 31.2
+      THACE:
+        2024: 2054
+        2025: 780
       SGPXX:
-        # 2030: 2400
-        # 2030: -750 # ST
+        2030: 2400
+        2030: -750 # ST
         2040: -2150
       MMRXX:
         2024: 388
       MYSPE:
-        # 2030: 2600
-        # 2030: -4460
-        # 2030: -578 # ST
+        2030: 2600
+        2030: -4460
+        2030: -578 # ST
         2040: 2100
         2040: -2887
       MYSSH:
-        # 2030: 220
-        # 2030: -290
+        2030: 220
+        2030: -290
         2040: -688
-      # MYSSK:
-      #   2030: 500
+      MYSSK:
+        2030: 500
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -587,14 +578,14 @@ generators:
       IDNNU: 186
       IDNJW: 22775
       IDNSL: 1342
-      IDNKA: 3604
+      IDNKA: 2454
       IDNML: 14
       IDNPP: 20
       VNMNO: 7327
       VNMCE: 1830
       VNMSO: 1245
-      MYSPE: 3500 
-      MYSSK: 270 
+      MYSPE: 7170 
+      MYSSK: 480 
       MYSSH: 0
       PHLLU: 5898.6
       PHLVI: 786
@@ -614,17 +605,17 @@ generators:
         2026: 1000
       IDNSL:
         2024: 200
-      # IDNKA:
-      #   2025: 150
+      IDNKA:
+        2025: 150
       PHLLU:
         2024: 450
       KHMXX:
         2025: 265
       MYSPE:
-        # 2030: -3670
+        2030: -3670
         2040: -3500
       MYSSK:
-        # 2030: -210
+        2030: -210
         2040: -270
     efficiency:
       IDNSM: 0.35
@@ -852,7 +843,7 @@ generators:
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
-    planned_expansion:
+    planned_extension:
       VNMCE:
         2024: 1432
       VNMSO:
@@ -1068,7 +1059,7 @@ generators:
         2025: 1330
         2026: 1403
       MYSPE:
-        2040: -1010
+        2030: -1010
     efficiency:
       IDNSM: 0.42
       IDNJW: 0.42
@@ -1513,7 +1504,7 @@ generators:
       VNMSO: 660
       MYSPE: 0
       MYSSH: 157 
-      MYSSK: 37.6
+      MYSSK: 37.6 
       PHLLU: 2025.36
       PHLVI: 514
       PHLMI: 499
@@ -1932,9 +1923,9 @@ generators:
       VNMNO: 11810
       VNMCE: 9829
       VNMSO: 1556
-      MYSPE: 2520
-      MYSSH: 253.5
-      MYSSK: 4747.5
+      MYSPE: 2536
+      MYSSH: 66
+      MYSSK: 3462.5 
       PHLLU: 2486
       PHLVI: 49.8
       PHLMI: 1083
@@ -1966,13 +1957,13 @@ generators:
       VNMSO:
         2026: 240
       MYSPE:
-        # 2030: -400
-        # 2030: 384
+        2030: -400
+        2030: 384
         2040: -600
-      # MYSSK:
-      #   2028: 1285
-      # MYSSH:
-      #   2030: 187.5
+      MYSSK:
+        2028: 1285
+      MYSSH:
+        2030: 187.5
       PHLLU: 
         2024: 54.97
         2025: 62.4
@@ -1995,7 +1986,7 @@ generators:
     maximum_capacity:
       BRNXX: 0
       IDNJW: 4950
-      IDNKA: 21600
+      # IDNKA: 21600
       IDNML: 730
       IDNNU: 360
       IDNPP: 22400
@@ -2203,9 +2194,9 @@ generators:
       VNMNO: 0
       VNMCE: 0
       VNMSO: 375
-      MYSPE: 0 
+      MYSPE: 250 
       MYSSH: 0
-      MYSSK: 0
+      MYSSK: 102
       PHLLU: 373
       PHLVI: 0
       PHLMI: 0
@@ -2213,18 +2204,18 @@ generators:
       THACE: 2699
       THASO: 315
       KHMXX: 0
-      SGPXX: 960
+      SGPXX: 180
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
-    # planned_expansion:
+    planned_expansion:
       SGPXX:
-      #   2030: 780
-        2040: -180
-      # MYSPE:
-      #   2025: -250
-      # MYSSK:
-      #   2025: -102
+        2030: 780
+        2030: -180
+      MYSPE:
+        2025: -250
+      MYSSK:
+        2025: -102
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -2437,9 +2428,9 @@ generators:
       VNMNO: 0
       VNMCE: 5722.4
       VNMSO: 3350.6
-      MYSPE: 4341 
-      MYSSH: 126
-      MYSSK: 100 
+      MYSPE: 2400 
+      MYSSH: 116
+      MYSSK: 50 
       PHLLU: 937.2
       PHLVI: 373.1
       PHLMI: 78
@@ -2447,7 +2438,7 @@ generators:
       THACE: 657.21
       THASO: 0
       KHMXX: 420.84
-      SGPXX: 1072.2
+      SGPXX: 918.6
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
@@ -2459,12 +2450,12 @@ generators:
         2024: 80
       VNMCE:
         2024: 120
-      # MYSPE:
-      #   2030: 1941
-      # MYSSH:
-      #   2024: 10
-      # MYSSK:
-      #   2025: 50
+      MYSPE:
+        2030: 1941
+      MYSSH:
+        2024: 10
+      MYSSK:
+        2025: 50
       PHLLU:
         2024: 761
         2025: 565.856
@@ -2477,8 +2468,8 @@ generators:
         2025: 477
       THACE:
         2024: 309
-      # SGPXX:
-      #   2025: 153.6
+      SGPXX:
+        2025: 153.6
       LAOXX:
         2030: 64
       # BTMSL:
@@ -2709,18 +2700,14 @@ generators:
       THACE: 0
       THASO: 0
       KHMXX: 0
-      SGPXX: 178
+      SGPXX: 294
       BRNXX: 0
       MMRXX: 0
       LAOXX: 0
-<<<<<<< HEAD
-    # planned_expansion:
-=======
     planned_expansion:
->>>>>>> 2b12e46418437cc63e4ae1969b323a8eaffc2f65
       SGPXX:
-    #     2030: 20
-    #     2030: -136
+        2030: 20
+        2030: -136
         2040: -22
     maximum_capacity:
       IDNJW: 0

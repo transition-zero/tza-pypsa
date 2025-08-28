@@ -34,12 +34,12 @@ storages:
       IDNML: 0.
       IDNPP: 0.
       MYSPE: 0.
-      MYSSK: 0.
+      MYSSK: 60
       MYSSH: 0.
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
-      SGPXX: 0. # https://www.ema.gov.sg/news-events/news/media-releases/2022/largest-energy-storage-system-in-south-east-asia-to-enhance-singapores-grid-resilience
+      SGPXX: 207.5
       BRNXX: 0.
       MMRXX: 0.
       THANO: 0.
@@ -53,7 +53,10 @@ storages:
       BTMSL: 0.
     planned_expansion:
       SGPXX: 
-        2024: 7.5      
+        # 2030: 7.5 
+        2040: -200
+      # MYSSK: 
+      #   2030: 60     
 
 
   - id: hydro-pumped-storage
@@ -84,7 +87,8 @@ storages:
       THANO: 1171 # similar as installed capacity in 2023
       THACE: 360 # similar as installed capacity in 2023
       MYSPE: 480 # 10% of MYSPE's hydro potential capacity
-      MYSSK: 2040 # 20% of MYSPE's hydro potential capacity
+      MYSSK: 2040 # 20% of MYSSK's hydro potential capacity
+      MYSSH: 110 # 10% of MYSSH's hydro potential capacity
 
 
   # - id: liquid-air
@@ -105,20 +109,20 @@ storages:
   #     SGPXX: 0. 
 
 
-  - id: redox-flow
-    type: redox-flow
-    carrier: long-duration-storage
-    extendable: false
-    lifetime: 12
-    state_of_charge_initial: 0
-    max_hours: 12
-    efficiency_store: 1.00
-    efficiency_dispatch: 0.65
-    standing_loss: 0.004
-    cyclic_state_of_charge: true
-    initial_capacity:
-      MYSPE: 0.
-      MYSSK: 0.
-      MYSSH: 0.
-      SGPXX: 0.
+  # - id: redox-flow
+  #   type: redox-flow
+  #   carrier: long-duration-storage
+  #   extendable: false
+  #   lifetime: 12
+  #   state_of_charge_initial: 0
+  #   max_hours: 12
+  #   efficiency_store: 1.00
+  #   efficiency_dispatch: 0.65
+  #   standing_loss: 0.004
+  #   cyclic_state_of_charge: true
+  #   initial_capacity:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     MYSSH: 0.
+  #     SGPXX: 0.
     

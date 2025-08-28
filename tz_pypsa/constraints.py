@@ -261,7 +261,7 @@ def constr_policy_targets(
         years = network.investment_periods.to_list()
 
     
-    master_targets = pd.read_csv('stock_models/' + stock_model + '/power_sector_targets.csv')
+    master_targets = pd.read_csv('../tza-pypsa/stock_models/' + stock_model + '/power_sector_targets.csv')
     indices = []
 
     # ----- constr: absolute capacity targets ----- #

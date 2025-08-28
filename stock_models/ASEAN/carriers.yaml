@@ -59,11 +59,16 @@ carriers:
     color: gold
     co2_emissions: 0.
   
-  - id: waste
+  - id: biowaste-solids
     nice_name: Waste
     color: peru
     co2_emissions: 0.
   
+  - id: biogas
+    nice_name: Biogas
+    color: darkkhaki
+    co2_emissions: 0.
+
   - id: on-wind
     nice_name: Onshore Wind
     color: turquoise
