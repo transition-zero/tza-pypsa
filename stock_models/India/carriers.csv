@@ -12,6 +12,7 @@ gas,0.2,grey,Gas
 gas-unspecified,0.2,grey,Gas Unspecified
 geothermal,0.0,brown,Geothermal
 hydro,0.0,deepskyblue,Hydro
+hydrogen,0.0,lightblue,Hydrogen
 laes,0.0,#4B7BAB,Liquid Air Energy Storage
 lignite,0.34,black,Lignite Coal
 liquified-natural-gas,0.2,grey,Liquefied Natural Gas
