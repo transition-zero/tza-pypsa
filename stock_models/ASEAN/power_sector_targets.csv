@@ -26,3 +26,4 @@ generation,coal,IDN,FALSE,30,%,<=,2025,onwards,[coal] generation in [IDN] <= 30%
 emissions,CO2eq,IDN,TRUE,290000000,tCO2eq,<=,2030,onwards,[CO2eq] emissions in [IDN] <= 290MtCO2eq (2030 onwards),Emissions peak target
 capacity,solar,MYS,TRUE,7000,MW,>=,2030,onwards,[solar] capacity in [MYS] >= 7000MW (2030 onwards),Solar capacity target
 capacity,solar,MYS,TRUE,27000,MW,>=,2040,onwards,[solar] capacity in [MYS] >= 27000MW (2040 onwards),Solar capacity target
+emissions,CO2eq,MYS,TRUE,80801000,tCO2eq,<=,2030,only,[CO2eq] emissions in [MYS] <= 81MtCO2eq (2030 only),Emissions target
