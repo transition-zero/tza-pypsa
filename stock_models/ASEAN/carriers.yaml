@@ -27,17 +27,17 @@ carriers:
   - id: gas
     nice_name: Gas
     color: grey
-    co2_emissions: 0.20 # kgCO2/kWh -> tCO2/MWh
+    co2_emissions: 0.472 # kgCO2/kWh -> tCO2/MWh
   
   - id: coal
     nice_name: Coal
     color: black
-    co2_emissions: 0.34 # kgCO2/kWh -> tCO2/MWh
+    co2_emissions: 0.899 # kgCO2/kWh -> tCO2/MWh
   
   - id: diesel
     nice_name: Diesel
     color: darkgray
-    co2_emissions: 0.26 # kgCO2/kWh -> tCO2/MWh
+    co2_emissions: 0.752 # kgCO2/kWh -> tCO2/MWh
   
   - id: geothermal
     nice_name: Geothermal
@@ -52,7 +52,7 @@ carriers:
   - id: oil
     nice_name: Oil
     color: gainsboro
-    co2_emissions: 0.26 # kgCO2/kWh -> tCO2/MWh
+    co2_emissions: 0.752 # kgCO2/kWh -> tCO2/MWh
   
   - id: solar
     nice_name: Solar
@@ -62,7 +62,7 @@ carriers:
   - id: biowaste-solids
     nice_name: Waste
     color: peru
-    co2_emissions: 0.
+    co2_emissions: 0.54
   
   - id: biogas
     nice_name: Biogas
