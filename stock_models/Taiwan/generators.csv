@@ -14,13 +14,13 @@ TWN-Biomass-2024active_exo,TWN,biomass-unspecified,biomass-unspecified,61,0,FALS
 TWN-Biomass-2030_endo,TWN,biomass-unspecified,biomass-unspecified,0,0,TRUE,0,,,0,1,Biomass,156.42,2030,40,3219062,0.17,FALSE,1,1,0,0.36,,603128.65,FALSE
 TWN-Biomass-2030_exo,TWN,biomass-unspecified,biomass-unspecified,438.548,0,FALSE,0,,,0,1,Biomass,156.42,2030,40,3219062,0.17,FALSE,1,1,0,0.36,,603128.65,FALSE
 TWN-Geothermal-2024active_exo,TWN,geothermal-unspecified,geothermal-unspecified,7.2,0,FALSE,0,,,0,1,Geothermal,0,2024,40,0,1,FALSE,1,1,0,,0.32,0,FALSE
-TWN-Geothermal-2030_endo,TWN,geothermal-unspecified,geothermal-unspecified,0,0,TRUE,0,,,0,1,Geothermal,0,2030,40,9308568,1,FALSE,1,1,0,,0.32,315508.27,FALSE
-TWN-Geothermal-2030_exo,TWN,geothermal-unspecified,geothermal-unspecified,596.5,0,FALSE,0,,,0,1,Geothermal,0,2030,40,9308568,1,FALSE,1,1,0,,0.32,315508.27,FALSE
+TWN-Geothermal-2030_endo,TWN,geothermal-unspecified,geothermal-unspecified,0,0,TRUE,0,,1097,0,1,Geothermal,0,2030,40,9308568,1,FALSE,1,1,0,,0.45,315508.27,FALSE
+TWN-Geothermal-2030_exo,TWN,geothermal-unspecified,geothermal-unspecified,596.5,0,FALSE,0,,,0,1,Geothermal,0,2030,40,9308568,1,FALSE,1,1,0,,0.45,315508.27,FALSE
 TWN-Solar-2024active_exo,TWN,solar-unspecified,solar-unspecified,14281,0,FALSE,0,,,0,1,Solar,0,2024,20,0,1,FALSE,1,1,0,,,0,FALSE
 TWN-Solar-2030_endo,TWN,solar-unspecified,solar-unspecified,0,0,TRUE,0,,4660,0,1,Solar,0,2030,20,854576,1,FALSE,1,1,0,,,37234.27,FALSE
 TWN-Solar-2030_exo,TWN,solar-unspecified,solar-unspecified,12157.2,0,FALSE,0,,,0,1,Solar,0,2030,20,854576,1,FALSE,1,1,0,,,37234.27,FALSE
 TWN-OffshoreWind-2024active_exo,TWN,offshorewind-unspecified,offshorewind-unspecified,2962.843,0,FALSE,0,,,0,1,OffshoreWind,0,2024,25,0,1,FALSE,1,1,0,,,0,FALSE
-TWN-OffshoreWind-2030_endo,TWN,offshorewind-unspecified,offshorewind-unspecified,0,0,TRUE,0,,,0,1,OffshoreWind,0,2030,25,4429185,1,FALSE,1,1,0,,,103294.1,FALSE
+TWN-OffshoreWind-2030_endo,TWN,offshorewind-unspecified,offshorewind-unspecified,0,0,TRUE,0,,8240,0,1,OffshoreWind,0,2030,25,4429185,1,FALSE,1,1,0,,,103294.1,FALSE
 TWN-OffshoreWind-2030_exo,TWN,offshorewind-unspecified,offshorewind-unspecified,7197.624,0,FALSE,0,,,0,1,OffshoreWind,0,2030,25,4429185,1,FALSE,1,1,0,,,103294.1,FALSE
 TWN-OnshoreWind-2024active_exo,TWN,onshorewind-unspecified,onshorewind-unspecified,927.4037,0,FALSE,0,,,0,1,OnshoreWind,0,2024,25,0,1,FALSE,1,1,0,,,0,FALSE
 TWN-OnshoreWind-2030_endo,TWN,onshorewind-unspecified,onshorewind-unspecified,0,0,TRUE,0,0,1250,0,1,OnshoreWind,0,2030,25,1156147,1,FALSE,1,1,0,,,67330.21,FALSE
