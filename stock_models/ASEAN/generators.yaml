@@ -4,13 +4,6 @@
 #   
 #     Define generators (technologies) and their attributes
 #
-#     Link to docs: 
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/commodities.yaml
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/technologies.yaml
-#
-#     Authors:
-#       - @amanmajid
-#
 # -------------------------------------------------------------------------
 
 generators:
@@ -359,23 +352,23 @@ generators:
       THACE:
         2024: 2054
         2025: 780
-      # SGPXX:
-      #   2026: 1200
-      #   2028: 600
-      #   2029: 600
-      #   2030: -2400
+      SGPXX:
+        2026: 1200
+        2028: 600
+        2029: 600
+        2030: -2400
       MMRXX:
         2024: 388
-      # MYSPE:
-      #   2024: 240 # planned: 1200, retired: 960
-      #   2025: 1200
-      #   2026: -1745
-      #   2027: -1204 # planned: 100, retired: 1304
-      #   2028: -702
-      # MYSSH:
-      #   2028: 120
-      # MYSSK:
-      #   2028: 500
+      MYSPE:
+        2024: 240 # planned: 1200, retired: 960
+        2025: 1200
+        2026: -1745
+        2027: -1204 # planned: 100, retired: 1304
+        2028: -702
+      MYSSH:
+        2028: 120
+      MYSSK:
+        2028: 500
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -614,11 +607,11 @@ generators:
         2024: 450
       KHMXX:
         2025: 265
-      # MYSPE:
-      #   2029: -1600
-      #   2030: -4170
-      # MYSSK:
-      #   2029: -210
+      MYSPE:
+        2029: -1600
+        2030: -4170
+      MYSSK:
+        2029: -210
     efficiency:
       IDNSM: 0.35
       IDNJW: 0.35
@@ -1491,7 +1484,7 @@ generators:
 
 
   - id: oil-unspecified
-    type: oil-unspecified # THIS IS DIESEL
+    type: oil-unspecified 
     carrier: oil
     # ---
     # unique technology parameters by bus
@@ -1504,8 +1497,8 @@ generators:
       IDNML: 207
       IDNPP: 13.74
       VNMSO: 660
-      MYSSH: 157 # prev number: 148.4
-      MYSSK: 37.6 # prev number: 35.5
+      MYSSH: 157
+      MYSSK: 37.6 
       PHLLU: 2025.36
       PHLVI: 514
       PHLMI: 499
@@ -1955,13 +1948,13 @@ generators:
         2028: 1200
       VNMSO:
         2026: 240
-      # MYSPE:
-      #   2025: -400
-      #   2027: 384
-      # MYSSK:
-      #   2028: 1285
-      # MYSSH:
-      #   2030: 187.5
+      MYSPE:
+        2025: -400
+        2027: 384
+      MYSSK:
+        2028: 1285
+      MYSSH:
+        2030: 187.5
       PHLLU: 
         2024: 54.97
         2025: 62.4
@@ -1998,11 +1991,11 @@ generators:
       MYSSK: 8160 # New number from MyRER is 10200 MW, 20% is for PHES (2040 MW) and 80% for hydropower (8160 MW); previous number: 3462.5
       PHLLU: 11640
       PHLMI: 4860
-      PHLVI: 49.8 # replaced '0'
+      PHLVI: 49.8 
       SGPXX: 0
       THACE: 3950
       THANO: 10890
-      THASO: 324 # replaced '310'
+      THASO: 324 
       VNMCE: 16450
       VNMNO: 16160
       VNMSO: 2390
@@ -2081,7 +2074,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
-    p_min_pu: # CFE calibrated: deactivated to force hydro to generate based on MYSPE hourly CF
+    p_min_pu: 
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
@@ -3351,10 +3344,6 @@ generators:
         2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
       MYSPE:
         2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   SGPXX: 1680
-    #   MYSSK: 350
-    #   MYSPE: 980
     maximum_capacity:
       SGPXX: 1680
       MYSSK: 350
@@ -3426,10 +3415,6 @@ generators:
         2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
       MYSPE:
         2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   SGPXX: 720
-    #   MYSSK: 150
-    #   MYSPE: 420
     maximum_capacity:
       SGPXX: 720
       MYSSK: 150
@@ -3494,10 +3479,6 @@ generators:
     planned_expansion:
       MYSPE:
         2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   MYSPE: 1785
-    #   MYSSK: 0
-    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 1785
       MYSSK: 0
@@ -3558,10 +3539,6 @@ generators:
     planned_expansion:
       MYSPE:
         2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   MYSPE: 315
-    #   MYSSK: 0
-    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 315
       MYSSK: 0
@@ -3626,11 +3603,6 @@ generators:
     planned_expansion:
       MYSPE:
         2030: 3208 # 20% blending (80% for total planned capacity: 4010*0.80)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   MYSPE: 3208
-    #   MYSSK: 0
-    #   SGPXX: 0
-    maximum_capacity:
       MYSPE: 3208
       MYSSK: 0
       SGPXX: 0
@@ -3694,10 +3666,6 @@ generators:
     planned_expansion:
       MYSPE:
         2030: 802 # 20% blending (20% for total planned capacity: 4010*0.20)
-    # initial_capacity: # try to set this as initial capacity to get picked in 2030
-    #   MYSPE: 802
-    #   MYSSK: 0
-    #   SGPXX: 0
     maximum_capacity:
       MYSPE: 802
       MYSSK: 0

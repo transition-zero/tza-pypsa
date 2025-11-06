@@ -4,12 +4,6 @@
 #   
 #     Define all storage technologies to implement in the ASEAN model.
 #
-#     Link to docs: 
-#       N/A
-#
-#     Authors:
-#       - @amanmajid
-#
 # -------------------------------------------------------------------------
 
 storages:
@@ -39,7 +33,7 @@ storages:
       PHLLU: 0.
       PHLVI: 0.
       PHLMI: 0.
-      SGPXX: 0. # https://www.ema.gov.sg/news-events/news/media-releases/2022/largest-energy-storage-system-in-south-east-asia-to-enhance-singapores-grid-resilience
+      SGPXX: 200 # https://www.ema.gov.sg/news-events/news/media-releases/2022/largest-energy-storage-system-in-south-east-asia-to-enhance-singapores-grid-resilience
       BRNXX: 0.
       MMRXX: 0.
       THANO: 0.
@@ -87,24 +81,6 @@ storages:
       MYSSK: 2040 # 20% of MYSPE's hydro potential capacity
 
 
-  # - id: liquid-air
-  #   type: liquid-air
-  #   carrier: long-duration-storage
-  #   extendable: true
-  #   lifetime: 30
-  #   state_of_charge_initial: 0
-  #   max_hours: 168
-  #   efficiency_store: 1.00
-  #   efficiency_dispatch: 0.575
-  #   standing_loss: 0.008 
-  #   cyclic_state_of_charge: true
-  #   initial_capacity:
-  #     MYSPE: 0.
-  #     MYSSK: 0.
-  #     MYSSH: 0.
-  #     SGPXX: 0. 
-
-
   - id: redox-flow
     type: redox-flow
     carrier: long-duration-storage
@@ -121,4 +97,32 @@ storages:
       MYSSK: 0.
       MYSSH: 0.
       SGPXX: 0.
+    maximum_capacity:
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      SGPXX: 0.
+
+
+  # - id: liquid-air
+  #   type: liquid-air
+  #   carrier: long-duration-storage
+  #   extendable: true
+  #   lifetime: 30
+  #   state_of_charge_initial: 0
+  #   max_hours: 168
+  #   efficiency_store: 1.00
+  #   efficiency_dispatch: 0.575
+  #   standing_loss: 0.008 
+  #   cyclic_state_of_charge: true
+  #   initial_capacity:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     MYSSH: 0.
+  #     SGPXX: 0. 
+  #   maximum_capacity:
+  #     MYSPE: 0.
+  #     MYSSK: 0.
+  #     MYSSH: 0.
+  #     SGPXX: 0. 
     

@@ -54,7 +54,7 @@ links:
   - id: IDNJW-IDNNU # Domestic - Existing
     from_node: IDNJW
     to_node: IDNNU
-    extendable: true
+    extendable: false
     carrier: interconnector-IDNJW-IDNNU
     type: hvdc
     lifetime: 99
@@ -112,7 +112,7 @@ links:
   - id: IDNKA-MYSSK # AIMS3 - Existing
     from_node: IDNKA
     to_node: MYSSK
-    extendable: true
+    extendable: false
     carrier: interconnector-IDNKA-MYSSK
     type: hvdc
     lifetime: 99
@@ -244,7 +244,7 @@ links:
   - id: LAOXX-VNMCE # AIMS3 - Existing
     from_node: LAOXX
     to_node: VNMCE
-    extendable: true
+    extendable: false
     carrier: interconnector-LAO-VNMCE
     type: hvdc
     lifetime: 99
@@ -274,7 +274,7 @@ links:
   - id: MYSSH-MYSSK # AIMS3 - Existing
     from_node: MYSSH
     to_node: MYSSK
-    extendable: true
+    extendable: false
     carrier: interconnector-MYSSH-MYSSK
     type: hvdc
     lifetime: 99
@@ -320,7 +320,7 @@ links:
   - id: KHMXX-LAOXX # AIMS3 - Existing
     from_node: KHMXX
     to_node: LAOXX
-    extendable: true
+    extendable: false
     carrier: interconnector-KHM-LAO
     type: hvdc
     lifetime: 99
@@ -334,7 +334,7 @@ links:
   - id: KHMXX-THACE # AIMS3 - Existing
     from_node: KHMXX
     to_node: THACE
-    extendable: true
+    extendable: false
     carrier: interconnector-KHM-THACE
     type: hvdc
     lifetime: 99
@@ -348,7 +348,7 @@ links:
   - id: KHMXX-VNMSO # AIMS3 - Existing
     from_node: KHMXX
     to_node: VNMSO
-    extendable: true
+    extendable: false
     carrier: interconnector-KHM-VNMSO
     type: hvac
     lifetime: 99
@@ -362,7 +362,7 @@ links:
   - id: PHLLU-PHLVI # Domestic - Existing
     from_node: PHLLU
     to_node: PHLVI
-    extendable: true
+    extendable: false
     carrier: interconnector-PHLLU-PHLVI
     type: subsea
     lifetime: 99
@@ -376,7 +376,7 @@ links:
   - id: PHLMI-PHLVI # Domestic - Existing 
     from_node: PHLMI
     to_node: PHLVI
-    extendable: true
+    extendable: false
     carrier: interconnector-PHLMI-PHLVI
     type: subsea
     lifetime: 99
@@ -390,7 +390,7 @@ links:
   - id: VNMCE-VNMNO # Domestic - Existing
     from_node: VNMCE
     to_node: VNMNO
-    extendable: true
+    extendable: false
     carrier: interconnector-VNMCE-VNMNO
     type: hvdc
     lifetime: 99
@@ -404,7 +404,7 @@ links:
   - id: VNMCE-VNMSO # Domestic - Existing
     from_node: VNMCE
     to_node: VNMSO
-    extendable: true
+    extendable: false
     carrier: interconnector-VNMCE-VNMSO
     type: hvdc
     lifetime: 99
@@ -420,7 +420,7 @@ links:
   - id: THANO-THACE # Domestic - Existing
     from_node: THANO
     to_node: THACE
-    extendable: true
+    extendable: false
     carrier: interconnector-THANO-THACE
     type: hvdc
     lifetime: 99
@@ -434,7 +434,7 @@ links:
   - id: THACE-THASO # Domestic - Existing
     from_node: THACE
     to_node: THASO
-    extendable: true
+    extendable: false
     carrier: interconnector-THACE-THASO
     type: hvdc
     lifetime: 99
@@ -448,7 +448,7 @@ links:
   - id: THASO-MYSPE # AIMS3 - Existing
     from_node: THASO
     to_node: MYSPE
-    extendable: true
+    extendable: false
     carrier: interconnector-THASO-MYSPE
     type: hvdc
     lifetime: 99
@@ -462,7 +462,7 @@ links:
   - id: THANO-LAOXX # AIMS3 - Existing
     from_node: THANO
     to_node: LAOXX
-    extendable: true
+    extendable: false
     carrier: interconnector-THANO-LAO
     type: hvdc
     lifetime: 99
@@ -520,7 +520,7 @@ links:
   - id: BTMSL-SGPXX # from EMA doc https://www.ema.gov.sg/content/dam/corporate/partnerships/proposals/second-rfp2-to-appoint-licensed-electricity-imports/RFP2-Document-1-Aug-2023.pdf.coredownload.pdf
     from_node: BTMSL
     to_node: SGPXX
-    extendable: true
+    extendable: false
     carrier: interconnector-BTMSL-SGP
     type: subsea
     lifetime: 99
