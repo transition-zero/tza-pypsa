@@ -11,9 +11,9 @@ DELIMITER = ","  # CHANGE if delimiter of CSV is not a comma, keep as it is for 
 LOCAL_FILE_PATH = None  # Will be set by batch_upload.py
 RAW_OBJECT_NAME = None  # Will be set by batch_upload.py
 LANDING_OBJECT_NAME = None  # Will be set by batch_upload.py
-DATASET_ID = "taiwan_pypsa_outputs"  # Eg: "japan_pypsa_outputs"
+DATASET_ID = "japan_occto_lnd"  # Eg: "japan_pypsa_outputs"
 BIGQUERY_TABLE_NAME = None # Will be set by batch_upload.py
-BIGQUERY_WRITE_METHOD = "WRITE_APPEND"  # CHANGE to "WRITE_TRUNCATE" to overwrite
+BIGQUERY_WRITE_METHOD = "WRITE_TRUNCATE"  # CHANGE to "WRITE_TRUNCATE" to overwrite
 SKIP_ROWS = 1  # Set to 1 if your CSV has a header row else set to 0
 CUSTOM_SCHEMA = None  # Define custom schema if needed
 

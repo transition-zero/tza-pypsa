@@ -38,7 +38,7 @@ DATE_STR = datetime.date.today().isoformat()  # 'YYYY-MM-DD'
 STORAGE_CLIENT = storage.Client()
 CLIENT = bigquery.Client()
 
-ALLOWED_DATASETS = {"india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_outputs", "ASEAN_pypsa_outputs"}
+ALLOWED_DATASETS = {"india_pypsa_outputs", "taiwan_pypsa_outputs", "japan_pypsa_outputs", "ASEAN_pypsa_outputs", "japan_occto_lnd"}
 
 # =============================================================================
 #                               HELPER FUNCTIONS

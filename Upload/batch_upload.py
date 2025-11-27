@@ -334,7 +334,7 @@ def monitor_directory_continuously(
 if __name__ == "__main__":
     # For parallel processing (upload files while new ones are being created):
     monitor_directory_continuously(
-        directory_path="/home/jy/tza-pypsa/csv_outputs/yearly",
+        directory_path="/home/jy/tz-clientearth/csv_output",
         check_interval=30,  # Check every 30 seconds for responsiveness
         file_pattern="*.csv",
         max_parallel_uploads=3  # Upload up to 3 files simultaneously

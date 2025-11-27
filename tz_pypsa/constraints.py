@@ -1,6 +1,8 @@
 import pypsa
 import numpy as np
 import pandas as pd
+import xarray as xr
+from tz_pypsa.helpers import load_soc_bounds_as_xarray
 
 
 def constr_bus_self_sufficiency(
@@ -720,7 +722,7 @@ def constr_min_annual_utilisation_links(
 
 
     target_links = network.links.loc[
-            (network.links.carrier.str.contains(carriers))
+            (network.links.carrier.str.contains(carriers)) & (network.links.min_utilisation_rate.notna())
         ].index.tolist()
     print(target_links)
 
@@ -873,7 +875,7 @@ def constr_max_annual_utilisation_links(
 
 
     target_links = network.links.loc[
-            (network.links.carrier.str.contains(carriers))
+            (network.links.carrier.str.contains(carriers)) & (network.links.max_utilisation_rate.notna())
         ].index.tolist()
     print(target_links)
 
@@ -946,7 +948,7 @@ def constr_min_annual_utilisation_generator(
     # ----- constr: generator min utilisation rates ----- #
 
     target_generators = network.generators.loc[
-            (network.generators.carrier.str.contains(carriers))
+            (network.generators.carrier.str.contains(carriers)) & (network.generators.min_utilisation_rate.notna())
         ].index.tolist()
     print(target_generators)
 
@@ -1032,7 +1034,7 @@ def constr_max_annual_utilisation_generator(
 
 
     target_generators = network.generators.loc[
-            (network.generators.carrier.str.contains(carriers))
+            (network.generators.carrier.str.contains(carriers)) & (network.generators.max_utilisation_rate.notna())
         ].index.tolist()
     print(target_generators)
 
@@ -1051,7 +1053,7 @@ def constr_max_annual_utilisation_generator(
                     .sum()
                 )
 
-                # minimum utilisation rate set by user in network.generators - means minimum rates can be set at a generator level  
+                # max utilisation rate set by user in network.generators - means max rates can be set at a generator level  
                 max_utilisation_rate = (
                     network.generators.loc[each_generator].max_utilisation_rate
                 )
@@ -1074,7 +1076,490 @@ def constr_max_annual_utilisation_generator(
                 + str(each_generator)
                 + "_max_utilisation_rate",
             )
+
+def constr_max_annual_utilisation_storage_discharge(
+    network: pypsa.Network,
+    carriers: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a storage unit
+        is a maximum of a percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that storage unit x is operating at a maximum of y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: storage unit max utilisation rates ----- #
+
+
+    target_storage_units = network.storage_units.loc[
+            (network.storage_units.carrier.str.contains(carriers)) & (network.storage_units.discharge_max_utilisation_rate.notna())
+        ].index.tolist()
+    print(target_storage_units)
+
+    for each_storage_unit in target_storage_units:
+
+            # The dispatch by each storage unit in each year
+            target_storage_units_dispatch = (
+                network.model.variables["StorageUnit-p_dispatch"].sel(StorageUnit=each_storage_unit).sum()
+            )
             
+            if network.storage_units.p_nom_extendable[each_storage_unit] == True:
+
+                target_capacity = (
+                    network.model.variables["StorageUnit-p_nom"]
+                    .sel({"StorageUnit-ext": each_storage_unit})
+                    .sum()
+                )
+
+                # max utilisation rate set by user in network.generators - means max rates can be set at a generator level  
+                discharge_max_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].discharge_max_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.storage_units.loc[each_storage_unit].p_nom
+
+                discharge_max_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].discharge_max_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_storage_units_dispatch,
+                sign="<=",
+                rhs=discharge_max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(carriers)
+                + str(each_storage_unit)
+                + "_discharge_max_utilisation_rate",
+            )
+
+def constr_max_annual_utilisation_storage_charge(
+    network: pypsa.Network,
+    carriers: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a storage unit
+        is a maximum of a percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that storage unit x is operating at a maximum of y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: storage unit max utilisation rates ----- #
+
+
+    target_storage_units = network.storage_units.loc[
+            (network.storage_units.carrier.str.contains(carriers)) & (network.storage_units.charge_max_utilisation_rate.notna())
+        ].index.tolist()
+    print(target_storage_units)
+
+    for each_storage_unit in target_storage_units:
+
+            # The store by each storage unit in each year
+            target_storage_units_store = (
+                network.model.variables["StorageUnit-p_store"].sel(StorageUnit=each_storage_unit).sum()
+            )
+            
+            if network.storage_units.p_nom_extendable[each_storage_unit] == True:
+
+                target_capacity = (
+                    network.model.variables["StorageUnit-p_nom"]
+                    .sel({"StorageUnit-ext": each_storage_unit})
+                    .sum()
+                )
+
+                # max utilisation rate set by user in network.generators - means max rates can be set at a generator level  
+                charge_max_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].charge_max_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.storage_units.loc[each_storage_unit].p_nom
+
+                charge_max_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].charge_max_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_storage_units_store,
+                sign="<=",
+                rhs=charge_max_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(carriers)
+                + str(each_storage_unit)
+                + "_charge_max_utilisation_rate",
+            )
+
+def constr_min_annual_utilisation_storage_discharge(
+    network: pypsa.Network,
+    carriers: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a storage unit
+        is a minimum of a percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that storage unit x is operating at a minimum of y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: storage unit min utilisation rates ----- #
+
+
+    target_storage_units = network.storage_units.loc[
+            (network.storage_units.carrier.str.contains(carriers)) & (network.storage_units.discharge_min_utilisation_rate.notna())
+        ].index.tolist()
+    print(target_storage_units)
+
+    for each_storage_unit in target_storage_units:
+
+            # The dispatch by each storage unit in each year
+            target_storage_units_dispatch = (
+                network.model.variables["StorageUnit-p_dispatch"].sel(StorageUnit=each_storage_unit).sum()
+            )
+            
+            if network.storage_units.p_nom_extendable[each_storage_unit] == True:
+
+                target_capacity = (
+                    network.model.variables["StorageUnit-p_nom"]
+                    .sel({"StorageUnit-ext": each_storage_unit})
+                    .sum()
+                )
+
+                # minimum utilisation rate set by user in network.storage_units - means minimum rates can be set at a storage unit level  
+                discharge_min_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].discharge_min_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.storage_units.loc[each_storage_unit].p_nom
+
+                discharge_min_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].discharge_min_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_storage_units_dispatch,
+                sign=">=",
+                rhs=discharge_min_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(carriers)
+                + str(each_storage_unit)
+                + "_discharge_min_utilisation_rate",
+            )
+
+def constr_min_annual_utilisation_storage_charge(
+    network: pypsa.Network,
+    carriers: list = None,
+    model_frequency: int = 1,
+):
+    """
+
+    ###################################
+    MAXIMUM ANNUAL UTILISATION CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that the total annual utilisation rate of a storage unit
+        is a minimum of a percentage value.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that storage unit x is operating at a minimum of y% annually%"
+
+    Inputs:
+    -----------------------------------
+
+        network : pypsa.Network
+
+        carriers : list
+            A list of carriers to apply the constraint to. Default is None, which does not apply the constraint to any carriers in the network.
+
+        model_frequency : int
+            Integer representing the model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+
+        None
+
+    """
+
+    # ----- constr: storage unit min utilisation rates ----- #
+
+
+    target_storage_units = network.storage_units.loc[
+            (network.storage_units.carrier.str.contains(carriers)) & (network.storage_units.charge_min_utilisation_rate.notna())
+        ].index.tolist()
+    print(target_storage_units)
+
+    for each_storage_unit in target_storage_units:
+
+            # The dispatch by each storage unit in each year
+            target_storage_units_store = (
+                network.model.variables["StorageUnit-p_store"].sel(StorageUnit=each_storage_unit).sum()
+            )
+            
+            if network.storage_units.p_nom_extendable[each_storage_unit] == True:
+
+                target_capacity = (
+                    network.model.variables["StorageUnit-p_nom"]
+                    .sel({"StorageUnit-ext": each_storage_unit})
+                    .sum()
+                )
+
+                # minimum utilisation rate set by user in network.storage_units - means minimum rates can be set at a storage unit level  
+                charge_min_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].charge_min_utilisation_rate
+                )
+
+                
+            else: 
+
+                target_capacity = network.storage_units.loc[each_storage_unit].p_nom
+
+                charge_min_utilisation_rate = (
+                    network.storage_units.loc[each_storage_unit].charge_min_utilisation_rate
+                )
+
+            # set constraint
+            network.model.add_constraints(
+                lhs=target_storage_units_store,
+                sign=">=",
+                rhs=charge_min_utilisation_rate * target_capacity * 8760 / model_frequency,
+                name=str(carriers)
+                + str(each_storage_unit)
+                + "_charge_min_utilisation_rate",
+            )
+
+
+def constr_soc_intraday_profile(
+    network: pypsa.Network, 
+    min_csv: str, 
+    max_csv: str, 
+):
+
+    bounds_ds = load_soc_bounds_as_xarray(min_csv, max_csv, 'hour')
+    
+    # Align StorageUnits
+    common_units = list(set(bounds_ds.StorageUnit.values) & set(network.storage_units.index))
+    
+    if not common_units:
+        print("No matching storage units found.")
+        return
+
+    # Slice the input dataset to matches
+    targets = bounds_ds.sel(StorageUnit=common_units)
+
+    # Vectorise capacity
+    p_nom = network.storage_units.loc[common_units, 'p_nom']
+    max_hours = network.storage_units.loc[common_units, 'max_hours']
+    capacity = xr.DataArray(
+        p_nom * max_hours, 
+        dims="StorageUnit", 
+        coords={"StorageUnit": common_units}
+    )
+    
+    # Create RHS (StorageUnit, Hour)
+    snapshot_counts = network.snapshots.get_level_values('timestep').hour.value_counts().sort_index()
+    counts_array = snapshot_counts.values
+    hours_array = snapshot_counts.index.values 
+
+    days_count = xr.DataArray(
+        counts_array, 
+        dims="hour", 
+        coords={"hour": hours_array} 
+    )
+    rhs_base = capacity * days_count
+
+    # Process LHS
+    soc_vars = network.model.variables["StorageUnit-state_of_charge"].sel(StorageUnit=common_units)
+    soc_hourly_sum = soc_vars.groupby("timestep.hour").sum()
+
+    # Min and Max constraints
+    if 'min_frac' in targets:
+        network.model.add_constraints(
+            soc_hourly_sum >= targets['min_frac'] * rhs_base,
+            name="StorageUnit-intraday_soc_min",
+            mask=targets['min_frac'].notnull()
+        )
+
+    if 'max_frac' in targets:
+        network.model.add_constraints(
+            soc_hourly_sum <= targets['max_frac'] * rhs_base,
+            name="StorageUnit-intraday_soc_max",
+            mask=targets['max_frac'].notnull()
+        )
+        
+    print(f"Constraints added for {len(common_units)} units.")
+
+
+def constr_soc_weekly_profile(
+    network: pypsa.Network, 
+    min_csv: str, 
+    max_csv: str, 
+    day_shift: int = 0
+):
+    
+    bounds_ds = load_soc_bounds_as_xarray(min_csv, max_csv, 'dayofweek')
+
+    # Align StorageUnits
+    common_units = list(set(bounds_ds.StorageUnit.values) & set(network.storage_units.index))
+    if not common_units:
+        print("No matching storage units found.")
+        return
+
+    targets = bounds_ds.sel(StorageUnit=common_units)
+
+    # Vectorise capacity
+    p_nom = network.storage_units.loc[common_units, 'p_nom']
+    max_hours = network.storage_units.loc[common_units, 'max_hours']
+    
+    capacity = xr.DataArray(
+        (p_nom * max_hours).values, 
+        dims="StorageUnit", 
+        coords={"StorageUnit": common_units}
+    )
+    
+    # Process LHS
+    soc_vars = network.model.variables["StorageUnit-state_of_charge"].sel(StorageUnit=common_units)
+    
+    # Extract MultiIndex to ensure safe alignment
+    multi_index = soc_vars.indexes['snapshot']
+    timestamps = multi_index.get_level_values(1) # Assumes level 1 is datetime
+    
+    # Calculate day integers (0=Mon, 6=Sun) with optional shift
+    # If day_shift=0, this is standard dayofweek
+    day_ints = (timestamps.dayofweek + day_shift) % 7
+    
+    grouper_name = "dayofweek" if day_shift == 0 else "shifted_dayofweek"
+
+    # Create safe DataArray for grouping
+    grouper = xr.DataArray(
+        day_ints,
+        dims="snapshot",              # Matches PyPSA variable dim
+        coords={"snapshot": multi_index}, # Matches PyPSA variable coords
+        name=grouper_name
+    )
+    
+    # LHS: Sum SOC per day-bucket
+    soc_sum = soc_vars.groupby(grouper).sum()
+    counts_series = pd.Series(day_ints).value_counts().sort_index()
+    
+    days_count = xr.DataArray(
+        counts_series.values,
+        dims=grouper_name, 
+        coords={grouper_name: counts_series.index.values} 
+    )
+
+    # Create RHS
+    if grouper_name != "dayofweek" and "dayofweek" in targets.dims:
+         targets = targets.rename({"dayofweek": grouper_name})
+
+    rhs_base = capacity * days_count
+
+    # 6. Build Constraints
+    if 'min_frac' in targets:
+        network.model.add_constraints(
+            soc_sum >= targets['min_frac'] * rhs_base,
+            name=f"StorageUnit-weekly_soc_min",
+            mask=targets['min_frac'].notnull()
+        )
+
+    if 'max_frac' in targets:
+        network.model.add_constraints(
+            soc_sum <= targets['max_frac'] * rhs_base,
+            name=f"StorageUnit-weekly_soc_max",
+            mask=targets['max_frac'].notnull()
+        )
+        
+    print(f"Added weekly constraints for {len(common_units)} units (Shift={day_shift}).")
+
             
 def constr_cofiring_ccs_generation_join_plant(
     network: pypsa.Network,
