@@ -1435,7 +1435,8 @@ def constr_soc_intraday_profile(
 
     # Slice the input dataset to matches
     targets = bounds_ds.sel(StorageUnit=common_units)
-
+    
+    # Process RHS
     # Vectorise capacity
     p_nom = network.storage_units.loc[common_units, 'p_nom']
     max_hours = network.storage_units.loc[common_units, 'max_hours']
@@ -1445,16 +1446,16 @@ def constr_soc_intraday_profile(
         coords={"StorageUnit": common_units}
     )
     
-    # Create RHS (StorageUnit, Hour)
+    # Vectorise day_counts
     snapshot_counts = network.snapshots.get_level_values('timestep').hour.value_counts().sort_index()
     counts_array = snapshot_counts.values
     hours_array = snapshot_counts.index.values 
-
     days_count = xr.DataArray(
         counts_array, 
         dims="hour", 
         coords={"hour": hours_array} 
     )
+
     rhs_base = capacity * days_count
 
     # Process LHS
@@ -1476,7 +1477,7 @@ def constr_soc_intraday_profile(
             mask=targets['max_frac'].notnull()
         )
         
-    print(f"Constraints added for {len(common_units)} units.")
+    print(f"Intraday SOC constraints added for {len(common_units)} units.")
 
 
 def constr_soc_weekly_profile(
@@ -1499,7 +1500,6 @@ def constr_soc_weekly_profile(
     # Vectorise capacity
     p_nom = network.storage_units.loc[common_units, 'p_nom']
     max_hours = network.storage_units.loc[common_units, 'max_hours']
-    
     capacity = xr.DataArray(
         (p_nom * max_hours).values, 
         dims="StorageUnit", 
@@ -1519,7 +1519,7 @@ def constr_soc_weekly_profile(
     
     grouper_name = "dayofweek" if day_shift == 0 else "shifted_dayofweek"
 
-    # Create safe DataArray for grouping
+    # Create DataArray for custom grouping
     grouper = xr.DataArray(
         day_ints,
         dims="snapshot",              # Matches PyPSA variable dim
@@ -1543,7 +1543,7 @@ def constr_soc_weekly_profile(
 
     rhs_base = capacity * days_count
 
-    # 6. Build Constraints
+    # Min and Max Constraints
     if 'min_frac' in targets:
         network.model.add_constraints(
             soc_sum >= targets['min_frac'] * rhs_base,
@@ -1557,8 +1557,188 @@ def constr_soc_weekly_profile(
             name=f"StorageUnit-weekly_soc_max",
             mask=targets['max_frac'].notnull()
         )
+    
+    print(f"Weekly SOC constraints added for {len(common_units)} units.")
         
-    print(f"Added weekly constraints for {len(common_units)} units (Shift={day_shift}).")
+        
+def constr_max_ramps_daily(
+    network: pypsa.Network, 
+    carriers: str, 
+    ramp_threshold: float = 1
+):
+    """
+    Constrain the maximum number of ramps per day for generators.
+    Specifying the integer limit for that specific generator.
+    Specifying ramp_threshold that like to be
+    """
+    
+    # Filter for generators with the targeted carrier AND defined max daily ramp
+    target_gens = network.generators.index[
+        (network.generators.carrier.str.contains(carriers)) & 
+        (network.generators["max_ramps_per_day"].notna())
+    ]
+
+    if target_gens.empty:
+        print(f"No generators found with carrier '{carriers}' and limits defined.")
+        return
+
+    # p_nom will be set equal to the big M constraint 
+    # Convert p_nom to xarray for automatic alignment
+    p_nom = xr.DataArray(
+        network.generators.loc[target_gens, 'p_nom'],
+        dims="Generator",
+        coords={"Generator": target_gens}
+    )
+    
+    # Get limit values aligned by generator
+    daily_limits = xr.DataArray(
+        network.generators.loc[target_gens, "max_ramps_per_day"],
+        dims="Generator",
+        coords={"Generator": target_gens}
+    )
+
+    # Setup is_ramping variable
+    is_ramping = network.model.add_variables(
+        binary=True,
+        coords=[network.snapshots, target_gens],
+        name='is_ramping'
+    )
+
+    # Get dispatch variables & align
+    # p_curr: t=1 to end
+    # p_prev: t=0 to end-1
+    p = network.model.variables['Generator-p'].sel(Generator=target_gens)
+    p_curr = p.isel(snapshot=slice(1, None))
+    p_prev = p.shift(snapshot=1).isel(snapshot=slice(1, None))
+    ramping_curr = is_ramping.isel(snapshot=slice(1, None))
+
+    # Ramping Constraints (Big-M)
+    # (p_t - p_t-1) - ramp_threshold <= p_nom * is_ramping
+    # Suppose (p_t - p_t-1) = 100 and p_nom = 100:
+    # 100 - 1 = 99, 99 <= 100 * is_ramping [0,1]. Solver will have to set is_ramping = 1 to satisfy the constraint.
+    # Suppose (p_t - p_t-1) = 0 and p_nom = 100:
+    # 0 - 1 = -1, -1 <= 100 * is_ramping [0,1]. In this case, solver can set both 0 and 1 to satisfy the constraint. 
+    # To ensure solver choose 0, we will later add a small penalty to is_ramping to the objective function
+    network.model.add_constraints(
+        (p_curr - p_prev) - ramp_threshold <= ramping_curr * p_nom,
+        name='ramp_up_detect'
+    )
+
+    # (p_t-1 - p_t) - ramp_threshold <= p_nom * is_ramping
+    # Same logic as above applies to ramp_down_detect
+    network.model.add_constraints(
+        (p_prev - p_curr) - ramp_threshold <= ramping_curr * p_nom,
+        name='ramp_down_detect'
+    )
+
+    # Daily Limit Constraint
+    timestamps = network.snapshots.get_level_values("timestep")
+    day_grouper = xr.DataArray(
+        timestamps.floor("D"), 
+        coords={"snapshot": network.snapshots}, 
+        dims="snapshot"
+    )
+    daily_counts = is_ramping.groupby(day_grouper).sum()
+    network.model.add_constraints(
+        daily_counts <= daily_limits,
+        name='max_ramps_per_day'
+    )
+
+    # Prevents solver setting is_ramping = 1 when not needed
+    # Weight is small enough to not affect dispatch cost, but > 0
+    network.model.objective += 0.00001 * is_ramping.sum()
+
+    print(f"Max ramp constraints added for {len(target_gens)} generators.")
+
+def constr_min_ramps_daily(
+    network: pypsa.Network, 
+    carriers: str, 
+    ramp_threshold: float = 1
+):
+    """
+    Constrain the minimum number of ramps per day for generators.
+    Specifying the integer limit for that specific generator.
+    Specifying ramp_threshold that like to be
+    """
+    
+    # Filter for generators with the targeted carrier AND defined min daily ramp
+    target_gens = network.generators.index[
+        (network.generators.carrier.str.contains(carriers)) & 
+        (network.generators["min_ramps_per_day"].notna())
+    ]
+
+    if target_gens.empty:
+        print(f"No generators found with carrier '{carriers}' and limits defined.")
+        return
+
+    # p_nom will be set equal to the big M constraint 
+    # Convert p_nom to xarray for automatic alignment
+    p_nom = xr.DataArray(
+        network.generators.loc[target_gens, 'p_nom'],
+        dims="Generator",
+        coords={"Generator": target_gens}
+    )
+    
+    # Get limit values aligned by generator
+    daily_limits = xr.DataArray(
+        network.generators.loc[target_gens, "min_ramps_per_day"],
+        dims="Generator",
+        coords={"Generator": target_gens}
+    )
+
+    # Setup is_ramping variable
+    is_ramping = network.model.add_variables(
+        binary=True,
+        coords=[network.snapshots, target_gens],
+        name='is_ramping'
+    )
+
+    # Get dispatch variables & align
+    # p_curr: t=1 to end
+    # p_prev: t=0 to end-1
+    p = network.model.variables['Generator-p'].sel(Generator=target_gens)
+    p_curr = p.isel(snapshot=slice(1, None))
+    p_prev = p.shift(snapshot=1).isel(snapshot=slice(1, None))
+    ramping_curr = is_ramping.isel(snapshot=slice(1, None))
+
+    # Ramping Constraints (Big-M)
+    # (p_t - p_t-1) - ramp_threshold <= p_nom * is_ramping
+    # Suppose (p_t - p_t-1) = 100 and p_nom = 100:
+    # 100 - 1 = 99, 99 <= 100 * is_ramping [0,1]. Solver will have to set is_ramping = 1 to satisfy the constraint.
+    # Suppose (p_t - p_t-1) = 0 and p_nom = 100:
+    # 0 - 1 = -1, -1 <= 100 * is_ramping [0,1]. In this case, solver can set both 0 and 1 to satisfy the constraint. 
+    # To ensure solver choose 0, we will later add a small penalty to is_ramping to the objective function
+    network.model.add_constraints(
+        (p_curr - p_prev) - ramp_threshold <= ramping_curr * p_nom,
+        name='ramp_up_detect'
+    )
+
+    # (p_t-1 - p_t) - ramp_threshold <= p_nom * is_ramping
+    # Same logic as above applies to ramp_down_detect
+    network.model.add_constraints(
+        (p_prev - p_curr) - ramp_threshold <= ramping_curr * p_nom,
+        name='ramp_down_detect'
+    )
+
+    # Daily Limit Constraint
+    timestamps = network.snapshots.get_level_values("timestep")
+    day_grouper = xr.DataArray(
+        timestamps.floor("D"), 
+        coords={"snapshot": network.snapshots}, 
+        dims="snapshot"
+    )
+    daily_counts = is_ramping.groupby(day_grouper).sum()
+    network.model.add_constraints(
+        daily_counts >= daily_limits,
+        name='min_ramps_per_day'
+    )
+
+    # Prevents solver setting is_ramping = 1 when not needed
+    # Weight is small enough to not affect dispatch cost, but > 0
+    network.model.objective += 0.00001 * is_ramping.sum()
+
+    print(f"Min ramp constraints added for {len(target_gens)} generators.")
+
 
             
 def constr_cofiring_ccs_generation_join_plant(
