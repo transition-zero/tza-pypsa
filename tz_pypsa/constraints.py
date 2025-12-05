@@ -1797,3 +1797,190 @@ def constr_cofiring_ccs_generation_join_plant(
     rhs = production_fossil_force_blend / model_frequency,
     name = "cofiring_constrain_generation_from_fossil_component",
             )
+
+def constr_production_target_min(
+    network: pypsa.Network,
+    nodes: list[str],
+    technologies: list[str],
+    value: float
+):
+    """
+    ###################################
+    PRODUCTION TARGET MINIMUM CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that specific technologies generate at least
+        a certain percentage of total generation in specified nodes.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that solar and wind together generate at least 30%
+        of total generation in the Tokyo and Osaka regions."
+
+    Inputs:
+    -----------------------------------
+        network : pypsa.Network
+
+        nodes : list[str]
+            List of node names (buses) to apply the constraint to.
+            Example: ['GRIDREGION-JPN-TK', 'GRIDREGION-JPN-KA']
+
+        technologies : list[str]
+            List of technology types to target.
+            Example: ['solar', 'wind-onshore']
+
+        value : float
+            Minimum share of generation (0.0 to 1.0).
+            Example: 0.3 means "at least 30%"
+
+        model_frequency : int
+            Model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+        None
+    """
+    
+    if value > 1.0 or value < 0.0:
+        raise ValueError("constr_production_target_min value must be between 0.0 and 1.0")
+
+    # Build query strings using patterns compatible with tza-pypsa
+    node_pattern = '|'.join(nodes)
+    tech_pattern = '|'.join(technologies)
+    
+    # Get generators matching BOTH technology AND node criteria
+    query_string_tech_and_node = f"type.str.contains('{tech_pattern}') and bus.str.contains('{node_pattern}')"
+    generators_tech_and_node = network.generators.query(query_string_tech_and_node)
+    
+    if generators_tech_and_node.empty:
+        print(f"Warning: No generators matching technologies {technologies} in nodes {nodes}")
+        print(f"Skipping constraint constr_production_target_min")
+        return
+
+    # Get ALL generators in those nodes (for denominator)
+    query_string_node = f"bus.str.contains('{node_pattern}')"
+    generators_node = network.generators.query(query_string_node)
+    
+    if generators_node.empty:
+        print(f"Warning: No generators found in nodes {nodes}")
+        return
+
+    # Build constraint expression
+    # Target generation (numerator)
+    target_generation = (
+        network.model.variables["Generator-p"]
+        .sel(Generator=generators_tech_and_node.index)
+        .sum()
+    )
+    
+    # Total generation in region (denominator)
+    total_generation = (
+        network.model.variables["Generator-p"]
+        .sel(Generator=generators_node.index)
+        .sum()
+    )
+    
+    # Constraint: target_gen >= value * total_gen
+    # Rearranged: target_gen - value * total_gen >= 0
+    lhs_expression = target_generation - value * total_generation
+    
+    # Add constraint
+    network.model.add_constraints(
+        lhs=lhs_expression,
+        sign=">=",
+        rhs=0,
+        name=f"production_target_min_{'_'.join(technologies[:2])}_{'_'.join(nodes[:2])}"
+    )
+    
+    print(f"Added production target min constraint: {tech_pattern} >= {value*100}% in {node_pattern}")
+
+
+def constr_production_target_max(
+    network: pypsa.Network,
+    nodes: list[str],
+    technologies: list[str],
+    value: float
+):
+    """
+    ###################################
+    PRODUCTION TARGET MAXIMUM CONSTRAINT
+    ###################################
+
+    Description:
+    -----------------------------------
+        This constraint ensures that specific technologies generate at most
+        a certain percentage of total generation in specified nodes.
+
+    Example user story:
+    -----------------------------------
+        "I want to ensure that coal generates at most 20% of total
+        generation in the Kansai region."
+
+    Inputs:
+    -----------------------------------
+        network : pypsa.Network
+
+        nodes : list[str]
+            List of node names (buses) to apply the constraint to.
+
+        technologies : list[str]
+            List of technology types to target.
+
+        value : float
+            Maximum share of generation (0.0 to 1.0).
+
+        model_frequency : int
+            Model frequency in hours. Default is 1.
+
+    Returns:
+    -----------------------------------
+        None
+    """
+    
+    if value > 1.0 or value < 0.0:
+        raise ValueError("constr_production_target_max value must be between 0.0 and 1.0")
+
+    node_pattern = '|'.join(nodes)
+    tech_pattern = '|'.join(technologies)
+    
+    query_string_tech_and_node = f"type.str.contains('{tech_pattern}') and bus.str.contains('{node_pattern}')"
+    generators_tech_and_node = network.generators.query(query_string_tech_and_node)
+    
+    if generators_tech_and_node.empty:
+        print(f"Warning: No generators matching technologies {technologies} in nodes {nodes}")
+        print(f"Skipping constraint constr_production_target_max")
+        return
+
+    query_string_node = f"bus.str.contains('{node_pattern}')"
+    generators_node = network.generators.query(query_string_node)
+    
+    if generators_node.empty:
+        print(f"Warning: No generators found in nodes {nodes}")
+        return
+
+    target_generation = (
+        network.model.variables["Generator-p"]
+        .sel(Generator=generators_tech_and_node.index)
+        .sum()
+    )
+    
+    total_generation = (
+        network.model.variables["Generator-p"]
+        .sel(Generator=generators_node.index)
+        .sum()
+    )
+    
+    # Constraint: target_gen <= value * total_gen
+    # Rearranged: target_gen - value * total_gen <= 0
+    lhs_expression = target_generation - value * total_generation
+    
+    network.model.add_constraints(
+        lhs=lhs_expression,
+        sign="<=",
+        rhs=0,
+        name=f"production_target_max_{'_'.join(technologies[:2])}_{'_'.join(nodes[:2])}"
+    )
+    
+    print(f"Added production target max constraint: {tech_pattern} <= {value*100}% in {node_pattern}")
