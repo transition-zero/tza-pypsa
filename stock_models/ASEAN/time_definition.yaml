@@ -4,12 +4,6 @@
 #   
 #     Define the model temporal resolution and time horizion of the model.
 #
-#     Link to docs: 
-#       N/A
-#
-#     Authors:
-#       - @amanmajid
-#
 # -------------------------------------------------------------------------
 
 time_definition:

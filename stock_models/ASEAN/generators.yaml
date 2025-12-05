@@ -4,13 +4,6 @@
 #   
 #     Define generators (technologies) and their attributes
 #
-#     Link to docs: 
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/commodities.yaml
-#       - https://github.com/transition-zero/tz-assets/blob/main/transitionzero/tz_assets/canonicalisation/technologies.yaml
-#
-#     Authors:
-#       - @amanmajid
-#
 # -------------------------------------------------------------------------
 
 generators:
@@ -62,9 +55,9 @@ generators:
       BRNXX: 0
       KHMXX: 0 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       LAOXX: 1200 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSPE: 1400 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSSK: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
-      MYSSH: 9667 # 1/3 of 4200 total for MYS [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
+      MYSPE: 2200 # New number from MyRER; previous number: 1400 
+      MYSSK: 600 # New number from MyRER; previous number: 9667 
+      MYSSH: 800 # New number from MyRER; previous number: 9667 
       MMRXX: 1000 # [IRENA, Renewable energy outlook for ASEAN: Towards a regional transition]
       PHLLU: 145 # Based on current installed capacity
       PHLVI: 310 # Based on current installed capacity
@@ -251,14 +244,64 @@ generators:
       VNMSO: 0.6
       KHMXX: 0.6
       LAOXX: 0.6
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -284,14 +327,14 @@ generators:
       IDNML: 136
       IDNPP: 205
       VNMSO: 7076
-      MYSPE: 12669.2
-      MYSSH: 977
-      MYSSK: 1159
+      MYSPE: 10189 # w/o planned expansion 2030: 10189; w/ planned expansion 2030: 7998
+      MYSSH: 978 # w/o planned expansion 2030: 978; w/ planned expansion 2030: 1098
+      MYSSK: 1159 # w/o planned expansion 2030: 1159; w/ planned expansion 2030: 1659
       PHLLU: 2734.4
       THANO: 966
       THACE: 29900.55
       THASO: 2690
-      SGPXX: 10645
+      SGPXX: 9925 # w/o planned expansion 2030: 9925; w/ planned expansion 2030: 9925
       BRNXX: 268
     planned_expansion:
       IDNSM:
@@ -310,9 +353,22 @@ generators:
         2024: 2054
         2025: 780
       SGPXX:
-        2026: 600
+        2026: 1200
+        2028: 600
+        2029: 600
+        2030: -2400
       MMRXX:
         2024: 388
+      MYSPE:
+        2024: 240 # planned: 1200, retired: 960
+        2025: 1200
+        2026: -1745
+        2027: -1204 # planned: 100, retired: 1304
+        2028: -702
+      MYSSH:
+        2028: 120
+      MYSSK:
+        2028: 500
     efficiency:
       IDNSM: 0.57
       IDNJW: 0.57
@@ -438,17 +494,67 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # unit commitment
     committable: false
     start_up_cost: 34.2 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -475,8 +581,8 @@ generators:
       VNMNO: 7327
       VNMCE: 1830
       VNMSO: 1245
-      MYSPE: 8200
-      MYSSK: 480
+      MYSPE: 7170 # w/o planned expansion 2030: 7170; w/ planned expansion 2030: 1400;
+      MYSSK: 480 # w/o planned expansion 2030: 480; w/ planned expansion 2030: 270;
       PHLLU: 5898.6
       PHLVI: 786
       PHLMI: 1465
@@ -501,6 +607,11 @@ generators:
         2024: 450
       KHMXX:
         2025: 265
+      MYSPE:
+        2029: -1600
+        2030: -4170
+      MYSSK:
+        2029: -210
     efficiency:
       IDNSM: 0.35
       IDNJW: 0.35
@@ -626,16 +737,66 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false # calibration: true
@@ -809,6 +970,56 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
     extendable: false
@@ -817,8 +1028,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -837,11 +1048,13 @@ generators:
     # unique technology parameters by bus
     initial_capacity:
       IDNJW: 1900
-      MYSPE: 4000
+      MYSPE: 5010 # w/o planned expansion 2030: 5010; w/ planned expansion 2030: 1000
     planned_expansion:
       VNMCE:
         2025: 1330
         2026: 1403
+      MYSPE:
+        2030: -4010
     efficiency:
       IDNSM: 0.42
       IDNJW: 0.42
@@ -967,6 +1180,56 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
     extendable: false
@@ -975,8 +1238,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1149,6 +1412,56 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
     extendable: false
@@ -1157,8 +1470,8 @@ generators:
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1171,7 +1484,7 @@ generators:
 
 
   - id: oil-unspecified
-    type: oil-unspecified # THIS IS DIESEL
+    type: oil-unspecified 
     carrier: oil
     # ---
     # unique technology parameters by bus
@@ -1184,8 +1497,8 @@ generators:
       IDNML: 207
       IDNPP: 13.74
       VNMSO: 660
-      MYSSH: 148.4
-      MYSSK: 35.5
+      MYSSH: 157
+      MYSSK: 37.6 
       PHLLU: 2025.36
       PHLVI: 514
       PHLMI: 499
@@ -1296,16 +1609,66 @@ generators:
       VNMSO: 0.3
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1352,8 +1715,8 @@ generators:
       KHMXX: 0
       LAOXX: 0
       MMRXX: 0
-      MYSPE: 0
-      MYSSH: 0
+      MYSPE: 162 # New number from MyRER; previous number: 0
+      MYSSH: 67 # New number from MyRER; previous number: 0
       MYSSK: 0
       PHLLU: 3790
       PHLMI: 5280
@@ -1366,30 +1729,30 @@ generators:
       VNMNO: 0
       VNMSO: 0
     efficiency:
-      IDNSM: 0.1
-      IDNJW: 0.1
-      IDNNU: 0.1
-      IDNKA: 0.1
-      IDNSL: 0.1
-      IDNML: 0.1
-      IDNPP: 0.1
-      MYSPE: 0.1
-      MYSSK: 0.1
-      MYSSH: 0.1
-      PHLLU: 0.1
-      PHLVI: 0.1
-      PHLMI: 0.1
-      SGPXX: 0.1
-      BRNXX: 0.1
-      MMRXX: 0.1
-      THANO: 0.1
-      THASO: 0.1
-      THACE: 0.1
-      VNMNO: 0.1
-      VNMCE: 0.1
-      VNMSO: 0.1
-      KHMXX: 0.1
-      LAOXX: 0.1
+      IDNSM: 0.13
+      IDNJW: 0.13
+      IDNNU: 0.13
+      IDNKA: 0.13
+      IDNSL: 0.13
+      IDNML: 0.13
+      IDNPP: 0.13
+      MYSPE: 0.13
+      MYSSK: 0.13
+      MYSSH: 0.13
+      PHLLU: 0.13
+      PHLVI: 0.13
+      PHLMI: 0.13
+      SGPXX: 0.13
+      BRNXX: 0.13
+      MMRXX: 0.13
+      THANO: 0.13
+      THASO: 0.13
+      THACE: 0.13
+      VNMNO: 0.13
+      VNMCE: 0.13
+      VNMSO: 0.13
+      KHMXX: 0.13
+      LAOXX: 0.13
     ramp_limit_up:
       IDNSM: 1.
       IDNJW: 1.
@@ -1465,16 +1828,66 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # ---
     # unit commitment
     committable: false
@@ -1502,9 +1915,9 @@ generators:
       VNMNO: 11810
       VNMCE: 9829
       VNMSO: 1556
-      MYSPE: 2536.1
-      MYSSH: 75
-      MYSSK: 3462.5
+      MYSPE: 2536.1 # w/o planned expansion: 2536.1; w/ planned expansion: 2520.1;
+      MYSSH: 75 # w/o planned expansion: 75; w/ planned expansion: 262.5
+      MYSSK: 3462.5 # w/o planned expansion: 3462.5; w/ planned expansion: 4747.5;
       PHLLU: 2486
       PHLVI: 49.8
       PHLMI: 1083
@@ -1536,9 +1949,12 @@ generators:
       VNMSO:
         2026: 240
       MYSPE:
-        2027: 300
+        2025: -400
+        2027: 384
       MYSSK:
         2028: 1285
+      MYSSH:
+        2030: 187.5
       PHLLU: 
         2024: 54.97
         2025: 62.4
@@ -1570,16 +1986,16 @@ generators:
       KHMXX: 10000
       LAOXX: 20000
       MMRXX: 39710
-      MYSPE: 14230
-      MYSSH: 380
-      MYSSK: 5390
+      MYSPE: 4320 # New number from MyRER is 4800 MW, 10% is for PHES (480 MW) and 90% for hydropower (4320 MW); previous number: 2536.1
+      MYSSH: 1100 # New number from MyRER; previous number: 75
+      MYSSK: 8160 # New number from MyRER is 10200 MW, 20% is for PHES (2040 MW) and 80% for hydropower (8160 MW); previous number: 3462.5
       PHLLU: 11640
       PHLMI: 4860
-      PHLVI: 49.8 # replaced '0'
+      PHLVI: 49.8 
       SGPXX: 0
       THACE: 3950
       THANO: 10890
-      THASO: 324 # replaced '310'
+      THASO: 324 
       VNMCE: 16450
       VNMNO: 16160
       VNMSO: 2390
@@ -1658,7 +2074,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
-    p_min_pu: # CFE calibrated: deactivated to force hydro to generate based on MYSPE hourly CF
+    p_min_pu: 
       IDNSM: 0.
       IDNJW: 0.
       IDNNU: 0.
@@ -1683,16 +2099,66 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 80 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
     # unit commitment
     committable: false # CFE calibration: true
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1719,7 +2185,7 @@ generators:
       VNMNO: 0
       VNMCE: 0
       VNMSO: 375
-      MYSPE: 834
+      MYSPE: 250 # w/o planned expansion 2030: 250; w/ planned expansion 2030: 0
       MYSSH: 0
       MYSSK: 102
       PHLLU: 373
@@ -1729,13 +2195,15 @@ generators:
       THACE: 2699
       THASO: 315
       KHMXX: 0
-      SGPXX: 180
+      SGPXX: 250 # w/o planned expansion 2030: 250; w/ planned expansion 2030: 1710;
       BRNXX: 630
       MMRXX: 3529
       LAOXX: 0
     planned_expansion:
       SGPXX:
-        2025: 680
+        2025: 780
+      MYSPE:
+        2025: -250
     efficiency:
       IDNSM: 0.34
       IDNJW: 0.34
@@ -1861,17 +2329,67 @@ generators:
       VNMSO: 0.9
       KHMXX: 0.9
       LAOXX: 0.9
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 0.85
+      IDNJW: 0.85
+      IDNNU: 0.85
+      IDNKA: 0.85
+      IDNSL: 0.85
+      IDNML: 0.85
+      IDNPP: 0.85
+      MYSPE: 0.85
+      MYSSK: 0.85
+      MYSSH: 0.85
+      PHLLU: 0.85
+      PHLVI: 0.85
+      PHLMI: 0.85
+      SGPXX: 0.85
+      BRNXX: 0.85
+      MMRXX: 0.85
+      THANO: 0.85
+      THASO: 0.85
+      THACE: 0.85
+      VNMNO: 0.85
+      VNMCE: 0.85
+      VNMSO: 0.85
+      KHMXX: 0.85
+      LAOXX: 0.85
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     capacity_factor: 0.9
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 0.85
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 0.85
     # unit commitment
     committable: false
     start_up_cost: 9.6 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -1898,9 +2416,9 @@ generators:
       VNMNO: 0
       VNMCE: 5722.4
       VNMSO: 3350.6
-      MYSPE: 1445.42
+      MYSPE: 1575 
       MYSSH: 50
-      MYSSK: 0
+      MYSSK: 50 
       PHLLU: 937.2
       PHLVI: 373.1
       PHLMI: 78
@@ -1912,6 +2430,7 @@ generators:
       BRNXX: 0.96
       MMRXX: 181
       LAOXX: 0
+      BTMSL: 0
     planned_expansion:    
       IDNSM:
         2024: 33.6
@@ -1920,8 +2439,15 @@ generators:
       VNMCE:
         2024: 120
       MYSPE:
-        2024: 638
-        2025: 100
+        2024: 550 
+        2025: 110 
+        2026: 175
+        2027: 385
+        2028: 500
+      MYSSH:
+        2024: 10
+      MYSSK:
+        2025: 50
       PHLLU:
         2024: 761
         2025: 565.856
@@ -1938,6 +2464,8 @@ generators:
         2025: 34.4
       LAOXX:
         2025: 64
+      # BTMSL:
+      #   2030: 1000 # deactivate this and use the potential instead
     maximum_capacity:
       IDNSM: 166398
       IDNNU: 116257
@@ -1949,9 +2477,9 @@ generators:
       VNMNO: 34462
       VNMCE: 59353
       VNMSO: 77260
-      MYSPE: 17335
-      MYSSH: 4645
-      MYSSK: 21768
+      MYSPE: 25000 # New number from MyRER 137500, modified into 25000 for avoiding a lot new built; previous number: 17335
+      MYSSH: 99400 # New number from MyRER; previous number: 4645
+      MYSSK: 32100 # New number from MyRER; previous number: 21768
       PHLLU: 86286
       PHLVI: 36614
       PHLMI: 82843
@@ -1963,6 +2491,7 @@ generators:
       BRNXX: 4800 # From Accenture study: floating (2323 MW) + utility (1500 MW) + rooftop (1000 MW)
       MMRXX: 722690
       LAOXX: 84603
+      BTMSL: 4000 # planned expansion, not the potential
     efficiency:
       IDNSM: 1.
       IDNJW: 1.
@@ -1988,6 +2517,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
+      BTMSL: 1.
     ramp_limit_up:
       IDNSM: 1.
       IDNJW: 1.
@@ -2013,6 +2543,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
+      BTMSL: 1.
     ramp_limit_down:
       IDNSM: 1.
       IDNJW: 1.
@@ -2038,6 +2569,7 @@ generators:
       VNMSO: 1.
       KHMXX: 1.
       LAOXX: 1.
+      BTMSL: 1.
     p_min_pu:
       IDNSM: 0.
       IDNJW: 0.
@@ -2063,16 +2595,67 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+      BTMSL: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+      BTMSL: 0.
+    max_utilisation_rate: 
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
+      BTMSL: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 20 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # unit commitment
     committable: false
     start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2213,16 +2796,64 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 25 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2392,16 +3023,64 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2580,16 +3259,64 @@ generators:
       VNMSO: 0.
       KHMXX: 0.
       LAOXX: 0.
+    min_utilisation_rate:
+      IDNSM: 0.
+      IDNJW: 0.
+      IDNNU: 0.
+      IDNKA: 0.
+      IDNSL: 0.
+      IDNML: 0.
+      IDNPP: 0.
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      PHLLU: 0.
+      PHLVI: 0.
+      PHLMI: 0.
+      SGPXX: 0.
+      BRNXX: 0.
+      MMRXX: 0.
+      THANO: 0.
+      THASO: 0.
+      THACE: 0.
+      VNMNO: 0.
+      VNMCE: 0.
+      VNMSO: 0.
+      KHMXX: 0.
+      LAOXX: 0.
+    max_utilisation_rate: 
+      IDNSM: 1.0
+      IDNJW: 1.0
+      IDNNU: 1.0
+      IDNKA: 1.0
+      IDNSL: 1.0
+      IDNML: 1.0
+      IDNPP: 1.0
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      PHLLU: 1.0
+      PHLVI: 1.0
+      PHLMI: 1.0
+      SGPXX: 1.0
+      BRNXX: 1.0
+      MMRXX: 1.0
+      THANO: 1.0
+      THASO: 1.0
+      THACE: 1.0
+      VNMNO: 1.0
+      VNMCE: 1.0
+      VNMSO: 1.0
+      KHMXX: 1.0
+      LAOXX: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 0 # currency/MWh
     lifetime: 27 # years
     is_blend_or_ccs: false
     generation_blend_share: 0.
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2603,7 +3330,7 @@ generators:
 
   - id: combined-cycle-hydrogen-fossil
     type: combined-cycle-hydrogen-fossil
-    carrier: gas-hydrogen-fossil
+    carrier: gas
     # ---
     # unique technology parameters by bus
     initial_capacity:
@@ -2612,12 +3339,15 @@ generators:
       MYSPE: 0
     planned_expansion:
       SGPXX:
-        2027: 420 # 30% blending (70% for total planned capacity: 600*0.7)
-        2029: 420 # 30% blending (70% for total planned capacity: 600*0.7)
+        2030: 1680 # 30% blending (70% for total planned capacity: 2400*0.7)
       MYSSK:
         2027: 350 # 30% blending (70% for total planned capacity: 500*0.7)
       MYSPE:
         2029: 980 # 30% blending (70% for total planned capacity: 1400*0.7)
+    maximum_capacity:
+      SGPXX: 1680
+      MYSSK: 350
+      MYSPE: 980
     efficiency:
       SGPXX: 0.6
       MYSSK: 0.6
@@ -2634,17 +3364,29 @@ generators:
       MYSPE: 0.
       MYSSK: 0.
       SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    #   MYSSK: 0.85
+    #   SGPXX: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      MYSSH: 0.
+      SGPXX: 0.
+    max_utilisation_rate: 
+      MYSPE: 1.0
+      MYSSK: 1.0
+      MYSSH: 1.0
+      SGPXX: 1.0
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.7
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2659,7 +3401,7 @@ generators:
 
   - id: combined-cycle-hydrogen-clean
     type: combined-cycle-hydrogen-clean
-    carrier: gas-hydrogen-clean
+    carrier: hydrogen
     # ---
     # unique technology parameters by bus
     initial_capacity:
@@ -2668,12 +3410,15 @@ generators:
       MYSPE: 0
     planned_expansion:
       SGPXX:
-        2027: 180 # 30% blending (30% for total planned capacity: 600*0.3)
-        2029: 180 # 30% blending (70% for total planned capacity: 600*0.3)
+        2030: 720 # 30% blending (30% for total planned capacity: 2400*0.3)
       MYSSK:
         2027: 150 # 30% blending (70% for total planned capacity: 500*0.3)
       MYSPE:
         2029: 420 # 30% blending (70% for total planned capacity: 1400*0.3)
+    maximum_capacity:
+      SGPXX: 720
+      MYSSK: 150
+      MYSPE: 420
     efficiency:
       SGPXX: 0.6
       MYSSK: 0.6
@@ -2690,17 +3435,27 @@ generators:
       MYSPE: 0.
       MYSSK: 0.
       SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    #   MYSSK: 0.85
+    #   SGPXX: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 40 # years
     # capacity_factor: 0.9
     is_blend_or_ccs: true
     generation_blend_share: 0.3
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # ---
     # unit commitment
     committable: false
@@ -2714,30 +3469,54 @@ generators:
 
   - id: coal-biomass-cofiring-fossil
     type: coal-biomass-cofiring-fossil
-    carrier: coal-biomass-fossil
+    carrier: coal
     # ---
     # unique technology parameters by bus
     initial_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    planned_expansion:
       MYSPE:
         2027: 1785 # 15% blending (85% for total planned capacity: 2100*0.85)
+    maximum_capacity:
+      MYSPE: 1785
+      MYSSK: 0
+      SGPXX: 0
     efficiency:
       MYSPE: 0.38
+      MYSSK: 0.38
+      SGPXX: 0.38
     ramp_limit_up:
       MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
     ramp_limit_down:
       MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
     p_min_pu:
       MYSPE: 0.
-    # ---
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 0.85
+      MYSSK: 0.85
+      SGPXX: 0.85
+    # --- 
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.85
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
     # unit commitment - using coal-subcritical values
     committable: false # calibration: true
     start_up_cost: 35.64 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
@@ -2750,30 +3529,57 @@ generators:
 
   - id: coal-biomass-cofiring-clean
     type: coal-biomass-cofiring-clean
-    carrier: coal-biomass-clean
+    carrier: biomass
     # ---
     # unique technology parameters by bus
     initial_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    planned_expansion:
       MYSPE:
         2027: 315 # 15% blending (15% for total planned capacity: 2100*0.15)
+    maximum_capacity:
+      MYSPE: 315
+      MYSSK: 0
+      SGPXX: 0
     efficiency:
       MYSPE: 0.38
+      MYSSK: 0.38
+      SGPXX: 0.38
     ramp_limit_up:
       MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
     ramp_limit_down:
       MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
     p_min_pu:
       MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 0.85
+      MYSSK: 0.85
+      SGPXX: 0.85
+    # ---
     # ---
     # universal technology parameters
-    extendable: false
+    extendable: true
     capital_cost: 1 # currency/MW
     marginal_cost: 1 # currency/MWh
     lifetime: 30 # years
     is_blend_or_ccs: true
     generation_blend_share: 0.15
-    min_utilisation_rate: 0.000001
-    max_utilisation_rate: 1.
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
     # ---
     # unit commitment - using biomass values
     committable: false
@@ -2784,3 +3590,253 @@ generators:
     min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
     min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
 
+
+  - id: coal-ammonia-cofiring-fossil
+    type: coal-ammonia-cofiring-fossil
+    carrier: coal
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2030: 3208 # 20% blending (80% for total planned capacity: 4010*0.80)
+      MYSPE: 3208
+      MYSSK: 0
+      SGPXX: 0
+    efficiency:
+      MYSPE: 0.34
+      MYSSK: 0.34
+      SGPXX: 0.34
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    # ---
+    # ---
+    # universal technology parameters
+    extendable: true
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.20
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
+    # ---
+    # unit commitment - using biomass values
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: coal-ammonia-cofiring-clean
+    type: coal-ammonia-cofiring-clean
+    carrier: ammonia
+    # ---
+    # unique technology parameters by bus
+    initial_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    planned_expansion:
+      MYSPE:
+        2030: 802 # 20% blending (20% for total planned capacity: 4010*0.20)
+    maximum_capacity:
+      MYSPE: 802
+      MYSSK: 0
+      SGPXX: 0
+    efficiency:
+      MYSPE: 0.34
+      MYSSK: 0.34
+      SGPXX: 0.34
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 0.85
+      MYSSK: 0.85
+      SGPXX: 0.85
+    # ---
+    # ---
+    # universal technology parameters
+    extendable: true
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.20
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
+    # ---
+    # unit commitment - using biomass values
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: gas-ccs-leaked
+    type: gas-ccs-leaked
+    carrier: gas-leaked
+    # ---
+    initial_capacity: 
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    maximum_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    efficiency:
+      MYSPE: 0.46
+      MYSSK: 0.46
+      SGPXX: 0.46
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    #   MYSSK: 0.85
+    #   SGPXX: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 0.85
+      MYSSK: 0.85
+      SGPXX: 0.85
+    # ---
+    # ---
+    # universal technology parameters
+    extendable: true
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.30 # 70% capture rate
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
+    # ---
+    # unit commitment - using biomass values
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+
+
+  - id: gas-ccs-sequestered
+    type: gas-ccs-sequestered
+    carrier: gas-sequestered
+    # ---
+    initial_capacity: 
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    maximum_capacity:
+      MYSPE: 0
+      MYSSK: 0
+      SGPXX: 0
+    efficiency:
+      MYSPE: 0.46
+      MYSSK: 0.46
+      SGPXX: 0.46
+    ramp_limit_up:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    ramp_limit_down:
+      MYSPE: 1.
+      MYSSK: 1.
+      SGPXX: 1.
+    p_min_pu:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    # p_max_pu:
+    #   MYSPE: 0.85
+    #   MYSSK: 0.85
+    #   SGPXX: 0.85
+    min_utilisation_rate:
+      MYSPE: 0.
+      MYSSK: 0.
+      SGPXX: 0.
+    max_utilisation_rate:
+      MYSPE: 0.85
+      MYSSK: 0.85
+      SGPXX: 0.85
+    # ---
+    # ---
+    # universal technology parameters
+    extendable: true
+    capital_cost: 1 # currency/MW
+    marginal_cost: 1 # currency/MWh
+    lifetime: 30 # years
+    is_blend_or_ccs: true
+    generation_blend_share: 0.70 # 70% capture rate
+    # min_utilisation_rate: 0.
+    # max_utilisation_rate: 1.
+    # ---
+    # unit commitment - using biomass values
+    committable: false
+    start_up_cost: 0 # currency/MW (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    shut_down_cost: 0 # currency/MW
+    ramp_limit_start_up: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    ramp_limit_shut_down: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_up_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)
+    min_down_time: 0 # (https://github.com/PyPSA/pypsa-eur/blob/master/data/unit_commitment.csv)

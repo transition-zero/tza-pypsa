@@ -147,7 +147,7 @@ class Model:
                 path_to_file = model['remote_data']['technology_costs']['path_to_cost'] + 'technology_costs.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
-                branch=kwargs.get('branch', 'trial_data_for_blending'),
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
@@ -164,7 +164,7 @@ class Model:
                 path_to_file = model['remote_data']['policies']['path_to_policy'] + 'power_sector_targets.csv',
                 personal_access_token = PERSONAL_ACCESS_TOKEN,
                 remote_data = model['remote_data'],
-                branch=kwargs.get('branch', 'trial_data_for_blending'),
+                branch=kwargs.get('branch', 'main'),
             )
         )
 
@@ -200,7 +200,7 @@ class Model:
                 path_to_file=model['remote_data']['timeseries']['path_to_timeseries'] + f'timeseries_{year}.nc',
                 personal_access_token=PERSONAL_ACCESS_TOKEN,
                 remote_data=model['remote_data'],
-                branch=kwargs.get('branch', 'trial_data_for_blending'),
+                branch=kwargs.get('branch', 'main'),
             )
 
             # open and resample
@@ -379,6 +379,37 @@ class Model:
 
         network.import_from_csv_folder(path_to_dir)
 
+        # --- calculate annualised costs --- #
+        # Fill NaN values in annual_fixed_costs with 0 to prevent NaN in capital_cost calculation
+        network.generators['annual_fixed_costs'] = network.generators['annual_fixed_costs'].fillna(0)
+        network.storage_units['annual_fixed_costs'] = network.storage_units['annual_fixed_costs'].fillna(0)
+        
+        for generator in network.generators.index:
+            r = network.generators.get('discount_rate', pd.Series(0.1, index=network.generators.index)).loc[generator]
+
+            network.generators.loc[generator, 'capital_cost'] = (
+                network.generators.loc[generator, 'total_capital_cost'] * 
+                cost_model.calculate_annuity(
+                    n = network.generators.loc[generator, 'lifetime'],
+                    r = r,
+                )
+                + network.generators.loc[generator, 'annual_fixed_costs']
+            )
+        
+        for storage_units in network.storage_units.index:
+            r = network.storage_units.get('discount_rate', pd.Series(0.1, index=network.storage_units.index)).loc[storage_units]
+            
+            network.storage_units.loc[storage_units, 'capital_cost'] = (
+                network.storage_units.loc[storage_units, 'total_capital_cost'] * 
+                cost_model.calculate_annuity(
+                    n = network.storage_units.loc[storage_units, 'lifetime'],
+                    r = r,
+                )
+                + network.storage_units.loc[storage_units, 'annual_fixed_costs']
+            )
+                
+        network.generators['capital_cost'] = network.generators['capital_cost'].round(0)
+        
         # --- add backstop --- #
         if backstop:
 
@@ -393,7 +424,10 @@ class Model:
                     capital_cost=1e9,
                     marginal_cost=1e9,
                 )
+        
+        
 
+        # --- choose years to load in --- #
         if isinstance(years, list):
             network.snapshots = network.snapshots[network.snapshots.year.isin(years)]
         else:

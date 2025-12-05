@@ -4,12 +4,6 @@
 #   
 #     Define all constraints to implement in the ASEAN model.
 #
-#     Link to docs: 
-#       N/A
-#
-#     Authors:
-#       - @amanmajid
-#
 # -------------------------------------------------------------------------
 
 global_constraints:

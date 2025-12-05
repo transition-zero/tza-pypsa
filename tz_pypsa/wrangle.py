@@ -66,7 +66,7 @@ def get_load_by_bus(
         .sum()
         .div(mul)
         .reset_index()
-        .melt(id_vars='snapshot', var_name='bus', value_name='load')
+        .melt(id_vars='timestep', var_name='bus', value_name='load')
     )
 
 
@@ -1008,7 +1008,7 @@ def transform_visualiser_yearly_output(
         The merged long format DataFrame.
     """
     # Extract statistics output into a df
-    df = network.statistics(groupby=['bus', 'name', 'carrier'])
+    df = network.statistics(groupby=['bus', 'name', 'type'])
 
     year = network.snapshots.year[0]
 

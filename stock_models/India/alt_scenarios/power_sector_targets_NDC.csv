@@ -1,5 +1,4 @@
 target_type,carrier,nodes,absolute,value,unit,sense,year,years_onwards,constraint,description,notes
-capacity,"solar,wind,water",IND,TRUE,476000,MW,>=,2030,only,"[solar, wind, water] capacity in IND >= 491GW (2030 onwards)",nonFF capacity target,govt target
 capacity,"solar,wind,water,agricultural-waste-solids,bioenergy,waste,uranium",IND,FALSE,50,%,>=,2030,only,"[solar,wind,water,agricultural-waste-solids,bioenergy,waste,uranium] capacity in IND >= 50% capacity (2030 onwards)",nonFF capacity share target,govt target
 capacity,wind,IND,TRUE,100000,MW,<=,2030,only,,wind IND build limit,stakeholder info
 capacity,solar,IND,TRUE,330000,MW,<=,2030,only,,solar IND build limit,historical build rate
