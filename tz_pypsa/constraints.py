@@ -1580,7 +1580,8 @@ def constr_max_ramps_daily(
     # Filter for generators with the targeted carrier AND defined max daily ramp
     target_gens = network.generators.index[
         (network.generators.carrier.str.contains(carriers)) & 
-        (network.generators["max_ramps_per_day"].notna())
+        (network.generators["max_ramps_per_day"].notna()) &
+        (network.generators.p_nom > 0)
     ]
 
     if target_gens.empty:
@@ -1651,7 +1652,7 @@ def constr_max_ramps_daily(
 
     # Prevents solver setting is_ramping = 1 when not needed
     # Weight is small enough to not affect dispatch cost, but > 0
-    network.model.objective += 0.00001 * is_ramping.sum()
+    network.model.objective += 10 * is_ramping.sum()
 
     print(f"Max ramp constraints added for {len(target_gens)} generators.")
 
@@ -1840,9 +1841,6 @@ def constr_production_target_min(
             Minimum share of generation (0.0 to 1.0).
             Example: 0.3 means "at least 30%"
 
-        model_frequency : int
-            Model frequency in hours. Default is 1.
-
     Returns:
     -----------------------------------
         None
@@ -1936,9 +1934,6 @@ def constr_production_target_max(
         value : float
             Maximum share of generation (0.0 to 1.0).
 
-        model_frequency : int
-            Model frequency in hours. Default is 1.
-
     Returns:
     -----------------------------------
         None
@@ -1989,3 +1984,55 @@ def constr_production_target_max(
     )
     
     print(f"Added production target max constraint: {tech_pattern} <= {value*100}% in {node_pattern}")
+
+
+# def constr_no_simultaneous_charging_discharging(
+#     network: pypsa.Network, 
+#     carriers: str, 
+#     max_capacity_limit: float = 1e5  # "Big-M": standard large number > any feasible capacity
+# ):
+#     """
+#     Constrains storage units to mutually exclusive charging/discharging states.
+#     Adds a binary variable per snapshot per unit.
+#     """
+    
+#     # 1. Identify target storage units
+#     target_units = network.storage_units.index[
+#         network.storage_units.carrier.str.contains(carriers)
+#     ]
+    
+#     if target_units.empty:
+#         print(f"No storage units found with carrier '{carriers}'.")
+#         return
+
+#     print(f"Adding exclusivity constraints for {len(target_units)} units.")
+
+#     # Add Binary Variable (1 = Discharging, 0 = Charging)
+#     is_discharging = network.model.add_variables(
+#         binary=True,
+#         coords=[network.snapshots, target_units],
+#         name='StorageUnit-is_discharging'
+#     )
+
+#     # Get dispatch and store variables
+#     p_dispatch = network.model.variables['StorageUnit-p_dispatch'].sel(StorageUnit=target_units)
+#     p_store = network.model.variables['StorageUnit-p_store'].sel(StorageUnit=target_units)
+
+#     # Define "Big-M" Limit
+#     # If p_nom is fixed, we can use it. If extendable, we must use a large constant (max_capacity_limit).
+#     # Ideally, use network.storage_units.p_nom_max if available, otherwise default to a safe high value.
+#     # We use a constant here to avoid creating a Quadratic constraint (Binary * Variable).
+#     limit = max_capacity_limit 
+
+#     # Constraint A: If is_discharging=0, p_dispatch must be 0
+#     network.model.add_constraints(
+#         p_dispatch <= is_discharging * limit,
+#         name='StorageUnit-discharging_limit_binary'
+#     )
+
+#     # Constraint B: If is_discharging=1, p_store must be 0
+#     # (1 - is_discharging) evaluates to 0 when is_discharging is 1
+#     network.model.add_constraints(
+#         p_store <= (1 - is_discharging) * limit,
+#         name='StorageUnit-charging_limit_binary'
+#     )
