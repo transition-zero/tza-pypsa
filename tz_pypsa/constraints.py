@@ -1985,54 +1985,67 @@ def constr_production_target_max(
     
     print(f"Added production target max constraint: {tech_pattern} <= {value*100}% in {node_pattern}")
 
-
-# def constr_no_simultaneous_charging_discharging(
-#     network: pypsa.Network, 
-#     carriers: str, 
-#     max_capacity_limit: float = 1e5  # "Big-M": standard large number > any feasible capacity
-# ):
-#     """
-#     Constrains storage units to mutually exclusive charging/discharging states.
-#     Adds a binary variable per snapshot per unit.
-#     """
+def apply_ramping_cost(
+        network: pypsa.Network, 
+        cost_dict: dict
+    ):
+    """
+    Applies ramping costs to multiple carriers at once using a dictionary.
     
-#     # 1. Identify target storage units
-#     target_units = network.storage_units.index[
-#         network.storage_units.carrier.str.contains(carriers)
-#     ]
+    Parameters
+    ----------
+    n : pypsa.Network
+    cost_dict : dict
+        Key = carrier name, Value = cost ($/MW).
+        Example: {'coal': 400, 'gas': 200, 'nuclear': 50}
+    """
+    # Identify all target generators
+    target_carriers = list(cost_dict.keys())
+    target_gens = network.generators.index[
+        network.generators.carrier.isin(target_carriers) &
+        (network.generators.p_nom > 0)
+        ]
     
-#     if target_units.empty:
-#         print(f"No storage units found with carrier '{carriers}'.")
-#         return
+    if target_gens.empty:
+        print("No matching generators found. Skipping.")
+        return
 
-#     print(f"Adding exclusivity constraints for {len(target_units)} units.")
+    # Map costs to the generators 
+    gen_carriers = network.generators.loc[target_gens, 'carrier']
+    costs_per_gen = gen_carriers.map(cost_dict)
+    
+    # Convert to xarray for easy multiplication later
+    costs_per_gen.index.name = "Generator"
+    costs_xr = costs_per_gen.to_xarray()
 
-#     # Add Binary Variable (1 = Discharging, 0 = Charging)
-#     is_discharging = network.model.add_variables(
-#         binary=True,
-#         coords=[network.snapshots, target_units],
-#         name='StorageUnit-is_discharging'
-#     )
+    # Create ONE set of variables for all units
+    ramp_up = network.model.add_variables(
+        coords=[network.snapshots, target_gens],
+        name="ramp_up",
+        lower=0
+    )
+    ramp_down = network.model.add_variables(
+        coords=[network.snapshots, target_gens],
+        name="ramp_down",
+        lower=0
+    )
 
-#     # Get dispatch and store variables
-#     p_dispatch = network.model.variables['StorageUnit-p_dispatch'].sel(StorageUnit=target_units)
-#     p_store = network.model.variables['StorageUnit-p_store'].sel(StorageUnit=target_units)
+    # Math: P_t - P_{t-1} = Up - Down
+    p = network.model.variables['Generator-p'].sel(Generator=target_gens)
+    p_curr = p.isel(snapshot=slice(1, None))
+    p_prev = p.shift(snapshot=1).isel(snapshot=slice(1, None))
+    
+    ramp_up_c = ramp_up.isel(snapshot=slice(1, None))
+    ramp_down_c = ramp_down.isel(snapshot=slice(1, None))
 
-#     # Define "Big-M" Limit
-#     # If p_nom is fixed, we can use it. If extendable, we must use a large constant (max_capacity_limit).
-#     # Ideally, use network.storage_units.p_nom_max if available, otherwise default to a safe high value.
-#     # We use a constant here to avoid creating a Quadratic constraint (Binary * Variable).
-#     limit = max_capacity_limit 
+    network.model.add_constraints(
+        p_curr - p_prev == ramp_up_c - ramp_down_c,
+        name="ramping_link"
+    )
 
-#     # Constraint A: If is_discharging=0, p_dispatch must be 0
-#     network.model.add_constraints(
-#         p_dispatch <= is_discharging * limit,
-#         name='StorageUnit-discharging_limit_binary'
-#     )
-
-#     # Constraint B: If is_discharging=1, p_store must be 0
-#     # (1 - is_discharging) evaluates to 0 when is_discharging is 1
-#     network.model.add_constraints(
-#         p_store <= (1 - is_discharging) * limit,
-#         name='StorageUnit-charging_limit_binary'
-#     )
+    # Objective: Sum( Ramp * Cost_of_that_specific_gen )
+    # xarray handles the alignment of costs automatically
+    cost_expr = (ramp_up_c * costs_xr).sum() + (ramp_down_c * costs_xr).sum()
+    network.model.objective += cost_expr
+    
+    print(f"Ramping cost constraints applied to {len(target_gens)} generators.")

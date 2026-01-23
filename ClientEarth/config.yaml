@@ -1,0 +1,70 @@
+paths:
+  # Base path to the amp. project folder
+  base_path: "/home/jy/tz-amp/.amp/client-earth_CE-A-HighRES-002_c3"
+
+  # Platform network without the extra CSV components
+  platform_network: "/home/jy/tza-pypsa/ClientEarth/platform_network.nc"
+  
+  # Directory where CSVs are stored
+  data_dir: "/home/jy/tza-pypsa/ClientEarth/data/" 
+  
+  # Components to add during capacity expansion
+  components:
+    generators: "${data_dir}/generators_c3.csv"
+    links: "${data_dir}/links.csv"
+    storage: "${data_dir}/storage.csv"
+
+  # Constraint profile files
+  constraints:
+    max_intraday: "${data_dir}/storage_profiles/state_of_charge_intraday_profile_annual_max.csv"
+    min_intraday: "${data_dir}/storage_profiles/state_of_charge_intraday_profile_annual_min.csv"
+    max_weekly: "${data_dir}/storage_profiles/state_of_charge_weekly_profile_annual_max.csv"
+    min_weekly: "${data_dir}/storage_profiles/state_of_charge_weekly_profile_annual_min.csv"
+
+  # Output files
+  results:
+    base_network: "${base_path}/base_network.nc"
+    capacity_expansion: "${base_path}/platform_network.expanded.nc"
+    dispatch: "${base_path}/platform_network.solved.nc"
+
+run:
+  year: 2040
+  
+  # Workflow Control
+  workflow_control:
+    run_base_setup: true         # Set to false to skip rebuilding base network
+    run_capacity_expansion: false # Set to false to skip expansion and use existing file
+      
+  # List of carriers to enforce annual limits on
+  limit_carriers:
+    gens: "coal|gas|nuclear"
+    links: "transmission"
+    storage: "hydro-pumped-storage-unspecified"
+
+  production_targets:
+    max: 0.745
+    min: 0.74
+
+solver:
+  name: "gurobi"
+  options:
+    threads: 8
+    method: 2         # barrier
+    crossover: 0
+    BarConvTol: 1.e-6
+    Seed: 123
+    AggFill: 0
+    PreDual: 0
+    LogToConsole: 1
+
+ramping_costs:
+  coal-supercritical: 220
+  coal-subcritical: 249
+  coal-ammonia-cofiring: 250
+  gas-conventional: 304
+  gas-combined-cycle: 104
+  gas-advanced-combined-cycle: 89
+  gas-more-advanced-combined-cycle: 86
+  gas-hydrogen-cofiring: 86
+  gas-ccs: 104
+  nuclear: 24
