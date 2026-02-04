@@ -28,19 +28,17 @@ This repo contains code developed by the Analysis team at TransitionZero (TZA) t
 <!-- Model  | Status | Method | Overview
 --- | --- | ---  | ---
 [ASEAN](https://github.com/transition-zero/tz-analysis-pypsa-minimal/tree/main/models/ASEAN) | 🟠 In dev! | `yaml` | An hourly resolution dispatch model for the 10 Association of Southeast Asian Nations (ASEAN) states.  -->
-<!-- Pakistan | 🔴 Not started, coming soon | Orchestrated | An hourly resolution dispatch model for Pakistan -->
+
 
 # Contributors
 
 **Model construction and validation:**
-- [Aman Majid](https://www.transitionzero.org/team/aman-majid)
 - [Abhishek Shivakumar](https://www.transitionzero.org/team/abhishek-shivakumar)
 - [Handriyanti Diah Puspitarini](https://www.transitionzero.org/team/handriyanti-diah-puspitarini)
-- [Dan Welsby](https://github.com/djwels)
+- [Dan Welsby](https://www.transitionzero.org/team/dan-welsby)
 
 **Data:**
-- [Calvin Nesbitt](https://www.transitionzero.org/team/calvin-nesbitt)
-- [Isabella Söldner-Rembold](https://www.transitionzero.org/team/isabella-soldner-rembold)
+- [Isabella Söldner-Rembold](https://www.transitionzero.org/team/isabella-soeldner-rembold)
 - [Sabina Parvu](https://www.transitionzero.org/team/sabina-parvu)
 
 # Getting started
@@ -136,7 +134,7 @@ Please see one of the pre-built models to understand how the files should be wri
 
 We strongly welcome anyone interested in contributing to this project. If you have any ideas, suggestions or encounter problems, feel invited to file issues or make pull requests on GitHub.
 
-To discuss ideas for the project, please contact [@amanmajid](mailto:aman.m@transitionzero.org)
+To discuss ideas for the project, please contact [Abhishek](abhishek@transitionzero.org)
 
 ## Contributing rules:
 - Do not contribute to master directly without a pull request, wherever possible.
