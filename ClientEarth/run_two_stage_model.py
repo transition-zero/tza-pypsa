@@ -95,7 +95,7 @@ def constraint_implementation(
         logger.info("Applying Annual Utilisation Limits...")
         if 'gens' in lim_cfg:
             constr_max_annual_utilisation_generator(n, carriers=lim_cfg['gens'])
-            # constr_min_annual_utilisation_generator(n, carriers=lim_cfg['gens'])
+            constr_min_annual_utilisation_generator(n, carriers=lim_cfg['gens'])
         else: 
             logger.info("Skipping Annual Utilisation Limits for Generators (not in config).")
         
@@ -270,43 +270,58 @@ def dispatch_run(
     
     base_net_path = config['paths']['results']['base_network']
     cap_exp_path = config['paths']['results']['capacity_expansion']
-    
-    if not os.path.exists(cap_exp_path):
-        raise FileNotFoundError(f"Capacity expansion results not found at {cap_exp_path}. Cannot run dispatch.")
 
-    n = pypsa.Network(base_net_path)
-    n_exp = pypsa.Network(cap_exp_path)
-    
-    # Transfer capacities & tracking data
-    for component in ["Generator", "Link", "StorageUnit"]:
-        df_base = n.df(component)
-        df_exp = n_exp.df(component)
-        
-        # Import missing components
-        missing_indices = df_exp.index.difference(df_base.index)
-        if not missing_indices.empty:
-            logger.info(f"Importing {len(missing_indices)} new {component}s from expansion.")
-            n.import_components_from_dataframe(df_exp.loc[missing_indices], component)
-        
-        # RE-FETCH
-        df_current = n.df(component)
+    use_base_capacity = config['run']['workflow_control'].get('run_base_setup_capacity', False)
 
-        # Calculate expanded capacity
-        df_exp["expanded_capacity"] = df_exp["p_nom_opt"] - df_exp["p_nom"]
+    if use_base_capacity:
+        logger.info("Using base network capacity for dispatch.")
+
+        if not os.path.exists(base_net_path):
+            raise FileNotFoundError(f"Base network not found at {base_net_path}. Enable run_base_setup in config.")
         
-        # Track extendability & optimal capacity
-        df_current["was_extendable"] = df_exp["p_nom_extendable"].reindex(df_current.index, fill_value=False)
-        df_current["p_nom_expansion_opt"] = df_exp["expanded_capacity"].reindex(df_current.index)
+        n = pypsa.Network(base_net_path)
+        for component in ["Generator", "Link", "StorageUnit"]:
+            df = n.df(component)
+            df["p_nom_extendable"] = False
+
+    else:
+        logger.info("Using capacity expansion capacity for dispatch.")
+        if not os.path.exists(cap_exp_path):
+            raise FileNotFoundError(f"Capacity expansion results not found at {cap_exp_path}. Cannot run dispatch.")
+
+        n = pypsa.Network(base_net_path)
+        n_exp = pypsa.Network(cap_exp_path)
         
-        # Update p_nom for dispatch
-        ext_ids = df_exp.index[df_exp["p_nom_extendable"]]
-        valid_ids = ext_ids.intersection(df_current.index)
-        
-        if not valid_ids.empty:
-            df_current.loc[valid_ids, "p_nom"] = np.ceil(df_exp.loc[valid_ids, "p_nom_opt"])
-        
-        # Lock capacity
-        df_current["p_nom_extendable"] = False
+        # Transfer capacities & tracking data
+        for component in ["Generator", "Link", "StorageUnit"]:
+            df_base = n.df(component)
+            df_exp = n_exp.df(component)
+            
+            # Import missing components
+            missing_indices = df_exp.index.difference(df_base.index)
+            if not missing_indices.empty:
+                logger.info(f"Importing {len(missing_indices)} new {component}s from expansion.")
+                n.import_components_from_dataframe(df_exp.loc[missing_indices], component)
+            
+            # RE-FETCH
+            df_current = n.df(component)
+
+            # Calculate expanded capacity
+            df_exp["expanded_capacity"] = df_exp["p_nom_opt"] - df_exp["p_nom"]
+            
+            # Track extendability & optimal capacity
+            df_current["was_extendable"] = df_exp["p_nom_extendable"].reindex(df_current.index, fill_value=False)
+            df_current["p_nom_expansion_opt"] = df_exp["expanded_capacity"].reindex(df_current.index)
+            
+            # Update p_nom for dispatch
+            ext_ids = df_exp.index[df_exp["p_nom_extendable"]]
+            valid_ids = ext_ids.intersection(df_current.index)
+            
+            if not valid_ids.empty:
+                df_current.loc[valid_ids, "p_nom"] = np.ceil(df_exp.loc[valid_ids, "p_nom_opt"])
+            
+            # Lock capacity
+            df_current["p_nom_extendable"] = False
 
     # Constraints
     constraint_implementation(n, config, dispatch_run=True)

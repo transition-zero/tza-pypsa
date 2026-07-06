@@ -1,6 +1,6 @@
 paths:
   # Base path to the amp. project folder
-  base_path: "/home/jy/tz-amp/.amp/client-earth_CE-A-HighRES-002_c3"
+  base_path: "/home/jy/tz-amp/.amp/client-earth_CE-A-LowNuclear-002_b3-batteriessen"
 
   # Platform network without the extra CSV components
   platform_network: "/home/jy/tza-pypsa/ClientEarth/platform_network.nc"
@@ -10,9 +10,9 @@ paths:
   
   # Components to add during capacity expansion
   components:
-    generators: "${data_dir}/generators_c3.csv"
+    generators: "${data_dir}/generators_b3.csv"
     links: "${data_dir}/links.csv"
-    storage: "${data_dir}/storage.csv"
+    storage: "${data_dir}/storage_sen.csv"
 
   # Constraint profile files
   constraints:
@@ -33,7 +33,8 @@ run:
   # Workflow Control
   workflow_control:
     run_base_setup: true         # Set to false to skip rebuilding base network
-    run_capacity_expansion: false # Set to false to skip expansion and use existing file
+    run_capacity_expansion: false  # Set to false to skip expansion and use existing file
+    run_base_setup_capacity: false
       
   # List of carriers to enforce annual limits on
   limit_carriers:
@@ -41,9 +42,9 @@ run:
     links: "transmission"
     storage: "hydro-pumped-storage-unspecified"
 
-  production_targets:
-    max: 0.745
-    min: 0.74
+  # production_targets:
+    # max: 0.505
+    # min: 0.5
 
 solver:
   name: "gurobi"
@@ -67,4 +68,4 @@ ramping_costs:
   gas-more-advanced-combined-cycle: 86
   gas-hydrogen-cofiring: 86
   gas-ccs: 104
-  nuclear: 24
+  nuclear: 30

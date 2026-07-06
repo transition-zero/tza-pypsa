@@ -2050,3 +2050,37 @@ def apply_ramping_cost(
     network.model.objective += cost_expr
     
     print(f"Ramping cost constraints applied to {len(target_gens)} generators.")
+
+def constr_capacity_expansion_constraint(
+    network: pypsa.Network,
+    nodes: list[str],
+    technologies: list[str],
+    max_capacity: float
+):
+    """
+    """
+    generators_tech_and_node = network.generators[
+        network.generators["type"].isin(technologies) & 
+        network.generators["bus"].isin(nodes)
+    ]
+    
+    if generators_tech_and_node.empty:
+        print(f"Warning: No generators matching technologies {technologies} in nodes {nodes}")
+        print(f"Skipping constraint constr_capacity_expansion_constraint")
+        return
+
+    initial_capacity = generators_tech_and_node.p_nom.sum()
+    target_capacity = (
+        network.model.variables["Generator-p_nom"]
+        .sel(Generator=generators_tech_and_node.index)
+        .sum()
+    )
+
+    network.model.add_constraints(
+        lhs=target_capacity - initial_capacity,
+        sign="<=",
+        rhs=max_capacity,
+        name=f"capacity_expansion_constraint_{'_'.join(technologies[:2])}_{'_'.join(nodes[:2])}"
+    )
+
+    print(f"Added capacity expansion constraint for {technologies} in {nodes}")
