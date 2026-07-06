@@ -17,3 +17,11 @@ scrap/*
 
 # token
 _GITHUB_TOKEN_
+
+# ClientEarth: regenerated analysis outputs are not version-controlled.
+# Keep only notebooks, scripts, and config under git.
+ClientEarth/**
+!ClientEarth/**/
+!ClientEarth/**/*.ipynb
+!ClientEarth/**/*.py
+!ClientEarth/**/*.yaml
